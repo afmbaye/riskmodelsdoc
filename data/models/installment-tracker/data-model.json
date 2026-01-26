@@ -1,0 +1,88 @@
+{
+  "modelId": "installment-tracker",
+  "tables": [
+    {
+      "name": "Credits",
+      "type": "fact",
+      "description": "Table principale des crédits",
+      "image": "credits-table.png",
+      "columns": [
+        {
+          "name": "CreditId",
+          "type": "string",
+          "description": "Identifiant unique du crédit",
+          "isPrimaryKey": true
+        },
+        {
+          "name": "ClientId",
+          "type": "string",
+          "description": "Identifiant unique du client",
+          "isForeignKey": true,
+          "references": {
+            "table": "Clients",
+            "column": "ClientId"
+          }
+        },
+        {
+          "name": "Amount",
+          "type": "decimal",
+          "description": "Montant du crédit",
+          "format": "#,##0.00"
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "type": "fact",
+      "description": "Table des paiements",
+      "image": "payments-table.png",
+      "columns": [
+        {
+          "name": "PaymentId",
+          "type": "string",
+          "description": "Identifiant unique du paiement",
+          "isPrimaryKey": true
+        },
+        {
+          "name": "CreditId",
+          "type": "string",
+          "description": "Référence au crédit",
+          "isForeignKey": true,
+          "references": {
+            "table": "Credits",
+            "column": "CreditId"
+          }
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "name": "Credits_Clients",
+      "fromTable": "Credits",
+      "fromColumn": "ClientId",
+      "toTable": "Clients",
+      "toColumn": "ClientId",
+      "type": "many-to-one",
+      "crossFilteringBehavior": "bidirectional"
+    },
+    {
+      "name": "Payments_Credits",
+      "fromTable": "Payments",
+      "fromColumn": "CreditId",
+      "toTable": "Credits",
+      "toColumn": "CreditId",
+      "type": "many-to-one",
+      "crossFilteringBehavior": "bidirectional"
+    }
+  ],
+  "calculations": [
+    {
+      "name": "TotalCredits",
+      "type": "measure",
+      "expression": "COUNT(Credits[CreditId])",
+      "description": "Nombre total de crédits",
+      "format": "#,##0"
+    }
+  ]
+}

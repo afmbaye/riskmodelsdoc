@@ -1,0 +1,190 @@
+/* Définition des polices */
+@font-face {
+    font-family: 'Avenir';
+    src: url('Assets/Fonts/Avenir/Avenir 1 -regular/Avenir Regular/Avenir-Regular.woff2') format('woff2'),
+         url('Assets/Fonts/Avenir/Avenir 1 -regular/Avenir Regular/Avenir-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Work Sans';
+    src: url('Assets/Fonts/Work Sans/Work_Sans/static/WorkSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Styles globaux */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* Header */
+header {
+    background-color: #4E107C;
+    color: white;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 2px 4px rgba(78, 16, 129, 0.15);
+}
+
+header .logo {
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 4px;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+h1 {
+    font-family: 'Avenir', sans-serif;
+    font-size: 1.5rem;
+}
+
+/* Table principale */
+main {
+    padding: 2rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(78, 16, 129, 0.08);
+    border-radius: 8px;
+    font-size: 0.625rem; /* 10px */
+}
+
+th, td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #DCCFE5;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #EDE7F2;
+    color: #4E107C;
+    font-family: 'Avenir', sans-serif;
+    font-weight: 600;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+td {
+    color: #333333;
+}
+
+th:first-child {
+    border-top-left-radius: 8px;
+}
+
+th:last-child {
+    border-top-right-radius: 8px;
+}
+
+tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+}
+
+tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+}
+
+/* Liens */
+a {
+    text-decoration: none;
+    font-size: 0.625rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.folder-link, .fabric-link, .doc-link {
+    color: #295BFF;
+}
+
+.folder-link:hover, .fabric-link:hover, .doc-link:hover {
+    background-color: #EDE7F2;
+}
+
+/* Statuts */
+td.status {
+    text-align: center;
+}
+
+.status {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.625rem;
+    font-weight: 500;
+    display: inline-block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 80px;
+}
+
+.done {
+    background-color: #01BCAD;
+    color: white;
+    font-weight: bold;
+}
+
+.ongoing {
+    background-color: #FFA800;
+    color: #333333;
+}
+
+.todo {
+    background-color: #DCCFE5;
+    color: #4E107C;
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    table {
+        font-size: 0.625rem;
+    }
+    
+    th, td {
+        padding: 0.625rem;
+    }
+
+    .status {
+        min-width: 70px;
+        padding: 0.25rem 0.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    header {
+        padding: 0.75rem 1rem;
+    }
+
+    .logo {
+        width: 40px;
+        height: 40px;
+    }
+}

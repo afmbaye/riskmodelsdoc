@@ -1,0 +1,61 @@
+<!-- Stepper Template -->
+<div class="stepper">
+    <div class="stepper-list">
+        <div class="step active" data-step="1">
+            <div class="step-number">1</div>
+            <div class="step-title">Préparation du dossier</div>
+        </div>
+        <div class="step" data-step="2">
+            <div class="step-number">2</div>
+            <div class="step-title">Mise à jour source</div>
+        </div>
+        <div class="step" data-step="3">
+            <div class="step-number">3</div>
+            <div class="step-title">Actualisation</div>
+        </div>
+        <div class="step" data-step="4">
+            <div class="step-number">4</div>
+            <div class="step-title">Vérifications</div>
+        </div>
+    </div>
+
+    <div class="step-content" id="step1Content">
+        <h3>Préparation du dossier de sources de données</h3>
+        <div class="step-description"></div>
+        <div class="step-details">
+            <ul></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateStep(stepNumber) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach(step => {
+        const stepNum = parseInt(step.dataset.step);
+        if (stepNum < stepNumber) {
+            step.classList.remove('active');
+            step.classList.add('completed');
+        } else if (stepNum === stepNumber) {
+            step.classList.add('active');
+            step.classList.remove('completed');
+        } else {
+            step.classList.remove('active', 'completed');
+        }
+    });
+
+    // Mettre à jour le contenu de l'étape
+    showStepContent(stepNumber);
+}
+
+function showStepContent(stepNumber) {
+    const content = document.querySelector('.step-content');
+    content.id = `step${stepNumber}Content`;
+    // Le contenu spécifique sera géré par la page de mise à jour
+}
+
+// Initialiser le stepper
+document.addEventListener('DOMContentLoaded', () => {
+    updateStep(1);
+});
+</script>

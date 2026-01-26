@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modèle de données - Installment Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../layout/styles.css">
+    <link rel="stylesheet" href="../../components/cards.css">
+    <style>
+        /* Variables et utilitaires */
+        :root {
+            --section-spacing: 4rem;
+            --card-hover-lift: -4px;
+        }
+
+        /* Header de la page avec breadcrumb */
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color var(--transition-normal);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary-color);
+        }
+
+        .breadcrumb i {
+            width: 14px;
+            height: 14px;
+        }
+
+        .model-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            padding: 3rem 2rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-md);
+            color: white;
+        }
+
+        .model-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .model-description {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            max-width: 800px;
+            opacity: 0.95;
+        }
+
+        /* Table des matières sticky */
+        .page-toc {
+            position: sticky;
+            top: 100px;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 2rem;
+        }
+
+        .toc-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+        }
+
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc-list li {
+            margin-bottom: 0.75rem;
+        }
+
+        .toc-list a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all var(--transition-normal);
+            padding: 0.5rem;
+            border-radius: var(--radius-sm);
+        }
+
+        .toc-list a:hover,
+        .toc-list a.active {
+            color: var(--primary-color);
+            background: var(--primary-light);
+        }
+
+        .toc-list i {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Sections avec séparateurs visuels */
+        .sources-section,
+        .schema-section,
+        .tables-section {
+            margin: var(--section-spacing) 0;
+            scroll-margin-top: 100px;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border-color), transparent);
+            margin: var(--section-spacing) 0;
+        }
+
+        /* Sources améliorées avec badges */
+        .source-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .source-card {
+            position: relative;
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
+            transition: all var(--transition-normal);
+            cursor: pointer;
+        }
+
+        .source-card:hover {
+            transform: translateY(var(--card-hover-lift));
+            box-shadow: var(--shadow-md);
+        }
+
+        .source-card.file {
+            border-color: var(--info-light);
+        }
+
+        .source-card.file:hover {
+            border-color: var(--info-color);
+        }
+
+        .source-card.folder {
+            border-color: var(--warning-light);
+        }
+
+        .source-card.folder:hover {
+            border-color: var(--warning-color);
+        }
+
+        .source-card-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .source-card-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .source-card.file .source-card-icon {
+            background: var(--info-light);
+            color: var(--info-color);
+        }
+
+        .source-card.folder .source-card-icon {
+            background: var(--warning-light);
+            color: var(--warning-color);
+        }
+
+        .source-card-icon i {
+            width: 32px;
+            height: 32px;
+        }
+
+        .source-card-content h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .source-card-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Schéma relationnel mis en valeur */
+        .schema-section {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            border-radius: var(--radius-lg);
+            padding: 3rem;
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .schema-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .schema-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .schema-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            color: var(--text-color);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+        }
+
+        .schema-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .schema-btn i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .schema-image-container {
+            position: relative;
+            margin: 2rem 0;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            background: white;
+            cursor: zoom-in;
+        }
+
+        .schema-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform var(--transition-normal);
+        }
+
+        .schema-image-container:hover .schema-image {
+            transform: scale(1.02);
+        }
+
+        /* Tables améliorées */
+        .tables-section {
+            margin: var(--section-spacing) 0;
+        }
+
+        .tables-subsection {
+            margin-bottom: 4rem;
+        }
+
+        .subsection-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .subsection-title i {
+            color: var(--primary-color);
+        }
+
+        .subsection-badge {
+            background: var(--primary-light);
+            color: var(--primary-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .subsection-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2.5rem;
+            align-items: start;
+            transition: all var(--transition-normal);
+        }
+
+        .table-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary-light);
+        }
+
+        .table-preview-wrapper {
+            position: relative;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .table-preview {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform var(--transition-normal);
+        }
+
+        .table-preview-wrapper:hover .table-preview {
+            transform: scale(1.05);
+        }
+
+        .table-preview-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+
+        .table-preview-wrapper:hover .table-preview-overlay {
+            opacity: 1;
+        }
+
+        .table-preview-overlay i {
+            color: white;
+            width: 40px;
+            height: 40px;
+        }
+
+        .table-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .table-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--primary-light);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .table-icon i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .table-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .table-description {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Lightbox pour les images */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .lightbox.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: var(--radius-lg);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -3rem;
+            right: 0;
+            background: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-normal);
+        }
+
+        .lightbox-close:hover {
+            background: var(--error-color);
+            color: white;
+        }
+
+        /* Bouton retour en haut */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            transition: all var(--transition-normal);
+            z-index: 1000;
+        }
+
+        .back-to-top.visible {
+            display: flex;
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-4px);
+        }
+
+        .back-to-top i {
+            width: 24px;
+            height: 24px;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+            width: 32px;
+            height: 32px;
+        }
+
+        .section-description {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+            max-width: 900px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .table-card {
+                grid-template-columns: 1fr;
+            }
+
+            .page-toc {
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .model-title {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .source-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schema-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .subsection-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <!-- Header --> 
+        <header class="header">
+            <div class="header-brand">
+                <img src="../../Assets/Baobab_Small-use_Logo_RGB_Rubine_v2.png" alt="Baobab">
+            </div>
+            <nav class="header-nav">
+                <a href="#">Accueil</a>
+                <a href="#">Flux de données</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-button" id="docButton" aria-expanded="false" aria-controls="docDropdown">
+                        Documentation
+                        <i data-feather="chevron-down"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="docDropdown" role="menu" aria-labelledby="docButton">
+                        <div class="dropdown-section">
+                            <span class="dropdown-title">Modèles</span>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Installment Tracker</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Vintage LD & Wo</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Vintage recovery</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>TOP 20</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">Glossaire</a>
+                <div class="language-selector">
+                    <button class="lang-button" id="langButton" aria-expanded="false" aria-controls="langDropdown" aria-label="Sélectionner la langue">
+                        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag-icon">
+                        <span>Français</span>
+                        <i data-feather="chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown" role="menu" aria-labelledby="langButton">
+                        <a href="#" class="lang-option active" role="menuitem">
+                            <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag-icon">
+                            <span>Français</span>
+                        </a>
+                        <a href="#" class="lang-option" role="menuitem">
+                            <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag-icon">
+                            <span>English</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">
+                <h2>Installment Tracker</h2>
+            </div>
+            <nav class="section">
+                <a href="../overview/index.html" class="nav-item">
+                    <i data-feather="home"></i>
+                    <span class="label">Overview</span>
+                </a>
+            </nav>
+            
+            <nav class="section">
+                <a href="index.html" class="nav-item active">
+                    <i data-feather="database"></i>
+                    <span class="label">Le modèle de données</span>
+                </a>
+            </nav>
+            <nav class="section">
+                <a href="../kpi-dictionary/index.html" class="nav-item">
+                    <i data-feather="book-open"></i>
+                    <span class="label">Dictionnaire des KPIs</span>
+                </a>
+            </nav>
+
+            <div class="section">
+                <div class="group">
+                    <div role="button" aria-expanded="true" class="group-header">
+                        <i data-feather="bar-chart-2"></i>
+                        <span class="label">Visuels</span>
+                        <i data-feather="chevron-down" class="chev"></i>
+                    </div>
+                    <div class="submenu">
+                        <a href="../visuals/index.html#dashboard">GLP</a>
+                        <a href="../visuals/index.html#performance">Installment</a>
+                        <a href="../visuals/index.html#analysis">Region</a>
+                        <a href="../visuals/index.html#details">BranchDesc</a>
+                        <a href="../visuals/index.html#details">CategoryDesc</a>
+                        <a href="../visuals/index.html#details">Installment overdue ratio</a>
+                        <a href="../visuals/index.html#details">Customer details</a>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="section">
+                <a href="../update/index.html" class="nav-item">
+                    <i data-feather="refresh-cw"></i>
+                    <span class="label">Mise à jour</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Breadcrumb -->
+            <nav class="breadcrumb">
+                <a href="../../layout/home.html">Accueil</a>
+                <i data-feather="chevron-right"></i>
+                <a href="../overview/index.html">Installment Tracker</a>
+                <i data-feather="chevron-right"></i>
+                <span>Modèle de données</span>
+            </nav>
+
+            <!-- Header -->
+            <div class="model-header">
+                <h1 class="model-title">Modèle de données</h1>
+                <p class="model-description">
+                    L'organisation des données repose sur une modélisation relationnelle structurée qui permet de relier différentes sources d'information dans une structure cohérente. Chaque table joue un rôle bien défini, et les relations entre elles permettent de croiser efficacement les informations nécessaires aux visualisations et aux KPIs.
+                </p>
+            </div>
+
+            <!-- Table des matières -->
+            <!-- <nav class="page-toc">
+                <div class="toc-title">
+                    <i data-feather="list"></i>
+                    Sur cette page
+                </div>
+                <ul class="toc-list">
+                    <li><a href="#sources" data-section="sources"><i data-feather="database"></i>Sources de données</a></li>
+                    <li><a href="#schema" data-section="schema"><i data-feather="git-merge"></i>Schéma relationnel</a></li>
+                    <li><a href="#tables" data-section="tables"><i data-feather="layers"></i>Description des tables</a></li>
+                </ul>
+            </nav> -->
+
+            <!-- Sources de données -->
+            <section id="sources" class="sources-section">
+                <h2 class="section-title">
+                    <i data-feather="database"></i>
+                    Sources de données
+                </h2>
+                <p class="section-description">
+                    Le modèle est alimenté par 3 principales sources de données, mises à jour quotidiennement pour garantir une analyse en temps réel.
+                </p>
+
+                <div class="source-grid">
+                    <div class="source-card file">
+                        <div class="source-card-badge">14 fichiers</div>
+                        <div class="source-card-icon">
+                            <i data-feather="file-text"></i>
+                        </div>
+                        <div class="source-card-content">
+                            <h3>Reportings [Suivi des Échéances]</h3>
+                            <p class="source-card-description">
+                                2 fichiers pour chaque filiale (7 filiales) soit 14 fichiers au total : 
+                                Celui de la fin du mois précédent (30, 31 ou 28 si février) + celui à la date du jour
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="source-card file">
+                        <div class="source-card-badge">1 fichier</div>
+                        <div class="source-card-icon">
+                            <i data-feather="file-text"></i>
+                        </div>
+                        <div class="source-card-content">
+                            <h3>mapping.xlsx</h3>
+                            <p class="source-card-description">
+                                Fichier de correspondance pour le mapping des données agences, filiales, segments,...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="source-card folder">
+                        <div class="source-card-badge">1 dossier</div>
+                        <div class="source-card-icon">
+                            <i data-feather="folder"></i>
+                        </div>
+                        <div class="source-card-content">
+                            <h3>Photo pays</h3>
+                            <p class="source-card-description">
+                                Dossier contenant les pictos de drapeaux des 7 différentes filiales pour les visualisations
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Schéma relationnel -->
+            <section id="schema" class="schema-section">
+                <h2 class="section-title">
+                    <i data-feather="git-merge"></i>
+                    Schéma relationnel
+                </h2>
+                <p class="section-description">
+                    Vue d'ensemble des relations entre les différentes tables du modèle. Cliquez sur l'image pour l'agrandir.
+                </p>
+                
+                <div class="schema-image-container" onclick="openLightbox('../../Assets/Images/installment-tracker/data-model.png')">
+                    <img src="../../Assets/Images/installment-tracker/data-model.png" alt="Schéma relationnel" class="schema-image">
+                    <div class="table-preview-overlay">
+                        <i data-feather="zoom-in"></i>
+                    </div>
+                </div>
+
+                <div class="schema-controls">
+                    <button class="schema-btn" onclick="downloadSchema()">
+                        <i data-feather="download"></i>
+                        Télécharger le schéma
+                    </button>
+                    <button class="schema-btn" onclick="openLightbox('../../Assets/Images/installment-tracker/data-model.png')">
+                        <i data-feather="maximize-2"></i>
+                        Voir en plein écran
+                    </button>
+                </div>
+            </section>
+
+            <div class="section-divider"></div>
+
+            <!-- Description des tables -->
+            <section id="tables" class="tables-section">
+                <h2 class="section-title">
+                    <i data-feather="layers"></i>
+                    Description des tables
+                </h2>
+                
+                <!-- Tables de faits -->
+                <div class="tables-subsection">
+                    <div class="subsection-header">
+                        <h3 class="subsection-title">
+                            <i data-feather="package"></i>
+                            Tables de faits
+                        </h3>
+                        <span class="subsection-badge">2 tables</span>
+                    </div>
+                    <p class="subsection-description">
+                        Elles regroupent les événements clés à analyser. Ici, chaque ligne représente une échéance.
+                    </p>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/main-vintage-echeance.png')">
+                            <img src="../../Assets/Images/installment-tracker/main-vintage-echeance.png" alt="Table MAIN VINTAGE ECHEANCE" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="package"></i>
+                                </div>
+                                <h4 class="table-title">MAIN VINTAGE ECHEANCE</h4>
+                            </div>
+                            <p class="table-description">
+                                Table de faits principale contenant l'historique détaillé de toutes les échéances de remboursement. 
+                                Chaque ligne représente une échéance avec son statut, son montant et ses dates associées.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/main-contract-eom.png')">
+                            <img src="../../Assets/Images/installment-tracker/main-contract-eom.png" alt="Table MAIN CONTRACT EOM" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="package"></i>
+                                </div>
+                                <h4 class="table-title">MAIN CONTRACT EOM</h4>
+                            </div>
+                            <p class="table-description">
+                                Table de faits contenant les données agrégées des contrats en fin de mois (End of Month). 
+                                Elle permet l'analyse des positions mensuelles et l'évolution des encours.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tables de dimension -->
+                <div class="tables-subsection">
+                    <div class="subsection-header">
+                        <h3 class="subsection-title">
+                            <i data-feather="grid"></i>
+                            Tables de dimension
+                        </h3>
+                        <span class="subsection-badge">9 tables</span>
+                    </div>
+                    <p class="subsection-description">
+                        Elles jouent le rôle de référentiel et enrichissent les tables de faits.
+                    </p>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/new-segment.png')">
+                            <img src="../../Assets/Images/installment-tracker/new-segment.png" alt="Table New Segment" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="users"></i>
+                                </div>
+                                <h4 class="table-title">New Segment</h4>
+                            </div>
+                            <p class="table-description">
+                                Référentiel de la segmentation: Nano, SE,...
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/dateday.png')">
+                            <img src="../../Assets/Images/installment-tracker/dateday.png" alt="Table Dateday" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="calendar"></i>
+                                </div>
+                                <h4 class="table-title">Dateday</h4>
+                            </div>
+                            <p class="table-description">
+                                Table de dates utilisée pour l'analyse temporelle.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/mapping-number-month.png')">
+                            <img src="../../Assets/Images/installment-tracker/mapping-number-month.png" alt="Table Mapping number month" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="hash"></i>
+                                </div>
+                                <h4 class="table-title">Mapping number month</h4>
+                            </div>
+                            <p class="table-description">
+                                Mapping du mois sous format numérique.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/fx-rates.png')">
+                            <img src="../../Assets/Images/installment-tracker/fx-rates.png" alt="Table FX_rates" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="dollar-sign"></i>
+                                </div>
+                                <h4 class="table-title">FX_rates</h4>
+                            </div>
+                            <p class="table-description">
+                                Référentiel des taux de change pour la conversion des devises.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/main-dao-name.png')">
+                            <img src="../../Assets/Images/installment-tracker/main-dao-name.png" alt="Table Main DAO name" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="user-check"></i>
+                                </div>
+                                <h4 class="table-title">Main DAO name</h4>
+                            </div>
+                            <p class="table-description">
+                                Dictionnaire des gestionnaires de portefeuille (DAO).
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/photos-pays.png')">
+                            <img src="../../Assets/Images/installment-tracker/photos-pays.png" alt="Table Photos pays" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="image"></i>
+                                </div>
+                                <h4 class="table-title">Photos pays</h4>
+                            </div>
+                            <p class="table-description">
+                                Banque d'images pour les pictos visuels par pays.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/code-agence.png')">
+                            <img src="../../Assets/Images/installment-tracker/code-agence.png" alt="Table Code_agence" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="map-pin"></i>
+                                </div>
+                                <h4 class="table-title">Code_agence</h4>
+                            </div>
+                            <p class="table-description">
+                                Liste des agences avec leurs codes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/countries.png')">
+                            <img src="../../Assets/Images/installment-tracker/countries.png" alt="Table Countries" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="globe"></i>
+                                </div>
+                                <h4 class="table-title">Countries</h4>
+                            </div>
+                            <p class="table-description">
+                                Dictionnaire pays avec région, code et devise.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="table-card">
+                        <div class="table-preview-wrapper" onclick="openLightbox('../../Assets/Images/installment-tracker/main-products.png')">
+                            <img src="../../Assets/Images/installment-tracker/main-products.png" alt="Table Main products" class="table-preview">
+                            <div class="table-preview-overlay">
+                                <i data-feather="zoom-in"></i>
+                            </div>
+                        </div>
+                        <div class="table-info">
+                            <div class="table-header">
+                                <div class="table-icon">
+                                    <i data-feather="shopping-bag"></i>
+                                </div>
+                                <h4 class="table-title">Main products</h4>
+                            </div>
+                            <p class="table-description">
+                                Dictionnaire des produits.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">
+                <i data-feather="x"></i>
+            </button>
+            <img src="" alt="Zoom" class="lightbox-image" id="lightbox-image">
+        </div>
+    </div>
+
+    <!-- Bouton retour en haut -->
+    <button class="back-to-top" id="backToTop" onclick="scrollToTop()">
+        <i data-feather="arrow-up"></i>
+    </button>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="../../components/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            // Gestion des dropdowns
+            const docButton = document.getElementById('docButton');
+            const docDropdown = document.getElementById('docDropdown');
+            const langButton = document.getElementById('langButton');
+            const langDropdown = document.getElementById('langDropdown');
+
+            docButton.addEventListener('click', () => {
+                const isExpanded = docButton.getAttribute('aria-expanded') === 'true';
+                docButton.setAttribute('aria-expanded', !isExpanded);
+                docDropdown.classList.toggle('show');
+            });
+
+            langButton.addEventListener('click', () => {
+                const isExpanded = langButton.getAttribute('aria-expanded') === 'true';
+                langButton.setAttribute('aria-expanded', !isExpanded);
+                langDropdown.classList.toggle('show');
+            });
+
+            // Fermer les dropdowns en cliquant à l'extérieur
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.nav-dropdown')) {
+                    docDropdown.classList.remove('show');
+                    docButton.setAttribute('aria-expanded', 'false');
+                }
+                if (!e.target.closest('.language-selector')) {
+                    langDropdown.classList.remove('show');
+                    langButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Table of Contents - Active state on scroll
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            const sections = document.querySelectorAll('section[id]');
+
+            function updateActiveSection() {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop - 150) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveSection);
+
+            // Smooth scroll for TOC links
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetSection = document.getElementById(targetId);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Back to top button
+            const backToTop = document.getElementById('backToTop');
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+        });
+
+        // Lightbox functions
+        function openLightbox(imageSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            lightboxImage.src = imageSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            // Re-render feather icons for the close button
+            setTimeout(() => feather.replace(), 0);
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Download schema function
+        function downloadSchema() {
+            const link = document.createElement('a');
+            link.href = '../../Assets/Images/installment-tracker/data-model.png';
+            link.download = 'installment-tracker-schema.png';
+            link.click();
+        }
+    </script>
+</body>
+</html>

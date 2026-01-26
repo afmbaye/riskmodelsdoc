@@ -1,0 +1,108 @@
+{
+  "modelId": "installment-tracker",
+  "updateProcess": {
+    "frequency": "Quotidienne",
+    "time": "08:00",
+    "steps": [
+      {
+        "order": 1,
+        "title": "Préparation des données",
+        "description": "Préparation des fichiers sources pour la mise à jour",
+        "type": "manual",
+        "tasks": [
+          {
+            "description": "Vérifier la présence des fichiers requis",
+            "details": "S'assurer que tous les fichiers nécessaires sont disponibles dans le dossier source"
+          },
+          {
+            "description": "Valider le format des fichiers",
+            "details": "Vérifier que les fichiers sont au format .xlsx et utilisent l'encodage UTF-8"
+          }
+        ],
+        "validation": {
+          "type": "checklist",
+          "items": [
+            "Fichiers présents",
+            "Format Excel valide",
+            "Encodage correct"
+          ]
+        }
+      },
+      {
+        "order": 2,
+        "title": "Vérification du format",
+        "description": "Validation de la structure des données",
+        "type": "automatic",
+        "tasks": [
+          {
+            "description": "Vérifier les colonnes requises",
+            "details": "S'assurer que toutes les colonnes obligatoires sont présentes"
+          }
+        ],
+        "validation": {
+          "type": "system",
+          "checks": [
+            "Présence des colonnes",
+            "Types de données",
+            "Valeurs obligatoires"
+          ]
+        }
+      },
+      {
+        "order": 3,
+        "title": "Mise à jour",
+        "description": "Processus de mise à jour des données",
+        "type": "automatic",
+        "tasks": [
+          {
+            "description": "Actualiser Power BI",
+            "details": "Lancer l'actualisation complète du modèle"
+          }
+        ],
+        "validation": {
+          "type": "system",
+          "checks": [
+            "Actualisation réussie",
+            "Pas d'erreurs de chargement"
+          ]
+        }
+      },
+      {
+        "order": 4,
+        "title": "Validation",
+        "description": "Vérification finale des données mises à jour",
+        "type": "manual",
+        "tasks": [
+          {
+            "description": "Vérifier les KPIs principaux",
+            "details": "S'assurer que les indicateurs clés sont cohérents"
+          }
+        ],
+        "validation": {
+          "type": "checklist",
+          "items": [
+            "KPIs cohérents",
+            "Visuels fonctionnels",
+            "Filtres opérationnels"
+          ]
+        }
+      }
+    ],
+    "errorHandling": {
+      "retryAttempts": 3,
+      "notificationEmails": ["risk.team@example.com"],
+      "errorTypes": [
+        {
+          "code": "MISSING_FILE",
+          "description": "Fichier source manquant",
+          "action": "Vérifier le dossier source et la présence des fichiers requis"
+        },
+        {
+          "code": "INVALID_FORMAT",
+          "description": "Format de fichier invalide",
+          "action": "Vérifier le format et l'encodage des fichiers"
+        }
+      ]
+    }
+  }
+}

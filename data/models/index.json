@@ -1,0 +1,22 @@
+{
+  "models": [
+    {
+      "id": "installment-tracker",
+      "name": "Installment Tracker",
+      "description": "Suivi des remboursements de crédits",
+      "metadata": {
+        "department": "Direction des Risques",
+        "version": "2.0"
+      }
+    },
+    {
+      "id": "credit-score",
+      "name": "Credit Score",
+      "description": "Modèle de scoring crédit",
+      "metadata": {
+        "department": "Direction des Risques",
+        "version": "1.5"
+      }
+    }
+  ]
+}

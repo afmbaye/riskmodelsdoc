@@ -1,0 +1,13 @@
+[
+  {
+    "id": "installments_tracker",
+    "nameFR": "Suivi des Échéances",
+    "nameEN": "Installments Tracker",
+    "shortDescriptionFR": "Suivi des remboursements par date d’échéance.",
+    "shortDescriptionEN": "Tracks repayments by scheduled date.",
+    "frequency": "Mensuelle",
+    "status": "done",
+    "fabricLink": "https://app.fabric.microsoft.com/reports/123",
+    "bannerImage": "/images/installments_banner.png"
+  }
+]

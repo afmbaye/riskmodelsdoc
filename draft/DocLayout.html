@@ -1,0 +1,117 @@
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><title>Sidebar – Online store</title><link rel="preconnect" href="https://fonts.googleapis.com" /><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --sidebar-max-width: 280px;
+    --sidebar-min-width: 250px;
+  }
+  
+  .layout-wrapper {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+  }
+
+  .sidebar {
+    box-sizing: border-box;
+    min-width: var(--sidebar-min-width);
+    max-width: var(--sidebar-max-width);
+    width: 25%;
+    padding: 16px 12px;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-x: auto;
+    overflow-y: auto;
+    background-color: #f8f9fa;
+    border-right: 1px solid #e9ecef;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 32px;
+    width: 75%;
+    max-width: calc(100% - var(--sidebar-min-width));
+  }
+
+  @media (max-width: 768px) {
+    .layout-wrapper {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .main-content {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+</style>
+<div class="layout-wrapper">
+<aside aria-label="Navigation latérale" class="sidebar">
+  <div class="app-title" style="box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; margin-bottom: 8px; font-weight: 600;">
+    <span style="box-sizing: border-box;">Online store</span><a href="#" aria-label="Ouvrir dans un nouvel onglet" class="muted" style="box-sizing: border-box; color: var(--muted); font-size: 10px;"><i data-feather="external-link" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i></a>
+  </div>
+  <nav aria-label="Overview" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <a href="#" class="nav-item" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; user-select: none; cursor: pointer; font-size: 10px; position: relative;"><i data-feather="bar-chart-2" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-weight: 500;">Overview</span></a>
+  </nav>
+  <div aria-label="Store" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <div id="storeGroup" class="group" style="box-sizing: border-box; padding-top: 2px; padding-right: 2px; padding-bottom: 2px; padding-left: 2px; margin-top: 6px;">
+      <div role="button" aria-expanded="true" aria-controls="submenu-store" id="btn-store" class="group-header" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; cursor: pointer; user-select: none;"><i data-feather="box" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box;">Store</span><i data-feather="minus" aria-hidden="true" class="fi chev" style="box-sizing: border-box; width: 14px; height: 14px; margin-left: auto; color: var(--muted); transition-behavior: normal; transition-duration: 0.15s; transition-timing-function: ease; transition-delay: 0s; transition-property: transform;"></i></div>
+      <div id="submenu-store" class="submenu" style="box-sizing: border-box; padding-left: 34px; margin-left: 14px; margin-bottom: 4px;"><a href="#" style="box-sizing: border-box; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Products</a><a href="#" style="box-sizing: border-box; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Orders</a><a href="#" style="box-sizing: border-box; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Subscriptions</a><a href="#" class="active" style="box-sizing: border-box; position: relative; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Customers</a><a href="#" style="box-sizing: border-box; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Discounts</a><a href="#" style="box-sizing: border-box; display: block; padding-top: 8px; padding-right: 8px; padding-bottom: 8px; padding-left: 8px; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; font-size: 10px;">Licenses</a></div>
+    </div>
+  </div>
+  <nav aria-label="Emails" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <div class="nav-item" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; user-select: none; cursor: pointer; font-size: 10px; position: relative;">
+      <i data-feather="send" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-weight: 500;">Emails</span><span class="suffix" style="box-sizing: border-box; color: var(--muted); position: absolute; right: 10px;"><i data-feather="plus" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i></span>
+    </div>
+  </nav>
+  <nav aria-label="Reports" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <div class="nav-item" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; user-select: none; cursor: pointer; font-size: 10px; position: relative;">
+      <i data-feather="clipboard" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-weight: 500;">Reports</span><span class="suffix" style="box-sizing: border-box; color: var(--muted); position: absolute; right: 10px;"><i data-feather="plus" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i></span>
+    </div>
+  </nav>
+  <nav aria-label="Design" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <div class="nav-item" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; user-select: none; cursor: pointer; font-size: 10px; position: relative;">
+      <i data-feather="user" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-weight: 500;">Design</span><span class="suffix" style="box-sizing: border-box; color: var(--muted); position: absolute; right: 10px;"><i data-feather="plus" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i></span>
+    </div>
+  </nav>
+  <nav aria-label="Settings" class="section" style="box-sizing: border-box; margin-top: 8px; margin-bottom: 14px;">
+    <div class="nav-item" style="box-sizing: border-box; display: flex; align-items: center; row-gap: 10px; column-gap: 10px; padding-top: 8px; padding-right: 10px; padding-bottom: 8px; padding-left: 10px; color: var(--text); text-decoration-line: none; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; user-select: none; cursor: pointer; font-size: 10px; position: relative;">
+      <i data-feather="settings" aria-hidden="true" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i><span class="label" style="box-sizing: border-box; flex-grow: 1; flex-shrink: 1; flex-basis: 0%; font-weight: 500;">Settings</span><span class="suffix" style="box-sizing: border-box; color: var(--muted); position: absolute; right: 10px;"><i data-feather="plus" class="fi" style="box-sizing: border-box; width: 14px; height: 14px; color: rgb(17, 24, 39);"></i></span>
+    </div>
+  </nav>
+</aside>
+<main class="main-content">
+  <h1>Exemple de contenu</h1>
+  <p>Cette zone est juste là pour visualiser la sidebar comme dans ta capture.</p>
+</main>
+</div>
+<!-- Feather Icons (méthode demandée) -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+  feather.replace();
+
+  // Toggle du groupe "Store"
+  const btn = document.getElementById('btn-store');
+  const menu = document.getElementById('submenu-store');
+  const group = document.getElementById('storeGroup');
+
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    menu.style.display = expanded ? 'none' : 'block';
+
+    // change l’icône minus/plus
+    const chev = btn.querySelector('.chev');
+    chev.outerHTML = expanded
+      ? '<i data-feather="plus" class="fi chev" aria-hidden="true"></i>'
+      : '<i data-feather="minus" class="fi chev" aria-hidden="true"></i>';
+    feather.replace();
+  });
+</script>
+<div class="row sectionBlockLayout text-start" style="box-sizing: border-box; display: flex; flex-wrap: wrap; margin: 0px; min-height: auto; padding: 8px;">
+  <div class="container" style="box-sizing: border-box; padding: 0px; display: flex; flex-wrap: wrap;"><div class="col-lg-12 columnBlockLayout" style="box-sizing: border-box; flex-grow: 1; display: flex; flex-direction: column; min-width: 250px;"></div></div>
+</div>

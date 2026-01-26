@@ -1,0 +1,50 @@
+/* Styles spécifiques pour la page des visuels */
+
+.visuals-grid {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Responsive design pour les grilles de visuels */
+@media (min-width: 1024px) {
+    .visuals-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 1023px) {
+    .visuals-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Styles pour les cartes de visuels */
+.visual-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: transform var(--transition-normal);
+}
+
+.visual-card:hover {
+    transform: translateY(-2px);
+}
+
+.visual-preview {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Animation de chargement des sections */
+.visual-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease-out;
+}
+
+.visual-section.active {
+    opacity: 1;
+    transform: translateY(0);
+}

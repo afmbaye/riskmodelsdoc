@@ -1,0 +1,52 @@
+<!-- Tab Card Template -->
+<div class="tab-card">
+    <img src="" alt="" class="tab-card-image">
+    <div class="tab-card-content">
+        <h3 class="tab-card-title"></h3>
+        <p class="tab-card-description"></p>
+    </div>
+</div>
+
+<!-- Source Card Template -->
+<div class="source-card">
+    <div class="source-card-icon">
+        <!-- Pour fichier -->
+        <i data-feather="file-text"></i>
+        <!-- Pour dossier -->
+        <i data-feather="folder"></i>
+    </div>
+    <div class="source-card-content">
+        <h3 class="source-card-title"></h3>
+        <p class="source-card-description"></p>
+    </div>
+</div>
+
+<script>
+function createTabCard(image, title, description) {
+    const template = document.querySelector('.tab-card').cloneNode(true);
+    template.querySelector('.tab-card-image').src = image;
+    template.querySelector('.tab-card-image').alt = title;
+    template.querySelector('.tab-card-title').textContent = title;
+    template.querySelector('.tab-card-description').textContent = description;
+    return template;
+}
+
+function createSourceCard(type, title, description) {
+    const template = document.querySelector('.source-card').cloneNode(true);
+    template.classList.add(type); // 'file' ou 'folder'
+    template.querySelector('.source-card-title').textContent = title;
+    template.querySelector('.source-card-description').textContent = description;
+    
+    // Afficher l'icône appropriée
+    const fileIcon = template.querySelector('[data-feather="file-text"]');
+    const folderIcon = template.querySelector('[data-feather="folder"]');
+    if (type === 'file') {
+        folderIcon.remove();
+    } else {
+        fileIcon.remove();
+    }
+    
+    feather.replace();
+    return template;
+}
+</script>

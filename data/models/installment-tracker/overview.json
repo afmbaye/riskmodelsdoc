@@ -1,0 +1,96 @@
+{
+  "modelId": "installment-tracker",
+  "overview": {
+    "title": "Installment Tracker",
+    "description": "Tableau de bord de suivi des remboursements de crédits permettant d'analyser les performances et d'identifier les risques potentiels.",
+    "mainFeatures": [
+      {
+        "icon": "trending-up",
+        "title": "Suivi des performances",
+        "description": "Analyse détaillée des taux de recouvrement et des montants remboursés"
+      },
+      {
+        "icon": "alert-triangle",
+        "title": "Détection des risques",
+        "description": "Identification précoce des retards et des défauts de paiement"
+      },
+      {
+        "icon": "bar-chart-2",
+        "title": "Tableaux de bord",
+        "description": "Visualisations interactives et KPIs clés pour le pilotage"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "dashboard",
+        "title": "Dashboard",
+        "icon": "home",
+        "description": "Vue d'ensemble des KPIs principaux",
+        "features": [
+          "Taux de recouvrement global",
+          "Montants remboursés vs prévus",
+          "Distribution par statut"
+        ],
+        "image": "dashboard-preview.png"
+      },
+      {
+        "id": "performance",
+        "title": "Performance",
+        "icon": "activity",
+        "description": "Analyse détaillée des performances",
+        "features": [
+          "Évolution temporelle des remboursements",
+          "Analyse par segment",
+          "Comparaison des performances"
+        ],
+        "image": "performance-preview.png"
+      },
+      {
+        "id": "analysis",
+        "title": "Analysis",
+        "icon": "search",
+        "description": "Outils d'analyse approfondie",
+        "features": [
+          "Segmentation des crédits",
+          "Analyse des tendances",
+          "Identification des patterns"
+        ],
+        "image": "analysis-preview.png"
+      },
+      {
+        "id": "details",
+        "title": "Details",
+        "icon": "list",
+        "description": "Détails des crédits individuels",
+        "features": [
+          "Liste complète des crédits",
+          "Historique des paiements",
+          "Informations détaillées"
+        ],
+        "image": "details-preview.png"
+      }
+    ],
+    "quickStart": {
+      "title": "Guide de démarrage rapide",
+      "steps": [
+        {
+          "title": "Accès au tableau de bord",
+          "description": "Connectez-vous à Power BI et ouvrez le rapport Installment Tracker"
+        },
+        {
+          "title": "Navigation",
+          "description": "Utilisez les onglets pour naviguer entre les différentes vues"
+        },
+        {
+          "title": "Filtres",
+          "description": "Appliquez les filtres pour affiner votre analyse"
+        }
+      ]
+    },
+    "updates": {
+      "lastUpdate": "2023-12-01",
+      "frequency": "Quotidienne",
+      "time": "08:00"
+    }
+  }
+}

@@ -1,0 +1,200 @@
+{% assign defaultlang = settings['LanguageLocale/Code'] | default: 'en-us' %}
+{% assign homeurl = website.adx_partialurl %}
+<style>
+    .navbar {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        padding: 0.5rem 0;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .navbar-nav .nav-link {
+        color: #2D3748;
+        font-weight: 500;
+        padding: 1rem 1.25rem;
+        transition: color 0.2s ease-in-out;
+        font-family: 'Work Sans', sans-serif;
+    }
+    
+    .navbar-nav .nav-link:hover {
+        color: #4A5568;
+    }
+    
+    .nav-item.dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0;
+    }
+    
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+    }
+    
+    .dropdown-item {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        transition: background-color 0.2s ease-in-out;
+    }
+    
+    .dropdown-item:hover {
+        background-color: #F7FAFC;
+    }
+    
+    .navbar-brand {
+        padding: 0;
+    }
+    
+    .navbar-brand img {
+        height: 40px;
+        transition: transform 0.2s ease-in-out;
+    }
+    
+    .navbar-brand:hover img {
+        transform: scale(1.05);
+    }
+    
+    .language-switcher {
+        display: flex;
+        align-items: center;
+        margin-left: 1.5rem;
+    }
+    
+    .globe-icon {
+        font-size: 1.1rem;
+        margin-right: 0.5rem;
+        color: #4A5568;
+    }
+    
+    .language-code {
+        font-weight: 500;
+        color: #2D3748;
+    }
+    
+    @media (max-width: 991.98px) {
+        .navbar-collapse {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .navbar-nav .nav-link {
+            padding: 0.75rem 1rem;
+        }
+        
+        .dropdown-menu {
+            box-shadow: none;
+            padding-left: 1rem;
+        }
+    }
+</style>
+
+<div class="navbar-expand-xl navbar navbar-light bg-white static-top" role="banner">
+    <div class="container">
+        <div class="navbar-brand">
+            <a href="/">
+                <img src="/Assets/Images/Logos/baobab-logo.svg" alt="Baobab Logo" height="40">
+            </a>
+        </div>
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#navbar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="navbar" class="navbar-collapse collapse" style="width: min-content;">
+            {% assign primary_nav = weblinks["Default"] %}
+            {% if primary_nav %}
+            <nav aria-label="{{ resx.Main_Navigation | default: "Main Navigation" }}" class="ms-auto menu-bar {% if primary_nav.editable %}xrm-entity xrm-editable-adx_weblinkset{% endif %}" data-weblinks-maxdepth="2">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/accueil">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/data-flow">Flux de données</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Documentation
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/documentation/overview">Vue d'ensemble</a></li>
+                            <li><a class="dropdown-item" href="/documentation/installment-tracker">Installment Tracker</a></li>
+                            <li><a class="dropdown-item" href="/documentation/metrics">Métriques</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/glossaire">Glossaire</a>
+                    </li>
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="globe-icon"><i class="fas fa-globe"></i></span>
+                            <span class="language-code">{{ website.selected_language.code | upcase }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('fr-FR')">Français</a></li>
+                            <li><a class="dropdown-item" href="#" onclick="changeLanguage('en-US')">English</a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+                {% editable primary_nav %}
+            </nav>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% substitution %}
+{% assign current_page = page.id %}
+{% assign sr_page = sitemarkers["Search"].id %}
+{% assign forum_page = sitemarkers["Forums"].id %}
+{% if current_page %}
+  {% if current_page == sr_page or current_page == forum_page %}
+    {% assign section_class = "section-landing-search" %}
+    {% if current_page == forum_page %}
+      {% assign section_class = "section-landing-forums" %}
+    {% endif %}
+<section class="page_section {{ section_class | h }} color-inverse">
+    <div class="row sectionBlockLayout sectionFixedStyle" style="display: flex; flex-wrap: wrap; text-align: center;">
+        <div class="container" style="display: flex; flex-wrap: wrap;">
+            <div class="col-lg-12 columnBlockLayout" style="display: flex; flex-direction: column; justify-content: center;">
+                {% if current_page == sr_page %}
+                <h1 id="mainContent">{% editable snippets 'Search/Title' default: resx["Discover_Contoso"] %}</h1>
+                {% include 'Search' search_id:'search_control' %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endif %}
+{% endsubstitution %}
+<script type="text/javascript">
+    function setHeight() {
+        var windowHeight = window.innerHeight - 140;
+        var navbar = document.getElementById("navbar");
+        if (navbar) {
+            navbar.style.maxHeight = windowHeight + "px";
+        }
+    }
+    
+    function changeLanguage(langCode) {
+        // Stocker la langue sélectionnée
+        localStorage.setItem('preferred_language', langCode);
+        
+        // Construire l'URL avec le nouveau paramètre de langue
+        var newUrl = new URL(window.location.href);
+        newUrl.searchParams.set('lang', langCode);
+        
+        // Recharger la page avec la nouvelle langue
+        window.location.href = newUrl.toString();
+    }
+
+    window.addEventListener('resize', function(event) {
+        setHeight();
+    });
+</script>

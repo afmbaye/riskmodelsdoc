@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installment tracker - Data Dictionary</title>
+    <link rel="stylesheet" href="../overview/styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="../../../Assets/Images/Logos/Baobab_Symbol_RGB_Rubine_v2 (1).png" alt="Logo" class="logo">
+                <h1 class="product-title">Installment Tracker</h1>
+            </div>
+            
+            <div class="home-link">
+                <a href="../../../Pages/entry_point/index.html">
+                    <span class="home-icon">🏠</span>
+                    <span>Retour à l'accueil</span>
+                </a>
+            </div>
+
+            <ul>
+                <li><a href="../overview/overview.html">0. Overview</a></li>
+                <li class="active"><a href="data-dictionary.html">1. Data dictionary</a></li>
+                <li><a href="../data_model/data-model.html">2. Data model</a></li>
+                <li><a href="../metrics/metrics.html">3. Metrics</a></li>
+                <li><a href="../visuals/visuals.html">4. Visuals</a></li>
+                <li><a href="../how_to_update/how-to-update.html">5. How to update</a></li>
+            </ul>
+            <div class="language-switcher">
+                <a href="data-dictionary-en.html" class="flag" title="English">🇬🇧</a>
+                <a href="data-dictionary.html" class="flag active" title="Français">🇫🇷</a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="page-title">
+                <h1>Data Dictionary</h1>
+            </div>
+            <section class="description">
+                <h2>DESCRIPTION</h2>
+                <p>Le dictionnaire ci-dessous présente les champs utilisés dans le reporting SUIVI DES ÉCHÉANCES, extrait de la MCR LOAN et partagé chaque matin par l'équipe Data. Il constitue la source principale du modèle.</p>
+            </section>
+            
+            <section class="dictionary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nom du champ</th>
+                            <th>Description (FR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AccountContractNo</td>
+                            <td>Numéro de contrat du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td>
+                            <td>Identifiant de l'agence de rattachement</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>Identifiant de la catégorie du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>CategoryDesc</td>
+                            <td>Intitulé de la catégorie du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>ClientAge</td>
+                            <td>Age du client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientFirstName</td>
+                            <td>Prénom du client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientGender</td>
+                            <td>Genre du client (Male, Female, Other)</td>
+                        </tr>
+                        <tr>
+                            <td>ClientName</td>
+                            <td>Nom du client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientNo</td>
+                            <td>Identifiant client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientSector</td>
+                            <td>Identifiant du secteur d'activité du client</td>
+                        </tr>
+                        <tr>
+                            <td>Company</td>
+                            <td>Filiale qui gère le prêt</td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>Devise</td>
+                        </tr>
+                        <tr>
+                            <td>Dao</td>
+                            <td>Identifiant unique du Gestionnaire de Portefeuille (GP)</td>
+                        </tr>
+                        <tr>
+                            <td>DaoName</td>
+                            <td>Nom du Gestionnaire de Portefeuille</td>
+                        </tr>
+                        <tr>
+                            <td>date_corrigee</td>
+                            <td>Date du jour</td>
+                        </tr>
+                        <tr>
+                            <td>date_mcr</td>
+                            <td>Date à laquelle la donnée est disponible dans le MCR</td>
+                        </tr>
+                        <tr>
+                            <td>datedata_end_of_month</td>
+                            <td>Date de fin du mois</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementAmount</td>
+                            <td>Montant décaissé</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementCommission</td>
+                            <td>Commission sur le décaissement</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementDate</td>
+                            <td>Date de décaissement</td>
+                        </tr>
+                        <tr>
+                            <td>FirstScheduleDate</td>
+                            <td>Date de la première échéance</td>
+                        </tr>
+                        <tr>
+                            <td>InsuranceFee</td>
+                            <td>Frais d'assurance</td>
+                        </tr>
+                        <tr>
+                            <td>InterestRate</td>
+                            <td>Taux d'intérêt du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCreditRisk</td>
+                            <td>Avis du risque sur le prêt (Negative, Positive, Not Concerned, ...)</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCycle</td>
+                            <td>Rang du prêt (ex: 3 s'il s'agit du 3ème prêt du client)</td>
+                        </tr>
+                        <tr>
+                            <td>LoanDuration</td>
+                            <td>Durée du prêt en mois: TerminationDate - DisbursementDate</td>
+                        </tr>
+                        <tr>
+                            <td>LoanStatus</td>
+                            <td>Statut du prêt (LIQ si liquidé, CUR si encore en cours)</td>
+                        </tr>
+                        <tr>
+                            <td>MaturityDate</td>
+                            <td>Date de maturité du prêt (échéance finale)</td>
+                        </tr>
+                        <tr>
+                            <td>MaxOverdueDays</td>
+                            <td>Nombre maximum de jours de retard atteints par le client sur l'ensemble de ses prêts</td>
+                        </tr>
+                        <tr>
+                            <td>NextScheduleDate</td>
+                            <td>Date de la prochaine échéance</td>
+                        </tr>
+                        <tr>
+                            <td>outstandingprincipal_customer</td>
+                            <td>Solde de l'ensemble des comptes du client</td>
+                        </tr>
+                        <tr>
+                            <td>outstandingprincipal_RepayAcct</td>
+                            <td>Solde du compte de remboursement</td>
+                        </tr>
+                        <tr>
+                            <td>PAR_0</td>
+                            <td>Portefeuille à risque (PAR_0) : prêt en retard d'au moins 1 jour (O,N)</td>
+                        </tr>
+                        <tr>
+                            <td>PrincipalOutstanding</td>
+                            <td>Encours sain</td>
+                        </tr>
+                        <tr>
+                            <td>RepayAcct</td>
+                            <td>Numéro du compte de remboursement</td>
+                        </tr>
+                        <tr>
+                            <td>SectorDesc</td>
+                            <td>Secteur d'activité du client</td>
+                        </tr>
+                        <tr>
+                            <td>TerminatedEarly</td>
+                            <td>Prêt cloturé avant la date de maturité ? (Y, N)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminationDate</td>
+                            <td>Date réelle de cloture du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>TotalCurNoOfDaysOverdue</td>
+                            <td>Nombre total de jours de retard actuel</td>
+                        </tr>
+                        <tr>
+                            <td>TotalOverdueDays</td>
+                            <td>Cumul des jours de retard sur l'ensemble des prêts du client</td>
+                        </tr>
+                        <tr>
+                            <td>TotalPrincipalDueAmt</td>
+                            <td>Encours dû</td>
+                        </tr>
+                        <tr>
+                            <td>TotalScheduledAmount</td>
+                            <td>Montant total de la prochaine échéance</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>Identifiant de la catégorie du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>CategoryDesc</td>
+                            <td>Intitulé de la catégorie du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>ClientName</td>
+                            <td>Nom du client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientFirstName</td>
+                            <td>Prénom du client</td>
+                        </tr>
+                        <tr>
+                            <td>RepayAcct</td>
+                            <td>Numéro du compte de remboursement</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCycle</td>
+                            <td>Rang du prêt (ex: 3 s'il s'agit du 3ème prêt du client)</td>
+                        </tr>
+                        <tr>
+                            <td>InterestRate</td>
+                            <td>Taux d'intérêt du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>ClientNo</td>
+                            <td>Identifiant client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientAge</td>
+                            <td>Age du client</td>
+                        </tr>
+                        <tr>
+                            <td>ClientSector</td>
+                            <td>Identifiant du secteur d'activité du client</td>
+                        </tr>
+                        <tr>
+                            <td>SectorDesc</td>
+                            <td>Secteur d'activité du client</td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td>
+                            <td>Identifiant de l'agence de rattachement</td>
+                        </tr>
+                        <tr>
+                            <td>Dao</td>
+                            <td>Identifiant unique du Gestionnaire de Portefeuille (GP)</td>
+                        </tr>
+                        <tr>
+                            <td>DaoName</td>
+                            <td>Nom du Gestionnaire de Portefeuille</td>
+                        </tr>
+                        <tr>
+                            <td>ClientGender</td>
+                            <td>Genre du client (Male, Female, Other)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminatedEarly</td>
+                            <td>Prêt cloturé avant la date de maturité ? (Y, N)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminationDate</td>
+                            <td>Date réelle de cloture du prêt</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementDate</td>
+                            <td>Date de décaissement</td>
+                        </tr>
+                        <tr>
+                            <td>MaturityDate</td>
+                            <td>Date de maturité du prêt (échéance finale)</td>
+                        </tr>
+                        <tr>
+                            <td>LoansDuration</td>
+                            <td>Durée du prêt en mois: TerminationDate - DisbursementDate</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementAmount</td>
+                            <td>Montant décaissé</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementCommission</td>
+                            <td>Commission sur le décaissement</td>
+                        </tr>
+                        <tr>
+                            <td>PrincipalOutstanding</td>
+                            <td>Encours sain</td>
+                        </tr>
+                        <tr>
+                            <td>TotalCurNoOfDaysOverdue</td>
+                            <td>Nombre total de jours de retard actuel</td>
+                        </tr>
+                        <tr>
+                            <td>MaxOverdueDays</td>
+                            <td>Nombre maximum de jours de retard atteints par le client sur l'ensemble de ses prêts</td>
+                        </tr>
+                        <tr>
+                            <td>TotalOverdueDays</td>
+                            <td>Cumul des jours de retard sur l'ensemble des prêts du client</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <footer>
+                <p>Dernière mise à jour : 02/09/2025</p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+{
+  "modelId": "installment-tracker",
+  "visuals": [
+    {
+      "id": "dashboard-main",
+      "tabId": "dashboard",
+      "name": "Vue d'ensemble du tableau de bord",
+      "type": "combined",
+      "description": "Vue synthétique des performances de remboursement",
+      "image": "dashboard-main.png",
+      "components": [
+        {
+          "type": "kpi-cards",
+          "kpis": ["recovery-rate", "total-amount", "active-credits"]
+        },
+        {
+          "type": "chart",
+          "chartType": "line-column",
+          "title": "Évolution des remboursements",
+          "series": [
+            {
+              "name": "Montants mensuels",
+              "type": "column"
+            },
+            {
+              "name": "Taux de recouvrement",
+              "type": "line"
+            }
+          ]
+        }
+      ],
+      "interactivity": {
+        "filters": ["période", "agence", "produit"],
+        "drillthrough": ["détails des crédits"]
+      },
+      "readingGuide": [
+        "Les barres représentent les montants mensuels",
+        "La ligne montre la tendance du taux de recouvrement",
+        "Les couleurs indiquent les différents statuts"
+      ]
+    }
+  ],
+  "tabs": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "visuals": ["dashboard-main", "recovery-by-product"],
+      "layout": {
+        "type": "grid",
+        "rows": 2,
+        "columns": 2
+      }
+    },
+    {
+      "id": "performance",
+      "name": "Performance",
+      "visuals": ["performance-trend", "product-comparison"]
+    }
+  ]
+}

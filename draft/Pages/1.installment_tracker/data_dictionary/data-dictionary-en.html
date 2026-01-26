@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Installment tracker - Data Dictionary</title>
+    <link rel="stylesheet" href="../overview/styles.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="../../../Assets/Images/Logos/Baobab_Symbol_RGB_Rubine_v2 (1).png" alt="Logo" class="logo">
+                <h1 class="product-title">Installment Tracker</h1>
+            </div>
+            
+            <div class="home-link">
+                <a href="../../../Pages/entry_point/index.html">
+                    <span class="home-icon">🏠</span>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+
+            <ul>
+                <li><a href="../overview/overview-en.html">0. Overview</a></li>
+                <li class="active"><a href="data-dictionary-en.html">1. Data dictionary</a></li>
+                <li><a href="../data_model/data-model-en.html">2. Data model</a></li>
+                <li><a href="../metrics/metrics-en.html">3. Metrics</a></li>
+                <li><a href="../visuals/visuals-en.html">4. Visuals</a></li>
+                <li><a href="../how_to_update/how-to-update-en.html">5. How to update</a></li>
+            </ul>
+            <div class="language-switcher">
+                <a href="data-dictionary-en.html" class="flag active" title="English">🇬🇧</a>
+                <a href="data-dictionary.html" class="flag" title="Français">🇫🇷</a>
+            </div>
+        </nav>
+
+        <main>
+            <div class="page-title">
+                <h1>Data Dictionary</h1>
+            </div>
+            <section class="description">
+                <h2>DESCRIPTION</h2>
+                <p>The dictionary below presents the fields used in the PAYMENT TRACKING report, extracted from MCR LOAN and shared every morning by the Data team. It constitutes the main source of the model.</p>
+            </section>
+            
+            <section class="dictionary-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Field Name</th>
+                            <th>Description (EN)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>AccountContractNo</td>
+                            <td>Loan contract number</td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td>
+                            <td>Branch identifier</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>Loan category identifier</td>
+                        </tr>
+                        <tr>
+                            <td>CategoryDesc</td>
+                            <td>Loan category description</td>
+                        </tr>
+                        <tr>
+                            <td>ClientAge</td>
+                            <td>Client age</td>
+                        </tr>
+                        <tr>
+                            <td>ClientFirstName</td>
+                            <td>Client first name</td>
+                        </tr>
+                        <tr>
+                            <td>ClientGender</td>
+                            <td>Client gender (Male, Female, Other)</td>
+                        </tr>
+                        <tr>
+                            <td>ClientName</td>
+                            <td>Client last name</td>
+                        </tr>
+                        <tr>
+                            <td>ClientNo</td>
+                            <td>Client identifier</td>
+                        </tr>
+                        <tr>
+                            <td>ClientSector</td>
+                            <td>Client business sector identifier</td>
+                        </tr>
+                        <tr>
+                            <td>Company</td>
+                            <td>Subsidiary managing the loan</td>
+                        </tr>
+                        <tr>
+                            <td>Currency</td>
+                            <td>Currency</td>
+                        </tr>
+                        <tr>
+                            <td>Dao</td>
+                            <td>Portfolio Manager (PM) unique identifier</td>
+                        </tr>
+                        <tr>
+                            <td>DaoName</td>
+                            <td>Portfolio Manager name</td>
+                        </tr>
+                        <tr>
+                            <td>date_corrigee</td>
+                            <td>Current date</td>
+                        </tr>
+                        <tr>
+                            <td>date_mcr</td>
+                            <td>Date when data is available in MCR</td>
+                        </tr>
+                        <tr>
+                            <td>datedata_end_of_month</td>
+                            <td>End of month date</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementAmount</td>
+                            <td>Disbursed amount</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementCommission</td>
+                            <td>Disbursement commission</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementDate</td>
+                            <td>Disbursement date</td>
+                        </tr>
+                        <tr>
+                            <td>FirstScheduleDate</td>
+                            <td>First installment date</td>
+                        </tr>
+                        <tr>
+                            <td>InsuranceFee</td>
+                            <td>Insurance fee</td>
+                        </tr>
+                        <tr>
+                            <td>InterestRate</td>
+                            <td>Loan interest rate</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCreditRisk</td>
+                            <td>Loan risk assessment (Negative, Positive, Not Concerned, ...)</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCycle</td>
+                            <td>Loan rank (e.g., 3 if it's the client's 3rd loan)</td>
+                        </tr>
+                        <tr>
+                            <td>LoanDuration</td>
+                            <td>Loan duration in months: TerminationDate - DisbursementDate</td>
+                        </tr>
+                        <tr>
+                            <td>LoanStatus</td>
+                            <td>Loan status (LIQ if liquidated, CUR if still current)</td>
+                        </tr>
+                        <tr>
+                            <td>MaturityDate</td>
+                            <td>Loan maturity date (final due date)</td>
+                        </tr>
+                        <tr>
+                            <td>MaxOverdueDays</td>
+                            <td>Maximum number of overdue days reached by the client across all loans</td>
+                        </tr>
+                        <tr>
+                            <td>NextScheduleDate</td>
+                            <td>Next installment date</td>
+                        </tr>
+                        <tr>
+                            <td>outstandingprincipal_customer</td>
+                            <td>Total balance of all client accounts</td>
+                        </tr>
+                        <tr>
+                            <td>outstandingprincipal_RepayAcct</td>
+                            <td>Repayment account balance</td>
+                        </tr>
+                        <tr>
+                            <td>PAR_0</td>
+                            <td>Portfolio at Risk (PAR_0): loan overdue by at least 1 day (Y,N)</td>
+                        </tr>
+                        <tr>
+                            <td>PrincipalOutstanding</td>
+                            <td>Healthy outstanding balance</td>
+                        </tr>
+                        <tr>
+                            <td>RepayAcct</td>
+                            <td>Repayment account number</td>
+                        </tr>
+                        <tr>
+                            <td>SectorDesc</td>
+                            <td>Client business sector description</td>
+                        </tr>
+                        <tr>
+                            <td>TerminatedEarly</td>
+                            <td>Loan closed before maturity date? (Y, N)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminationDate</td>
+                            <td>Actual loan closure date</td>
+                        </tr>
+                        <tr>
+                            <td>TotalCurNoOfDaysOverdue</td>
+                            <td>Current total number of days overdue</td>
+                        </tr>
+                        <tr>
+                            <td>TotalOverdueDays</td>
+                            <td>Cumulative overdue days across all client loans</td>
+                        </tr>
+                        <tr>
+                            <td>TotalPrincipalDueAmt</td>
+                            <td>Outstanding due amount</td>
+                        </tr>
+                        <tr>
+                            <td>TotalScheduledAmount</td>
+                            <td>Total amount of next installment</td>
+                        </tr>
+                        <tr>
+                            <td>Category</td>
+                            <td>Loan category identifier</td>
+                        </tr>
+                        <tr>
+                            <td>CategoryDesc</td>
+                            <td>Loan category description</td>
+                        </tr>
+                        <tr>
+                            <td>ClientName</td>
+                            <td>Client last name</td>
+                        </tr>
+                        <tr>
+                            <td>ClientFirstName</td>
+                            <td>Client first name</td>
+                        </tr>
+                        <tr>
+                            <td>RepayAcct</td>
+                            <td>Repayment account number</td>
+                        </tr>
+                        <tr>
+                            <td>LoanCycle</td>
+                            <td>Loan rank (e.g., 3 if it's the client's 3rd loan)</td>
+                        </tr>
+                        <tr>
+                            <td>InterestRate</td>
+                            <td>Loan interest rate</td>
+                        </tr>
+                        <tr>
+                            <td>ClientNo</td>
+                            <td>Client identifier</td>
+                        </tr>
+                        <tr>
+                            <td>ClientAge</td>
+                            <td>Client age</td>
+                        </tr>
+                        <tr>
+                            <td>ClientSector</td>
+                            <td>Client business sector identifier</td>
+                        </tr>
+                        <tr>
+                            <td>SectorDesc</td>
+                            <td>Client business sector</td>
+                        </tr>
+                        <tr>
+                            <td>Branch</td>
+                            <td>Branch identifier</td>
+                        </tr>
+                        <tr>
+                            <td>Dao</td>
+                            <td>Portfolio Manager (PM) unique identifier</td>
+                        </tr>
+                        <tr>
+                            <td>DaoName</td>
+                            <td>Portfolio Manager name</td>
+                        </tr>
+                        <tr>
+                            <td>ClientGender</td>
+                            <td>Client gender (Male, Female, Other)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminatedEarly</td>
+                            <td>Loan closed before maturity date? (Y, N)</td>
+                        </tr>
+                        <tr>
+                            <td>TerminationDate</td>
+                            <td>Actual loan closure date</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementDate</td>
+                            <td>Disbursement date</td>
+                        </tr>
+                        <tr>
+                            <td>MaturityDate</td>
+                            <td>Loan maturity date (final due date)</td>
+                        </tr>
+                        <tr>
+                            <td>LoansDuration</td>
+                            <td>Loan duration in months: TerminationDate - DisbursementDate</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementAmount</td>
+                            <td>Disbursed amount</td>
+                        </tr>
+                        <tr>
+                            <td>DisbursementCommission</td>
+                            <td>Disbursement commission</td>
+                        </tr>
+                        <tr>
+                            <td>PrincipalOutstanding</td>
+                            <td>Healthy outstanding balance</td>
+                        </tr>
+                        <tr>
+                            <td>TotalCurNoOfDaysOverdue</td>
+                            <td>Current total number of days overdue</td>
+                        </tr>
+                        <tr>
+                            <td>MaxOverdueDays</td>
+                            <td>Maximum number of overdue days reached by the client across all loans</td>
+                        </tr>
+                        <tr>
+                            <td>TotalOverdueDays</td>
+                            <td>Cumulative overdue days across all client loans</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <footer>
+                <p>Last update: 02/09/2025</p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>

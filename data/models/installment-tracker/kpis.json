@@ -1,0 +1,53 @@
+{
+  "modelId": "installment-tracker",
+  "kpis": [
+    {
+      "id": "recovery-rate",
+      "name": "Taux de recouvrement",
+      "category": "Performance",
+      "description": "Pourcentage des montants remboursés par rapport aux montants dus",
+      "business_description": "Mesure l'efficacité du recouvrement des crédits",
+      "formula": {
+        "dax": "VAR TotalDue = CALCULATE(SUM(Payments[Amount]), Payments[DueDate] <= TODAY())\nVAR TotalPaid = SUM(Payments[PaidAmount])\nRETURN DIVIDE(TotalPaid, TotalDue, 0)",
+        "explanation": [
+          "1. Calcul du montant total dû à ce jour",
+          "2. Calcul du montant total payé",
+          "3. Division pour obtenir le ratio"
+        ]
+      },
+      "metadata": {
+        "unit": "%",
+        "format": "0.00%",
+        "updateFrequency": "Quotidien",
+        "thresholds": {
+          "critical": 0.85,
+          "warning": 0.9,
+          "target": 0.95
+        }
+      },
+      "usedIn": [
+        {
+          "tab": "dashboard",
+          "visual": "main-kpis"
+        },
+        {
+          "tab": "performance",
+          "visual": "recovery-trend"
+        }
+      ],
+      "relatedKPIs": ["total-amount-due", "total-amount-paid"]
+    }
+  ],
+  "categories": [
+    {
+      "id": "performance",
+      "name": "Performance",
+      "description": "Indicateurs de performance des remboursements"
+    },
+    {
+      "id": "risk",
+      "name": "Risque",
+      "description": "Indicateurs de risque"
+    }
+  ]
+}

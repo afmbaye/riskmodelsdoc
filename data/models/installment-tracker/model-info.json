@@ -1,0 +1,52 @@
+{
+  "id": "installment-tracker",
+  "name": "Installment Tracker",
+  "description": "Tableau de bord de suivi des remboursements de crédits permettant d'analyser les performances et d'identifier les risques",
+  "version": "2.0",
+  "lastUpdate": "2023-12-01",
+  "metadata": {
+    "owner": "Équipe Risque",
+    "department": "Direction des Risques",
+    "updateFrequency": "Quotidienne",
+    "dataRetention": "5 ans",
+    "tags": ["crédit", "remboursement", "suivi", "risque"]
+  },
+  "tabs": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "description": "Vue d'ensemble des KPIs principaux et tableaux de bord",
+      "order": 1
+    },
+    {
+      "id": "performance",
+      "name": "Performance",
+      "description": "Analyse détaillée des performances de remboursement",
+      "order": 2
+    },
+    {
+      "id": "analysis",
+      "name": "Analysis",
+      "description": "Outils d'analyse approfondie et segmentation",
+      "order": 3
+    },
+    {
+      "id": "details",
+      "name": "Details",
+      "description": "Détails des crédits et historique complet",
+      "order": 4
+    }
+  ],
+  "access": {
+    "roles": [
+      {
+        "name": "Risk_Analyst",
+        "permissions": ["read", "export"]
+      },
+      {
+        "name": "Risk_Manager",
+        "permissions": ["read", "export", "update"]
+      }
+    ]
+  }
+}

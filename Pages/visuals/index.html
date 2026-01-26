@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visuels - Installment Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../layout/styles.css">
+    <style>
+        .visuals-header {
+            background: white;
+            padding: 2rem;
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .visuals-title {
+            font-size: 2rem;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+        }
+
+        .visuals-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        .visual-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5rem;
+            overflow-x: auto;
+            flex-wrap: wrap;
+        }
+
+        .visual-tab {
+            padding: 0.75rem 1.25rem;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-normal);
+            white-space: nowrap;
+            border: 1px solid transparent;
+        }
+
+        .visual-tab:hover {
+            color: var(--primary-color);
+            background: var(--primary-light);
+            border-color: var(--primary-light);
+        }
+
+        .visual-tab.active {
+            color: white;
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .visual-section {
+            display: none;
+            margin-bottom: 3rem;
+        }
+
+        .visual-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .visual-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .visual-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+
+        .visual-preview {
+            width: 100%;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+        }
+
+        .visual-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .visual-info-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .visual-info-section {
+            background: var(--bg-gray-50);
+            padding: 1.5rem;
+            border-radius: var(--radius-md);
+        }
+
+        .visual-info-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .visual-info-section h4 i {
+            color: var(--primary-color);
+            width: 16px;
+            height: 16px;
+        }
+
+        .visual-info-section ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--text-muted);
+        }
+
+        .visual-info-section li {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            line-height: 1.5;
+        }
+
+        .visual-info-section li i {
+            margin-top: 0.25rem;
+            width: 14px;
+            height: 14px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .visual-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout-wrapper">
+        <header class="header">
+            <div class="header-brand">
+                <img src="../../Assets/Baobab_Small-use_Logo_RGB_Rubine_v2.png" alt="Baobab">
+            </div>
+            <nav class="header-nav">
+                <a href="#">Accueil</a>
+                <a href="#">Flux de données</a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-button" id="docButton" aria-expanded="false" aria-controls="docDropdown">
+                        Documentation
+                        <i data-feather="chevron-down"></i>
+                    </button>
+                    <div class="nav-dropdown-content" id="docDropdown" role="menu" aria-labelledby="docButton">
+                        <div class="dropdown-section">
+                            <span class="dropdown-title">Modèles</span>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Installment Tracker</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Vintage LD & Wo</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>Vintage recovery</span>
+                            </a>
+                            <a href="#" class="dropdown-item">
+                                <i data-feather="chevron-right"></i>
+                                <span>TOP 20</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="#">Glossaire</a>
+                <div class="language-selector">
+                    <button class="lang-button" id="langButton" aria-expanded="false" aria-controls="langDropdown" aria-label="Sélectionner la langue">
+                        <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag-icon">
+                        <span>Français</span>
+                        <i data-feather="chevron-down"></i>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown" role="menu" aria-labelledby="langButton">
+                        <a href="#" class="lang-option active" role="menuitem">
+                            <img src="https://flagcdn.com/w20/fr.png" alt="FR" class="flag-icon">
+                            <span>Français</span>
+                        </a>
+                        <a href="#" class="lang-option" role="menuitem">
+                            <img src="https://flagcdn.com/w20/gb.png" alt="EN" class="flag-icon">
+                            <span>English</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Sidebar -->
+        
+        <aside class="sidebar">
+            <div class="sidebar-title">
+                <h2>Installment Tracker</h2>
+            </div>
+            <nav class="section">
+                <a href="index.html" class="nav-item">
+                    <i data-feather="home"></i>
+                    <span class="label">Overview</span>
+                </a>
+            </nav>
+            
+            <nav class="section">
+                <a href="../data-model/index.html" class="nav-item ">
+                    <i data-feather="database"></i>
+                    <span class="label">Le modèle de données</span>
+                </a>
+            </nav>
+            <nav class="section">
+                <a href="../kpi-dictionary/index.html" class="nav-item">
+                    <i data-feather="book-open"></i>
+                    <span class="label">Dictionnaire des KPIs</span>
+                </a>
+            </nav>
+
+            <div class="section">
+                <div class="group">
+                    <div role="button" aria-expanded="true" class="group-header active">
+                        <i data-feather="bar-chart-2"></i>
+                        <span class="label">Visuels</span>
+                        <i data-feather="chevron-down" class="chev"></i>
+                    </div>
+                    <div class="submenu">
+                        <a href="../visuals/index.html#dashboard">GLP</a>
+                        <a href="../visuals/index.html#performance">Installment</a>
+                        <a href="../visuals/index.html#analysis">Region</a>
+                        <a href="../visuals/index.html#details">BranchDesc</a>
+                        <a href="../visuals/index.html#details">CategoryDesc</a>
+                        <a href="../visuals/index.html#details">Installment overdue ratio</a>
+                        <a href="../visuals/index.html#details">Customer details</a>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="section">
+                <a href="../update/index.html" class="nav-item ">
+                    <i data-feather="refresh-cw"></i>
+                    <span class="label">Mise à jour</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="visuals-header">
+                <h1 class="visuals-title">Visuels</h1>
+                <p class="visuals-description">
+                    Découvrez les principaux visuels de chaque onglet avec leurs descriptions détaillées, les KPIs utilisés et leur interprétation.
+                </p>
+            </div>
+
+            <div class="visual-tabs">
+                <button class="visual-tab active" data-tab="glp">GLP</button>
+                <button class="visual-tab" data-tab="installments">Installments</button>
+                <button class="visual-tab" data-tab="benchmark">Benchmark</button>
+                <button class="visual-tab" data-tab="branchdesc">BranchDesc</button>
+                <button class="visual-tab" data-tab="region">Region</button>
+                <button class="visual-tab" data-tab="categorydesc">CategoryDesc</button>
+                <button class="visual-tab" data-tab="subsidiaries">Installments by subsidiaries</button>
+                <button class="visual-tab" data-tab="customer">Customer details</button>
+            </div>
+
+            <!-- GLP Section -->
+            <section id="glp" class="visual-section active">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-GLP.png" alt="Graphique GLP" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">GLP (Gross Loan Portfolio)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Ce graphique permet de suivre jour par jour l'évolution des remboursements, détecter les écarts par rapport à ce qui est prévu et mesurer le poids des paiements anticipés.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="bar-chart-2"></i>Éléments visuels</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>GLP attendu (€)</strong> (barres roses foncées) : encours prévu chaque jour du mois</li>
+                                    <li><i data-feather="check"></i><strong>Paiement réel GLP (€)</strong> (barres plus claires) : encours effectivement remboursé</li>
+                                    <li><i data-feather="check"></i><strong>GLP anticipé (€) et % d'anticipation</strong> (courbe jaune) : remboursements réglés avant leur échéance</li>
+                                    <li><i data-feather="check"></i><strong>Taux de paiement réel (%)</strong> (courbe violette) : proportion effectivement remboursée par rapport à l'attendu</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Comment lire ce visuel</h4>
+                                <ul>
+                                    <li><i data-feather="arrow-right"></i>Comparez les barres roses foncées et claires pour identifier les écarts de remboursement</li>
+                                    <li><i data-feather="arrow-right"></i>La courbe jaune indique le comportement proactif des clients (paiements anticipés)</li>
+                                    <li><i data-feather="arrow-right"></i>La courbe violette doit se rapprocher de 100% pour une performance optimale</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installments Section -->
+            <section id="installments" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-inst.png" alt="Graphique Installments" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">Installments (Échéances)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Ce graphique détaille les échéances attendues et leur état jour par jour, en mettant en évidence les impayés et la liquidité disponible.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="bar-chart-2"></i>Éléments visuels</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Expected installments (€)</strong> (barres roses) : échéances prévues</li>
+                                    <li><i data-feather="check"></i><strong>Installment repayment (€)</strong> (barres violettes claires) : montants effectivement réglés</li>
+                                    <li><i data-feather="check"></i><strong>Unpaid installments – available (€)</strong> et <strong>Available cash (€)</strong> : impayés et liquidité disponible chez les clients</li>
+                                    <li><i data-feather="check"></i><strong>Real payment ratio (%)</strong> (courbe violette) : part effectivement remboursée</li>
+                                    <li><i data-feather="check"></i><strong>% Available cash on unpaid</strong> (courbe jaune) : proportion de cash disponible couvrant les échéances en retard</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Comment lire ce visuel</h4>
+                                <ul>
+                                    <li><i data-feather="arrow-right"></i>Les barres roses montrent les échéances prévues quotidiennement</li>
+                                    <li><i data-feather="arrow-right"></i>L'écart entre attendu et remboursé révèle les retards de paiement</li>
+                                    <li><i data-feather="arrow-right"></i>La courbe jaune élevée indique que les clients ont les moyens mais ne paient pas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Benchmark Section -->
+            <section id="benchmark" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/vizz-benchmark.png" alt="Graphique Benchmark" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">Benchmark (Comparaison filiales)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Ce graphique en barres compare les performances des filiales du groupe sur trois indicateurs clés de recouvrement.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="bar-chart-2"></i>Éléments visuels</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Payment to date (%)</strong> (barres roses) : part des échéances déjà remboursées dans le mois</li>
+                                    <li><i data-feather="check"></i><strong>Entry rate (%)</strong> (barres jaunes) : taux d'entrée en impayés parmi les clients qui étaient sains le mois précédent</li>
+                                    <li><i data-feather="check"></i><strong>Entry rate after recovery (%)</strong> (barres rouges) : taux d'impayés restant après prise en compte des recouvrements</li>
+                                    <li><i data-feather="check"></i><strong>Ligne de référence</strong> (pointillée) : cible groupe à 98% de Payment to date en fin de mois</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Comment lire ce visuel</h4>
+                                <ul>
+                                    <li><i data-feather="arrow-right"></i>Comparez les filiales entre elles pour identifier les meilleures pratiques</li>
+                                    <li><i data-feather="arrow-right"></i>Les barres roses doivent dépasser la ligne pointillée (objectif 98%)</li>
+                                    <li><i data-feather="arrow-right"></i>Des barres jaunes/rouges élevées signalent des problèmes de recouvrement</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- BranchDesc Section -->
+            <section id="branchdesc" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-branch.png" alt="Matrice BranchDesc" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">BranchDesc (Suivi par agence)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Cette matrice représente le suivi des échéances par agence. Elle permet d'identifier rapidement les agences qui concentrent les retards.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="grid"></i>Structure de la matrice</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Lignes</strong> : chaque agence du réseau</li>
+                                    <li><i data-feather="check"></i><strong>Colonnes</strong> : chaque jour du mois courant</li>
+                                    <li><i data-feather="check"></i><strong>Échéance attendue (LC)</strong> : montant prévu en devise locale</li>
+                                    <li><i data-feather="check"></i><strong>Échéance impayée (LC)</strong> : montant non réglé à la date prévue</li>
+                                    <li><i data-feather="check"></i><strong>Installment overdue ratio (%)</strong> : taux d'échéances impayées (impayé ÷ attendu)</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Code couleurs</h4>
+                                <ul>
+                                    <li><i data-feather="circle"></i><span style="color: #10b981;">Vert</span> = faible taux d'impayés (situation OK)</li>
+                                    <li><i data-feather="circle"></i><span style="color: #f59e0b;">Orange</span> = taux intermédiaire</li>
+                                    <li><i data-feather="circle"></i><span style="color: #ef4444;">Rouge</span> = forte proportion d'impayés (situation critique)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Region Section -->
+            <section id="region" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-region.png" alt="Matrice Region" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">Region (Suivi par zone régionale)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Cette matrice représente le suivi des échéances par zone régionale. Elle offre une vue plus agrégée que BranchDesc pour identifier les tendances géographiques.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="grid"></i>Structure de la matrice</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Lignes</strong> : chaque région géographique</li>
+                                    <li><i data-feather="check"></i><strong>Colonnes</strong> : chaque jour du mois courant</li>
+                                    <li><i data-feather="check"></i><strong>Échéance attendue (LC)</strong> : montant prévu en devise locale</li>
+                                    <li><i data-feather="check"></i><strong>Échéance impayée (LC)</strong> : montant non réglé à la date prévue</li>
+                                    <li><i data-feather="check"></i><strong>Installment overdue ratio (%)</strong> : taux d'échéances impayées (impayé ÷ attendu)</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Code couleurs</h4>
+                                <ul>
+                                    <li><i data-feather="circle"></i><span style="color: #10b981;">Vert</span> = faible taux d'impayés (situation OK)</li>
+                                    <li><i data-feather="circle"></i><span style="color: #f59e0b;">Orange</span> = taux intermédiaire</li>
+                                    <li><i data-feather="circle"></i><span style="color: #ef4444;">Rouge</span> = forte proportion d'impayés (situation critique)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CategoryDesc Section -->
+            <section id="categorydesc" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-categorydesc.png" alt="Matrice CategoryDesc" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">CategoryDesc (Suivi par produit de crédit)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Cette matrice représente le suivi des échéances par type de produit de crédit. Elle permet d'analyser la performance de remboursement selon les catégories de prêts.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="grid"></i>Structure de la matrice</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Lignes</strong> : chaque catégorie de produit de crédit</li>
+                                    <li><i data-feather="check"></i><strong>Colonnes</strong> : chaque jour du mois courant</li>
+                                    <li><i data-feather="check"></i><strong>Échéance attendue (LC)</strong> : montant prévu en devise locale</li>
+                                    <li><i data-feather="check"></i><strong>Échéance impayée (LC)</strong> : montant non réglé à la date prévue</li>
+                                    <li><i data-feather="check"></i><strong>Installment overdue ratio (%)</strong> : taux d'échéances impayées (impayé ÷ attendu)</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Code couleurs</h4>
+                                <ul>
+                                    <li><i data-feather="circle"></i><span style="color: #10b981;">Vert</span> = faible taux d'impayés (situation OK)</li>
+                                    <li><i data-feather="circle"></i><span style="color: #f59e0b;">Orange</span> = taux intermédiaire</li>
+                                    <li><i data-feather="circle"></i><span style="color: #ef4444;">Rouge</span> = forte proportion d'impayés (situation critique)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Installments by Subsidiaries Section -->
+            <section id="subsidiaries" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-subsidiaries.png" alt="Graphique Installments by subsidiaries" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">Installments by subsidiaries (Échéances par filiale)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Ces trois graphiques représentent les performances de remboursement des différentes filiales, permettant une analyse comparative rapide.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="grid"></i>Structure des graphiques</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Colonnes</strong> : chaque jour du mois courant</li>
+                                    <li><i data-feather="check"></i><strong>Échéance attendue</strong> : montant prévu en devise locale</li>
+                                    <li><i data-feather="check"></i><strong>Échéance impayée</strong> : montant non réglé à la date prévue</li>
+                                    <li><i data-feather="check"></i><strong>Installment overdue ratio (%)</strong> : taux d'échéances impayées (impayé ÷ attendu)</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Code couleurs et interprétation</h4>
+                                <ul>
+                                    <li><i data-feather="circle"></i><span style="color: #10b981;">Vert</span> = faible taux d'impayés (situation OK)</li>
+                                    <li><i data-feather="circle"></i><span style="color: #f59e0b;">Orange</span> = taux intermédiaire</li>
+                                    <li><i data-feather="circle"></i><span style="color: #ef4444;">Rouge</span> = forte proportion d'impayés (situation critique)</li>
+                                    <li><i data-feather="arrow-right"></i>Identifiez rapidement les filiales nécessitant des actions correctives</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Customer Details Section -->
+            <section id="customer" class="visual-section">
+                <div class="visual-card">
+                    <div class="visual-content">
+                        <img src="../../Assets/Images/installment-tracker/viz-categoryDesc.png" alt="Tableau Customer details" class="visual-preview">
+                        <div class="visual-info">
+                            <h3 class="visual-info-title">Customer details (Détails clients)</h3>
+                            
+                            <div class="visual-info-section">
+                                <h4><i data-feather="target"></i>Objectif</h4>
+                                <p>Ce tableau liste le détail des contrats avec des échéances en retard. Il permet d'identifier spécifiquement les clients en retard et de cibler les actions de suivi.</p>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="list"></i>Informations affichées</h4>
+                                <ul>
+                                    <li><i data-feather="check"></i><strong>Identifiants contrat</strong> : référence unique du prêt</li>
+                                    <li><i data-feather="check"></i><strong>Informations client</strong> : nom, agence, gestionnaire DAO</li>
+                                    <li><i data-feather="check"></i><strong>Dates clés</strong> : date d'échéance, date de dernier paiement</li>
+                                    <li><i data-feather="check"></i><strong>Montants</strong> : échéance attendue, montant impayé, solde disponible</li>
+                                    <li><i data-feather="check"></i><strong>Indicateurs</strong> : nombre de jours de retard, ratio de liquidation</li>
+                                </ul>
+                            </div>
+
+                            <div class="visual-info-section">
+                                <h4><i data-feather="book-open"></i>Utilisation</h4>
+                                <ul>
+                                    <li><i data-feather="arrow-right"></i>Filtrez par agence ou gestionnaire pour cibler les actions</li>
+                                    <li><i data-feather="arrow-right"></i>Triez par montant impayé pour prioriser les dossiers importants</li>
+                                    <li><i data-feather="arrow-right"></i>Identifiez les clients avec cash disponible pour relances prioritaires</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+
+            // Gestion des onglets
+            const tabs = document.querySelectorAll('.visual-tab');
+            const sections = document.querySelectorAll('.visual-section');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Retirer la classe active de tous les onglets
+                    tabs.forEach(t => t.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+
+                    // Ajouter la classe active à l'onglet cliqué
+                    tab.classList.add('active');
+                    
+                    // Afficher la section correspondante
+                    const targetSection = document.getElementById(tab.dataset.tab);
+                    targetSection.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

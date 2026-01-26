@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sidebar – Online store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --text:#111827;          /* gris très foncé */
+      --muted:#6b7280;         /* gris */
+      --border:#e5e7eb;
+      --hover:#f3f4f6;         /* hover item */
+      --active:#eef2ff;        /* fond item actif */
+      --accent:#111827;        /* point actif */
+      --radius:10px;
+      --sidebar-w:260px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; background:#f8fafc; color:var(--text);
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      display:flex; min-height:100vh;
+    }
+    .sidebar{
+      width:var(--sidebar-w); background:var(--bg); border-right:1px solid var(--border);
+      padding:16px 12px; position:sticky; top:0; height:100vh; overflow:auto;
+    }
+    .app-title{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:8px 10px; margin-bottom:8px; font-weight:600;
+    }
+    .section{
+      margin-top:8px; margin-bottom:14px;
+    }
+    .nav-item{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px; border-radius:var(--radius); color:var(--text);
+      text-decoration:none; user-select:none; cursor:pointer;
+      font-size: 10px;
+      position: relative;
+    }
+    .nav-item:hover{ background:var(--hover); }
+    .nav-item .label{ flex:1; font-weight:500; }
+    .nav-item .suffix{ 
+      color:var(--muted);
+      position: absolute;
+      right: 10px;
+    }
+
+    /* item actif (Customers) */
+    .active{ background:var(--active); position:relative; }
+    .active::before{
+      content:""; width:8px; height:8px; border-radius:50%;
+      background:var(--accent); position:absolute; left:8px;
+    }
+    .active .label{ margin-left:6px; }
+
+    /* groupe “Store” */
+    .group{
+      background:var(--hover); border-radius:var(--radius);
+      padding:2px; margin-top:6px;
+    }
+    .group-header{
+      display:flex; align-items:center; gap:10px; padding:8px;
+      border-radius:var(--radius); cursor:pointer; user-select:none;
+    }
+    .group-header:hover{ background:#e9ebf0; }
+    .group-header .chev{ margin-left:auto; color:var(--muted); transition:transform .15s;}
+    .submenu{
+      padding-left:34px; border-left:1px solid var(--border);
+      margin-left:14px; margin-bottom:4px;
+    }
+    .submenu a{
+      display:block; padding:8px 8px; border-radius:8px; color:var(--text); text-decoration:none;
+      font-size: 10px;
+    }
+    .submenu a:hover{ background:var(--bg); }
+    .submenu .active{ background:var(--active); }
+
+    /* petites légendes */
+    .muted{ color:var(--muted); font-size:10px; }
+
+    /* layout de démo à droite (facultatif) */
+    .content{
+      flex:1; padding:32px; color:#334155;
+    }
+
+    /* Icônes feather uniformes */
+    .fi{ width:14px; height:14px; color:#111827; }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" aria-label="Navigation latérale">
+    <div class="app-title">
+      <span>Online store</span>
+      <a class="muted" href="#" aria-label="Ouvrir dans un nouvel onglet">
+        <i data-feather="external-link" class="fi"></i>
+      </a>
+    </div>
+
+    <nav class="section" aria-label="Overview">
+      <a class="nav-item" href="#">
+        <i data-feather="bar-chart-2" class="fi" aria-hidden="true"></i>
+        <span class="label">Overview</span>
+      </a>
+    </nav>
+
+    <div class="section" aria-label="Store">
+      <div class="group" id="storeGroup">
+        <div class="group-header" role="button" aria-expanded="true" aria-controls="submenu-store" id="btn-store">
+          <i data-feather="box" class="fi" aria-hidden="true"></i>
+          <span class="label">Store</span>
+          <i data-feather="minus" class="fi chev" aria-hidden="true"></i>
+        </div>
+        <div class="submenu" id="submenu-store">
+          <a href="#">Products</a>
+          <a href="#">Orders</a>
+          <a href="#">Subscriptions</a>
+          <a href="#" class="active">Customers</a>
+          <a href="#">Discounts</a>
+          <a href="#">Licenses</a>
+        </div>
+      </div>
+    </div>
+
+    <nav class="section" aria-label="Emails">
+      <div class="nav-item">
+        <i data-feather="send" class="fi" aria-hidden="true"></i>
+        <span class="label">Emails</span>
+        <span class="suffix"><i data-feather="plus" class="fi"></i></span>
+      </div>
+    </nav>
+
+    <nav class="section" aria-label="Reports">
+      <div class="nav-item">
+        <i data-feather="clipboard" class="fi" aria-hidden="true"></i>
+        <span class="label">Reports</span>
+        <span class="suffix"><i data-feather="plus" class="fi"></i></span>
+      </div>
+    </nav>
+
+    <nav class="section" aria-label="Design">
+      <div class="nav-item">
+        <i data-feather="user" class="fi" aria-hidden="true"></i>
+        <span class="label">Design</span>
+        <span class="suffix"><i data-feather="plus" class="fi"></i></span>
+      </div>
+    </nav>
+
+    <nav class="section" aria-label="Settings">
+      <div class="nav-item">
+        <i data-feather="settings" class="fi" aria-hidden="true"></i>
+        <span class="label">Settings</span>
+        <span class="suffix"><i data-feather="plus" class="fi"></i></span>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <h1>Exemple de contenu</h1>
+    <p>Cette zone est juste là pour visualiser la sidebar comme dans ta capture.</p>
+  </main>
+
+  <!-- Feather Icons (méthode demandée) -->
+  <script src="https://unpkg.com/feather-icons"></script>
+  <script>
+    feather.replace();
+
+    // Toggle du groupe "Store"
+    const btn = document.getElementById('btn-store');
+    const menu = document.getElementById('submenu-store');
+    const group = document.getElementById('storeGroup');
+
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      btn.setAttribute('aria-expanded', String(!expanded));
+      menu.style.display = expanded ? 'none' : 'block';
+
+      // change l’icône minus/plus
+      const chev = btn.querySelector('.chev');
+      chev.outerHTML = expanded
+        ? '<i data-feather="plus" class="fi chev" aria-hidden="true"></i>'
+        : '<i data-feather="minus" class="fi chev" aria-hidden="true"></i>';
+      feather.replace();
+    });
+  </script>
+</body>
+</html>
