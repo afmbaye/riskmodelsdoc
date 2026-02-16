@@ -1,108 +1,134 @@
 {
   "modelId": "installment-tracker",
-  "updateProcess": {
-    "frequency": "Quotidienne",
-    "time": "08:00",
-    "steps": [
-      {
-        "order": 1,
-        "title": "Préparation des données",
-        "description": "Préparation des fichiers sources pour la mise à jour",
-        "type": "manual",
-        "tasks": [
-          {
-            "description": "Vérifier la présence des fichiers requis",
-            "details": "S'assurer que tous les fichiers nécessaires sont disponibles dans le dossier source"
-          },
-          {
-            "description": "Valider le format des fichiers",
-            "details": "Vérifier que les fichiers sont au format .xlsx et utilisent l'encodage UTF-8"
-          }
-        ],
-        "validation": {
-          "type": "checklist",
-          "items": [
-            "Fichiers présents",
-            "Format Excel valide",
-            "Encodage correct"
-          ]
-        }
+  "description": {
+    "fr": "Guide étape par étape pour mettre à jour le modèle avec les nouvelles données.",
+    "en": "Step-by-step guide to update the model with new data."
+  },
+  "frequency": { "fr": "Quotidienne", "en": "Daily" },
+  "estimatedTime": "30-60 min",
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparer les sources", "en": "Prepare sources" },
+      "description": {
+        "fr": "Assurez-vous que toutes les sources de données sont disponibles et à jour.",
+        "en": "Ensure all data sources are available and up to date."
       },
-      {
-        "order": 2,
-        "title": "Vérification du format",
-        "description": "Validation de la structure des données",
-        "type": "automatic",
-        "tasks": [
-          {
-            "description": "Vérifier les colonnes requises",
-            "details": "S'assurer que toutes les colonnes obligatoires sont présentes"
-          }
-        ],
-        "validation": {
-          "type": "system",
-          "checks": [
-            "Présence des colonnes",
-            "Types de données",
-            "Valeurs obligatoires"
-          ]
-        }
-      },
-      {
-        "order": 3,
-        "title": "Mise à jour",
-        "description": "Processus de mise à jour des données",
-        "type": "automatic",
-        "tasks": [
-          {
-            "description": "Actualiser Power BI",
-            "details": "Lancer l'actualisation complète du modèle"
-          }
-        ],
-        "validation": {
-          "type": "system",
-          "checks": [
-            "Actualisation réussie",
-            "Pas d'erreurs de chargement"
-          ]
-        }
-      },
-      {
-        "order": 4,
-        "title": "Validation",
-        "description": "Vérification finale des données mises à jour",
-        "type": "manual",
-        "tasks": [
-          {
-            "description": "Vérifier les KPIs principaux",
-            "details": "S'assurer que les indicateurs clés sont cohérents"
-          }
-        ],
-        "validation": {
-          "type": "checklist",
-          "items": [
-            "KPIs cohérents",
-            "Visuels fonctionnels",
-            "Filtres opérationnels"
-          ]
-        }
-      }
-    ],
-    "errorHandling": {
-      "retryAttempts": 3,
-      "notificationEmails": ["risk.team@example.com"],
-      "errorTypes": [
+      "tasks": [
         {
-          "code": "MISSING_FILE",
-          "description": "Fichier source manquant",
-          "action": "Vérifier le dossier source et la présence des fichiers requis"
+          "description": {
+            "fr": "Dans un dossier nommé \"data\", vérifiez la présence des 3 sources :",
+            "en": "In a folder named \"data\", verify the presence of 3 sources:"
+          },
+          "items": [
+            { "fr": "Dossier des reportings CSV (14 fichiers : 7 pays x 2 dates)", "en": "CSV reports folder (14 files: 7 countries x 2 dates)" },
+            { "fr": "Fichier Mapping.xlsx", "en": "Mapping.xlsx file" },
+            { "fr": "Dossier Photos pays", "en": "Country photos folder" }
+          ]
+        }
+      ],
+      "screenshot": "Assets/Images/installment-tracker/update-dataStructure.png",
+      "warnings": [
+        { "fr": "Ne jamais modifier les noms de fichiers", "en": "Never modify file names" },
+        { "fr": "Ne jamais modifier les noms de feuilles Excel", "en": "Never modify Excel sheet names" },
+        { "fr": "Ne jamais modifier l'ordre des colonnes", "en": "Never modify column order" }
+      ],
+      "firstTimeOnly": false
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configurer les paramètres", "en": "Configure parameters" },
+      "description": {
+        "fr": "Configuration initiale des chemins de sources de données (première utilisation uniquement).",
+        "en": "Initial data source path configuration (first use only)."
+      },
+      "firstTimeOnly": true,
+      "tasks": [
+        {
+          "description": { "fr": "Ouvrir le fichier Power BI", "en": "Open Power BI file" },
+          "details": { "fr": "Localisez et ouvrez Installment Tracker Group.pbix", "en": "Locate and open Installment Tracker Group.pbix" }
         },
         {
-          "code": "INVALID_FORMAT",
-          "description": "Format de fichier invalide",
-          "action": "Vérifier le format et l'encodage des fichiers"
+          "description": { "fr": "Accéder aux paramètres de source de données", "en": "Access data source settings" },
+          "details": { "fr": "Accueil > Transformer les données > Paramètres de la source de données", "en": "Home > Transform data > Data source settings" }
+        },
+        {
+          "description": { "fr": "Mettre à jour les 3 sources", "en": "Update the 3 sources" },
+          "details": { "fr": "Pour chaque source : Cliquer > Changer la source > Parcourir > OK", "en": "For each source: Click > Change source > Browse > OK" }
         }
+      ],
+      "screenshot": "Assets/Images/installment-tracker/update-dataSourcesParameters.png",
+      "warnings": [
+        { "fr": "Respecter le type : folder -> folder, file -> file", "en": "Respect type: folder -> folder, file -> file" }
       ]
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualiser le modèle", "en": "Refresh model" },
+      "description": {
+        "fr": "Lancer l'actualisation des données dans Power BI.",
+        "en": "Launch data refresh in Power BI."
+      },
+      "firstTimeOnly": false,
+      "tasks": [
+        {
+          "description": { "fr": "Cliquer sur Actualiser", "en": "Click Refresh" },
+          "details": { "fr": "Accueil > Actualiser", "en": "Home > Refresh" }
+        },
+        {
+          "description": { "fr": "Patienter", "en": "Wait" },
+          "details": { "fr": "Durée estimée : 30-60 minutes selon la machine", "en": "Estimated duration: 30-60 minutes depending on machine" }
+        }
+      ],
+      "screenshot": "Assets/Images/installment-tracker/update-actualiser.png",
+      "warnings": [
+        { "fr": "Ne pas fermer Power BI pendant l'actualisation", "en": "Do not close Power BI during refresh" },
+        { "fr": "Ne pas mettre l'ordinateur en veille", "en": "Do not put computer to sleep" }
+      ]
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Vérifications finales", "en": "Final checks" },
+      "description": {
+        "fr": "Valider que les données sont correctement chargées avant publication.",
+        "en": "Validate data is correctly loaded before publishing."
+      },
+      "firstTimeOnly": false,
+      "tasks": [
+        {
+          "description": { "fr": "Vérifier l'affichage des visuels", "en": "Check visual display" },
+          "details": { "fr": "Parcourir tous les onglets, vérifier qu'aucun visuel n'affiche d'erreur", "en": "Browse all tabs, verify no visual shows errors" }
+        },
+        {
+          "description": { "fr": "Sélectionner la période courante", "en": "Select current period" },
+          "details": { "fr": "Appliquer le filtre Year-MonthDay sur le mois courant", "en": "Apply Year-MonthDay filter on current month" }
+        },
+        {
+          "description": { "fr": "Enregistrer et publier", "en": "Save and publish" },
+          "details": { "fr": "Ctrl+S puis Accueil > Publier", "en": "Ctrl+S then Home > Publish" }
+        }
+      ],
+      "checklist": [
+        { "fr": "Les données correspondent à la période attendue", "en": "Data matches expected period" },
+        { "fr": "Les montants sont cohérents", "en": "Amounts are consistent" },
+        { "fr": "Les KPI cards affichent les bonnes valeurs", "en": "KPI cards show correct values" },
+        { "fr": "Les filtres fonctionnent", "en": "Filters work" },
+        { "fr": "Tous les visuels s'affichent sans erreur", "en": "All visuals display without errors" },
+        { "fr": "Les drapeaux des pays s'affichent", "en": "Country flags display" },
+        { "fr": "Le benchmark compare correctement les filiales", "en": "Benchmark correctly compares subsidiaries" },
+        { "fr": "Publication réussie sur Power BI Service", "en": "Successful publication to Power BI Service" }
+      ]
+    }
+  ],
+  "modelSpecificMappings": {
+    "fxRates": {
+      "description": {
+        "fr": "Mise à jour des taux de change dans le fichier Mapping.xlsx",
+        "en": "Update FX rates in Mapping.xlsx file"
+      },
+      "file": "Mapping.xlsx",
+      "sheet": "FX Rates",
+      "frequency": { "fr": "Mensuelle", "en": "Monthly" }
     }
   }
 }

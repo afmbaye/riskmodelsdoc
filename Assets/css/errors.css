@@ -1,0 +1,259 @@
+/**
+ * Error States & Notifications
+ */
+
+/* ============================================
+   ERROR PAGE
+   ============================================ */
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: var(--spacing-8);
+}
+
+.error-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--error-light);
+  border-radius: 50%;
+  margin-bottom: var(--spacing-6);
+}
+
+.error-icon i {
+  width: 40px;
+  height: 40px;
+  color: var(--error-color);
+}
+
+.error-page h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin-bottom: var(--spacing-3);
+}
+
+.error-page p {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  max-width: 400px;
+  margin-bottom: var(--spacing-6);
+}
+
+/* ============================================
+   NOTIFICATIONS
+   ============================================ */
+.notification {
+  position: fixed;
+  bottom: var(--spacing-6);
+  right: var(--spacing-6);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: var(--bg-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border-left: 4px solid var(--text-muted);
+  max-width: 400px;
+  z-index: var(--z-tooltip);
+  animation: slideInRight var(--transition-normal) ease-out;
+}
+
+.notification-success {
+  border-left-color: var(--success-color);
+}
+
+.notification-warning {
+  border-left-color: var(--warning-color);
+}
+
+.notification-error {
+  border-left-color: var(--error-color);
+}
+
+.notification-info {
+  border-left-color: var(--info-color);
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+
+.notification-success .notification-icon { color: var(--success-color); }
+.notification-warning .notification-icon { color: var(--warning-color); }
+.notification-error .notification-icon { color: var(--error-color); }
+.notification-info .notification-icon { color: var(--info-color); }
+
+.notification-content {
+  flex: 1;
+}
+
+.notification-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin-bottom: var(--spacing-1);
+}
+
+.notification-message {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.notification-close {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.notification-close:hover {
+  background: var(--bg-gray-100);
+  color: var(--text-color);
+}
+
+.notification-close i {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================
+   INLINE ALERTS
+   ============================================ */
+.alert {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-4);
+}
+
+.alert-success {
+  background: var(--success-light);
+  border: 1px solid var(--success-color);
+}
+
+.alert-warning {
+  background: var(--warning-light);
+  border: 1px solid var(--warning-color);
+}
+
+.alert-error {
+  background: var(--error-light);
+  border: 1px solid var(--error-color);
+}
+
+.alert-info {
+  background: var(--info-light);
+  border: 1px solid var(--info-color);
+}
+
+.alert-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+}
+
+.alert-success .alert-icon { color: var(--success-dark); }
+.alert-warning .alert-icon { color: var(--warning-dark); }
+.alert-error .alert-icon { color: var(--error-dark); }
+.alert-info .alert-icon { color: var(--info-dark); }
+
+.alert-content {
+  flex: 1;
+}
+
+.alert-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--spacing-1);
+}
+
+.alert-success .alert-title { color: var(--success-dark); }
+.alert-warning .alert-title { color: var(--warning-dark); }
+.alert-error .alert-title { color: var(--error-dark); }
+.alert-info .alert-title { color: var(--info-dark); }
+
+.alert-message {
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.alert-success .alert-message { color: var(--success-dark); }
+.alert-warning .alert-message { color: var(--warning-dark); }
+.alert-error .alert-message { color: var(--error-dark); }
+.alert-info .alert-message { color: var(--info-dark); }
+
+/* ============================================
+   FORM VALIDATION
+   ============================================ */
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: var(--error-color);
+}
+
+.form-group.has-error input:focus,
+.form-group.has-error select:focus,
+.form-group.has-error textarea:focus {
+  box-shadow: 0 0 0 3px var(--error-light);
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  margin-top: var(--spacing-2);
+  font-size: var(--font-size-xs);
+  color: var(--error-color);
+}
+
+.form-error i {
+  width: 14px;
+  height: 14px;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .notification {
+    left: var(--spacing-4);
+    right: var(--spacing-4);
+    bottom: var(--spacing-4);
+    max-width: none;
+  }
+
+  .error-page {
+    padding: var(--spacing-4);
+  }
+
+  .error-icon {
+    width: 64px;
+    height: 64px;
+  }
+
+  .error-icon i {
+    width: 32px;
+    height: 32px;
+  }
+}

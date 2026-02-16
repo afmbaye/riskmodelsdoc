@@ -1,0 +1,221 @@
+/**
+ * Hero Section Styles - Home page hero
+ */
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero-section {
+  position: relative;
+  background: linear-gradient(135deg, var(--secondary-color) 0%, #2B6CB0 100%);
+  width: 100%;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12) var(--spacing-6);
+  overflow: hidden;
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: var(--spacing-8);
+}
+
+/* Animated Background Pattern */
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 30px 30px;
+  animation: floatBackground 60s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatBackground {
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
+}
+
+/* Hero Content */
+.hero-content {
+  position: relative;
+  max-width: 800px;
+  text-align: center;
+  color: var(--text-inverse);
+  animation: heroFadeIn 0.8s ease-out;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-title {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-5);
+  letter-spacing: -0.02em;
+  line-height: var(--line-height-tight);
+  color: var(--text-inverse);
+}
+
+.hero-description {
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-6);
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-attribution {
+  font-size: var(--font-size-sm);
+  opacity: 0.8;
+  font-weight: var(--font-weight-medium);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* Highlight Effect */
+.hero-title .highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-title .highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.4);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s ease;
+}
+
+.hero-section:hover .hero-title .highlight::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ============================================
+   QUICK STATS BAR
+   ============================================ */
+.quick-stats {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-8);
+  margin-top: var(--spacing-8);
+  padding-top: var(--spacing-6);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.quick-stat {
+  text-align: center;
+}
+
+.quick-stat-value {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-inverse);
+  line-height: 1;
+  margin-bottom: var(--spacing-1);
+}
+
+.quick-stat-label {
+  font-size: var(--font-size-sm);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ============================================
+   HERO COMPACT (For sub-pages)
+   ============================================ */
+.hero-compact {
+  min-height: 200px;
+  padding: var(--spacing-8) var(--spacing-6);
+}
+
+.hero-compact .hero-title {
+  font-size: var(--font-size-2xl);
+  margin-bottom: var(--spacing-3);
+}
+
+.hero-compact .hero-description {
+  font-size: var(--font-size-base);
+  margin-bottom: 0;
+}
+
+/* ============================================
+   DATA FLOW HERO
+   ============================================ */
+.hero-data-flow {
+  background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%);
+}
+
+/* ============================================
+   GLOSSARY HERO
+   ============================================ */
+.hero-glossary {
+  background: linear-gradient(135deg, #553C9A 0%, #805AD5 100%);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .hero-section {
+    min-height: 280px;
+    padding: var(--spacing-8) var(--spacing-4);
+    border-radius: var(--radius-xl);
+  }
+
+  .hero-title {
+    font-size: var(--font-size-2xl);
+  }
+
+  .hero-description {
+    font-size: var(--font-size-base);
+  }
+
+  .quick-stats {
+    flex-wrap: wrap;
+    gap: var(--spacing-6);
+  }
+
+  .quick-stat-value {
+    font-size: var(--font-size-2xl);
+  }
+
+  .hero-compact {
+    min-height: 160px;
+  }
+
+  .hero-compact .hero-title {
+    font-size: var(--font-size-xl);
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    border-radius: var(--radius-lg);
+  }
+
+  .quick-stats {
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+}

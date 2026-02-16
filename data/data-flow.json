@@ -1,0 +1,223 @@
+{
+  "description": {
+    "fr": "Schema global du flux de donnees depuis les sources jusqu'aux tables des modeles.",
+    "en": "Global data flow schema from sources to model tables."
+  },
+  "schema": {
+    "image": "Assets/Images/data-flow/global-schema.png"
+  },
+  "sources": [
+    {
+      "id": "core-banking",
+      "name": { "fr": "Core Banking System", "en": "Core Banking System" },
+      "type": "database",
+      "icon": "database",
+      "description": {
+        "fr": "Systeme bancaire central contenant les donnees transactionnelles de chaque filiale.",
+        "en": "Central banking system containing transactional data for each subsidiary."
+      },
+      "models": ["installment-tracker", "vintage-ld-wo", "top-20"]
+    },
+    {
+      "id": "csv-exports",
+      "name": { "fr": "Exports CSV filiales", "en": "Subsidiary CSV exports" },
+      "type": "folder",
+      "icon": "folder",
+      "description": {
+        "fr": "Fichiers CSV exportes quotidiennement par chaque filiale depuis le core banking.",
+        "en": "CSV files exported daily by each subsidiary from core banking."
+      },
+      "models": ["installment-tracker"]
+    },
+    {
+      "id": "mapping-files",
+      "name": { "fr": "Fichiers de mapping", "en": "Mapping files" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichiers Excel contenant les correspondances pour les agences, segments, produits.",
+        "en": "Excel files containing mappings for branches, segments, products."
+      },
+      "models": ["installment-tracker", "vintage-ld-wo"]
+    },
+    {
+      "id": "fx-rates",
+      "name": { "fr": "Taux de change", "en": "Exchange rates" },
+      "type": "file",
+      "icon": "dollar-sign",
+      "description": {
+        "fr": "Fichier Excel avec les taux de change mensuels pour chaque devise locale.",
+        "en": "Excel file with monthly exchange rates for each local currency."
+      },
+      "models": ["installment-tracker", "vintage-ld-wo", "top-20"]
+    }
+  ],
+  "dataDictionary": [
+    {
+      "sourceId": "csv-exports",
+      "tables": [
+        {
+          "name": "Suivi_Echeances",
+          "description": {
+            "fr": "Fichier de suivi des echeances par filiale",
+            "en": "Installment tracking file by subsidiary"
+          },
+          "columns": [
+            {
+              "name": "ContractID",
+              "type": "String",
+              "description": { "fr": "Identifiant unique du contrat de pret", "en": "Unique loan contract identifier" }
+            },
+            {
+              "name": "CustomerID",
+              "type": "String",
+              "description": { "fr": "Identifiant unique du client", "en": "Unique customer identifier" }
+            },
+            {
+              "name": "DueDate",
+              "type": "Date",
+              "description": { "fr": "Date d'echeance du remboursement", "en": "Repayment due date" }
+            },
+            {
+              "name": "ExpectedAmount",
+              "type": "Decimal",
+              "description": { "fr": "Montant attendu pour cette echeance", "en": "Expected amount for this installment" }
+            },
+            {
+              "name": "PaidAmount",
+              "type": "Decimal",
+              "description": { "fr": "Montant effectivement paye", "en": "Amount actually paid" }
+            },
+            {
+              "name": "Status",
+              "type": "String",
+              "description": { "fr": "Statut de l'echeance (Paid, Overdue, Pending)", "en": "Installment status (Paid, Overdue, Pending)" }
+            },
+            {
+              "name": "BranchCode",
+              "type": "String",
+              "description": { "fr": "Code de l'agence", "en": "Branch code" }
+            },
+            {
+              "name": "Country",
+              "type": "String",
+              "description": { "fr": "Code pays de la filiale", "en": "Subsidiary country code" }
+            },
+            {
+              "name": "Segment",
+              "type": "String",
+              "description": { "fr": "Segment client (Nano, SE, ME)", "en": "Customer segment (Nano, SE, ME)" }
+            },
+            {
+              "name": "DAOCode",
+              "type": "String",
+              "description": { "fr": "Code du gestionnaire de portefeuille", "en": "Portfolio manager code" }
+            },
+            {
+              "name": "DisbursementAmount",
+              "type": "Decimal",
+              "description": { "fr": "Montant initial decaisse", "en": "Initial disbursed amount" }
+            },
+            {
+              "name": "GLP",
+              "type": "Decimal",
+              "description": { "fr": "Encours brut restant", "en": "Remaining gross outstanding" }
+            },
+            {
+              "name": "RepaymentAccount",
+              "type": "Decimal",
+              "description": { "fr": "Solde du compte de remboursement", "en": "Repayment account balance" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "mapping-files",
+      "tables": [
+        {
+          "name": "Mapping_Agences",
+          "description": {
+            "fr": "Correspondance des codes agences avec leurs informations",
+            "en": "Branch code mapping with their information"
+          },
+          "columns": [
+            {
+              "name": "BranchCode",
+              "type": "String",
+              "description": { "fr": "Code unique de l'agence", "en": "Unique branch code" }
+            },
+            {
+              "name": "BranchName",
+              "type": "String",
+              "description": { "fr": "Nom de l'agence", "en": "Branch name" }
+            },
+            {
+              "name": "Region",
+              "type": "String",
+              "description": { "fr": "Region de l'agence", "en": "Branch region" }
+            },
+            {
+              "name": "Country",
+              "type": "String",
+              "description": { "fr": "Pays de l'agence", "en": "Branch country" }
+            }
+          ]
+        },
+        {
+          "name": "Mapping_Segments",
+          "description": {
+            "fr": "Correspondance des codes segments",
+            "en": "Segment code mapping"
+          },
+          "columns": [
+            {
+              "name": "SegmentCode",
+              "type": "String",
+              "description": { "fr": "Code du segment", "en": "Segment code" }
+            },
+            {
+              "name": "SegmentName",
+              "type": "String",
+              "description": { "fr": "Nom du segment", "en": "Segment name" }
+            },
+            {
+              "name": "SegmentCategory",
+              "type": "String",
+              "description": { "fr": "Categorie du segment", "en": "Segment category" }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "sourceId": "fx-rates",
+      "tables": [
+        {
+          "name": "FX_Rates",
+          "description": {
+            "fr": "Taux de change mensuels",
+            "en": "Monthly exchange rates"
+          },
+          "columns": [
+            {
+              "name": "Currency",
+              "type": "String",
+              "description": { "fr": "Code devise (XOF, XAF, NGN, etc.)", "en": "Currency code (XOF, XAF, NGN, etc.)" }
+            },
+            {
+              "name": "Month",
+              "type": "Date",
+              "description": { "fr": "Mois de reference", "en": "Reference month" }
+            },
+            {
+              "name": "RateToEUR",
+              "type": "Decimal",
+              "description": { "fr": "Taux de conversion vers EUR", "en": "Conversion rate to EUR" }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

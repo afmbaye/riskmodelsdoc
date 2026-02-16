@@ -1,0 +1,306 @@
+/**
+ * Modal & Panel Styles
+ */
+
+/* ============================================
+   MODAL OVERLAY
+   ============================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-modal-backdrop);
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.modal-overlay.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal {
+  position: relative;
+  background: var(--bg-white);
+  padding: var(--spacing-6);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  max-width: 600px;
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: var(--z-modal);
+  animation: modalSlideUp var(--transition-normal) ease-out;
+}
+
+.modal.modal-lg {
+  max-width: 800px;
+}
+
+.modal.modal-xl {
+  max-width: 1000px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-5);
+  padding-bottom: var(--spacing-4);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg-gray-100);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.modal-close:hover {
+  background: var(--bg-gray-200);
+  color: var(--text-color);
+}
+
+.modal-close i {
+  width: 18px;
+  height: 18px;
+}
+
+.modal-body {
+  margin-bottom: var(--spacing-5);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-4);
+  border-top: 1px solid var(--border-color);
+}
+
+/* ============================================
+   FORMULA MODAL (KPI)
+   ============================================ */
+.formula-modal .modal-body {
+  margin-bottom: 0;
+}
+
+.formula-info {
+  margin-bottom: var(--spacing-5);
+}
+
+.formula-info p {
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.formula-container {
+  background: var(--bg-gray-50);
+  padding: var(--spacing-5);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  margin-bottom: var(--spacing-4);
+}
+
+.formula-container pre {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.formula-description {
+  background: var(--info-light);
+  padding: var(--spacing-4);
+  border-radius: var(--radius-md);
+  border-left: 4px solid var(--info-color);
+}
+
+.formula-description h4 {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--info-dark);
+  margin-bottom: var(--spacing-2);
+}
+
+.formula-description p {
+  font-size: var(--font-size-sm);
+  color: var(--text-color);
+  margin: 0;
+  line-height: var(--line-height-relaxed);
+}
+
+/* ============================================
+   SLIDE PANEL (Data Dictionary)
+   ============================================ */
+.slide-panel-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: var(--z-modal-backdrop);
+}
+
+.slide-panel-overlay.show {
+  display: block;
+  animation: fadeIn var(--transition-fast) ease-out;
+}
+
+.slide-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: var(--panel-width);
+  max-width: 90vw;
+  background: var(--bg-white);
+  box-shadow: var(--shadow-xl);
+  z-index: var(--z-modal);
+  transform: translateX(100%);
+  transition: transform var(--transition-normal) ease-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-panel.show {
+  transform: translateX(0);
+}
+
+.slide-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-5) var(--spacing-6);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.slide-panel-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0;
+}
+
+.slide-panel-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--bg-gray-100);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.slide-panel-close:hover {
+  background: var(--bg-gray-200);
+  color: var(--text-color);
+}
+
+.slide-panel-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-6);
+}
+
+/* Data Dictionary Content */
+.dictionary-table {
+  font-size: var(--font-size-sm);
+}
+
+.dictionary-table th {
+  position: sticky;
+  top: 0;
+  background: var(--bg-gray-50);
+  z-index: 1;
+}
+
+.dictionary-table td {
+  vertical-align: top;
+}
+
+.column-name {
+  font-family: 'Fira Code', monospace;
+  font-weight: var(--font-weight-medium);
+  color: var(--primary-color);
+}
+
+.column-type {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  background: var(--bg-gray-100);
+  color: var(--text-muted);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================
+   ANIMATIONS
+   ============================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .modal {
+    width: 95%;
+    padding: var(--spacing-4);
+    margin: var(--spacing-4);
+  }
+
+  .slide-panel {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slide-panel-header,
+  .slide-panel-body {
+    padding: var(--spacing-4);
+  }
+}
