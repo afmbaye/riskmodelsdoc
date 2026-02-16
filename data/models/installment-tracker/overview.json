@@ -1,96 +1,102 @@
 {
   "modelId": "installment-tracker",
-  "overview": {
-    "title": "Installment Tracker",
-    "description": "Tableau de bord de suivi des remboursements de crédits permettant d'analyser les performances et d'identifier les risques potentiels.",
-    "mainFeatures": [
-      {
-        "icon": "trending-up",
-        "title": "Suivi des performances",
-        "description": "Analyse détaillée des taux de recouvrement et des montants remboursés"
+  "name": { "fr": "Installment Tracker", "en": "Installment Tracker" },
+  "description": {
+    "fr": "Suivi quotidien de l'état de règlement des échéances au niveau du groupe, par filiale, agence, région et gestionnaire de portefeuille. Ce modèle permet d'identifier rapidement les zones de risque et d'optimiser les actions de recouvrement.",
+    "en": "Daily monitoring of installment payment status at group level, by subsidiary, branch, region and portfolio manager. This model helps quickly identify risk areas and optimize collection actions."
+  },
+  "lastUpdate": "2025-02-07",
+  "stats": [
+    { "icon": "layers", "value": 9, "label": { "fr": "Onglets", "en": "Tabs" } },
+    { "icon": "bar-chart-2", "value": 17, "label": { "fr": "KPIs", "en": "KPIs" } },
+    { "icon": "clock", "value": "J+1", "label": { "fr": "Fréquence", "en": "Frequency" } },
+    { "icon": "database", "value": 3, "label": { "fr": "Sources", "en": "Sources" } }
+  ],
+  "useCase": {
+    "fr": "Utilisez ce modèle pour suivre quotidiennement les performances de recouvrement des échéances, identifier les agences ou régions en difficulté, et analyser les tendances de paiement par segment client. Idéal pour les réunions quotidiennes de suivi du risque et la préparation des actions de recouvrement.",
+    "en": "Use this model to monitor daily installment collection performance, identify struggling branches or regions, and analyze payment trends by customer segment. Ideal for daily risk monitoring meetings and collection action planning."
+  },
+  "tabs": [
+    {
+      "id": "glp",
+      "name": { "fr": "GLP", "en": "GLP" },
+      "description": {
+        "fr": "Vue d'ensemble du portefeuille brut (Gross Loan Portfolio) et des paiements attendus vs réalisés.",
+        "en": "Overview of Gross Loan Portfolio and expected vs actual payments."
       },
-      {
-        "icon": "alert-triangle",
-        "title": "Détection des risques",
-        "description": "Identification précoce des retards et des défauts de paiement"
-      },
-      {
-        "icon": "bar-chart-2",
-        "title": "Tableaux de bord",
-        "description": "Visualisations interactives et KPIs clés pour le pilotage"
-      }
-    ],
-    "tabs": [
-      {
-        "id": "dashboard",
-        "title": "Dashboard",
-        "icon": "home",
-        "description": "Vue d'ensemble des KPIs principaux",
-        "features": [
-          "Taux de recouvrement global",
-          "Montants remboursés vs prévus",
-          "Distribution par statut"
-        ],
-        "image": "dashboard-preview.png"
-      },
-      {
-        "id": "performance",
-        "title": "Performance",
-        "icon": "activity",
-        "description": "Analyse détaillée des performances",
-        "features": [
-          "Évolution temporelle des remboursements",
-          "Analyse par segment",
-          "Comparaison des performances"
-        ],
-        "image": "performance-preview.png"
-      },
-      {
-        "id": "analysis",
-        "title": "Analysis",
-        "icon": "search",
-        "description": "Outils d'analyse approfondie",
-        "features": [
-          "Segmentation des crédits",
-          "Analyse des tendances",
-          "Identification des patterns"
-        ],
-        "image": "analysis-preview.png"
-      },
-      {
-        "id": "details",
-        "title": "Details",
-        "icon": "list",
-        "description": "Détails des crédits individuels",
-        "features": [
-          "Liste complète des crédits",
-          "Historique des paiements",
-          "Informations détaillées"
-        ],
-        "image": "details-preview.png"
-      }
-    ],
-    "quickStart": {
-      "title": "Guide de démarrage rapide",
-      "steps": [
-        {
-          "title": "Accès au tableau de bord",
-          "description": "Connectez-vous à Power BI et ouvrez le rapport Installment Tracker"
-        },
-        {
-          "title": "Navigation",
-          "description": "Utilisez les onglets pour naviguer entre les différentes vues"
-        },
-        {
-          "title": "Filtres",
-          "description": "Appliquez les filtres pour affiner votre analyse"
-        }
-      ]
+      "screenshot": "Assets/Images/installment-tracker/glp.png"
     },
-    "updates": {
-      "lastUpdate": "2023-12-01",
-      "frequency": "Quotidienne",
-      "time": "08:00"
+    {
+      "id": "installments",
+      "name": { "fr": "Installments", "en": "Installments" },
+      "description": {
+        "fr": "Détail des échéances par statut : remboursées, attendues, en retard.",
+        "en": "Installment details by status: paid, expected, overdue."
+      },
+      "screenshot": "Assets/Images/installment-tracker/Installments.png"
+    },
+    {
+      "id": "benchmark",
+      "name": { "fr": "Benchmark", "en": "Benchmark" },
+      "description": {
+        "fr": "Comparaison des performances entre filiales avec indicateurs clés.",
+        "en": "Performance comparison across subsidiaries with key indicators."
+      },
+      "screenshot": "Assets/Images/installment-tracker/benchmark.png"
+    },
+    {
+      "id": "subsidiaries",
+      "name": { "fr": "Subsidiaries", "en": "Subsidiaries" },
+      "description": {
+        "fr": "Analyse détaillée par filiale avec drill-down possible.",
+        "en": "Detailed analysis by subsidiary with drill-down capability."
+      },
+      "screenshot": "Assets/Images/installment-tracker/subsidiaries.png"
+    },
+    {
+      "id": "region",
+      "name": { "fr": "Region", "en": "Region" },
+      "description": {
+        "fr": "Répartition géographique des performances par région.",
+        "en": "Geographic distribution of performance by region."
+      },
+      "screenshot": "Assets/Images/installment-tracker/region.png"
+    },
+    {
+      "id": "branch-desc",
+      "name": { "fr": "BranchDesc", "en": "BranchDesc" },
+      "description": {
+        "fr": "Performance détaillée par agence avec matrice colorée.",
+        "en": "Detailed branch performance with color-coded matrix."
+      },
+      "screenshot": "Assets/Images/installment-tracker/branch.png"
+    },
+    {
+      "id": "category-desc",
+      "name": { "fr": "CategoryDesc", "en": "CategoryDesc" },
+      "description": {
+        "fr": "Analyse par catégorie de produit et segment client.",
+        "en": "Analysis by product category and customer segment."
+      },
+      "screenshot": "Assets/Images/installment-tracker/categoryDesc.png"
+    },
+    {
+      "id": "installment-overdue-ratio",
+      "name": { "fr": "Installment Overdue Ratio", "en": "Installment Overdue Ratio" },
+      "description": {
+        "fr": "Évolution du taux d'impayés dans le temps.",
+        "en": "Evolution of overdue rate over time."
+      },
+      "screenshot": "Assets/Images/installment-tracker/instoverdueRatio.png"
+    },
+    {
+      "id": "customer-details",
+      "name": { "fr": "Customer Details", "en": "Customer Details" },
+      "description": {
+        "fr": "Vue détaillée au niveau client avec informations de contact.",
+        "en": "Detailed customer-level view with contact information."
+      },
+      "screenshot": "Assets/Images/installment-tracker/customerDetails.png"
     }
-  }
+  ]
 }

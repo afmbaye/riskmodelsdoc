@@ -1,0 +1,40 @@
+{
+  "categories": [
+    {
+      "id": "portfolio",
+      "label": { "fr": "Portefeuille", "en": "Portfolio" },
+      "color": "#3B82F6",
+      "icon": "briefcase"
+    },
+    {
+      "id": "savings",
+      "label": { "fr": "Epargne", "en": "Savings" },
+      "color": "#10B981",
+      "icon": "piggy-bank"
+    },
+    {
+      "id": "collaterals",
+      "label": { "fr": "Garanties", "en": "Collaterals" },
+      "color": "#F59E0B",
+      "icon": "shield"
+    },
+    {
+      "id": "collections",
+      "label": { "fr": "Recouvrement", "en": "Collections" },
+      "color": "#EF4444",
+      "icon": "phone-call"
+    },
+    {
+      "id": "credit-risk",
+      "label": { "fr": "Risque Credit", "en": "Credit Risk" },
+      "color": "#8B5CF6",
+      "icon": "alert-triangle"
+    },
+    {
+      "id": "reporting",
+      "label": { "fr": "Reporting", "en": "Reporting" },
+      "color": "#06B6D4",
+      "icon": "file-text"
+    }
+  ]
+}

@@ -1,0 +1,368 @@
+/**
+ * Table Styles - Data tables, KPI dictionary
+ */
+
+/* ============================================
+   BASE TABLE
+   ============================================ */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+}
+
+.data-table thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.data-table th {
+  background: var(--bg-gray-50);
+  padding: var(--spacing-4);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.data-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.data-table tbody tr:hover {
+  background: var(--bg-gray-50);
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ============================================
+   KPI DICTIONARY TABLE
+   ============================================ */
+.kpi-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.kpi-table th {
+  background: var(--bg-gray-50);
+  padding: var(--spacing-4);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.kpi-table td {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  vertical-align: top;
+}
+
+.kpi-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.kpi-table tbody tr:hover {
+  background: var(--bg-gray-50);
+}
+
+/* KPI Specific Cells */
+.kpi-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  min-width: 150px;
+}
+
+.kpi-variable {
+  font-family: 'Fira Code', monospace;
+  font-size: var(--font-size-xs);
+  color: var(--primary-color);
+  background: var(--primary-light);
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.kpi-description {
+  color: var(--text-muted);
+  max-width: 300px;
+  line-height: var(--line-height-relaxed);
+}
+
+.kpi-unit {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.kpi-visuals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+}
+
+.kpi-visuals .visual-tag {
+  display: inline-flex;
+  padding: var(--spacing-1) var(--spacing-2);
+  font-size: var(--font-size-xs);
+  background: var(--info-light);
+  color: var(--info-dark);
+  border-radius: var(--radius-sm);
+}
+
+.kpi-action {
+  text-align: center;
+}
+
+/* View Formula Button */
+.view-formula-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-3);
+  background: var(--bg-gray-100);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.view-formula-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+.view-formula-btn:hover {
+  background: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* ============================================
+   MODELS TABLE (Home Page)
+   ============================================ */
+.models-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.models-table th {
+  background: var(--bg-gray-50);
+  padding: var(--spacing-4);
+  text-align: left;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--border-color);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.models-table td {
+  padding: var(--spacing-4);
+  border-bottom: 1px solid var(--border-color);
+  font-size: var(--font-size-sm);
+  vertical-align: middle;
+}
+
+.models-table tbody tr {
+  transition: background var(--transition-fast);
+}
+
+.models-table tbody tr:hover {
+  background: var(--bg-gray-50);
+}
+
+/* Model Specific Cells */
+.model-name {
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  min-width: 180px;
+}
+
+.model-description {
+  color: var(--text-muted);
+  max-width: 300px;
+  line-height: var(--line-height-relaxed);
+}
+
+.model-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-1);
+}
+
+.model-frequency {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.model-status {
+  white-space: nowrap;
+}
+
+.model-fabric,
+.model-doc {
+  white-space: nowrap;
+}
+
+/* ============================================
+   GLOSSARY TABLE
+   ============================================ */
+.glossary-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.glossary-term {
+  background: var(--bg-white);
+  padding: var(--spacing-5);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-normal);
+}
+
+.glossary-term:hover {
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-sm);
+}
+
+.term-name {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin-bottom: var(--spacing-2);
+}
+
+.term-definition {
+  font-size: var(--font-size-base);
+  color: var(--text-muted);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--spacing-3);
+}
+
+.term-models {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+/* ============================================
+   TABLE WRAPPER (Scrollable)
+   ============================================ */
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background: var(--bg-white);
+}
+
+.table-wrapper table {
+  margin: 0;
+}
+
+.table-wrapper th:first-child,
+.table-wrapper td:first-child {
+  padding-left: var(--spacing-5);
+}
+
+.table-wrapper th:last-child,
+.table-wrapper td:last-child {
+  padding-right: var(--spacing-5);
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 1024px) {
+  .kpi-table,
+  .models-table {
+    font-size: var(--font-size-xs);
+  }
+
+  .kpi-table th,
+  .kpi-table td,
+  .models-table th,
+  .models-table td {
+    padding: var(--spacing-3);
+  }
+
+  .kpi-description,
+  .model-description {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Stack table on mobile */
+  .table-wrapper {
+    border: none;
+    border-radius: 0;
+  }
+
+  .kpi-table thead,
+  .models-table thead {
+    display: none;
+  }
+
+  .kpi-table tbody tr,
+  .models-table tbody tr {
+    display: block;
+    padding: var(--spacing-4);
+    margin-bottom: var(--spacing-4);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    background: var(--bg-white);
+  }
+
+  .kpi-table td,
+  .models-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: var(--spacing-2) 0;
+    border-bottom: none;
+  }
+
+  .kpi-table td::before,
+  .models-table td::before {
+    content: attr(data-label);
+    font-weight: var(--font-weight-semibold);
+    color: var(--text-muted);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    margin-right: var(--spacing-4);
+  }
+
+  .kpi-description,
+  .model-description {
+    max-width: none;
+    text-align: right;
+  }
+}

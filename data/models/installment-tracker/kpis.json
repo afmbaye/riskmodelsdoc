@@ -1,53 +1,315 @@
 {
   "modelId": "installment-tracker",
+  "description": {
+    "fr": "Liste complete des indicateurs cles de performance utilises dans les visuels du modele.",
+    "en": "Complete list of key performance indicators used in model visuals."
+  },
   "kpis": [
     {
-      "id": "recovery-rate",
-      "name": "Taux de recouvrement",
-      "category": "Performance",
-      "description": "Pourcentage des montants remboursés par rapport aux montants dus",
-      "business_description": "Mesure l'efficacité du recouvrement des crédits",
+      "id": "echeance-remboursee",
+      "name": { "fr": "Echeance remboursee", "en": "Paid Installment" },
+      "variableName": "Echeance attendu effectif (MAIN)BIS",
+      "description": {
+        "fr": "Montant effectivement paye sur les echeances attendues.",
+        "en": "Amount actually paid on expected installments."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["installments"],
       "formula": {
-        "dax": "VAR TotalDue = CALCULATE(SUM(Payments[Amount]), Payments[DueDate] <= TODAY())\nVAR TotalPaid = SUM(Payments[PaidAmount])\nRETURN DIVIDE(TotalPaid, TotalDue, 0)",
-        "explanation": [
-          "1. Calcul du montant total dû à ce jour",
-          "2. Calcul du montant total payé",
-          "3. Division pour obtenir le ratio"
-        ]
-      },
-      "metadata": {
-        "unit": "%",
-        "format": "0.00%",
-        "updateFrequency": "Quotidien",
-        "thresholds": {
-          "critical": 0.85,
-          "warning": 0.9,
-          "target": 0.95
+        "dax": "CALCULATE(\n    ([ECHEANCE ATTENDUE EUR] - [REGLEMENT NON EFFECTIF (ECHEANCE)EUR]),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] <= [DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Cette formule calcule le montant effectivement paye en soustrayant les reglements non effectifs de l'echeance attendue. Le filtre s'applique uniquement aux echeances dont la date prevue (NextScheduleDate) est anterieure ou egale a la date de mise a jour, permettant d'exclure les echeances futures.",
+          "en": "This formula calculates the amount actually paid by subtracting non-effective payments from expected installments. The filter applies only to installments with scheduled date before or equal to update date, excluding future installments."
         }
-      },
-      "usedIn": [
-        {
-          "tab": "dashboard",
-          "visual": "main-kpis"
-        },
-        {
-          "tab": "performance",
-          "visual": "recovery-trend"
-        }
-      ],
-      "relatedKPIs": ["total-amount-due", "total-amount-paid"]
-    }
-  ],
-  "categories": [
-    {
-      "id": "performance",
-      "name": "Performance",
-      "description": "Indicateurs de performance des remboursements"
+      }
     },
     {
-      "id": "risk",
-      "name": "Risque",
-      "description": "Indicateurs de risque"
+      "id": "echeance-attendue",
+      "name": { "fr": "Echeance attendue", "en": "Expected Installment" },
+      "variableName": "ECHEANCE ATTENDUE",
+      "description": {
+        "fr": "Montant total des remboursements prevus pour la periode.",
+        "en": "Total amount of repayments expected for the period."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["glp", "installments"],
+      "formula": {
+        "dax": "CALCULATE(\n    SUM('MAIN VINTAGE ECHEANCE'[TotalScheduledAmount EUR]),\n    'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n    'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n    'MAIN VINTAGE ECHEANCE'[Premier jour] = \"01\"\n) + 0",
+        "explanation": {
+          "fr": "Cette mesure calcule le montant total des remboursements prevus pour la periode en sommant tous les montants planifies. Les filtres garantissent qu'on ne prend en compte que les echeances du mois en cours (ECHEANCE DU MOIS = 'O'), avec un statut sain (PAR EOM = '0-Healthy'), et au premier jour de la periode. Le '+0' assure un resultat numerique meme en cas de valeur vide.",
+          "en": "This measure calculates total expected repayments by summing all scheduled amounts. Filters ensure only current month installments (ECHEANCE DU MOIS = 'O'), with healthy status (PAR EOM = '0-Healthy'), on first day of period. The '+0' ensures numeric result even if empty."
+        }
+      }
+    },
+    {
+      "id": "echeance-retard",
+      "name": { "fr": "Echeance en retard", "en": "Overdue Installment" },
+      "variableName": "REGLEMENT NON EFFECTIF (ECHEANCE)",
+      "description": {
+        "fr": "Montant des echeances non reglees sur les echeances attendues a la date prevue.",
+        "en": "Amount of unpaid installments on expected installments at due date."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["branch-desc", "region", "category-desc"],
+      "formula": {
+        "dax": "CALCULATE(\n    SUMX(\n        FILTER(\n            'MAIN VINTAGE ECHEANCE',\n            'MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance] = \n                MAX('MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance])\n        ),\n        'MAIN VINTAGE ECHEANCE'[TotalScheduledAmount EUR]\n    ),\n    'MAIN VINTAGE ECHEANCE'[Valeur Echeance] = \"O\",\n    'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n    'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n    'MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance] <> -1\n)",
+        "explanation": {
+          "fr": "Cette formule identifie les echeances non reglees a leur date prevue en filtrant sur le nombre maximum de jours apres echeance. SUMX itere sur chaque ligne filtree pour sommer les montants planifies. Les conditions excluent les valeurs aberrantes (jours = -1) et ne conservent que les echeances actives du mois avec un statut sain.",
+          "en": "This formula identifies unpaid installments by filtering on maximum days past due. SUMX iterates through filtered rows to sum scheduled amounts. Conditions exclude outliers (days = -1) and keep only active monthly installments with healthy status."
+        }
+      }
+    },
+    {
+      "id": "taux-non-reglement",
+      "name": { "fr": "Taux de non reglement", "en": "Non-Payment Rate" },
+      "variableName": "%Echeance non regle",
+      "description": {
+        "fr": "Taux de non remboursement = (Non rembourse / Attendu).",
+        "en": "Non-payment rate = (Unpaid / Expected)."
+      },
+      "unit": "%",
+      "visuals": ["installment-overdue-ratio"],
+      "formula": {
+        "dax": "CALCULATE(\n    DIVIDE(\n        [REGLEMENT NON EFFECTIF (ECHEANCE)],\n        [ECHEANCE ATTENDUE LC]\n    ),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] <= [DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Ce ratio mesure le taux de defaut de paiement en divisant le montant non rembourse par le montant attendu. La fonction DIVIDE gere automatiquement la division par zero. Le filtre temporel limite le calcul aux echeances deja dues, offrant une vue realiste du taux de non-paiement a date.",
+          "en": "This ratio measures default rate by dividing unpaid amount by expected amount. DIVIDE function automatically handles division by zero. Time filter limits calculation to due installments, providing realistic current non-payment rate."
+        }
+      }
+    },
+    {
+      "id": "taux-reglement",
+      "name": { "fr": "Taux de reglement", "en": "Payment Rate" },
+      "variableName": "%Echeance regle",
+      "description": {
+        "fr": "Taux de remboursement = (Rembourse / Attendu).",
+        "en": "Payment rate = (Paid / Expected)."
+      },
+      "unit": "%",
+      "visuals": ["installments"],
+      "formula": {
+        "dax": "CALCULATE(\n    DIVIDE(\n        [Echeance attendu effectif (MAIN)BIS],\n        [ECHEANCE ATTENDUE LC]\n    ),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] <= [DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Cette mesure calcule le taux de remboursement effectif en rapportant les paiements realises aux montants attendus. C'est l'inverse du taux de non-reglement. Le resultat exprime en pourcentage permet d'evaluer la performance de recouvrement du portefeuille a une date donnee.",
+          "en": "This measure calculates effective payment rate by comparing actual payments to expected amounts. It's the inverse of non-payment rate. The percentage result evaluates portfolio collection performance at a given date."
+        }
+      }
+    },
+    {
+      "id": "glp-attendu",
+      "name": { "fr": "GLP attendu", "en": "Expected GLP" },
+      "variableName": "ENCOURS ECHEANCE",
+      "description": {
+        "fr": "Encours brut attendu des echeances planifiees a la date du jour.",
+        "en": "Expected gross outstanding of scheduled installments at current date."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "CALCULATE(\n    SUM('MAIN VINTAGE ECHEANCE'[GLP VINTAGE EUR]),\n    'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n    'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n    'MAIN VINTAGE ECHEANCE'[Premier jour] = \"01\"\n) + 0",
+        "explanation": {
+          "fr": "Le GLP (Gross Loan Portfolio) attendu represente l'encours brut total des prets avec echeances planifiees. Cette formule agrege le GLP vintage pour le mois en cours, en ne considerant que les portefeuilles sains au premier jour de la periode. C'est un indicateur cle pour mesurer la taille du portefeuille actif.",
+          "en": "Expected GLP (Gross Loan Portfolio) represents total gross outstanding of loans with scheduled installments. This formula aggregates vintage GLP for current month, considering only healthy portfolios on first day. Key indicator for measuring active portfolio size."
+        }
+      }
+    },
+    {
+      "id": "paiement-effectif-glp",
+      "name": { "fr": "Paiement effectif GLP", "en": "Effective GLP Payment" },
+      "variableName": "REGLEMENT EFFECTIF",
+      "description": {
+        "fr": "Encours brut reellement rembourse.",
+        "en": "Gross outstanding actually repaid."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "CALCULATE(\n    ([ENCOURS ECHEANCE EUR] - [REGLEMENT NON EFFECTIF EUR]),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] <= [DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Cette mesure calcule l'encours brut reellement rembourse en soustrayant les reglements non effectifs de l'encours total des echeances. Le filtre temporel garantit qu'on ne comptabilise que les paiements dus a date, fournissant une vue precise des remboursements effectifs du GLP.",
+          "en": "This measure calculates gross outstanding actually repaid by subtracting non-effective payments from total installment outstanding. Time filter ensures only due payments are counted, providing accurate view of effective GLP repayments."
+        }
+      }
+    },
+    {
+      "id": "paiement-reel-pct",
+      "name": { "fr": "% Paiement reel", "en": "% Actual Payment" },
+      "variableName": "En%_VOLUME REGLE (MAIN)",
+      "description": {
+        "fr": "Taux de realisation des paiements par rapport au GLP attendu.",
+        "en": "Payment completion rate compared to expected GLP."
+      },
+      "unit": "%",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "CALCULATE(\n    DIVIDE(\n        [REGLEMENT EFFECTIF (MAIN)],\n        [ENCOURS ECHEANCE LC]\n    ),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] <= [DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Ce taux mesure la performance de recouvrement en rapportant les reglements effectifs a l'encours total des echeances. Il permet d'evaluer le volume de paiements realises par rapport au GLP attendu. Un taux eleve indique une bonne discipline de remboursement des clients.",
+          "en": "This rate measures collection performance by comparing effective payments to total installment outstanding. It evaluates payment volume versus expected GLP. High rate indicates good customer repayment discipline."
+        }
+      }
+    },
+    {
+      "id": "entry-rate",
+      "name": { "fr": "Taux d'entree", "en": "Entry Rate" },
+      "variableName": "Entry rate",
+      "description": {
+        "fr": "Nouveaux entrants au jour d'echeance. Clients n'ayant pas honore leur echeance a la date prevue.",
+        "en": "New entrants on due date. Customers who didn't honor their installment on scheduled date."
+      },
+      "unit": "%",
+      "visuals": ["benchmark"],
+      "formula": {
+        "dax": "VAR Numerateur_Entry_rate = \n    CALCULATE(\n        [V_NON EFFECTIF_EUR],\n        'MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance] = 0\n    )\n\nVAR Denominateur_Entry_rate = \n    CALCULATE(\n        SUM('MAIN VINTAGE ECHEANCE'[GLP VINTAGE EUR]),\n        'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n        'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n        'MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance] = 0\n    ) + 0\n\nRETURN\n    DIVIDE(Numerateur_Entry_rate, Denominateur_Entry_rate)",
+        "explanation": {
+          "fr": "Le taux d'entree mesure le pourcentage de nouveaux impayes le jour meme de l'echeance (jour 0). La formule utilise des variables pour isoler le numerateur (montants non payes a J0) et le denominateur (GLP total a J0). C'est un indicateur precoce critique pour anticiper les problemes de recouvrement.",
+          "en": "Entry rate measures percentage of new defaults on due date (day 0). Formula uses variables to isolate numerator (unpaid amounts at D0) and denominator (total GLP at D0). Critical early indicator to anticipate collection problems."
+        }
+      }
+    },
+    {
+      "id": "entry-rate-recovery",
+      "name": { "fr": "Taux d'entree apres recouvrement", "en": "Entry Rate After Recovery" },
+      "variableName": "Entry rate after recovery",
+      "description": {
+        "fr": "Nouveaux entrants incluant les paiements obtenus via actions de recouvrement.",
+        "en": "New entrants including payments obtained through collection actions."
+      },
+      "unit": "%",
+      "visuals": ["benchmark"],
+      "formula": {
+        "dax": "1 - [Payment to date]",
+        "explanation": {
+          "fr": "Cette mesure simple calcule le taux d'entree residuel apres actions de recouvrement en soustrayant le taux de paiement a date de 100%. Elle permet de mesurer l'efficacite des actions de recouvrement en montrant la proportion de clients qui restent en defaut malgre les relances.",
+          "en": "This simple measure calculates residual entry rate after collection actions by subtracting payment-to-date rate from 100%. It measures collection action effectiveness by showing proportion of customers remaining in default despite follow-ups."
+        }
+      }
+    },
+    {
+      "id": "payment-to-date",
+      "name": { "fr": "Paiement a date", "en": "Payment to Date" },
+      "variableName": "Payment to date",
+      "description": {
+        "fr": "Montant cumule des paiements effectues jusqu'a la date d'analyse.",
+        "en": "Cumulative amount of payments made up to analysis date."
+      },
+      "unit": "%",
+      "visuals": ["benchmark"],
+      "formula": {
+        "dax": "VAR REGLEMENT_NON_REGLE_A_DATE = \n    CALCULATE(\n        [V_NON EFFECTIF_EUR],\n        'MAIN VINTAGE ECHEANCE'[DAY] = MAX('MAIN VINTAGE ECHEANCE'[DAY])\n    )\n\nVAR Denominateur_Payment = \n    CALCULATE(\n        SUM('MAIN VINTAGE ECHEANCE'[GLP VINTAGE EUR]),\n        'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n        'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n        'MAIN VINTAGE ECHEANCE'[Nbre de jours apres echeance] = 0\n    ) + 0\n\nVAR Numerateur_Payment = \n    (Denominateur_Payment - REGLEMENT_NON_REGLE_A_DATE)\n\nRETURN\n    DIVIDE(Numerateur_Payment, Denominateur_Payment)",
+        "explanation": {
+          "fr": "Cette formule calcule le taux de paiement cumule jusqu'a la date d'analyse. Elle identifie d'abord les montants non regles au jour maximum (derniere date disponible), puis calcule le ratio entre les paiements effectues et le GLP initial. C'est une mesure de performance cumulative du recouvrement.",
+          "en": "This formula calculates cumulative payment rate up to analysis date. It first identifies unpaid amounts at maximum day (latest available date), then calculates ratio between payments made and initial GLP. Cumulative collection performance measure."
+        }
+      }
+    },
+    {
+      "id": "glp-anticipation",
+      "name": { "fr": "GLP d'anticipation", "en": "Anticipation GLP" },
+      "variableName": "GLP of Anticipation EUR",
+      "description": {
+        "fr": "Montant des echeances dont le repayment account est superieur ou egal au montant attendu.",
+        "en": "Amount of installments where repayment account is greater than or equal to expected amount."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "CALCULATE(\n    CALCULATE(\n        SUM('MAIN VINTAGE ECHEANCE'[GLP VINTAGE EUR]),\n        'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\",\n        'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n        FILTER(\n            'MAIN VINTAGE ECHEANCE',\n            'MAIN VINTAGE ECHEANCE'[Dernier jour] = \n                LEFT('MAIN VINTAGE ECHEANCE'[DAY], 2)\n        ),\n        'MAIN VINTAGE ECHEANCE'[Anticipation] = \"Anticipation\"\n    ),\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] > \n            'MAIN VINTAGE ECHEANCE'[DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Cette mesure identifie le GLP des clients qui paient en avance (anticipation). Les filtres imbriques selectionnent les echeances futures (NextScheduleDate > DATE UPDATE) avec un repayment account superieur ou egal au montant attendu, marquees comme 'Anticipation'. C'est un indicateur positif de la qualite du portefeuille.",
+          "en": "This measure identifies GLP of customers paying in advance (anticipation). Nested filters select future installments (NextScheduleDate > DATE UPDATE) with repayment account >= expected amount, marked as 'Anticipation'. Positive portfolio quality indicator."
+        }
+      }
+    },
+    {
+      "id": "cash-disponible",
+      "name": { "fr": "Cash disponible", "en": "Available Cash" },
+      "variableName": "Available Cash All (After Report)",
+      "description": {
+        "fr": "Montant disponible sur le compte client.",
+        "en": "Amount available on customer account."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["installments"],
+      "formula": {
+        "dax": "CALCULATE(\n    [Solde a date EUR],\n    FILTER(\n        'MAIN VINTAGE ECHEANCE',\n        'MAIN VINTAGE ECHEANCE'[NextScheduleDate] > \n            'MAIN VINTAGE ECHEANCE'[DATE UPDATE]\n    )\n)",
+        "explanation": {
+          "fr": "Cette formule calcule le montant total de liquidites disponibles sur les comptes clients pour les echeances futures. Le filtre exclut les echeances deja passees, ne conservant que les soldes disponibles pour les paiements a venir. C'est un indicateur de capacite de paiement des clients.",
+          "en": "This formula calculates total liquidity available on customer accounts for future installments. Filter excludes past installments, keeping only balances available for upcoming payments. Customer payment capacity indicator."
+        }
+      }
+    },
+    {
+      "id": "echeances-impayees-liquidite",
+      "name": { "fr": "Echeances impayees avec liquidite disponible", "en": "Unpaid Installments with Available Liquidity" },
+      "variableName": "Available Cash No Pay (Before Report)",
+      "description": {
+        "fr": "Disponibilite en cash des impayes.",
+        "en": "Cash availability for unpaid installments."
+      },
+      "unit": "EUR, LC",
+      "visuals": ["installments"],
+      "formula": {
+        "dax": "ABS(\n    CALCULATE(\n        [Solde a date EUR],\n        'MAIN VINTAGE ECHEANCE'[Valeur Echeance] = \"O\",\n        'MAIN VINTAGE ECHEANCE'[PAR EOM] = \"0-Healthy\",\n        'MAIN VINTAGE ECHEANCE'[ECHEANCE DU MOIS] = \"O\"\n    )\n)",
+        "explanation": {
+          "fr": "Cette mesure identifie les echeances impayees alors que le client dispose de liquidites suffisantes. La fonction ABS convertit en valeur absolue le solde negatif (impaye avec cash disponible). C'est un indicateur d'anomalie qui peut signaler des problemes techniques ou comportementaux.",
+          "en": "This measure identifies unpaid installments where customer has sufficient liquidity. ABS function converts negative balance to absolute value (unpaid with available cash). Anomaly indicator signaling technical or behavioral issues."
+        }
+      }
+    },
+    {
+      "id": "cash-echeances-impayees-pct",
+      "name": { "fr": "% cash sur echeances impayees", "en": "% Cash on Unpaid Installments" },
+      "variableName": "Deposit on ScheduleAmt for not pay",
+      "description": {
+        "fr": "Ratio indiquant la disponibilite en cash sur l'echeance des impayes.",
+        "en": "Ratio indicating cash availability on unpaid installments."
+      },
+      "unit": "%",
+      "visuals": ["installments"],
+      "formula": {
+        "dax": "DIVIDE(\n    [Available Cash No Pay (Before Report) EUR],\n    [REGLEMENT NON EFFECTIF (ECHEANCE)EUR]\n)",
+        "explanation": {
+          "fr": "Ce ratio mesure la couverture des impayes par les liquidites disponibles. Il divise le cash disponible des clients en defaut par le montant total des echeances non reglees. Un ratio superieur a 100% indique que les clients ont theoriquement les moyens de payer mais ne l'ont pas fait.",
+          "en": "This ratio measures unpaid coverage by available liquidity. It divides defaulting customers' available cash by total unpaid installments. Ratio above 100% indicates customers theoretically have means to pay but haven't."
+        }
+      }
+    },
+    {
+      "id": "anticipation-pct",
+      "name": { "fr": "% d'anticipation", "en": "% Anticipation" },
+      "variableName": "% Anticipation OK",
+      "description": {
+        "fr": "Part du GLP des clients anticipes dans le total des remboursements.",
+        "en": "Share of anticipated customer GLP in total repayments."
+      },
+      "unit": "%",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "IF(\n    [REGLEMENT EFFECTIF (EUR)] <> 0,\n    \"\",\n    DIVIDE(\n        [GLP of Anticipation EUR],\n        [ENCOURS ECHEANCE EUR]\n    )\n)",
+        "explanation": {
+          "fr": "Cette formule calcule la part du GLP anticipe dans le total des encours. La condition IF evite le calcul si aucun reglement effectif n'est enregistre (retourne une chaine vide). Ce taux reflete le comportement proactif des clients qui remboursent avant l'echeance, signe de bonne sante financiere.",
+          "en": "This formula calculates anticipated GLP share in total outstanding. IF condition avoids calculation if no effective payment recorded (returns empty string). This rate reflects proactive behavior of customers repaying before due date, sign of good financial health."
+        }
+      }
+    },
+    {
+      "id": "liquidation-ratio",
+      "name": { "fr": "Ratio de liquidation", "en": "Liquidation Ratio" },
+      "variableName": "liquidationRatio",
+      "description": {
+        "fr": "Ratio de liquidation du portefeuille.",
+        "en": "Portfolio liquidation ratio."
+      },
+      "unit": "%",
+      "visuals": ["customer-details"],
+      "formula": {
+        "dax": "(\n    'MAIN VINTAGE ECHEANCE'[DisbursementEUR] - \n    'MAIN VINTAGE ECHEANCE'[GLP VINTAGE EUR]\n) / 'MAIN VINTAGE ECHEANCE'[DisbursementEUR]",
+        "explanation": {
+          "fr": "Le ratio de liquidation mesure la proportion du pret initial qui a ete remboursee. Il calcule la difference entre le montant debourse (DisbursementEUR) et le GLP restant, puis divise par le deboursement initial. Un ratio eleve indique que le pret est proche de son terme, un ratio faible indique un pret recent ou des problemes de remboursement.",
+          "en": "Liquidation ratio measures proportion of initial loan repaid. It calculates difference between disbursed amount and remaining GLP, then divides by initial disbursement. High ratio indicates loan near term, low ratio indicates recent loan or repayment issues."
+        }
+      }
     }
   ]
 }

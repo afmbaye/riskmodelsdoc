@@ -1,0 +1,83 @@
+{
+  "site": {
+    "name": {
+      "fr": "Documentation des outils du risque",
+      "en": "Risk Tools Documentation"
+    },
+    "description": {
+      "fr": "Ressource centralisee pour comprendre, utiliser et optimiser nos solutions d'analyse et de gestion des risques.",
+      "en": "Centralized resource to understand, use and optimize our risk analysis and management solutions."
+    },
+    "owner": {
+      "fr": "Risque Group",
+      "en": "Group Risk"
+    },
+    "logo": "assets/images/logos/baobab.png",
+    "defaultLanguage": "fr",
+    "supportedLanguages": ["fr", "en"]
+  },
+  "navigation": {
+    "items": [
+      {
+        "id": "home",
+        "label": { "fr": "Accueil", "en": "Home" },
+        "path": "index.html",
+        "icon": "home"
+      },
+      {
+        "id": "data-flow",
+        "label": { "fr": "Flux de donnees", "en": "Data Flow" },
+        "path": "data-flow/index.html",
+        "icon": "git-branch"
+      },
+      {
+        "id": "documentation",
+        "label": { "fr": "Documentation", "en": "Documentation" },
+        "path": null,
+        "icon": "book-open",
+        "isDropdown": true
+      },
+      {
+        "id": "glossary",
+        "label": { "fr": "Glossaire", "en": "Glossary" },
+        "path": "glossary/index.html",
+        "icon": "book"
+      }
+    ]
+  },
+  "sidebar": {
+    "sections": [
+      {
+        "id": "overview",
+        "label": { "fr": "Vue d'ensemble", "en": "Overview" },
+        "path": "pages/overview/index.html",
+        "icon": "home"
+      },
+      {
+        "id": "data-model",
+        "label": { "fr": "Modele de donnees", "en": "Data Model" },
+        "path": "pages/data-model/index.html",
+        "icon": "database"
+      },
+      {
+        "id": "kpi-dictionary",
+        "label": { "fr": "Dictionnaire des KPIs", "en": "KPI Dictionary" },
+        "path": "pages/kpi-dictionary/index.html",
+        "icon": "book-open"
+      },
+      {
+        "id": "visuals",
+        "label": { "fr": "Visuels", "en": "Visuals" },
+        "path": "pages/visuals/index.html",
+        "icon": "bar-chart-2",
+        "hasSubmenu": true
+      },
+      {
+        "id": "update",
+        "label": { "fr": "Mise a jour", "en": "Update" },
+        "path": "pages/update/index.html",
+        "icon": "refresh-cw"
+      }
+    ]
+  }
+}

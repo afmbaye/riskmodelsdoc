@@ -1,0 +1,143 @@
+{
+  "description": {
+    "fr": "Glossaire des termes utilises dans les modeles de risque.",
+    "en": "Glossary of terms used in risk models."
+  },
+  "terms": [
+    {
+      "id": "glp",
+      "term": { "fr": "GLP (Gross Loan Portfolio)", "en": "GLP (Gross Loan Portfolio)" },
+      "definition": {
+        "fr": "Encours brut de credit. Represente le montant total des prets actifs avant deduction des provisions pour pertes.",
+        "en": "Gross loan outstanding. Represents total active loans before provision deductions for losses."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+    },
+    {
+      "id": "echeance",
+      "term": { "fr": "Echeance", "en": "Installment" },
+      "definition": {
+        "fr": "Montant periodique (generalement mensuel) que le client doit rembourser selon son contrat de pret. Comprend le capital et les interets.",
+        "en": "Periodic amount (usually monthly) the customer must repay according to their loan contract. Includes principal and interest."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "vintage",
+      "term": { "fr": "Vintage", "en": "Vintage" },
+      "definition": {
+        "fr": "Cohorte de prets regroupes par date d'octroi (mois ou trimestre). Permet d'analyser le comportement d'un groupe de prets au fil du temps et de comparer les performances entre cohortes.",
+        "en": "Cohort of loans grouped by origination date (month or quarter). Allows analyzing a loan group's behavior over time and comparing performance between cohorts."
+      },
+      "relatedModels": ["vintage-ld-wo", "installment-tracker", "vintage-recovery"]
+    },
+    {
+      "id": "dao",
+      "term": { "fr": "DAO (Gestionnaire de portefeuille)", "en": "DAO (Portfolio Manager)" },
+      "definition": {
+        "fr": "Responsable en charge du suivi et du recouvrement d'un portefeuille de clients. Egalement appele GP (Gestionnaire de Portefeuille).",
+        "en": "Person responsible for monitoring and collecting on a customer portfolio. Also called GP (Portfolio Manager)."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "write-off",
+      "term": { "fr": "Write-off (Passage en perte)", "en": "Write-off" },
+      "definition": {
+        "fr": "Creance consideree comme irrecuperable et passee en perte comptable. Generalement applique apres un certain nombre de jours d'impayes (ex: 180 jours).",
+        "en": "Loan considered unrecoverable and written off. Usually applied after a certain number of days past due (e.g., 180 days)."
+      },
+      "relatedModels": ["vintage-ld-wo"]
+    },
+    {
+      "id": "par",
+      "term": { "fr": "PAR (Portfolio at Risk)", "en": "PAR (Portfolio at Risk)" },
+      "definition": {
+        "fr": "Portefeuille a risque. Ratio mesurant la proportion de l'encours dont au moins une echeance est en retard d'un certain nombre de jours (PAR30, PAR60, PAR90).",
+        "en": "Portfolio at Risk. Ratio measuring proportion of outstanding with at least one installment overdue by a certain number of days (PAR30, PAR60, PAR90)."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+    },
+    {
+      "id": "entry-rate",
+      "term": { "fr": "Taux d'entree (Entry Rate)", "en": "Entry Rate" },
+      "definition": {
+        "fr": "Pourcentage de nouveaux impayes le jour meme de l'echeance (J0). Indicateur precoce de la qualite du portefeuille et des problemes potentiels de recouvrement.",
+        "en": "Percentage of new defaults on due date (D0). Early indicator of portfolio quality and potential collection issues."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "recovery-rate",
+      "term": { "fr": "Taux de recouvrement", "en": "Recovery Rate" },
+      "definition": {
+        "fr": "Pourcentage des montants effectivement recouvres par rapport aux montants dus. Mesure l'efficacite des actions de recouvrement.",
+        "en": "Percentage of amounts actually recovered compared to amounts due. Measures collection action effectiveness."
+      },
+      "relatedModels": ["vintage-recovery", "installment-tracker"]
+    },
+    {
+      "id": "segment",
+      "term": { "fr": "Segment client", "en": "Customer Segment" },
+      "definition": {
+        "fr": "Classification des clients selon leur profil : Nano (tres petits prets), SE (Small Enterprise), ME (Medium Enterprise), etc.",
+        "en": "Customer classification by profile: Nano (very small loans), SE (Small Enterprise), ME (Medium Enterprise), etc."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+    },
+    {
+      "id": "fx-rate",
+      "term": { "fr": "Taux de change (FX Rate)", "en": "FX Rate (Exchange Rate)" },
+      "definition": {
+        "fr": "Taux de conversion entre la devise locale (LC) et l'euro (EUR). Utilise pour consolider les donnees de toutes les filiales.",
+        "en": "Conversion rate between local currency (LC) and euro (EUR). Used to consolidate data from all subsidiaries."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20"]
+    },
+    {
+      "id": "disbursement",
+      "term": { "fr": "Decaissement (Disbursement)", "en": "Disbursement" },
+      "definition": {
+        "fr": "Montant total du pret verse au client au moment de l'octroi du credit.",
+        "en": "Total loan amount paid to customer at credit origination."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+    },
+    {
+      "id": "eom",
+      "term": { "fr": "EOM (End of Month)", "en": "EOM (End of Month)" },
+      "definition": {
+        "fr": "Fin de mois. Reference temporelle utilisee pour les snapshots mensuels du portefeuille.",
+        "en": "End of Month. Time reference used for monthly portfolio snapshots."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "anticipation",
+      "term": { "fr": "Anticipation", "en": "Early Payment / Anticipation" },
+      "definition": {
+        "fr": "Situation ou le client paie son echeance avant la date prevue, ou dispose d'un solde suffisant sur son compte pour couvrir les echeances futures.",
+        "en": "Situation where customer pays installment before due date, or has sufficient account balance to cover future installments."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "lc",
+      "term": { "fr": "LC (Local Currency)", "en": "LC (Local Currency)" },
+      "definition": {
+        "fr": "Devise locale de chaque filiale (XOF, XAF, NGN, etc.). Les montants sont convertis en EUR pour la consolidation groupe.",
+        "en": "Local currency of each subsidiary (XOF, XAF, NGN, etc.). Amounts are converted to EUR for group consolidation."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20"]
+    },
+    {
+      "id": "branch",
+      "term": { "fr": "Agence (Branch)", "en": "Branch" },
+      "definition": {
+        "fr": "Point de vente physique ou les clients peuvent effectuer leurs operations bancaires. Chaque agence est rattachee a une region.",
+        "en": "Physical point of sale where customers can conduct banking operations. Each branch belongs to a region."
+      },
+      "relatedModels": ["installment-tracker"]
+    }
+  ]
+}

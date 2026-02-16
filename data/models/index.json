@@ -2,21 +2,51 @@
   "models": [
     {
       "id": "installment-tracker",
-      "name": "Installment Tracker",
-      "description": "Suivi des remboursements de crédits",
-      "metadata": {
-        "department": "Direction des Risques",
-        "version": "2.0"
-      }
+      "name": { "fr": "Installment Tracker", "en": "Installment Tracker" },
+      "description": {
+        "fr": "Suivi quotidien de l'etat de reglement des echeances au niveau du groupe, par filiale, agence, region et gestionnaire de portefeuille.",
+        "en": "Daily monitoring of installment payment status at group level, by subsidiary, branch, region and portfolio manager."
+      },
+      "categories": ["portfolio", "credit-risk"],
+      "updateFrequency": { "fr": "Quotidienne", "en": "Daily" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": true
     },
     {
-      "id": "credit-score",
-      "name": "Credit Score",
-      "description": "Modèle de scoring crédit",
-      "metadata": {
-        "department": "Direction des Risques",
-        "version": "1.5"
-      }
+      "id": "vintage-ld-wo",
+      "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
+      "description": {
+        "fr": "Analyse des vintages, late days et write-offs du portefeuille.",
+        "en": "Vintage analysis, late days and portfolio write-offs."
+      },
+      "categories": ["portfolio", "collections"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": false
+    },
+    {
+      "id": "vintage-recovery",
+      "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
+      "description": {
+        "fr": "Suivi des performances de recouvrement par cohorte de prets.",
+        "en": "Recovery performance tracking by loan cohort."
+      },
+      "categories": ["collections"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": false
+    },
+    {
+      "id": "top-20",
+      "name": { "fr": "TOP 20", "en": "TOP 20" },
+      "description": {
+        "fr": "Suivi des 20 plus gros encours du portefeuille.",
+        "en": "Monitoring of top 20 largest portfolio exposures."
+      },
+      "categories": ["portfolio", "credit-risk"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": false
     }
   ]
 }

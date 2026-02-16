@@ -1,88 +1,225 @@
 {
   "modelId": "installment-tracker",
-  "tables": [
+  "description": {
+    "fr": "L'organisation des donnees repose sur une modelisation relationnelle structuree. Chaque table joue un role bien defini, et les relations entre elles permettent de croiser efficacement les informations.",
+    "en": "Data organization is based on structured relational modeling. Each table plays a defined role, and relationships between them enable efficient cross-referencing."
+  },
+  "dataSources": [
     {
-      "name": "Credits",
-      "type": "fact",
-      "description": "Table principale des crédits",
-      "image": "credits-table.png",
-      "columns": [
-        {
-          "name": "CreditId",
-          "type": "string",
-          "description": "Identifiant unique du crédit",
-          "isPrimaryKey": true
-        },
-        {
-          "name": "ClientId",
-          "type": "string",
-          "description": "Identifiant unique du client",
-          "isForeignKey": true,
-          "references": {
-            "table": "Clients",
-            "column": "ClientId"
-          }
-        },
-        {
-          "name": "Amount",
-          "type": "decimal",
-          "description": "Montant du crédit",
-          "format": "#,##0.00"
-        }
-      ]
+      "id": "csv-reports",
+      "name": { "fr": "14 reportings CSV", "en": "14 CSV reports" },
+      "type": "folder",
+      "icon": "folder",
+      "description": {
+        "fr": "2 fichiers pour chaque filiale (7 filiales) : fin du mois precedent + date du jour",
+        "en": "2 files per subsidiary (7 subsidiaries): end of previous month + current date"
+      }
     },
     {
-      "name": "Payments",
-      "type": "fact",
-      "description": "Table des paiements",
-      "image": "payments-table.png",
-      "columns": [
-        {
-          "name": "PaymentId",
-          "type": "string",
-          "description": "Identifiant unique du paiement",
-          "isPrimaryKey": true
-        },
-        {
-          "name": "CreditId",
-          "type": "string",
-          "description": "Référence au crédit",
-          "isForeignKey": true,
-          "references": {
-            "table": "Credits",
-            "column": "CreditId"
-          }
-        }
-      ]
+      "id": "mapping",
+      "name": { "fr": "mapping.xlsx", "en": "mapping.xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier de correspondance pour le mapping des donnees agences, filiales, segments",
+        "en": "Mapping file for branch, subsidiary, segment data correspondence"
+      }
+    },
+    {
+      "id": "photos",
+      "name": { "fr": "Photo pays", "en": "Country photos" },
+      "type": "folder",
+      "icon": "folder",
+      "description": {
+        "fr": "Dossier contenant les pictos de drapeaux des 7 filiales",
+        "en": "Folder containing flag icons for 7 subsidiaries"
+      }
     }
   ],
+  "schema": {
+    "image": "Assets/Images/installment-tracker/data-model.png",
+    "description": {
+      "fr": "Vue d'ensemble des relations entre les differentes tables du modele.",
+      "en": "Overview of relationships between model tables."
+    }
+  },
   "relationships": [
     {
-      "name": "Credits_Clients",
-      "fromTable": "Credits",
-      "fromColumn": "ClientId",
-      "toTable": "Clients",
-      "toColumn": "ClientId",
-      "type": "many-to-one",
-      "crossFilteringBehavior": "bidirectional"
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "Country" },
+      "to": { "table": "Countries", "column": "Country" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Chaque echeance est associee a un pays. Cette relation permet de filtrer les donnees par pays et d'afficher les drapeaux correspondants.",
+        "en": "Each installment is linked to a country. This relationship enables filtering by country and displaying corresponding flags."
+      }
     },
     {
-      "name": "Payments_Credits",
-      "fromTable": "Payments",
-      "fromColumn": "CreditId",
-      "toTable": "Credits",
-      "toColumn": "CreditId",
-      "type": "many-to-one",
-      "crossFilteringBehavior": "bidirectional"
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "BranchCode" },
+      "to": { "table": "Code_agence", "column": "BranchCode" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie chaque echeance a son agence d'origine pour l'analyse par point de vente.",
+        "en": "Links each installment to its originating branch for point-of-sale analysis."
+      }
+    },
+    {
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "Segment" },
+      "to": { "table": "New Segment", "column": "Segment" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Permet de categoriser les echeances par segment client (Nano, SE, etc.).",
+        "en": "Categorizes installments by customer segment (Nano, SE, etc.)."
+      }
+    },
+    {
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "DateKey" },
+      "to": { "table": "Dateday", "column": "DateKey" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Lie chaque echeance a la table de dates pour les analyses temporelles (mois, trimestre, annee).",
+        "en": "Links each installment to date table for time-based analysis (month, quarter, year)."
+      }
+    },
+    {
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "Currency" },
+      "to": { "table": "FX_rates", "column": "Currency" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Permet la conversion des montants en euros via les taux de change.",
+        "en": "Enables amount conversion to euros via exchange rates."
+      }
+    },
+    {
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "DAOCode" },
+      "to": { "table": "Main DAO name", "column": "DAOCode" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Associe chaque echeance au gestionnaire de portefeuille responsable.",
+        "en": "Associates each installment with the responsible portfolio manager."
+      }
+    },
+    {
+      "from": { "table": "MAIN VINTAGE ECHEANCE", "column": "ProductCode" },
+      "to": { "table": "Main products", "column": "ProductCode" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Lie chaque echeance a son type de produit pour l'analyse par categorie.",
+        "en": "Links each installment to its product type for category analysis."
+      }
+    },
+    {
+      "from": { "table": "Countries", "column": "Country" },
+      "to": { "table": "Photos pays", "column": "Country" },
+      "cardinality": "1:1",
+      "description": {
+        "fr": "Associe chaque pays a son drapeau pour l'affichage visuel.",
+        "en": "Associates each country with its flag for visual display."
+      }
     }
   ],
-  "calculations": [
-    {
-      "name": "TotalCredits",
-      "type": "measure",
-      "expression": "COUNT(Credits[CreditId])",
-      "description": "Nombre total de crédits",
-      "format": "#,##0"
-    }
-  ]
+  "tables": {
+    "fact": [
+      {
+        "name": "MAIN VINTAGE ECHEANCE",
+        "description": {
+          "fr": "Table de faits principale contenant l'historique detaille de toutes les echeances de remboursement. Chaque ligne represente une echeance avec son statut, montant et dates.",
+          "en": "Main fact table containing detailed history of all repayment installments. Each row represents an installment with status, amount and dates."
+        },
+        "screenshot": "Assets/Images/installment-tracker/main-vintage-echeance.png",
+        "icon": "package"
+      },
+      {
+        "name": "MAIN CONTRACT EOM",
+        "description": {
+          "fr": "Table de faits contenant les donnees agregees des contrats en fin de mois (End of Month). Permet l'analyse des positions mensuelles et l'evolution des encours.",
+          "en": "Fact table with aggregated contract data at End of Month. Enables monthly position analysis and outstanding balance evolution."
+        },
+        "screenshot": "Assets/Images/installment-tracker/main-contract-eom.png",
+        "icon": "package"
+      }
+    ],
+    "dimension": [
+      {
+        "name": "Countries",
+        "description": {
+          "fr": "Dictionnaire pays avec region, code ISO et devise locale.",
+          "en": "Country dictionary with region, ISO code and local currency."
+        },
+        "screenshot": "Assets/Images/installment-tracker/countries.png",
+        "icon": "globe"
+      },
+      {
+        "name": "New Segment",
+        "description": {
+          "fr": "Referentiel de la segmentation client : Nano, SE, ME, etc.",
+          "en": "Customer segmentation reference: Nano, SE, ME, etc."
+        },
+        "screenshot": "Assets/Images/installment-tracker/new-segment.png",
+        "icon": "users"
+      },
+      {
+        "name": "Code_agence",
+        "description": {
+          "fr": "Liste des agences avec leurs codes et informations geographiques.",
+          "en": "Branch list with codes and geographic information."
+        },
+        "screenshot": "Assets/Images/installment-tracker/code-agence.png",
+        "icon": "map-pin"
+      },
+      {
+        "name": "Dateday",
+        "description": {
+          "fr": "Table de dates utilisee pour l'analyse temporelle (jour, mois, trimestre, annee).",
+          "en": "Date table used for time-based analysis (day, month, quarter, year)."
+        },
+        "screenshot": "Assets/Images/installment-tracker/dateday.png",
+        "icon": "calendar"
+      },
+      {
+        "name": "FX_rates",
+        "description": {
+          "fr": "Referentiel des taux de change mensuels pour la conversion des devises locales en euros.",
+          "en": "Monthly exchange rate reference for local currency to euro conversion."
+        },
+        "screenshot": "Assets/Images/installment-tracker/fx-rates.png",
+        "icon": "dollar-sign"
+      },
+      {
+        "name": "Main DAO name",
+        "description": {
+          "fr": "Dictionnaire des gestionnaires de portefeuille (DAO) avec leurs informations.",
+          "en": "Portfolio manager (DAO) dictionary with their information."
+        },
+        "screenshot": "Assets/Images/installment-tracker/main-dao-name.png",
+        "icon": "user-check"
+      },
+      {
+        "name": "Main products",
+        "description": {
+          "fr": "Dictionnaire des produits de credit disponibles.",
+          "en": "Available credit product dictionary."
+        },
+        "screenshot": "Assets/Images/installment-tracker/main-products.png",
+        "icon": "shopping-bag"
+      },
+      {
+        "name": "Mapping number month",
+        "description": {
+          "fr": "Table de correspondance entre numero et nom de mois.",
+          "en": "Mapping table between month number and name."
+        },
+        "screenshot": "Assets/Images/installment-tracker/mapping-number-month.png",
+        "icon": "hash"
+      },
+      {
+        "name": "Photos pays",
+        "description": {
+          "fr": "Banque d'images contenant les drapeaux des pays pour l'affichage visuel.",
+          "en": "Image bank containing country flags for visual display."
+        },
+        "screenshot": "Assets/Images/installment-tracker/photos-pays.png",
+        "icon": "image"
+      }
+    ]
+  }
 }

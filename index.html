@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation Power BI - Baobab Group Risk</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logos/baobab.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <!-- Feather Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+  <div class="layout-wrapper no-sidebar">
+    <!-- Header -->
+    <header class="header">
+      <!-- Rendered by NavigationManager -->
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section" id="heroSection">
+        <div class="hero-content">
+          <h1 class="hero-title" id="heroTitle">Documentation Power BI</h1>
+          <p class="hero-description" id="heroDescription">
+            Explorez la documentation complète des modèles Power BI du département Risk.
+          </p>
+          <p class="hero-attribution" id="heroAttribution">
+            Baobab Group - Risk Team
+          </p>
+
+          <!-- Quick Stats -->
+          <div class="quick-stats" id="quickStats">
+            <!-- Rendered dynamically -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Search and Filters -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i data-feather="grid"></i>
+            <span id="modelsTitle">Modèles disponibles</span>
+          </h2>
+
+          <div class="filter-group">
+            <div class="search-box">
+              <i data-feather="search"></i>
+              <input type="text" id="searchInput" placeholder="Rechercher un modèle...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="filter-group mb-6" id="categoryFilters">
+          <button class="filter-chip active" data-category="all" id="filterAll">Tous</button>
+          <!-- Category chips rendered dynamically -->
+        </div>
+
+        <!-- Models Table -->
+        <div class="table-wrapper">
+          <table class="models-table" id="modelsTable">
+            <thead>
+              <tr>
+                <th id="thName">Nom</th>
+                <th id="thDescription">Description</th>
+                <th id="thCategories">Catégories</th>
+                <th id="thFrequency">Mise à jour</th>
+                <th id="thStatus">Statut</th>
+                <th id="thFabric">Fabric</th>
+                <th id="thDoc">Documentation</th>
+              </tr>
+            </thead>
+            <tbody id="modelsTableBody">
+              <!-- Models rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state d-none" id="emptyState">
+          <i data-feather="search" class="empty-state-icon"></i>
+          <h3 class="empty-state-title" id="emptyTitle">Aucun modèle trouvé</h3>
+          <p class="empty-state-description" id="emptyDescription">
+            Essayez de modifier vos critères de recherche.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/languageManager.js"></script>
+  <script src="assets/js/dataLoader.js"></script>
+  <script src="assets/js/templateRenderer.js"></script>
+  <script src="assets/js/navigationManager.js"></script>
+
+  <script>
+    /**
+     * Home Page Controller
+     */
+    const HomePage = {
+      models: [],
+      categories: [],
+      currentCategory: 'all',
+      searchTerm: '',
+
+      async init() {
+        try {
+          // Wait for LanguageManager to initialize
+          await new Promise(resolve => {
+            if (document.readyState === 'complete') {
+              resolve();
+            } else {
+              window.addEventListener('load', resolve);
+            }
+          });
+
+          // Load data
+          const [modelsData, categoriesData, siteConfig] = await Promise.all([
+            DataLoader.getModelsIndex(),
+            DataLoader.getCategories(),
+            DataLoader.getSiteConfig()
+          ]);
+
+          this.models = modelsData.models;
+          this.categories = categoriesData.categories;
+
+          // Render UI
+          this.renderHero(siteConfig);
+          this.renderQuickStats();
+          this.renderCategoryFilters();
+          this.renderModelsTable();
+          this.updateLabels();
+          this.setupEventListeners();
+
+          // Initialize icons
+          feather.replace();
+
+        } catch (error) {
+          console.error('Home page initialization error:', error);
+        }
+      },
+
+      renderHero(siteConfig) {
+        const t = LanguageManager.t.bind(LanguageManager);
+
+        document.getElementById('heroTitle').textContent = t(siteConfig.site.name);
+        document.getElementById('heroDescription').textContent = t(siteConfig.site.description);
+        document.getElementById('heroAttribution').textContent = 'Baobab Group - Risk Team';
+      },
+
+      renderQuickStats() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const activeModels = this.models.filter(m => m.isActive).length;
+        const totalModels = this.models.length;
+
+        const statsHtml = `
+          <div class="quick-stat">
+            <div class="quick-stat-value">${activeModels}</div>
+            <div class="quick-stat-label">${t({ fr: 'Modèles actifs', en: 'Active models' })}</div>
+          </div>
+          <div class="quick-stat">
+            <div class="quick-stat-value">${totalModels}</div>
+            <div class="quick-stat-label">${t({ fr: 'Modèles total', en: 'Total models' })}</div>
+          </div>
+          <div class="quick-stat">
+            <div class="quick-stat-value">${this.categories.length}</div>
+            <div class="quick-stat-label">${t({ fr: 'Catégories', en: 'Categories' })}</div>
+          </div>
+        `;
+
+        document.getElementById('quickStats').innerHTML = statsHtml;
+      },
+
+      renderCategoryFilters() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('categoryFilters');
+
+        // Update "All" button text
+        document.getElementById('filterAll').textContent = t({ fr: 'Tous', en: 'All' });
+
+        // Add category chips
+        const categoryChips = this.categories.map(cat => `
+          <button class="filter-chip" data-category="${cat.id}" style="--chip-color: ${cat.color}">
+            ${t(cat.label)}
+          </button>
+        `).join('');
+
+        container.innerHTML = `
+          <button class="filter-chip active" data-category="all">${t({ fr: 'Tous', en: 'All' })}</button>
+          ${categoryChips}
+        `;
+      },
+
+      renderModelsTable() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const tbody = document.getElementById('modelsTableBody');
+
+        // Filter models
+        let filteredModels = this.models;
+
+        // Filter by category
+        if (this.currentCategory !== 'all') {
+          filteredModels = filteredModels.filter(m =>
+            m.categories && m.categories.includes(this.currentCategory)
+          );
+        }
+
+        // Filter by search term
+        if (this.searchTerm) {
+          const term = this.searchTerm.toLowerCase();
+          filteredModels = filteredModels.filter(m =>
+            t(m.name).toLowerCase().includes(term) ||
+            t(m.description).toLowerCase().includes(term)
+          );
+        }
+
+        // Show empty state if no results
+        const emptyState = document.getElementById('emptyState');
+        const tableWrapper = document.querySelector('.table-wrapper');
+
+        if (filteredModels.length === 0) {
+          emptyState.classList.remove('d-none');
+          tableWrapper.classList.add('d-none');
+          return;
+        } else {
+          emptyState.classList.add('d-none');
+          tableWrapper.classList.remove('d-none');
+        }
+
+        // Render rows
+        tbody.innerHTML = filteredModels.map(model =>
+          TemplateRenderer.renderModelRow(model, this.categories)
+        ).join('');
+
+        feather.replace();
+      },
+
+      updateLabels() {
+        const t = LanguageManager.t.bind(LanguageManager);
+
+        // Section title
+        document.getElementById('modelsTitle').textContent = t({
+          fr: 'Modèles disponibles',
+          en: 'Available models'
+        });
+
+        // Search placeholder
+        document.getElementById('searchInput').placeholder = t({
+          fr: 'Rechercher un modèle...',
+          en: 'Search for a model...'
+        });
+
+        // Table headers
+        document.getElementById('thName').textContent = t({ fr: 'Nom', en: 'Name' });
+        document.getElementById('thDescription').textContent = t({ fr: 'Description', en: 'Description' });
+        document.getElementById('thCategories').textContent = t({ fr: 'Catégories', en: 'Categories' });
+        document.getElementById('thFrequency').textContent = t({ fr: 'Mise à jour', en: 'Update' });
+        document.getElementById('thStatus').textContent = t({ fr: 'Statut', en: 'Status' });
+        document.getElementById('thFabric').textContent = 'Fabric';
+        document.getElementById('thDoc').textContent = t({ fr: 'Documentation', en: 'Documentation' });
+
+        // Empty state
+        document.getElementById('emptyTitle').textContent = t({
+          fr: 'Aucun modèle trouvé',
+          en: 'No models found'
+        });
+        document.getElementById('emptyDescription').textContent = t({
+          fr: 'Essayez de modifier vos critères de recherche.',
+          en: 'Try modifying your search criteria.'
+        });
+      },
+
+      setupEventListeners() {
+        // Search input
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+          this.searchTerm = e.target.value;
+          this.renderModelsTable();
+        });
+
+        // Category filters
+        document.getElementById('categoryFilters').addEventListener('click', (e) => {
+          const chip = e.target.closest('.filter-chip');
+          if (!chip) return;
+
+          // Update active state
+          document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+
+          // Filter
+          this.currentCategory = chip.dataset.category;
+          this.renderModelsTable();
+        });
+
+        // Language change
+        window.addEventListener('languageChanged', () => {
+          this.renderCategoryFilters();
+          this.renderQuickStats();
+          this.renderModelsTable();
+          this.updateLabels();
+        });
+      }
+    };
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      HomePage.init().catch(error => {
+        console.error('HomePage init failed:', error);
+        // Show user-friendly error message
+        const main = document.querySelector('.main-content');
+        if (main && window.location.protocol === 'file:') {
+          main.innerHTML = `
+            <div style="padding: 40px; text-align: center; color: #721c24; background: #f8d7da; border-radius: 8px; margin: 20px;">
+              <h2>⚠️ Erreur de chargement / Loading Error</h2>
+              <p><strong>FR:</strong> Les fichiers ne peuvent pas être chargés via le protocole file://.</p>
+              <p><strong>EN:</strong> Files cannot be loaded via file:// protocol due to browser security.</p>
+              <p style="margin-top: 20px; color: #155724; background: #d4edda; padding: 15px; border-radius: 4px;">
+                <strong>Solution:</strong> Utilisez un serveur local / Use a local server:<br>
+                <code style="background: #e9ecef; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 10px;">
+                  npx serve
+                </code>
+                <br>ou / or<br>
+                <code style="background: #e9ecef; padding: 5px 10px; border-radius: 4px; display: inline-block; margin-top: 10px;">
+                  python -m http.server 3000
+                </code>
+              </p>
+            </div>
+          `;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

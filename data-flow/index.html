@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flux de données - Documentation Power BI</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/logos/baobab.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- Feather Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+  <div class="layout-wrapper no-sidebar">
+    <!-- Header -->
+    <header class="header">
+      <!-- Rendered by NavigationManager -->
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section hero-compact hero-data-flow">
+        <div class="hero-content">
+          <h1 class="hero-title" id="pageTitle">Flux de données</h1>
+          <p class="hero-description" id="pageDescription">
+            Visualisez le flux de données depuis les sources jusqu'aux modèles Power BI.
+          </p>
+        </div>
+      </section>
+
+      <!-- Filter by Model -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i data-feather="filter"></i>
+            <span id="filterTitle">Filtrer par modèle</span>
+          </h2>
+        </div>
+
+        <div class="filter-group" id="modelFilters">
+          <button class="filter-chip active" data-model="all" id="filterAll">Tous les modèles</button>
+          <!-- Model chips rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Data Flow Diagram -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i data-feather="git-merge"></i>
+            <span id="flowTitle">Schéma du flux</span>
+          </h2>
+        </div>
+
+        <div class="data-flow-container" id="dataFlowDiagram">
+          <!-- Data flow rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Data Sources -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i data-feather="database"></i>
+            <span id="sourcesTitle">Sources de données</span>
+          </h2>
+        </div>
+
+        <div class="content-grid" id="sourcesGrid">
+          <!-- Sources rendered dynamically -->
+        </div>
+      </section>
+
+      <!-- Data Dictionary Panel -->
+      <div class="slide-panel-overlay" id="panelOverlay"></div>
+      <div class="slide-panel" id="dictionaryPanel">
+        <div class="slide-panel-header">
+          <h3 class="slide-panel-title" id="panelTitle">Dictionnaire de données</h3>
+          <button class="slide-panel-close" id="panelClose">
+            <i data-feather="x"></i>
+          </button>
+        </div>
+        <div class="slide-panel-body" id="panelBody">
+          <!-- Dictionary content rendered dynamically -->
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/languageManager.js"></script>
+  <script src="../assets/js/dataLoader.js"></script>
+  <script src="../assets/js/templateRenderer.js"></script>
+  <script src="../assets/js/navigationManager.js"></script>
+
+  <script>
+    /**
+     * Data Flow Page Controller
+     */
+    const DataFlowPage = {
+      dataFlow: null,
+      models: [],
+      currentModel: 'all',
+
+      async init() {
+        try {
+          // Load data
+          const [dataFlowData, modelsData] = await Promise.all([
+            DataLoader.getDataFlow(),
+            DataLoader.getModelsIndex()
+          ]);
+
+          this.dataFlow = dataFlowData;
+          this.models = modelsData.models.filter(m => m.isActive);
+
+          // Render UI
+          this.updateLabels();
+          this.renderModelFilters();
+          this.renderDataFlow();
+          this.renderSources();
+          this.setupEventListeners();
+
+          // Initialize icons
+          feather.replace();
+
+        } catch (error) {
+          console.error('Data Flow page initialization error:', error);
+        }
+      },
+
+      updateLabels() {
+        const t = LanguageManager.t.bind(LanguageManager);
+
+        document.getElementById('pageTitle').textContent = t({
+          fr: 'Flux de données',
+          en: 'Data Flow'
+        });
+        document.getElementById('pageDescription').textContent = t({
+          fr: 'Visualisez le flux de données depuis les sources jusqu\'aux modèles Power BI.',
+          en: 'Visualize the data flow from sources to Power BI models.'
+        });
+        document.getElementById('filterTitle').textContent = t({
+          fr: 'Filtrer par modèle',
+          en: 'Filter by model'
+        });
+        document.getElementById('flowTitle').textContent = t({
+          fr: 'Schéma du flux',
+          en: 'Flow diagram'
+        });
+        document.getElementById('sourcesTitle').textContent = t({
+          fr: 'Sources de données',
+          en: 'Data sources'
+        });
+        document.getElementById('panelTitle').textContent = t({
+          fr: 'Dictionnaire de données',
+          en: 'Data dictionary'
+        });
+      },
+
+      renderModelFilters() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('modelFilters');
+
+        const modelChips = this.models.map(model => `
+          <button class="filter-chip" data-model="${model.id}">
+            ${t(model.name)}
+          </button>
+        `).join('');
+
+        container.innerHTML = `
+          <button class="filter-chip active" data-model="all">
+            ${t({ fr: 'Tous les modèles', en: 'All models' })}
+          </button>
+          ${modelChips}
+        `;
+      },
+
+      renderDataFlow() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('dataFlowDiagram');
+
+        // Filter sources by selected model
+        let sources = this.dataFlow.sources;
+        if (this.currentModel !== 'all') {
+          sources = sources.filter(s =>
+            s.usedByModels && s.usedByModels.includes(this.currentModel)
+          );
+        }
+
+        // Create flow visualization
+        const flowHtml = `
+          <div class="flow-diagram">
+            <!-- Sources Column -->
+            <div class="flow-column flow-sources">
+              <h4 class="flow-column-title">
+                <i data-feather="hard-drive"></i>
+                ${t({ fr: 'Sources', en: 'Sources' })}
+              </h4>
+              <div class="flow-items">
+                ${sources.map(source => `
+                  <div class="flow-item source-item" data-source="${source.id}">
+                    <i data-feather="${this.getSourceIcon(source.type)}"></i>
+                    <span>${t(source.name)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+
+            <!-- Arrow -->
+            <div class="flow-arrow">
+              <i data-feather="arrow-right"></i>
+              <span class="flow-arrow-label">${t({ fr: 'ETL', en: 'ETL' })}</span>
+            </div>
+
+            <!-- Lakehouse Column -->
+            <div class="flow-column flow-lakehouse">
+              <h4 class="flow-column-title">
+                <i data-feather="layers"></i>
+                ${t({ fr: 'Lakehouse', en: 'Lakehouse' })}
+              </h4>
+              <div class="flow-items">
+                <div class="flow-item lakehouse-item">
+                  <i data-feather="database"></i>
+                  <span>Microsoft Fabric</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Arrow -->
+            <div class="flow-arrow">
+              <i data-feather="arrow-right"></i>
+              <span class="flow-arrow-label">${t({ fr: 'Modélisation', en: 'Modeling' })}</span>
+            </div>
+
+            <!-- Models Column -->
+            <div class="flow-column flow-models">
+              <h4 class="flow-column-title">
+                <i data-feather="bar-chart-2"></i>
+                ${t({ fr: 'Modèles', en: 'Models' })}
+              </h4>
+              <div class="flow-items">
+                ${this.getFilteredModels().map(model => `
+                  <div class="flow-item model-item" data-model="${model.id}">
+                    <i data-feather="activity"></i>
+                    <span>${t(model.name)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = flowHtml;
+      },
+
+      getFilteredModels() {
+        if (this.currentModel === 'all') {
+          return this.models;
+        }
+        return this.models.filter(m => m.id === this.currentModel);
+      },
+
+      getSourceIcon(type) {
+        const icons = {
+          'database': 'database',
+          'file': 'file-text',
+          'api': 'cloud',
+          'sharepoint': 'folder',
+          'excel': 'file-text'
+        };
+        return icons[type] || 'file';
+      },
+
+      renderSources() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('sourcesGrid');
+
+        // Filter sources by selected model
+        let sources = this.dataFlow.sources;
+        if (this.currentModel !== 'all') {
+          sources = sources.filter(s =>
+            s.usedByModels && s.usedByModels.includes(this.currentModel)
+          );
+        }
+
+        container.innerHTML = sources.map(source => `
+          <div class="source-card" data-source="${source.id}">
+            <div class="source-icon">
+              <i data-feather="${this.getSourceIcon(source.type)}"></i>
+            </div>
+            <div class="source-content">
+              <h4 class="source-name">${t(source.name)}</h4>
+              <span class="source-type">${source.type.toUpperCase()}</span>
+              <p class="source-description">${t(source.description)}</p>
+              <button class="btn btn-sm btn-outline view-dictionary-btn" data-source="${source.id}">
+                <i data-feather="book-open"></i>
+                ${t({ fr: 'Voir dictionnaire', en: 'View dictionary' })}
+              </button>
+            </div>
+          </div>
+        `).join('');
+
+        feather.replace();
+      },
+
+      showDictionary(sourceId) {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const source = this.dataFlow.sources.find(s => s.id === sourceId);
+        if (!source) return;
+
+        const panel = document.getElementById('dictionaryPanel');
+        const overlay = document.getElementById('panelOverlay');
+        const body = document.getElementById('panelBody');
+        const title = document.getElementById('panelTitle');
+
+        title.textContent = t(source.name) + ' - ' + t({
+          fr: 'Dictionnaire',
+          en: 'Dictionary'
+        });
+
+        // Get columns from data dictionary
+        const columns = this.dataFlow.dataDictionary?.[sourceId] || [];
+
+        if (columns.length === 0) {
+          body.innerHTML = `
+            <div class="empty-state">
+              <i data-feather="info" class="empty-state-icon"></i>
+              <h3 class="empty-state-title">${t({
+                fr: 'Aucune donnée disponible',
+                en: 'No data available'
+              })}</h3>
+              <p class="empty-state-description">${t({
+                fr: 'Le dictionnaire de données n\'est pas encore documenté pour cette source.',
+                en: 'The data dictionary is not yet documented for this source.'
+              })}</p>
+            </div>
+          `;
+        } else {
+          body.innerHTML = `
+            <table class="dictionary-table data-table">
+              <thead>
+                <tr>
+                  <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
+                  <th>${t({ fr: 'Type', en: 'Type' })}</th>
+                  <th>${t({ fr: 'Description', en: 'Description' })}</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${columns.map(col => `
+                  <tr>
+                    <td><span class="column-name">${col.name}</span></td>
+                    <td><span class="column-type">${col.type}</span></td>
+                    <td>${t(col.description)}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        }
+
+        // Show panel
+        panel.classList.add('show');
+        overlay.classList.add('show');
+        feather.replace();
+      },
+
+      hideDictionary() {
+        const panel = document.getElementById('dictionaryPanel');
+        const overlay = document.getElementById('panelOverlay');
+
+        panel.classList.remove('show');
+        overlay.classList.remove('show');
+      },
+
+      setupEventListeners() {
+        // Model filters
+        document.getElementById('modelFilters').addEventListener('click', (e) => {
+          const chip = e.target.closest('.filter-chip');
+          if (!chip) return;
+
+          // Update active state
+          document.querySelectorAll('#modelFilters .filter-chip').forEach(c =>
+            c.classList.remove('active')
+          );
+          chip.classList.add('active');
+
+          // Filter
+          this.currentModel = chip.dataset.model;
+          this.renderDataFlow();
+          this.renderSources();
+          feather.replace();
+        });
+
+        // View dictionary buttons
+        document.getElementById('sourcesGrid').addEventListener('click', (e) => {
+          const btn = e.target.closest('.view-dictionary-btn');
+          if (!btn) return;
+
+          this.showDictionary(btn.dataset.source);
+        });
+
+        // Close panel
+        document.getElementById('panelClose').addEventListener('click', () => {
+          this.hideDictionary();
+        });
+
+        document.getElementById('panelOverlay').addEventListener('click', () => {
+          this.hideDictionary();
+        });
+
+        // Escape key to close panel
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') {
+            this.hideDictionary();
+          }
+        });
+
+        // Language change
+        window.addEventListener('languageChanged', () => {
+          this.updateLabels();
+          this.renderModelFilters();
+          this.renderDataFlow();
+          this.renderSources();
+          feather.replace();
+        });
+      }
+    };
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      DataFlowPage.init();
+    });
+  </script>
+
+  <style>
+    /* Data Flow Diagram Styles */
+    .flow-diagram {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      gap: var(--spacing-4);
+      padding: var(--spacing-6);
+      background: var(--bg-gray-50);
+      border-radius: var(--radius-lg);
+      overflow-x: auto;
+    }
+
+    .flow-column {
+      flex: 1;
+      min-width: 180px;
+      background: var(--bg-white);
+      border-radius: var(--radius-lg);
+      padding: var(--spacing-4);
+      border: 1px solid var(--border-color);
+    }
+
+    .flow-column-title {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: var(--spacing-4);
+      padding-bottom: var(--spacing-3);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .flow-column-title i {
+      width: 16px;
+      height: 16px;
+    }
+
+    .flow-items {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+    }
+
+    .flow-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-3);
+      background: var(--bg-gray-50);
+      border-radius: var(--radius-md);
+      font-size: var(--font-size-sm);
+      color: var(--text-color);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .flow-item:hover {
+      background: var(--primary-light);
+      color: var(--primary-color);
+    }
+
+    .flow-item i {
+      width: 16px;
+      height: 16px;
+      color: var(--text-muted);
+    }
+
+    .flow-item:hover i {
+      color: var(--primary-color);
+    }
+
+    .flow-arrow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--spacing-4);
+      color: var(--text-light);
+    }
+
+    .flow-arrow i {
+      width: 24px;
+      height: 24px;
+    }
+
+    .flow-arrow-label {
+      font-size: var(--font-size-xs);
+      color: var(--text-muted);
+      margin-top: var(--spacing-1);
+    }
+
+    .flow-sources { border-left: 3px solid var(--info-color); }
+    .flow-lakehouse { border-left: 3px solid var(--warning-color); }
+    .flow-models { border-left: 3px solid var(--success-color); }
+
+    /* Source card button */
+    .source-card .btn {
+      margin-top: var(--spacing-3);
+    }
+
+    @media (max-width: 768px) {
+      .flow-diagram {
+        flex-direction: column;
+      }
+
+      .flow-arrow {
+        transform: rotate(90deg);
+        padding: var(--spacing-2);
+      }
+    }
+  </style>
+</body>
+</html>

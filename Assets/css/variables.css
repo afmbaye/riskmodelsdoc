@@ -1,0 +1,153 @@
+/**
+ * CSS Variables - Design System Tokens
+ * All design tokens for consistent styling across the application
+ */
+
+:root {
+  /* ============================================
+     LAYOUT
+     ============================================ */
+  --sidebar-width: 280px;
+  --header-height: 60px;
+  --content-max-width: 1400px;
+  --panel-width: 480px;
+
+  /* ============================================
+     COLORS - Primary (Baobab Brand)
+     ============================================ */
+  --primary-color: #E6007E;
+  --primary-light: rgba(230, 0, 126, 0.1);
+  --primary-dark: #B30062;
+  --primary-hover: #CC006F;
+
+  /* ============================================
+     COLORS - Secondary
+     ============================================ */
+  --secondary-color: #2C5282;
+  --secondary-light: rgba(44, 82, 130, 0.1);
+  --secondary-dark: #1A365D;
+
+  /* ============================================
+     COLORS - Neutral / Text
+     ============================================ */
+  --text-color: #2D3748;
+  --text-muted: #718096;
+  --text-light: #A0AEC0;
+  --text-inverse: #FFFFFF;
+
+  /* ============================================
+     COLORS - Background
+     ============================================ */
+  --bg-white: #FFFFFF;
+  --bg-gray-50: #F7FAFC;
+  --bg-gray-100: #EDF2F7;
+  --bg-gray-200: #E2E8F0;
+  --bg-gray-300: #CBD5E0;
+
+  /* ============================================
+     COLORS - Status / Semantic
+     ============================================ */
+  --success-color: #38A169;
+  --success-light: #C6F6D5;
+  --success-dark: #276749;
+
+  --warning-color: #ECC94B;
+  --warning-light: #FEFCBF;
+  --warning-dark: #B7791F;
+
+  --error-color: #E53E3E;
+  --error-light: #FED7D7;
+  --error-dark: #C53030;
+
+  --info-color: #4299E1;
+  --info-light: #BEE3F8;
+  --info-dark: #2B6CB0;
+
+  /* ============================================
+     COLORS - Categories
+     ============================================ */
+  --category-portfolio: #3182CE;
+  --category-savings: #38A169;
+  --category-collaterals: #805AD5;
+  --category-collections: #DD6B20;
+  --category-credit-risk: #E53E3E;
+  --category-reporting: #718096;
+
+  /* ============================================
+     BORDERS & SHADOWS
+     ============================================ */
+  --border-color: #E2E8F0;
+  --border-light: #EDF2F7;
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+
+  /* ============================================
+     TRANSITIONS
+     ============================================ */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ============================================
+     BORDER RADIUS
+     ============================================ */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --radius-full: 9999px;
+
+  /* ============================================
+     TYPOGRAPHY
+     ============================================ */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family-display: 'Poppins', var(--font-family);
+
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 0.9375rem; /* 15px */
+  --font-size-md: 1rem;        /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 1.875rem;   /* 30px */
+  --font-size-4xl: 2.25rem;    /* 36px */
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ============================================
+     SPACING
+     ============================================ */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+
+  /* ============================================
+     Z-INDEX LAYERS
+     ============================================ */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-fixed: 300;
+  --z-modal-backdrop: 400;
+  --z-modal: 500;
+  --z-popover: 600;
+  --z-tooltip: 700;
+}

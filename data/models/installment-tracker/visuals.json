@@ -1,60 +1,246 @@
 {
   "modelId": "installment-tracker",
+  "description": {
+    "fr": "Documentation des visuels disponibles dans le rapport Power BI.",
+    "en": "Documentation of visuals available in the Power BI report."
+  },
   "visuals": [
     {
-      "id": "dashboard-main",
-      "tabId": "dashboard",
-      "name": "Vue d'ensemble du tableau de bord",
-      "type": "combined",
-      "description": "Vue synthétique des performances de remboursement",
-      "image": "dashboard-main.png",
-      "components": [
+      "id": "glp",
+      "name": { "fr": "GLP", "en": "GLP" },
+      "screenshot": "Assets/Images/installment-tracker/viz-GLP.png",
+      "objective": {
+        "fr": "Fournir une vue d'ensemble du Gross Loan Portfolio et comparer les paiements attendus aux paiements réalisés.",
+        "en": "Provide an overview of Gross Loan Portfolio and compare expected vs actual payments."
+      },
+      "kpisUsed": ["GLP Attendu", "Paiement Effectif GLP", "Paiement Réel %", "GLP Anticipation"],
+      "filters": [
         {
-          "type": "kpi-cards",
-          "kpis": ["recovery-rate", "total-amount", "active-credits"]
+          "name": "Pays",
+          "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" }
         },
         {
-          "type": "chart",
-          "chartType": "line-column",
-          "title": "Évolution des remboursements",
-          "series": [
-            {
-              "name": "Montants mensuels",
-              "type": "column"
-            },
-            {
-              "name": "Taux de recouvrement",
-              "type": "line"
-            }
-          ]
+          "name": "Période",
+          "description": { "fr": "Sélectionner le mois ou la plage de dates", "en": "Select month or date range" }
+        },
+        {
+          "name": "Segment",
+          "description": { "fr": "Filtrer par segment client (Nano, SE, etc.)", "en": "Filter by customer segment (Nano, SE, etc.)" }
         }
       ],
-      "interactivity": {
-        "filters": ["période", "agence", "produit"],
-        "drillthrough": ["détails des crédits"]
+      "howToRead": {
+        "fr": "Les cartes en haut montrent les totaux actuels. Le graphique à barres compare visuellement les paiements attendus (barres bleues) aux paiements réalisés (barres vertes). Un écart important indique un problème de recouvrement.",
+        "en": "Cards at top show current totals. Bar chart visually compares expected payments (blue bars) to actual payments (green bars). A significant gap indicates a collection issue."
       },
-      "readingGuide": [
-        "Les barres représentent les montants mensuels",
-        "La ligne montre la tendance du taux de recouvrement",
-        "Les couleurs indiquent les différents statuts"
-      ]
-    }
-  ],
-  "tabs": [
+      "colorCoding": null
+    },
     {
-      "id": "dashboard",
-      "name": "Dashboard",
-      "visuals": ["dashboard-main", "recovery-by-product"],
-      "layout": {
-        "type": "grid",
-        "rows": 2,
-        "columns": 2
+      "id": "installments",
+      "name": { "fr": "Installments", "en": "Installments" },
+      "screenshot": "Assets/Images/installment-tracker/viz-inst.png",
+      "objective": {
+        "fr": "Analyser le détail des échéances par statut: remboursées, attendues et en retard.",
+        "en": "Analyze installment details by status: paid, expected and overdue."
+      },
+      "kpisUsed": ["Échéance Remboursée", "Échéance Attendue", "Taux de Règlement", "Cash Disponible"],
+      "filters": [
+        {
+          "name": "Pays",
+          "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" }
+        },
+        {
+          "name": "Statut",
+          "description": { "fr": "Filtrer par statut d'échéance", "en": "Filter by installment status" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Les cartes montrent la synthèse des échéances. Le graphique empilé montre la répartition entre échéances payées et impayées. Vérifiez le % cash sur impayés pour identifier les clients avec liquidité mais non-paiement.",
+        "en": "Cards show installment summary. Stacked chart shows distribution between paid and unpaid installments. Check % cash on unpaid to identify customers with liquidity but non-payment."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "benchmark",
+      "name": { "fr": "Benchmark", "en": "Benchmark" },
+      "screenshot": "Assets/Images/installment-tracker/vizz-benchmark.png",
+      "objective": {
+        "fr": "Comparer les performances de recouvrement entre filiales et identifier les meilleures/pires performances.",
+        "en": "Compare collection performance across subsidiaries and identify best/worst performers."
+      },
+      "kpisUsed": ["Entry Rate", "Entry Rate Recovery", "Payment to Date"],
+      "filters": [
+        {
+          "name": "Période",
+          "description": { "fr": "Sélectionner le mois de comparaison", "en": "Select comparison month" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Chaque ligne représente une filiale. Comparez l'Entry Rate (nouveaux impayés à J0) et le Payment to Date (recouvrement cumulé). Un Entry Rate bas et Payment to Date élevé indiquent une bonne performance.",
+        "en": "Each row represents a subsidiary. Compare Entry Rate (new defaults at D0) and Payment to Date (cumulative collection). Low Entry Rate and high Payment to Date indicate good performance."
+      },
+      "colorCoding": {
+        "green": { "fr": "< 5% - Excellent", "en": "< 5% - Excellent" },
+        "yellow": { "fr": "5-10% - Attention", "en": "5-10% - Warning" },
+        "red": { "fr": "> 10% - Critique", "en": "> 10% - Critical" }
       }
     },
     {
-      "id": "performance",
-      "name": "Performance",
-      "visuals": ["performance-trend", "product-comparison"]
+      "id": "subsidiaries",
+      "name": { "fr": "Subsidiaries", "en": "Subsidiaries" },
+      "screenshot": "Assets/Images/installment-tracker/viz-subsidiaries.png",
+      "objective": {
+        "fr": "Analyser en détail les performances de chaque filiale avec possibilité de drill-down.",
+        "en": "Analyze each subsidiary's performance in detail with drill-down capability."
+      },
+      "kpisUsed": ["Taux de Règlement", "Échéances en Retard"],
+      "filters": [
+        {
+          "name": "Filiale",
+          "description": { "fr": "Sélectionner une filiale spécifique", "en": "Select specific subsidiary" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Sélectionnez une filiale pour voir ses détails. La carte montre la localisation. Les graphiques montrent l'évolution des performances dans le temps.",
+        "en": "Select a subsidiary to see details. Map shows location. Charts show performance evolution over time."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "region",
+      "name": { "fr": "Region", "en": "Region" },
+      "screenshot": "Assets/Images/installment-tracker/viz-region.png",
+      "objective": {
+        "fr": "Analyser les performances de recouvrement par région géographique au sein de chaque filiale.",
+        "en": "Analyze collection performance by geographic region within each subsidiary."
+      },
+      "kpisUsed": ["Taux de Non-Règlement", "Échéances en Retard"],
+      "filters": [
+        {
+          "name": "Pays",
+          "description": { "fr": "Sélectionner la filiale à analyser", "en": "Select subsidiary to analyze" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Sélectionnez un pays pour voir ses régions. Les régions en rouge nécessitent une attention particulière. Cliquez sur une région pour voir le détail par agence.",
+        "en": "Select a country to see its regions. Regions in red need attention. Click a region to see branch-level detail."
+      },
+      "colorCoding": {
+        "green": { "fr": "< 10% - Bon", "en": "< 10% - Good" },
+        "yellow": { "fr": "10-20% - Modéré", "en": "10-20% - Moderate" },
+        "red": { "fr": "> 20% - Élevé", "en": "> 20% - High" }
+      }
+    },
+    {
+      "id": "branch-desc",
+      "name": { "fr": "BranchDesc", "en": "BranchDesc" },
+      "screenshot": "Assets/Images/installment-tracker/viz-branch.png",
+      "objective": {
+        "fr": "Visualiser les performances détaillées par agence avec matrice colorée.",
+        "en": "View detailed branch performance with color-coded matrix."
+      },
+      "kpisUsed": ["Échéances en Retard", "Taux de Non-Règlement"],
+      "filters": [
+        {
+          "name": "Région",
+          "description": { "fr": "Filtrer par région", "en": "Filter by region" }
+        },
+        {
+          "name": "Pays",
+          "description": { "fr": "Filtrer par pays", "en": "Filter by country" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Chaque cellule représente une agence. La couleur indique le niveau de performance. Rouge = attention requise, Vert = bonne performance. Cliquez pour le détail.",
+        "en": "Each cell represents a branch. Color indicates performance level. Red = attention required, Green = good performance. Click for details."
+      },
+      "colorCoding": {
+        "green": { "fr": "Performance élevée", "en": "High performance" },
+        "yellow": { "fr": "Performance moyenne", "en": "Average performance" },
+        "red": { "fr": "Performance faible", "en": "Low performance" }
+      }
+    },
+    {
+      "id": "category-desc",
+      "name": { "fr": "CategoryDesc", "en": "CategoryDesc" },
+      "screenshot": "Assets/Images/installment-tracker/viz-categoryDesc.png",
+      "objective": {
+        "fr": "Analyser les performances par catégorie de produit et segment client.",
+        "en": "Analyze performance by product category and customer segment."
+      },
+      "kpisUsed": ["Échéances en Retard", "Taux de Non-Règlement"],
+      "filters": [
+        {
+          "name": "Segment",
+          "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" }
+        },
+        {
+          "name": "Produit",
+          "description": { "fr": "Filtrer par type de produit", "en": "Filter by product type" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Analysez les performances par catégorie de produit. Identifiez les segments ou produits avec les taux d'impayés les plus élevés pour cibler les actions.",
+        "en": "Analyze performance by product category. Identify segments or products with highest default rates to target actions."
+      },
+      "colorCoding": {
+        "green": { "fr": "< 10%", "en": "< 10%" },
+        "yellow": { "fr": "10-20%", "en": "10-20%" },
+        "red": { "fr": "> 20%", "en": "> 20%" }
+      }
+    },
+    {
+      "id": "installment-overdue-ratio",
+      "name": { "fr": "Installment Overdue Ratio", "en": "Installment Overdue Ratio" },
+      "screenshot": "Assets/Images/installment-tracker/instoverdueRatio.png",
+      "objective": {
+        "fr": "Suivre l'évolution du taux d'impayés dans le temps.",
+        "en": "Track overdue rate evolution over time."
+      },
+      "kpisUsed": ["Taux de Non-Règlement"],
+      "filters": [
+        {
+          "name": "Période",
+          "description": { "fr": "Sélectionner la plage de dates", "en": "Select date range" }
+        },
+        {
+          "name": "Pays",
+          "description": { "fr": "Comparer par pays", "en": "Compare by country" }
+        }
+      ],
+      "howToRead": {
+        "fr": "La ligne montre l'évolution du taux d'impayés. Une tendance à la hausse indique une dégradation de la qualité du portefeuille. Comparez avec les périodes précédentes.",
+        "en": "Line shows overdue rate evolution. An upward trend indicates portfolio quality degradation. Compare with previous periods."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "customer-details",
+      "name": { "fr": "Customer Details", "en": "Customer Details" },
+      "screenshot": "Assets/Images/installment-tracker/viz-customerDetails.png",
+      "objective": {
+        "fr": "Accéder aux informations détaillées au niveau client pour les actions de recouvrement.",
+        "en": "Access detailed customer-level information for collection actions."
+      },
+      "kpisUsed": ["Liquidation Ratio"],
+      "filters": [
+        {
+          "name": "Statut",
+          "description": { "fr": "Filtrer par statut de paiement", "en": "Filter by payment status" }
+        },
+        {
+          "name": "Agence",
+          "description": { "fr": "Filtrer par agence", "en": "Filter by branch" }
+        },
+        {
+          "name": "DAO",
+          "description": { "fr": "Filtrer par gestionnaire de portefeuille", "en": "Filter by portfolio manager" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Ce tableau liste les clients avec leurs détails. Utilisez les filtres pour identifier les clients à contacter. Le ratio de liquidation indique l'avancement du remboursement du prêt.",
+        "en": "This table lists customers with their details. Use filters to identify customers to contact. Liquidation ratio indicates loan repayment progress."
+      },
+      "colorCoding": null
     }
   ]
 }

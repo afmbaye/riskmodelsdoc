@@ -1,0 +1,113 @@
+/**
+ * Main CSS Entry Point
+ * Imports all stylesheets in correct order
+ *
+ * Usage: Include this single file in HTML pages
+ * <link rel="stylesheet" href="assets/css/main.css">
+ */
+
+/* Design System Tokens */
+@import url('./variables.css');
+
+/* Reset & Base Styles */
+@import url('./base.css');
+
+/* Layout (Header, Sidebar, Main) */
+@import url('./layout.css');
+
+/* Reusable Components */
+@import url('./components.css');
+
+/* Tables (KPI Dictionary, Models List) */
+@import url('./tables.css');
+
+/* Modals & Panels */
+@import url('./modal.css');
+
+/* Stepper (Update Process) */
+@import url('./stepper.css');
+
+/* Hero Section */
+@import url('./hero.css');
+
+/* Animations */
+@import url('./animations.css');
+
+/* Error States & Notifications */
+@import url('./errors.css');
+
+/* Utility Classes */
+@import url('./utilities.css');
+
+/* ============================================
+   PRISM.JS OVERRIDES (DAX Syntax Highlighting)
+   ============================================ */
+.language-dax .token.keyword {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.language-dax .token.function {
+  color: var(--info-color);
+}
+
+.language-dax .token.string {
+  color: var(--success-color);
+}
+
+.language-dax .token.number {
+  color: var(--warning-color);
+}
+
+.language-dax .token.comment {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.language-dax .token.operator {
+  color: var(--text-color);
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+  .header,
+  .sidebar,
+  .nav-dropdown,
+  .language-selector,
+  .btn,
+  .modal-overlay,
+  .slide-panel-overlay {
+    display: none !important;
+  }
+
+  .main-content {
+    margin: 0;
+    padding: 0;
+  }
+
+  .layout-wrapper {
+    display: block;
+  }
+
+  .content-section {
+    box-shadow: none;
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}

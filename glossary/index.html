@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glossaire - Documentation Power BI</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/images/logos/baobab.png">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="../assets/css/main.css">
+
+  <!-- Feather Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+</head>
+<body>
+  <div class="layout-wrapper no-sidebar">
+    <!-- Header -->
+    <header class="header">
+      <!-- Rendered by NavigationManager -->
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Hero Section -->
+      <section class="hero-section hero-compact hero-glossary">
+        <div class="hero-content">
+          <h1 class="hero-title" id="pageTitle">Glossaire</h1>
+          <p class="hero-description" id="pageDescription">
+            Définitions des termes techniques utilisés dans les modèles Power BI.
+          </p>
+        </div>
+      </section>
+
+      <!-- Search and Filters -->
+      <section class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i data-feather="book"></i>
+            <span id="termsTitle">Termes et définitions</span>
+          </h2>
+
+          <div class="filter-group">
+            <div class="search-box">
+              <i data-feather="search"></i>
+              <input type="text" id="searchInput" placeholder="Rechercher un terme...">
+            </div>
+          </div>
+        </div>
+
+        <!-- Alphabet Navigation -->
+        <div class="alphabet-nav" id="alphabetNav">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Terms List -->
+        <div class="glossary-list" id="glossaryList">
+          <!-- Terms rendered dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state d-none" id="emptyState">
+          <i data-feather="search" class="empty-state-icon"></i>
+          <h3 class="empty-state-title" id="emptyTitle">Aucun terme trouvé</h3>
+          <p class="empty-state-description" id="emptyDescription">
+            Essayez de modifier vos critères de recherche.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../assets/js/languageManager.js"></script>
+  <script src="../assets/js/dataLoader.js"></script>
+  <script src="../assets/js/templateRenderer.js"></script>
+  <script src="../assets/js/navigationManager.js"></script>
+
+  <script>
+    /**
+     * Glossary Page Controller
+     */
+    const GlossaryPage = {
+      terms: [],
+      searchTerm: '',
+      activeLetter: null,
+
+      async init() {
+        try {
+          // Load glossary data
+          const glossaryData = await DataLoader.getGlossary();
+          this.terms = glossaryData.terms || [];
+
+          // Sort terms alphabetically
+          this.terms.sort((a, b) => {
+            const termA = LanguageManager.t(a.term).toLowerCase();
+            const termB = LanguageManager.t(b.term).toLowerCase();
+            return termA.localeCompare(termB);
+          });
+
+          // Render UI
+          this.updateLabels();
+          this.renderAlphabetNav();
+          this.renderTerms();
+          this.setupEventListeners();
+
+          // Initialize icons
+          feather.replace();
+
+          // Check for hash in URL
+          if (window.location.hash) {
+            const termId = window.location.hash.substring(1);
+            this.scrollToTerm(termId);
+          }
+
+        } catch (error) {
+          console.error('Glossary page initialization error:', error);
+        }
+      },
+
+      updateLabels() {
+        const t = LanguageManager.t.bind(LanguageManager);
+
+        document.getElementById('pageTitle').textContent = t({
+          fr: 'Glossaire',
+          en: 'Glossary'
+        });
+        document.getElementById('pageDescription').textContent = t({
+          fr: 'Définitions des termes techniques utilisés dans les modèles Power BI.',
+          en: 'Definitions of technical terms used in Power BI models.'
+        });
+        document.getElementById('termsTitle').textContent = t({
+          fr: 'Termes et définitions',
+          en: 'Terms and definitions'
+        });
+        document.getElementById('searchInput').placeholder = t({
+          fr: 'Rechercher un terme...',
+          en: 'Search for a term...'
+        });
+        document.getElementById('emptyTitle').textContent = t({
+          fr: 'Aucun terme trouvé',
+          en: 'No terms found'
+        });
+        document.getElementById('emptyDescription').textContent = t({
+          fr: 'Essayez de modifier vos critères de recherche.',
+          en: 'Try modifying your search criteria.'
+        });
+      },
+
+      renderAlphabetNav() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('alphabetNav');
+
+        // Get all unique first letters
+        const letters = new Set();
+        this.terms.forEach(term => {
+          const firstLetter = t(term.term).charAt(0).toUpperCase();
+          if (/[A-Z]/.test(firstLetter)) {
+            letters.add(firstLetter);
+          }
+        });
+
+        // Generate alphabet buttons
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+        container.innerHTML = `
+          <button class="alphabet-btn ${!this.activeLetter ? 'active' : ''}" data-letter="">
+            ${t({ fr: 'Tous', en: 'All' })}
+          </button>
+          ${alphabet.map(letter => `
+            <button class="alphabet-btn ${this.activeLetter === letter ? 'active' : ''} ${letters.has(letter) ? '' : 'disabled'}"
+                    data-letter="${letter}"
+                    ${letters.has(letter) ? '' : 'disabled'}>
+              ${letter}
+            </button>
+          `).join('')}
+        `;
+      },
+
+      renderTerms() {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const container = document.getElementById('glossaryList');
+        const emptyState = document.getElementById('emptyState');
+
+        // Filter terms
+        let filteredTerms = this.terms;
+
+        // Filter by letter
+        if (this.activeLetter) {
+          filteredTerms = filteredTerms.filter(term => {
+            const firstLetter = t(term.term).charAt(0).toUpperCase();
+            return firstLetter === this.activeLetter;
+          });
+        }
+
+        // Filter by search term
+        if (this.searchTerm) {
+          const search = this.searchTerm.toLowerCase();
+          filteredTerms = filteredTerms.filter(term =>
+            t(term.term).toLowerCase().includes(search) ||
+            t(term.definition).toLowerCase().includes(search)
+          );
+        }
+
+        // Show empty state if no results
+        if (filteredTerms.length === 0) {
+          container.classList.add('d-none');
+          emptyState.classList.remove('d-none');
+          return;
+        } else {
+          container.classList.remove('d-none');
+          emptyState.classList.add('d-none');
+        }
+
+        // Group terms by first letter
+        const groupedTerms = {};
+        filteredTerms.forEach(term => {
+          const firstLetter = t(term.term).charAt(0).toUpperCase();
+          if (!groupedTerms[firstLetter]) {
+            groupedTerms[firstLetter] = [];
+          }
+          groupedTerms[firstLetter].push(term);
+        });
+
+        // Render grouped terms
+        let html = '';
+        Object.keys(groupedTerms).sort().forEach(letter => {
+          html += `
+            <div class="glossary-group" id="letter-${letter}">
+              <h3 class="glossary-letter">${letter}</h3>
+              ${groupedTerms[letter].map(term => this.renderTerm(term)).join('')}
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+        feather.replace();
+      },
+
+      renderTerm(term) {
+        const t = LanguageManager.t.bind(LanguageManager);
+
+        const modelTags = (term.relatedModels || []).map(modelId => {
+          return `<span class="model-tag">${modelId}</span>`;
+        }).join('');
+
+        return `
+          <div class="glossary-term" id="term-${term.id}">
+            <div class="term-header">
+              <h4 class="term-name">${t(term.term)}</h4>
+              ${term.abbreviation ? `<span class="term-abbr">(${term.abbreviation})</span>` : ''}
+            </div>
+            <p class="term-definition">${t(term.definition)}</p>
+            ${modelTags ? `
+              <div class="term-models">
+                <span class="term-models-label">${t({ fr: 'Utilisé dans:', en: 'Used in:' })}</span>
+                ${modelTags}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      },
+
+      scrollToTerm(termId) {
+        const element = document.getElementById(`term-${termId}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          element.classList.add('highlight');
+          setTimeout(() => {
+            element.classList.remove('highlight');
+          }, 2000);
+        }
+      },
+
+      setupEventListeners() {
+        // Search input
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+          this.searchTerm = e.target.value;
+          this.renderTerms();
+        });
+
+        // Alphabet navigation
+        document.getElementById('alphabetNav').addEventListener('click', (e) => {
+          const btn = e.target.closest('.alphabet-btn');
+          if (!btn || btn.disabled) return;
+
+          // Update active state
+          document.querySelectorAll('.alphabet-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+
+          // Filter
+          this.activeLetter = btn.dataset.letter || null;
+          this.renderTerms();
+        });
+
+        // Language change
+        window.addEventListener('languageChanged', () => {
+          this.updateLabels();
+          this.renderAlphabetNav();
+          this.renderTerms();
+        });
+      }
+    };
+
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+      GlossaryPage.init();
+    });
+  </script>
+
+  <style>
+    /* Alphabet Navigation */
+    .alphabet-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-6);
+      padding-bottom: var(--spacing-4);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .alphabet-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      background: var(--bg-gray-100);
+      color: var(--text-color);
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    .alphabet-btn:first-child {
+      width: auto;
+      padding: 0 var(--spacing-3);
+    }
+
+    .alphabet-btn:hover:not(:disabled) {
+      background: var(--primary-light);
+      color: var(--primary-color);
+    }
+
+    .alphabet-btn.active {
+      background: var(--primary-color);
+      color: var(--text-inverse);
+    }
+
+    .alphabet-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Glossary Groups */
+    .glossary-group {
+      margin-bottom: var(--spacing-8);
+    }
+
+    .glossary-letter {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--primary-color);
+      margin-bottom: var(--spacing-4);
+      padding-bottom: var(--spacing-2);
+      border-bottom: 2px solid var(--primary-light);
+    }
+
+    /* Glossary Terms */
+    .glossary-term {
+      background: var(--bg-white);
+      padding: var(--spacing-5);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-color);
+      margin-bottom: var(--spacing-4);
+      transition: all var(--transition-normal);
+    }
+
+    .glossary-term:hover {
+      border-color: var(--primary-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .glossary-term.highlight {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    .term-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--spacing-2);
+      margin-bottom: var(--spacing-2);
+    }
+
+    .term-name {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-color);
+      margin: 0;
+    }
+
+    .term-abbr {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .term-definition {
+      font-size: var(--font-size-base);
+      color: var(--text-muted);
+      line-height: var(--line-height-relaxed);
+      margin: 0 0 var(--spacing-3);
+    }
+
+    .term-models {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--spacing-2);
+    }
+
+    .term-models-label {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+    }
+
+    .model-tag {
+      display: inline-flex;
+      padding: var(--spacing-1) var(--spacing-2);
+      font-size: var(--font-size-xs);
+      background: var(--secondary-light);
+      color: var(--secondary-color);
+      border-radius: var(--radius-sm);
+    }
+
+    @media (max-width: 768px) {
+      .alphabet-nav {
+        justify-content: center;
+      }
+
+      .alphabet-btn {
+        width: 32px;
+        height: 32px;
+        font-size: var(--font-size-xs);
+      }
+    }
+  </style>
+</body>
+</html>
