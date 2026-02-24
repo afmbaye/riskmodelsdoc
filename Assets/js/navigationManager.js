@@ -101,9 +101,12 @@ const NavigationManager = {
     }
 
     // For http/https, calculate based on URL path segments
-    const pathParts = path.replace(/^\//, '').split('/').filter(p => p && !p.includes('.html'));
-    const depth = pathParts.length;
-    return '../'.repeat(Math.max(0, depth));
+    const cleanPath = path.replace(/\/[^/]+\.html$/, '/').replace(/^\//, '').replace(/\/$/, '');
+    const segments = cleanPath.split('/').filter(Boolean);
+    // On GitHub Pages the first segment is the repo name — treat it as root
+    const isGithubPages = window.location.hostname.includes('github.io');
+    const depth = isGithubPages ? Math.max(0, segments.length - 1) : segments.length;
+    return '../'.repeat(depth);
   },
 
   /**
@@ -121,7 +124,7 @@ const NavigationManager = {
     header.innerHTML = `
       <div class="header-brand">
         <a href="${prefix}index.html">
-          <img src="${prefix}assets/images/logos/baobab.png" alt="Baobab">
+          <img src="${prefix}Assets/Images/logos/baobab.png" alt="Baobab">
         </a>
       </div>
       <nav class="header-nav">

@@ -6,10 +6,10 @@
   <title>Documentation - Power BI</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" href="../../assets/images/logos/baobab.png">
+  <link rel="icon" type="image/png" href="../../Assets/Images/logos/baobab.png">
 
   <!-- Styles -->
-  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../Assets/css/main.css">
 
   <!-- PrismJS for DAX syntax highlighting -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
@@ -82,10 +82,10 @@
   </div>
 
   <!-- Scripts -->
-  <script src="../../assets/js/languageManager.js"></script>
-  <script src="../../assets/js/dataLoader.js"></script>
-  <script src="../../assets/js/templateRenderer.js"></script>
-  <script src="../../assets/js/navigationManager.js"></script>
+  <script src="../../Assets/js/languageManager.js"></script>
+  <script src="../../Assets/js/dataLoader.js"></script>
+  <script src="../../Assets/js/templateRenderer.js"></script>
+  <script src="../../Assets/js/navigationManager.js"></script>
 
   <script>
     /**
@@ -366,6 +366,15 @@
             })}</p>
           </div>
 
+          <!-- Schema Image -->
+          ${data.schema && data.schema.image ? `
+          <section class="content-section">
+            <div class="schema-image">
+              <img src="../../${data.schema.image}" alt="${t({ fr: 'Schéma du modèle', en: 'Model schema' })}">
+            </div>
+          </section>
+          ` : ''}
+
           <!-- Fact Tables -->
           <section class="content-section">
             <h2 class="section-title">
@@ -373,7 +382,7 @@
               ${t({ fr: 'Tables de faits', en: 'Fact Tables' })}
             </h2>
             <div class="content-grid-2">
-              ${data.factTables.map(table => this.renderTableCard(table, 'fact')).join('')}
+              ${data.tables.fact.map(table => this.renderTableCard(table, 'fact')).join('')}
             </div>
           </section>
 
@@ -384,7 +393,7 @@
               ${t({ fr: 'Tables de dimensions', en: 'Dimension Tables' })}
             </h2>
             <div class="content-grid">
-              ${data.dimensionTables.map(table => this.renderTableCard(table, 'dimension')).join('')}
+              ${data.tables.dimension.map(table => this.renderTableCard(table, 'dimension')).join('')}
             </div>
           </section>
 
@@ -398,14 +407,14 @@
               ${data.relationships.map(rel => `
                 <div class="relationship-row">
                   <div class="relationship-tables">
-                    <span class="table-name">${rel.fromTable}</span>
-                    <span class="column-name">[${rel.fromColumn}]</span>
+                    <span class="table-name">${rel.from.table}</span>
+                    <span class="column-name">[${rel.from.column}]</span>
                     <span class="relationship-arrow">
                       <span class="cardinality">${rel.cardinality}</span>
                       <i data-feather="arrow-right"></i>
                     </span>
-                    <span class="table-name">${rel.toTable}</span>
-                    <span class="column-name">[${rel.toColumn}]</span>
+                    <span class="table-name">${rel.to.table}</span>
+                    <span class="column-name">[${rel.to.column}]</span>
                   </div>
                   <p class="relationship-description">${t(rel.description)}</p>
                 </div>

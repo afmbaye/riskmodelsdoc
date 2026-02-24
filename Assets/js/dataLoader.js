@@ -47,11 +47,14 @@ const DataLoader = {
     }
 
     // For http/https (web server), calculate relative path based on URL path depth
-    const currentPath = window.location.pathname;
-    // Remove leading slash and split
-    const pathParts = currentPath.replace(/^\//, '').split('/').filter(p => p && !p.includes('.html'));
-    const depth = pathParts.length;
-    const prefix = '../'.repeat(Math.max(0, depth));
+    // Strip the HTML filename if present, then get the directory path
+    const currentPath = window.location.pathname.replace(/\/[^/]+\.html$/, '/');
+    // Split into non-empty segments, ignoring trailing slash
+    const segments = currentPath.replace(/^\//, '').replace(/\/$/, '').split('/').filter(Boolean);
+    // On GitHub Pages, the first segment is the repo name (e.g. "riskmodelsdoc") — treat it as root
+    const isGithubPages = window.location.hostname.includes('github.io');
+    const depth = isGithubPages ? Math.max(0, segments.length - 1) : segments.length;
+    const prefix = '../'.repeat(depth);
     return prefix + path;
   },
 
