@@ -71,6 +71,13 @@
           <p id="formulaDescription"></p>
         </div>
         <div class="formula-container">
+          <div class="formula-toolbar">
+            <span class="formula-lang-label">DAX</span>
+            <button class="btn btn-sm btn-ghost copy-formula-btn" id="copyFormulaBtn">
+              <i data-feather="copy"></i>
+              <span id="copyBtnLabel">Copier</span>
+            </button>
+          </div>
           <pre><code class="language-dax" id="formulaCode"></code></pre>
         </div>
         <div class="formula-description" id="formulaExplanation">
@@ -97,6 +104,7 @@
       section: 'overview',
       modelData: {},
       siteConfig: null,
+      modelInfo: null,
 
       async init() {
         try {
@@ -130,6 +138,9 @@
 
           // Load model-specific data based on section
           await this.loadModelData();
+
+          // Store modelInfo for breadcrumb use
+          this.modelInfo = modelInfo;
 
           // Render UI
           this.renderSidebar(modelInfo);
@@ -262,6 +273,25 @@
         }
       },
 
+      renderBreadcrumb(sectionLabel) {
+        const t = LanguageManager.t.bind(LanguageManager);
+        const modelName = this.modelInfo?.name
+          ? t(this.modelInfo.name)
+          : (this.modelData.overview?.name ? t(this.modelData.overview.name) : this.modelId);
+        return `
+          <nav class="doc-breadcrumb" aria-label="breadcrumb">
+            <a href="../../index.html" class="doc-breadcrumb-item">
+              <i data-feather="home"></i>
+              <span>${t({ fr: 'Accueil', en: 'Home' })}</span>
+            </a>
+            <i data-feather="chevron-right" class="doc-breadcrumb-sep"></i>
+            <span class="doc-breadcrumb-item">${modelName}</span>
+            <i data-feather="chevron-right" class="doc-breadcrumb-sep"></i>
+            <span class="doc-breadcrumb-item active">${t(sectionLabel)}</span>
+          </nav>
+        `;
+      },
+
       // ==========================================
       // SECTION: Overview
       // ==========================================
@@ -271,6 +301,8 @@
         const container = document.getElementById('contentContainer');
 
         container.innerHTML = `
+          ${this.renderBreadcrumb({ fr: 'Vue d\'ensemble', en: 'Overview' })}
+
           <!-- Page Header -->
           <div class="page-header">
             <h1 class="page-title">${t(data.name)}</h1>
@@ -357,6 +389,8 @@
         const container = document.getElementById('contentContainer');
 
         container.innerHTML = `
+          ${this.renderBreadcrumb({ fr: 'Modèle de données', en: 'Data Model' })}
+
           <!-- Page Header -->
           <div class="page-header">
             <h1 class="page-title">${t({ fr: 'Modèle de données', en: 'Data Model' })}</h1>
@@ -460,6 +494,8 @@
         const container = document.getElementById('contentContainer');
 
         container.innerHTML = `
+          ${this.renderBreadcrumb({ fr: 'Dictionnaire KPIs', en: 'KPI Dictionary' })}
+
           <!-- Page Header -->
           <div class="page-header">
             <h1 class="page-title">${t({ fr: 'Dictionnaire des KPIs', en: 'KPI Dictionary' })}</h1>
@@ -593,8 +629,32 @@
         document.getElementById('explanationTitle').textContent = t({ fr: 'Explication', en: 'Explanation' });
         document.getElementById('explanationText').textContent = t(kpi.explanation || { fr: 'Aucune explication disponible.', en: 'No explanation available.' });
 
+        // Update copy button label
+        const copyLabel = document.getElementById('copyBtnLabel');
+        copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
+
         // Highlight code
         Prism.highlightAll();
+
+        // Setup copy button
+        const copyBtn = document.getElementById('copyFormulaBtn');
+        copyBtn.onclick = () => {
+          navigator.clipboard.writeText(kpi.formula || '').then(() => {
+            copyLabel.textContent = t({ fr: 'Copié !', en: 'Copied!' });
+            setTimeout(() => {
+              copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
+            }, 2000);
+          }).catch(() => {
+            // Fallback for browsers without clipboard API
+            copyLabel.textContent = t({ fr: 'Erreur', en: 'Error' });
+            setTimeout(() => {
+              copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
+            }, 2000);
+          });
+        };
+
+        // Initialize icons in modal
+        feather.replace();
 
         // Show modal
         document.getElementById('formulaModalOverlay').classList.add('show');
@@ -615,6 +675,8 @@
         const container = document.getElementById('contentContainer');
 
         container.innerHTML = `
+          ${this.renderBreadcrumb({ fr: 'Visuels', en: 'Visuals' })}
+
           <!-- Page Header -->
           <div class="page-header">
             <h1 class="page-title">${t({ fr: 'Visuels du rapport', en: 'Report Visuals' })}</h1>
@@ -728,6 +790,8 @@
         const container = document.getElementById('contentContainer');
 
         container.innerHTML = `
+          ${this.renderBreadcrumb({ fr: 'Mise à jour', en: 'Update Process' })}
+
           <!-- Page Header -->
           <div class="page-header">
             <h1 class="page-title">${t({ fr: 'Processus de mise à jour', en: 'Update Process' })}</h1>
@@ -742,7 +806,7 @@
             <div class="stepper-nav" id="stepperNav">
               ${data.steps.map((step, index) => `
                 <div class="stepper-nav-item ${index === 0 ? 'active' : ''}" data-step="${index}">
-                  <div class="step-indicator">${index + 1}</div>
+                  <div class="step-indicator"><span>${index + 1}</span></div>
                   <span class="step-label">${t(step.title)}</span>
                 </div>
               `).join('')}
@@ -833,27 +897,24 @@
         const navItems = document.querySelectorAll('.stepper-nav-item');
         const stepContents = document.querySelectorAll('.step-content');
 
-        navItems.forEach(item => {
-          item.addEventListener('click', () => {
-            const stepIndex = parseInt(item.dataset.step);
-
-            // Update nav active state
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
-
-            // Show corresponding content
-            stepContents.forEach(content => {
-              if (parseInt(content.dataset.step) === stepIndex) {
-                content.classList.remove('d-none');
-                content.classList.add('active');
-              } else {
-                content.classList.add('d-none');
-                content.classList.remove('active');
-              }
-            });
-
-            feather.replace();
+        const goToStep = (stepIndex) => {
+          navItems.forEach((nav, i) => {
+            nav.classList.remove('active', 'completed');
+            if (i < stepIndex) nav.classList.add('completed');
+            else if (i === stepIndex) nav.classList.add('active');
           });
+
+          stepContents.forEach(content => {
+            const idx = parseInt(content.dataset.step);
+            content.classList.toggle('d-none', idx !== stepIndex);
+            content.classList.toggle('active', idx === stepIndex);
+          });
+
+          feather.replace();
+        };
+
+        navItems.forEach((item, index) => {
+          item.addEventListener('click', () => goToStep(index));
         });
       },
 
@@ -924,6 +985,12 @@
     .sidebar-footer {
       padding-top: var(--spacing-6);
       border-top: 1px solid var(--border-color);
+    }
+
+    /* Page header accent */
+    .page-header {
+      border-left: 4px solid var(--primary-color);
+      padding-left: var(--spacing-5);
     }
 
     .visual-section h4 {

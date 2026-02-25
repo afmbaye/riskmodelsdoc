@@ -105,6 +105,8 @@
    ============================================ */
 .formula-modal .modal-body {
   margin-bottom: 0;
+  max-height: 65vh;
+  overflow-y: auto;
 }
 
 .formula-info {
@@ -118,19 +120,44 @@
 }
 
 .formula-container {
-  background: var(--bg-gray-50);
-  padding: var(--spacing-5);
   border-radius: var(--radius-md);
+  overflow: hidden;
   border: 1px solid var(--border-color);
   margin-bottom: var(--spacing-4);
 }
 
+.formula-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--bg-gray-100);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.formula-lang-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.copy-formula-btn {
+  font-size: var(--font-size-xs);
+  gap: var(--spacing-1);
+}
+
 .formula-container pre {
   margin: 0;
+  padding: var(--spacing-4);
   font-size: var(--font-size-sm);
   line-height: var(--line-height-relaxed);
   white-space: pre-wrap;
   word-break: break-word;
+  overflow-x: auto;
+  max-height: 300px;
+  background: var(--bg-gray-50);
 }
 
 .formula-description {
