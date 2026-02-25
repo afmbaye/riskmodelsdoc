@@ -75,6 +75,18 @@
   background: var(--success-color);
   border-color: var(--success-color);
   color: var(--text-inverse);
+  font-size: 0;
+}
+
+.stepper-nav-item.completed .step-indicator::after {
+  content: '✓';
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+}
+
+.stepper-nav-item.completed .step-indicator span {
+  display: none;
 }
 
 .stepper-nav-item.completed .step-indicator i {
@@ -233,6 +245,8 @@
 .step-screenshot img {
   width: 100%;
   height: auto;
+  max-height: 400px;
+  object-fit: contain;
   display: block;
 }
 
