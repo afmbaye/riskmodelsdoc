@@ -7,7 +7,7 @@
         "fr": "Suivi quotidien de l'etat de reglement des echeances au niveau du groupe, par filiale, agence, region et gestionnaire de portefeuille.",
         "en": "Daily monitoring of installment payment status at group level, by subsidiary, branch, region and portfolio manager."
       },
-      "categories": ["portfolio", "credit-risk"],
+      "categories": ["portfolio", "par"],
       "updateFrequency": { "fr": "Quotidienne", "en": "Daily" },
       "fabricLink": "https://app.fabric.microsoft.com/",
       "isActive": true
@@ -37,13 +37,25 @@
       "isActive": true
     },
     {
+      "id": "transition-smoothing",
+      "name": { "fr": "Transition & Smoothing", "en": "Transition & Smoothing" },
+      "description": {
+        "fr": "Suivi mensuel des glissements PAR du portefeuille via une matrice de transition et analyse du lissage des décaissements pour anticiper les passages en radiation.",
+        "en": "Monthly monitoring of portfolio PAR roll rates via a transition matrix and disbursement smoothing analysis to anticipate write-off migration."
+      },
+      "categories": ["portfolio", "par", "transition", "smoothing"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": true
+    },
+    {
       "id": "top-20",
       "name": { "fr": "TOP 20", "en": "TOP 20" },
       "description": {
         "fr": "Tableau de bord mensuel des 20 plus grandes concentrations du portefeuille : décaissements, encours bruts, retards PAR 0/30/90, radiations et contrats sans paiement depuis le décaissement.",
         "en": "Monthly dashboard of the 20 largest portfolio concentrations: disbursements, gross loan portfolio, PAR 0/30/90 overdue, write-offs and contracts with no payment since disbursement."
       },
-      "categories": ["portfolio", "credit-risk", "collections"],
+      "categories": ["portfolio", "par", "wof", "collections"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.fabric.microsoft.com/",
       "isActive": true

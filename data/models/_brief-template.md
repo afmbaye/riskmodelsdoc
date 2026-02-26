@@ -15,7 +15,7 @@ Fichier .pbix ouvert     : [nom exact, ex: Vintage LD & WO.pbix]
 Nom affiché              : [ex: Vintage LD & WO]
 Dernière MàJ (YYYY-MM-DD): [ex: 2025-11-01]
 Fréquence                : [Quotidienne | Mensuelle | Hebdomadaire]
-Catégories               : [choisir parmi : portfolio | savings | collaterals | collections | credit-risk | reporting]
+Catégories               : [choisir parmi : portfolio | savings | collaterals | collections | disbursement | glp | par | wof | atypical | provisioning | transition | smoothing]
 
 Description (1-2 phrases, ce que le modèle fait) :
 ...
@@ -63,8 +63,14 @@ KPIs à documenter (noms exacts des mesures Power BI, exclure les "Somme de..." 
 | `savings` | Savings |
 | `collaterals` | Collaterals |
 | `collections` | Collections |
-| `credit-risk` | Credit Risk |
-| `reporting` | Reporting |
+| `disbursement` | Disbursement |
+| `glp` | GLP |
+| `par` | PAR |
+| `wof` | Write-offs (WOF) |
+| `atypical` | Atypical |
+| `provisioning` | Provisioning |
+| `transition` | Transition |
+| `smoothing` | Smoothing |
 
 ---
 

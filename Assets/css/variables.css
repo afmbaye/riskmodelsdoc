@@ -70,8 +70,14 @@
   --category-savings: #38A169;
   --category-collaterals: #805AD5;
   --category-collections: #DD6B20;
-  --category-credit-risk: #E53E3E;
-  --category-reporting: #718096;
+  --category-disbursement: #06B6D4;
+  --category-glp: #3B82F6;
+  --category-par: #F97316;
+  --category-wof: #EC4899;
+  --category-atypical: #EF4444;
+  --category-provisioning: #8B5CF6;
+  --category-transition: #6366F1;
+  --category-smoothing: #A855F7;
 
   /* ============================================
      BORDERS & SHADOWS
