@@ -1,0 +1,146 @@
+{
+  "modelId": "top-20",
+  "description": {
+    "fr": "Guide mensuel de mise à jour du modèle TOP 20. Le volume de sources (14 fichiers) exige une préparation rigoureuse avant l'actualisation.",
+    "en": "Monthly update guide for the TOP 20 model. The volume of sources (14 files) requires rigorous preparation before refresh."
+  },
+  "frequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedTime": "45-90 min",
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparer les 14 fichiers sources", "en": "Prepare the 14 source files" },
+      "description": {
+        "fr": "Vérifiez la présence et la conformité de toutes les sources avant d'ouvrir Power BI. Un fichier manquant ou mal nommé entraîne une erreur d'actualisation.",
+        "en": "Verify the presence and compliance of all sources before opening Power BI. A missing or incorrectly named file will cause a refresh error."
+      },
+      "tasks": [
+        {
+          "description": { "fr": "Vérifier les fichiers portfolio principal", "en": "Verify main portfolio files" },
+          "items": [
+            { "fr": "Consolide_[date-début]_[date-fin].xlsx — 1 fichier, plage de dates couvrant le mois", "en": "Consolide_[start-date]_[end-date].xlsx — 1 file, date range covering the month" }
+          ]
+        },
+        {
+          "description": { "fr": "Vérifier les fichiers prêts atypiques", "en": "Verify atypical loan files" },
+          "items": [
+            { "fr": "Atypical_Loans_V2_[date-mois-précédent].xlsx — fin du mois précédent", "en": "Atypical_Loans_V2_[previous-month-date].xlsx — previous month-end" },
+            { "fr": "Atypical_Loans_V2_[date-courante].xlsx — date du jour ou fin du mois courant", "en": "Atypical_Loans_V2_[current-date].xlsx — current date or current month-end" }
+          ]
+        },
+        {
+          "description": { "fr": "Vérifier les fichiers de garanties (7 filiales)", "en": "Verify collateral files (7 subsidiaries)" },
+          "items": [
+            { "fr": "MCBF_Collateral_Loans - [date].csv (Burkina Faso)", "en": "MCBF_Collateral_Loans - [date].csv (Burkina Faso)" },
+            { "fr": "MCCI_Collateral_Loans - [date].csv (Côte d'Ivoire)", "en": "MCCI_Collateral_Loans - [date].csv (Ivory Coast)" },
+            { "fr": "MCDC_Collateral_Loans - [date].csv (RD Congo)", "en": "MCDC_Collateral_Loans - [date].csv (DR Congo)" },
+            { "fr": "MCMG_Collateral_Loans - [date].csv (Madagascar)", "en": "MCMG_Collateral_Loans - [date].csv (Madagascar)" },
+            { "fr": "MCML_Collateral_Loans - [date].csv (Mali)", "en": "MCML_Collateral_Loans - [date].csv (Mali)" },
+            { "fr": "MCNG_Collateral_Loans - [date].csv (Niger)", "en": "MCNG_Collateral_Loans - [date].csv (Niger)" },
+            { "fr": "MCSN_Collateral_Loans - [date].csv (Sénégal)", "en": "MCSN_Collateral_Loans - [date].csv (Senegal)" }
+          ]
+        },
+        {
+          "description": { "fr": "Vérifier les autres fichiers", "en": "Verify remaining files" },
+          "items": [
+            { "fr": "Default Probability - Get client's credit score.xlsx", "en": "Default Probability - Get client's credit score.xlsx" },
+            { "fr": "VintageRecovery_[date].xlsx", "en": "VintageRecovery_[date].xlsx" },
+            { "fr": "mapping _Région agence.xlsx (fichier statique, rarement modifié)", "en": "mapping _Branch Region.xlsx (static file, rarely modified)" },
+            { "fr": "Mapping_TOP 20.xlsx (fichier statique, rarement modifié)", "en": "Mapping_TOP 20.xlsx (static file, rarely modified)" }
+          ]
+        }
+      ],
+      "screenshot": "Assets/Images/top-20/update-step1.png",
+      "warnings": [
+        { "fr": "Ne jamais modifier les noms des fichiers sources — Power BI s'y réfère par chemin exact", "en": "Never modify source file names — Power BI references them by exact path" },
+        { "fr": "Les 7 fichiers CSV de garanties doivent tous être datés du même mois de reporting", "en": "All 7 collateral CSV files must be dated the same reporting month" },
+        { "fr": "Vérifier que la date dans le nom du fichier Consolide couvre bien la période voulue", "en": "Verify the date in the Consolide filename covers the intended period" }
+      ],
+      "firstTimeOnly": false
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configurer les chemins des sources", "en": "Configure source paths" },
+      "description": {
+        "fr": "Configuration initiale ou reconfiguration des chemins vers les 14 fichiers sources (première utilisation uniquement, ou après déplacement des fichiers).",
+        "en": "Initial or re-configuration of paths to the 14 source files (first use only, or after moving files)."
+      },
+      "firstTimeOnly": true,
+      "tasks": [
+        {
+          "description": { "fr": "Ouvrir le fichier Power BI", "en": "Open the Power BI file" },
+          "details": { "fr": "Localisez et ouvrez TOP 20 Model.pbix", "en": "Locate and open TOP 20 Model.pbix" }
+        },
+        {
+          "description": { "fr": "Accéder aux paramètres de source de données", "en": "Access data source settings" },
+          "details": { "fr": "Accueil > Transformer les données > Paramètres de la source de données", "en": "Home > Transform data > Data source settings" }
+        },
+        {
+          "description": { "fr": "Reconfigurer chaque source", "en": "Reconfigure each source" },
+          "details": { "fr": "Pour chaque source listée : sélectionner > Changer la source > Parcourir > sélectionner le fichier > OK. Recommencer pour les 14 sources.", "en": "For each listed source: select > Change source > Browse > select file > OK. Repeat for all 14 sources." }
+        }
+      ],
+      "screenshot": "Assets/Images/top-20/update-step2.png",
+      "warnings": [
+        { "fr": "Cette étape est longue (14 sources) — prévoir du temps lors de la première installation", "en": "This step is lengthy (14 sources) — plan extra time for first installation" },
+        { "fr": "Si les fichiers sont dans un dossier partagé réseau, vérifier que le chemin UNC est accessible depuis votre poste", "en": "If files are in a shared network folder, verify the UNC path is accessible from your workstation" }
+      ]
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualiser le modèle", "en": "Refresh the model" },
+      "description": {
+        "fr": "Lancez l'actualisation complète du modèle et vérifiez l'absence d'erreurs sur les 17 tables métier.",
+        "en": "Launch the full model refresh and verify there are no errors on the 17 business tables."
+      },
+      "tasks": [
+        {
+          "description": { "fr": "Lancer l'actualisation", "en": "Launch the refresh" },
+          "details": { "fr": "Accueil > Actualiser. L'actualisation du TOP 20 peut prendre plusieurs minutes en raison du volume de données.", "en": "Home > Refresh. The TOP 20 refresh may take several minutes due to the data volume." }
+        },
+        {
+          "description": { "fr": "Vérifier les tables après actualisation", "en": "Verify tables after refresh" },
+          "details": { "fr": "Dans le volet Données, vérifiez que les 5 tables principales (Donn\u00e9e_Transition, MCR-WOF, WOF_Unik, Atypical Data, Collateral) sont sans erreur (icône verte ou absence de triangle rouge).", "en": "In the Data pane, verify the 5 main tables (Donn\u00e9e_Transition, MCR-WOF, WOF_Unik, Atypical Data, Collateral) show no errors (green icon or no red triangle)." }
+        }
+      ],
+      "screenshot": "Assets/Images/top-20/update-step3.png",
+      "warnings": [
+        { "fr": "Si une table affiche une erreur, cliquer dessus pour voir le détail — vérifier le fichier source correspondant", "en": "If a table shows an error, click it for details — verify the corresponding source file" },
+        { "fr": "Un nombre de lignes anormalement bas dans Donn\u00e9e_Transition peut indiquer un fichier Consolide incomplet", "en": "An abnormally low row count in Donn\u00e9e_Transition may indicate an incomplete Consolide file" }
+      ],
+      "firstTimeOnly": false
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Valider les données et publier", "en": "Validate data and publish" },
+      "description": {
+        "fr": "Effectuez des contrôles de cohérence sur les onglets clés avant de publier le rapport sur Fabric.",
+        "en": "Perform consistency checks on key tabs before publishing the report to Fabric."
+      },
+      "tasks": [
+        {
+          "description": { "fr": "Valider l'onglet Disbursement", "en": "Validate the Disbursement tab" },
+          "details": { "fr": "Vérifier que le montant total décaissé est cohérent avec le mois précédent (pas de chute soudaine ou de doublon)", "en": "Verify the total disbursed amount is consistent with the previous month (no sudden drop or duplication)" }
+        },
+        {
+          "description": { "fr": "Valider l'onglet WOF", "en": "Validate the WOF tab" },
+          "details": { "fr": "Confirmer que les nouvelles radiations du mois sont visibles et que les montants correspondent aux données source", "en": "Confirm the new month's write-offs are visible and amounts match source data" }
+        },
+        {
+          "description": { "fr": "Valider les ratios PAR", "en": "Validate PAR ratios" },
+          "details": { "fr": "Vérifier la cohérence des ratios PAR 0+, PAR 30+ et PAR 90+ entre eux (PAR 0+ ≥ PAR 30+ ≥ PAR 90+)", "en": "Verify the consistency of PAR 0+, PAR 30+ and PAR 90+ ratios with each other (PAR 0+ ≥ PAR 30+ ≥ PAR 90+)" }
+        },
+        {
+          "description": { "fr": "Publier sur Microsoft Fabric", "en": "Publish to Microsoft Fabric" },
+          "details": { "fr": "Accueil > Publier > sélectionner l'espace de travail cible > Sélectionner", "en": "Home > Publish > select target workspace > Select" }
+        }
+      ],
+      "screenshot": "Assets/Images/top-20/update-step4.png",
+      "warnings": [
+        { "fr": "PAR 0+ doit toujours être supérieur ou égal à PAR 30+ — si l'inverse se produit, c'est une anomalie de données", "en": "PAR 0+ must always be greater than or equal to PAR 30+ — if the opposite occurs, it's a data anomaly" },
+        { "fr": "Vérifier que la date de reporting visible dans les filtres correspond bien au mois M-1", "en": "Verify the reporting date visible in filters corresponds to month M-1" }
+      ],
+      "firstTimeOnly": false
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "modelId": "top-20",
+  "name": { "fr": "TOP 20", "en": "TOP 20" },
+  "description": {
+    "fr": "Tableau de bord mensuel identifiant les 20 plus grandes expositions du portefeuille sur six axes d'analyse : décaissements, encours bruts (GLP), risque PAR 0+, PAR 30+, PAR 90+, radiations (WOF) et absence de paiement depuis le décaissement. Chaque onglet offre un classement dynamique par client, contrat, agence ou gestionnaire de portefeuille.",
+    "en": "Monthly dashboard identifying the 20 largest portfolio exposures across six analysis dimensions: disbursements, gross loan portfolio (GLP), PAR 0+, PAR 30+, PAR 90+ overdue risk, write-offs (WOF) and no payment since disbursement. Each tab provides a dynamic ranking by client, contract, branch or portfolio manager."
+  },
+  "lastUpdate": "2026-03-02",
+  "stats": [
+    { "icon": "layers", "value": 9, "label": { "fr": "Onglets", "en": "Tabs" } },
+    { "icon": "bar-chart-2", "value": 16, "label": { "fr": "KPIs", "en": "KPIs" } },
+    { "icon": "clock", "value": "M+1", "label": { "fr": "Fréquence", "en": "Frequency" } },
+    { "icon": "database", "value": 14, "label": { "fr": "Sources", "en": "Sources" } }
+  ],
+  "useCase": {
+    "fr": "Utilisez ce modèle pour surveiller les concentrations de risque et identifier rapidement les clients, contrats, agences ou gestionnaires représentant les expositions les plus critiques du portefeuille. Idéal pour les revues de comité de crédit, le suivi des grands comptes et la détection précoce des risques de concentration.",
+    "en": "Use this model to monitor risk concentrations and identify the clients, contracts, branches or portfolio managers representing the most critical portfolio exposures. Ideal for credit committee reviews, key account monitoring and early detection of concentration risks."
+  },
+  "tabs": [
+    {
+      "id": "disbursement",
+      "name": { "fr": "Disbursement", "en": "Disbursement" },
+      "description": {
+        "fr": "Classement des 20 premiers clients, contrats, agences ou DAO par montant décaissé, avec le CCD alloué et le ratio de liquidation pour évaluer la qualité du remboursement.",
+        "en": "Ranking of the top 20 clients, contracts, branches or DAOs by disbursed amount, with allocated CCD and repayment ratio to assess repayment quality."
+      },
+      "screenshot": "Assets/Images/top-20/disbursement.png"
+    },
+    {
+      "id": "charts-disbursement",
+      "name": { "fr": "Charts disbursement", "en": "Charts disbursement" },
+      "description": {
+        "fr": "Visualisation graphique de la distribution des décaissements parmi le Top 20, avec comparaison des volumes par période ou par dimension d'analyse.",
+        "en": "Graphical visualization of disbursement distribution within the Top 20, with volume comparisons by period or analysis dimension."
+      },
+      "screenshot": "Assets/Images/top-20/charts-disbursement.png"
+    },
+    {
+      "id": "glp",
+      "name": { "fr": "GLP", "en": "GLP" },
+      "description": {
+        "fr": "Classement des 20 plus grandes expositions en encours bruts (GLP), avec la durée résiduelle des contrats et le ratio de liquidation pour identifier les concentrations à risque.",
+        "en": "Ranking of the 20 largest gross loan portfolio (GLP) exposures, with residual contract duration and repayment ratio to identify risk concentrations."
+      },
+      "screenshot": "Assets/Images/top-20/glp.png"
+    },
+    {
+      "id": "charts-glp",
+      "name": { "fr": "Charts GLP", "en": "Charts GLP" },
+      "description": {
+        "fr": "Représentation graphique de l'évolution et de la répartition de l'encours brut (GLP) au sein du Top 20, permettant le suivi des tendances de remboursement.",
+        "en": "Graphical representation of gross loan portfolio (GLP) evolution and distribution within the Top 20, enabling repayment trend monitoring."
+      },
+      "screenshot": "Assets/Images/top-20/charts-glp.png"
+    },
+    {
+      "id": "par-0",
+      "name": { "fr": "PAR 0", "en": "PAR 0" },
+      "description": {
+        "fr": "Classement des 20 plus grandes expositions en retard (dès 1 jour), avec le volume PAR 0+ en euros et le ratio sur le GLP total.",
+        "en": "Ranking of the 20 largest overdue exposures (from day 1), with PAR 0+ volume in euros and ratio to total GLP."
+      },
+      "screenshot": "Assets/Images/top-20/par-0.png"
+    },
+    {
+      "id": "par-30",
+      "name": { "fr": "PAR 30", "en": "PAR 30" },
+      "description": {
+        "fr": "Classement des 20 plus grands débiteurs en retard de 30 jours ou plus (PAR 30+), indicateur clé du risque de crédit structurel du portefeuille.",
+        "en": "Ranking of the 20 largest borrowers overdue by 30 days or more (PAR 30+), a key indicator of structural credit risk in the portfolio."
+      },
+      "screenshot": "Assets/Images/top-20/par-30.png"
+    },
+    {
+      "id": "par-90",
+      "name": { "fr": "PAR 90", "en": "PAR 90" },
+      "description": {
+        "fr": "Classement des 20 plus grandes expositions en retard de 90 jours ou plus (PAR 90+), signal avancé d'un risque de radiation imminente.",
+        "en": "Ranking of the 20 largest exposures overdue by 90 days or more (PAR 90+), an early warning signal for imminent write-off risk."
+      },
+      "screenshot": "Assets/Images/top-20/par-90.png"
+    },
+    {
+      "id": "no-payment",
+      "name": { "fr": "No payment since disb.", "en": "No payment since disb." },
+      "description": {
+        "fr": "Classement des 20 contrats les plus exposés n'ayant effectué aucun paiement depuis leur décaissement, indicateur critique d'un défaut d'octroi ou d'une fraude potentielle.",
+        "en": "Ranking of the 20 most exposed contracts that have made no payment since disbursement, a critical indicator of underwriting failure or potential fraud."
+      },
+      "screenshot": "Assets/Images/top-20/no-payment.png"
+    },
+    {
+      "id": "wof",
+      "name": { "fr": "WOF", "en": "WOF" },
+      "description": {
+        "fr": "Classement des 20 plus grandes radiations (Write-Off) en valeur absolue, avec le principal perdu, le ratio de liquidation au moment de la radiation et le nombre de jours de retard avant radiation.",
+        "en": "Ranking of the 20 largest write-offs by absolute value, with principal lost, repayment ratio at write-off date and number of overdue days prior to write-off."
+      },
+      "screenshot": "Assets/Images/top-20/wof.png"
+    }
+  ]
+}

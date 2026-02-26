@@ -40,13 +40,13 @@
       "id": "top-20",
       "name": { "fr": "TOP 20", "en": "TOP 20" },
       "description": {
-        "fr": "Suivi des 20 plus gros encours du portefeuille.",
-        "en": "Monitoring of top 20 largest portfolio exposures."
+        "fr": "Tableau de bord mensuel des 20 plus grandes concentrations du portefeuille : décaissements, encours bruts, retards PAR 0/30/90, radiations et contrats sans paiement depuis le décaissement.",
+        "en": "Monthly dashboard of the 20 largest portfolio concentrations: disbursements, gross loan portfolio, PAR 0/30/90 overdue, write-offs and contracts with no payment since disbursement."
       },
-      "categories": ["portfolio", "credit-risk"],
+      "categories": ["portfolio", "credit-risk", "collections"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.fabric.microsoft.com/",
-      "isActive": false
+      "isActive": true
     }
   ]
 }

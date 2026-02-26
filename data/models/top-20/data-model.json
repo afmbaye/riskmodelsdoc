@@ -1,0 +1,382 @@
+{
+  "modelId": "top-20",
+  "description": {
+    "fr": "Le modèle repose sur une table de faits centrale (Donnée_Transition) représentant l'état mensuel du portefeuille actif, enrichie par quatre tables satellites couvrant les radiations, les prêts atypiques, les garanties et les scores de risque client. Des tables de référence assurent le mapping géographique, segmentaire et paramétrique.",
+    "en": "The model is built around a central fact table (Donnée_Transition) representing the monthly state of the active portfolio, enriched by four satellite tables covering write-offs, atypical loans, collateral and client risk scores. Reference tables provide geographic, segment and parametric mapping."
+  },
+  "dataSources": [
+    {
+      "id": "consolide",
+      "name": { "fr": "Consolide_[date-début]_[date-fin].xlsx", "en": "Consolide_[start-date]_[end-date].xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier Excel mensuel consolidé contenant les positions de l'ensemble du portefeuille actif (contrats, statuts PAR, GLP, décaissements). Mis à jour chaque fin de mois.",
+        "en": "Monthly consolidated Excel file containing all active portfolio positions (contracts, PAR statuses, GLP, disbursements). Updated each month-end."
+      }
+    },
+    {
+      "id": "atypical-loans",
+      "name": { "fr": "Atypical_Loans_V2_[date].xlsx (×2)", "en": "Atypical_Loans_V2_[date].xlsx (×2)" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Deux fichiers mensuels de prêts atypiques : fin du mois précédent et date courante. Contient les indicateurs comportementaux de paiement et le score d'alerte précoce.",
+        "en": "Two monthly atypical loan files: previous month-end and current date. Contains payment behavior indicators and early warning scores."
+      }
+    },
+    {
+      "id": "credit-score",
+      "name": { "fr": "Default Probability - Get client's credit score.xlsx", "en": "Default Probability - Get client's credit score.xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier de probabilités de défaut calculées par le modèle de scoring individuel. Permet d'évaluer le risque crédit de chaque client.",
+        "en": "File of default probabilities calculated by the individual scoring model. Enables credit risk assessment for each client."
+      }
+    },
+    {
+      "id": "collateral-csv",
+      "name": { "fr": "MC[XX]_Collateral_Loans_[date].csv (×7)", "en": "MC[XX]_Collateral_Loans_[date].csv (×7)" },
+      "type": "folder",
+      "icon": "folder",
+      "description": {
+        "fr": "Sept fichiers CSV de données de garanties, un par filiale (BF, CI, DC, MG, ML, NG, SN). Contient les valeurs nominales et d'exécution des garanties associées aux contrats.",
+        "en": "Seven CSV collateral data files, one per subsidiary (BF, CI, DC, MG, ML, NG, SN). Contains nominal and execution values of guarantees associated with contracts."
+      }
+    },
+    {
+      "id": "vintage-recovery",
+      "name": { "fr": "VintageRecovery_[date].xlsx", "en": "VintageRecovery_[date].xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier mensuel de suivi des recouvrements post-radiation, consolidant les flux de recouvrement par filiale et par cohorte de radiation.",
+        "en": "Monthly post-write-off recovery tracking file, consolidating recovery flows by subsidiary and write-off cohort."
+      }
+    },
+    {
+      "id": "mapping-region",
+      "name": { "fr": "mapping _Région agence.xlsx", "en": "mapping _Branch Region.xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Table de correspondance entre les codes agences et les régions géographiques, permettant les analyses par zone.",
+        "en": "Mapping table between branch codes and geographic regions, enabling zone-level analysis."
+      }
+    },
+    {
+      "id": "mapping-top20",
+      "name": { "fr": "Mapping_TOP 20.xlsx", "en": "Mapping_TOP 20.xlsx" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier de paramétrage spécifique au rapport TOP 20, définissant les règles de sélection et de classement des expositions.",
+        "en": "Configuration file specific to the TOP 20 report, defining the selection and ranking rules for exposures."
+      }
+    }
+  ],
+  "schema": {
+    "image": "Assets/Images/top-20/data-model.png",
+    "description": {
+      "fr": "Vue d'ensemble des relations entre les tables du modèle TOP 20 : la table centrale Donnée_Transition est reliée aux tables WOF, Atypical Data, Collateral et Score Client par la clé composite Company&Contract.",
+      "en": "Overview of relationships between TOP 20 model tables: the central Donnée_Transition table is linked to WOF, Atypical Data, Collateral and Score Client tables via the composite key Company&Contract."
+    }
+  },
+  "relationships": [
+    {
+      "from": { "table": "Collateral", "column": "Company&Contract" },
+      "to": { "table": "Donn\u00e9e_Transition", "column": "Company&ContractNumber" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie chaque garantie au contrat actif correspondant dans le portefeuille courant.",
+        "en": "Links each collateral item to its corresponding active contract in the current portfolio."
+      }
+    },
+    {
+      "from": { "table": "Collateral", "column": "Company&Contract" },
+      "to": { "table": "WOF_Unik", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie les garanties aux contrats radiés pour l'analyse de couverture au moment de la radiation.",
+        "en": "Links collateral to written-off contracts for coverage analysis at write-off date."
+      }
+    },
+    {
+      "from": { "table": "Atypical Data", "column": "Company&ContractNum" },
+      "to": { "table": "Donn\u00e9e_Transition", "column": "Company&ContractNumber" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Enrichit chaque contrat actif avec ses indicateurs comportementaux et son score d'atypicité.",
+        "en": "Enriches each active contract with its behavioral indicators and atypicality score."
+      }
+    },
+    {
+      "from": { "table": "Atypical Data", "column": "Company&ContractNum" },
+      "to": { "table": "WOF_Unik", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Permet de croiser les données d'atypicité avec les contrats radiés pour analyser les signaux précurseurs.",
+        "en": "Enables cross-referencing atypicality data with written-off contracts to analyze early warning signals."
+      }
+    },
+    {
+      "from": { "table": "Atypical Data", "column": "Company&ContractNum" },
+      "to": { "table": "Score Client", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Associe le score de probabilité de défaut aux données comportementales du client.",
+        "en": "Associates the default probability score with the client's behavioral data."
+      }
+    },
+    {
+      "from": { "table": "MCR-WOF", "column": "Company&Contract" },
+      "to": { "table": "Donn\u00e9e_Transition", "column": "Company&ContractNumber" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie l'historique de recouvrement mensuel aux positions du portefeuille actif.",
+        "en": "Links the monthly recovery history to active portfolio positions."
+      }
+    },
+    {
+      "from": { "table": "MCR-WOF", "column": "Company&Contract" },
+      "to": { "table": "WOF_Unik", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie les flux mensuels de recouvrement au référentiel unique des contrats radiés.",
+        "en": "Links monthly recovery flows to the unique written-off contracts reference."
+      }
+    },
+    {
+      "from": { "table": "MCR-WOF", "column": "Company&Contract" },
+      "to": { "table": "Score Client", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Enrichit les données de radiation avec le score de risque du client au moment de la radiation.",
+        "en": "Enriches write-off data with the client's risk score at the time of write-off."
+      }
+    },
+    {
+      "from": { "table": "Score Client", "column": "Class" },
+      "to": { "table": "Mapping Class", "column": "Class" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Traduit le score numérique en classe de risque lisible (A, B, C...) pour les analyses.",
+        "en": "Translates the numeric score into a readable risk class (A, B, C...) for analysis."
+      }
+    },
+    {
+      "from": { "table": "MCR-WOF", "column": "Solid clollateral" },
+      "to": { "table": "Solid collateral", "column": "Category coll" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Qualifie chaque contrat radié selon la solidité de sa garantie (garantie solide ou non).",
+        "en": "Qualifies each written-off contract by the solidity of its collateral (solid collateral or not)."
+      }
+    },
+    {
+      "from": { "table": "Donn\u00e9e_Transition", "column": "company&codeAgence" },
+      "to": { "table": "Mapping Region", "column": "company&codeAgence" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Permet d'associer chaque contrat à sa région géographique pour les analyses territoriales.",
+        "en": "Enables associating each contract with its geographic region for territorial analysis."
+      }
+    },
+    {
+      "from": { "table": "collateral-Vehicule-real estate", "column": "Loan ID" },
+      "to": { "table": "Collateral", "column": "Loan ID" },
+      "cardinality": "1:1",
+      "description": {
+        "fr": "Enrichit les garanties de type véhicule ou immobilier avec leur détail spécifique.",
+        "en": "Enriches vehicle or real estate collateral items with their specific details."
+      }
+    },
+    {
+      "from": { "table": "Collateral", "column": "Company" },
+      "to": { "table": "Countries", "column": "Country Code old" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Associe chaque garantie au pays de la filiale pour les analyses géographiques.",
+        "en": "Associates each collateral item with the subsidiary country for geographic analysis."
+      }
+    },
+    {
+      "from": { "table": "Collateral", "column": "Company&Contract" },
+      "to": { "table": "Mapping Nb Collateral", "column": "Company&Contract" },
+      "cardinality": "1:1",
+      "description": {
+        "fr": "Fournit le nombre total de garanties associées à chaque contrat.",
+        "en": "Provides the total number of collateral items associated with each contract."
+      }
+    },
+    {
+      "from": { "table": "Mapping Nb Collateral", "column": "Company&Contract" },
+      "to": { "table": "Score Client", "column": "Company&Contract" },
+      "cardinality": "*:1",
+      "description": {
+        "fr": "Relie le comptage de garanties au profil de risque du client.",
+        "en": "Links the collateral count to the client's risk profile."
+      }
+    }
+  ],
+  "tables": {
+    "fact": [
+      {
+        "name": "Donn\u00e9e_Transition",
+        "description": {
+          "fr": "Table de faits principale représentant l'état mensuel de chaque contrat actif du portefeuille. Chaque ligne capture la transition entre la position du mois précédent (Previous_Date) et celle du mois courant (Current_Date), avec les indicateurs PAR, GLP, décaissements et statut de restructuration. Clé de jointure centrale vers toutes les tables satellites.",
+          "en": "Main fact table representing the monthly state of each active portfolio contract. Each row captures the transition between the previous month (Previous_Date) and current month (Current_Date) positions, with PAR indicators, GLP, disbursements and restructuring status. Central join key to all satellite tables."
+        },
+        "screenshot": "Assets/Images/top-20/table-donnee-transition.png",
+        "icon": "package"
+      },
+      {
+        "name": "MCR-WOF",
+        "description": {
+          "fr": "Table de faits retraçant l'historique mensuel des créances radiées et des recouvrements effectués par contrat et par filiale. Contient les montants radiés, les montants recouvrés cumulés, le principal perdu et les indicateurs de comportement au moment de la radiation (jours de retard, type PAR).",
+          "en": "Fact table tracking the monthly history of written-off receivables and recoveries by contract and subsidiary. Contains written-off amounts, cumulative recovered amounts, principal lost and behavior indicators at write-off date (overdue days, PAR type)."
+        },
+        "screenshot": "Assets/Images/top-20/table-mcr-wof.png",
+        "icon": "package"
+      },
+      {
+        "name": "WOF_Unik",
+        "description": {
+          "fr": "Table dérivée de MCR-WOF conservant un enregistrement unique par contrat radié à la date de reporting la plus récente. Élimine les doublons liés au suivi mensuel et sert de référentiel stable des contrats radiés pour les jointures.",
+          "en": "Table derived from MCR-WOF retaining a single record per written-off contract at the most recent reporting date. Eliminates duplicates from monthly tracking and serves as a stable written-off contracts reference for joins."
+        },
+        "screenshot": "Assets/Images/top-20/table-wof-unik.png",
+        "icon": "package"
+      },
+      {
+        "name": "Atypical Data",
+        "description": {
+          "fr": "Table de faits recensant les prêts identifiés comme atypiques par le modèle de scoring d'alerte précoce. Contient 93 indicateurs comportementaux de paiement (retards de première échéance, restructurations, prêts parallèles, etc.) et le score d'atypicité (Score Aty) calculé pour chaque contrat.",
+          "en": "Fact table listing loans identified as atypical by the early warning scoring model. Contains 93 payment behavior indicators (first installment delays, restructurings, parallel loans, etc.) and the atypicality score (Score Aty) calculated for each contract."
+        },
+        "screenshot": "Assets/Images/top-20/table-atypical-data.png",
+        "icon": "package"
+      },
+      {
+        "name": "Collateral",
+        "description": {
+          "fr": "Table de faits détaillant les garanties associées aux contrats actifs et radiés. Contient les valeurs nominales et d'exécution de chaque garantie, son type (véhicule, immobilier, etc.) et la couverture par rapport à l'encours. Source : 7 fichiers CSV, un par filiale.",
+          "en": "Fact table detailing collateral associated with active and written-off contracts. Contains nominal and execution values for each collateral item, its type (vehicle, real estate, etc.) and coverage relative to outstanding balance. Source: 7 CSV files, one per subsidiary."
+        },
+        "screenshot": "Assets/Images/top-20/table-collateral.png",
+        "icon": "package"
+      }
+    ],
+    "dimension": [
+      {
+        "name": "Countries",
+        "description": {
+          "fr": "Référentiel des pays des filiales avec code ISO, région et devise locale.",
+          "en": "Subsidiary country reference with ISO code, region and local currency."
+        },
+        "screenshot": "Assets/Images/top-20/table-countries.png",
+        "icon": "globe"
+      },
+      {
+        "name": "Score Client",
+        "description": {
+          "fr": "Référentiel des scores de probabilité de défaut individuels calculés par le modèle de credit scoring. Associé à chaque client via la clé Company&Contract.",
+          "en": "Individual default probability scores calculated by the credit scoring model. Associated with each client via the Company&Contract key."
+        },
+        "screenshot": "Assets/Images/top-20/table-score-client.png",
+        "icon": "user-check"
+      },
+      {
+        "name": "Mapping Class",
+        "description": {
+          "fr": "Table de correspondance entre le score de risque numérique et la classe de risque qualitative (A, B, C...).",
+          "en": "Mapping table between the numeric risk score and the qualitative risk class (A, B, C...)."
+        },
+        "screenshot": "Assets/Images/top-20/table-mapping-class.png",
+        "icon": "tag"
+      },
+      {
+        "name": "Mapping Region",
+        "description": {
+          "fr": "Table de correspondance entre les agences (identifiées par company&codeAgence) et leurs régions géographiques.",
+          "en": "Mapping table between branches (identified by company&codeAgence) and their geographic regions."
+        },
+        "screenshot": "Assets/Images/top-20/table-mapping-region.png",
+        "icon": "map-pin"
+      },
+      {
+        "name": "ValuesforTOPN",
+        "description": {
+          "fr": "Table paramètre à valeur unique permettant à l'utilisateur de sélectionner dynamiquement le nombre N du classement TOP N via un slicer.",
+          "en": "Single-value parameter table allowing the user to dynamically select the N value for the TOP N ranking via a slicer."
+        },
+        "screenshot": "Assets/Images/top-20/table-values-for-topn.png",
+        "icon": "sliders"
+      },
+      {
+        "name": "Values_TOPN",
+        "description": {
+          "fr": "Table des valeurs disponibles affichées dans les slicers TOP N (ex : 5, 10, 20).",
+          "en": "Table of available values displayed in the TOP N slicers (e.g., 5, 10, 20)."
+        },
+        "screenshot": "Assets/Images/top-20/table-values-topn.png",
+        "icon": "list"
+      },
+      {
+        "name": "Solid collateral",
+        "description": {
+          "fr": "Référentiel des catégories de garanties solides acceptées comme couverture fiable du risque de crédit.",
+          "en": "Reference table of solid collateral categories accepted as reliable credit risk coverage."
+        },
+        "screenshot": "Assets/Images/top-20/table-solid-collateral.png",
+        "icon": "shield"
+      },
+      {
+        "name": "Mapping Collateral Desc",
+        "description": {
+          "fr": "Table d'enrichissement associant aux contrats les descriptions détaillées de leurs garanties.",
+          "en": "Enrichment table associating detailed collateral descriptions to contracts."
+        },
+        "screenshot": "Assets/Images/top-20/table-mapping-collateral-desc.png",
+        "icon": "file-text"
+      },
+      {
+        "name": "collateral-Vehicule-real estate",
+        "description": {
+          "fr": "Détail des garanties de type véhicule et immobilier, liées à la table Collateral par Loan ID (relation 1:1).",
+          "en": "Detail of vehicle and real estate collateral items, linked to the Collateral table via Loan ID (1:1 relationship)."
+        },
+        "screenshot": "Assets/Images/top-20/table-collateral-veh-re.png",
+        "icon": "home"
+      },
+      {
+        "name": "Mapping Nb Collateral",
+        "description": {
+          "fr": "Table agrégée comptabilisant le nombre total de garanties associées à chaque contrat (Company&Contract).",
+          "en": "Aggregated table counting the total number of collateral items associated with each contract (Company&Contract)."
+        },
+        "screenshot": "Assets/Images/top-20/table-mapping-nb-collateral.png",
+        "icon": "hash"
+      },
+      {
+        "name": "Garanties_vendues",
+        "description": {
+          "fr": "Historique des garanties liquidées/vendues avec les dates, montants et conditions de cession.",
+          "en": "History of liquidated/sold collateral items with sale dates, amounts and disposal conditions."
+        },
+        "screenshot": "Assets/Images/top-20/table-garanties-vendues.png",
+        "icon": "dollar-sign"
+      },
+      {
+        "name": "Metrics PTF",
+        "description": {
+          "fr": "Table de métriques de référence du portefeuille utilisées comme benchmarks dans les analyses comparatives.",
+          "en": "Portfolio reference metrics table used as benchmarks in comparative analyses."
+        },
+        "screenshot": "Assets/Images/top-20/table-metrics-ptf.png",
+        "icon": "bar-chart-2"
+      }
+    ]
+  }
+}

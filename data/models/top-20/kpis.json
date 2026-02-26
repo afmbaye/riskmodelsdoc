@@ -1,0 +1,297 @@
+{
+  "modelId": "top-20",
+  "description": {
+    "fr": "Liste des 16 indicateurs clés de performance utilisés dans les onglets du modèle TOP 20, couvrant les décaissements, l'encours, les retards (PAR) et les radiations (WOF).",
+    "en": "List of 16 key performance indicators used in the TOP 20 model tabs, covering disbursements, outstanding balances, overdue (PAR) and write-offs (WOF)."
+  },
+  "kpis": [
+    {
+      "id": "duree-residuelle",
+      "name": { "fr": "Durée résiduelle", "en": "Residual Duration" },
+      "variableName": "Durée residuelle",
+      "description": {
+        "fr": "Durée résiduelle du contrat en mois, calculée comme l'écart entre la date courante et la date de maturité. Permet d'identifier les contrats proches de l'échéance finale avec un encours résiduel significatif.",
+        "en": "Residual contract duration in months, calculated as the gap between the current date and maturity date. Enables identification of contracts nearing final maturity with a significant remaining balance."
+      },
+      "unit": "Mois",
+      "visuals": ["glp"],
+      "formula": {
+        "dax": "-- Colonne calculée dans Donn\u00e9e_Transition\nDATEDIFF([Current_Date], [MaturityDate], MONTH)",
+        "explanation": {
+          "fr": "Colonne calculée (non une mesure DAX) de la table Donn\u00e9e_Transition. Calcule le nombre de mois restants entre la date de reporting et la date de maturité du contrat. Une valeur négative indique un contrat arrivé à échéance mais toujours actif (prolongation ou restructuration implicite).",
+          "en": "Calculated column (not a DAX measure) in the Donn\u00e9e_Transition table. Computes the number of months remaining between the reporting date and the contract maturity date. A negative value indicates a contract past its maturity date but still active (implicit extension or restructuring)."
+        }
+      }
+    },
+    {
+      "id": "ccd-amount-eur",
+      "name": { "fr": "CCDAmount-EUR", "en": "CCDAmount-EUR" },
+      "variableName": "CCDAmount-EUR",
+      "description": {
+        "fr": "Montant CCD initial (Client Credit Decider) en euros, représentant l'enveloppe de crédit accordée par le comité au moment de l'octroi. Permet d'évaluer si l'exposition courante est cohérente avec la décision d'octroi initiale.",
+        "en": "Initial CCD amount (Client Credit Decider) in euros, representing the credit envelope granted by the committee at origination. Enables assessment of whether the current exposure is consistent with the initial credit decision."
+      },
+      "unit": "EUR",
+      "visuals": ["disbursement"],
+      "formula": {
+        "dax": "SUM([InitialCCD_Amount_EUR])",
+        "explanation": {
+          "fr": "Somme directe des montants CCD initiaux convertis en euros depuis la table Atypical Data. Le CCD représente le plafond d'exposition approuvé par le comité de crédit. Comparer cette valeur au GLP courant permet de détecter un dépassement de l'enveloppe approuvée.",
+          "en": "Direct sum of initial CCD amounts converted to euros from the Atypical Data table. The CCD represents the exposure ceiling approved by the credit committee. Comparing this value to the current GLP enables detection of approved envelope overruns."
+        }
+      }
+    },
+    {
+      "id": "tot-disb-eur",
+      "name": { "fr": "Tot Disb_EUR", "en": "Tot Disb_EUR" },
+      "variableName": "Tot Disb_EUR",
+      "description": {
+        "fr": "Montant total décaissé en euros sur le périmètre filtré. Mesure de référence pour quantifier le volume de crédit octroyé.",
+        "en": "Total amount disbursed in euros over the filtered scope. Reference measure for quantifying the volume of credit granted."
+      },
+      "unit": "EUR",
+      "visuals": ["disbursement", "charts-disbursement"],
+      "formula": {
+        "dax": "SUM('Donn\u00e9e_Transition'[DisbursementAmountEuro])",
+        "explanation": {
+          "fr": "Additionne tous les montants décaissés en euros depuis la table principale Donn\u00e9e_Transition. La colonne DisbursementAmountEuro est déjà convertie depuis la devise locale via le taux de change (CurrencyRate). Cette mesure agrège les décaissements historiques de tous les contrats filtrés.",
+          "en": "Sums all disbursed amounts in euros from the main Donn\u00e9e_Transition table. The DisbursementAmountEuro column is already converted from local currency via the exchange rate (CurrencyRate). This measure aggregates historical disbursements for all filtered contracts."
+        }
+      }
+    },
+    {
+      "id": "sum-execution-value-eur",
+      "name": { "fr": "Sum of ExecutionValueEUR", "en": "Sum of ExecutionValueEUR" },
+      "variableName": "Sum of ExecutionValueEUR",
+      "description": {
+        "fr": "Valeur d'exécution totale des garanties en euros, représentant le montant recouvrable en cas de réalisation des sûretés. Indicateur de couverture du risque par les garanties.",
+        "en": "Total execution value of collateral in euros, representing the recoverable amount if collateral is realized. Collateral risk coverage indicator."
+      },
+      "unit": "EUR",
+      "visuals": ["wof"],
+      "formula": {
+        "dax": "SUM([ExecutionValueEUR])",
+        "explanation": {
+          "fr": "Somme des valeurs d'exécution des garanties depuis la table Collateral, après conversion en euros (colonne calculée ExecutionValueEUR = Execution Value × FX rate EUR). La valeur d'exécution est distincte de la valeur nominale : elle reflète le prix réel attendu en cas de réalisation forcée de la garantie.",
+          "en": "Sum of collateral execution values from the Collateral table, after euro conversion (calculated column ExecutionValueEUR = Execution Value × FX rate EUR). The execution value differs from the nominal value: it reflects the real expected price in case of forced collateral realization."
+        }
+      }
+    },
+    {
+      "id": "tot-glp-eur",
+      "name": { "fr": "Tot GLP_EUR", "en": "Tot GLP_EUR" },
+      "variableName": "Tot GLP_EUR",
+      "description": {
+        "fr": "Encours brut total (Gross Loan Portfolio) en euros à la date de reporting. Mesure centrale du volume de crédit actif non encore remboursé.",
+        "en": "Total gross loan portfolio outstanding in euros at the reporting date. Central measure of the active credit volume not yet repaid."
+      },
+      "unit": "EUR",
+      "visuals": ["glp", "charts-glp", "par-0", "par-30", "par-90"],
+      "formula": {
+        "dax": "SUM('Donn\u00e9e_Transition'[GLP_Current_Month_Euro])",
+        "explanation": {
+          "fr": "Additionne l'encours brut en euros de chaque contrat à la date courante (colonne GLP_Current_Month_Euro). Cette mesure est le dénominateur de tous les ratios PAR et du ratio de liquidation. Elle représente l'exposition financière totale du portefeuille sélectionné.",
+          "en": "Sums the gross outstanding balance in euros for each contract at the current date (column GLP_Current_Month_Euro). This measure is the denominator for all PAR ratios and the repayment ratio. It represents the total financial exposure of the selected portfolio."
+        }
+      }
+    },
+    {
+      "id": "par-0-vol-eur",
+      "name": { "fr": "PAR 0+_Vol_EUR", "en": "PAR 0+_Vol_EUR" },
+      "variableName": "PAR 0+_Vol_EUR",
+      "description": {
+        "fr": "Volume de l'encours en retard d'au moins 1 jour (PAR 0+) en euros. Premier signal de dégradation du portefeuille, englobe toutes les tranches de retard.",
+        "en": "Outstanding balance overdue by at least 1 day (PAR 0+) in euros. First portfolio deterioration signal, encompasses all overdue tranches."
+      },
+      "unit": "EUR",
+      "visuals": ["par-0"],
+      "formula": {
+        "dax": "CALCULATE(\n    'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n    'Donn\u00e9e_Transition'[ParType_Current_Month] = \"1- %  1-30\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"2- % 31-60\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"3- % 61-90\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n)",
+        "explanation": {
+          "fr": "Calcule le principal échu total pour tous les contrats présentant au moins 1 jour de retard. Le filtre couvre les 7 tranches PAR (1-30j, 31-60j, 61-90j, 91-120j, 121-150j, 151-180j, >180j). L'exclusion des contrats sains (PAR = '0-Healthy') garantit que seuls les retards effectifs sont comptabilisés.",
+          "en": "Calculates the total principal due for all contracts with at least 1 day overdue. The filter covers all 7 PAR tranches (1-30d, 31-60d, 61-90d, 91-120d, 121-150d, 151-180d, >180d). Excluding healthy contracts (PAR = '0-Healthy') ensures only actual overdue amounts are counted."
+        }
+      }
+    },
+    {
+      "id": "par-0-pct",
+      "name": { "fr": "PAR 0+ %", "en": "PAR 0+ %" },
+      "variableName": "PAR 0+ %",
+      "description": {
+        "fr": "Ratio PAR 0+ exprimant la part du GLP total en retard d'au moins 1 jour. Indicateur global de la qualité du portefeuille.",
+        "en": "PAR 0+ ratio expressing the share of total GLP overdue by at least 1 day. Overall portfolio quality indicator."
+      },
+      "unit": "%",
+      "visuals": ["par-0"],
+      "formula": {
+        "dax": "IFERROR(\n    DIVIDE(\n        CALCULATE(\n            'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n            'Donn\u00e9e_Transition'[ParType_Current_Month] = \"1- %  1-30\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"2- % 31-60\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"3- % 61-90\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n        ),\n        'Donn\u00e9e_Transition'[Tot GLP_EUR]\n    ),\n    0\n)",
+        "explanation": {
+          "fr": "Divise le volume PAR 0+ par le GLP total. IFERROR renvoie 0 en cas de division par zéro (périmètre vide). Un ratio PAR 0+ supérieur à 10% est généralement considéré comme préoccupant en microfinance. Utilisé conjointement avec PAR 30+ pour évaluer la gravité des retards.",
+          "en": "Divides the PAR 0+ volume by total GLP. IFERROR returns 0 in case of division by zero (empty scope). A PAR 0+ ratio above 10% is generally considered concerning in microfinance. Used together with PAR 30+ to assess the severity of overdue situations."
+        }
+      }
+    },
+    {
+      "id": "ratio-liquidation",
+      "name": { "fr": "Ratio de liquidation", "en": "Repayment Ratio" },
+      "variableName": "Ratio de liquidation",
+      "description": {
+        "fr": "Taux de remboursement du portefeuille, calculé comme 1 - (GLP / Décaissement total). Un ratio de 100% signifie que le portefeuille est intégralement remboursé.",
+        "en": "Portfolio repayment rate, calculated as 1 - (GLP / Total disbursement). A ratio of 100% means the portfolio is fully repaid."
+      },
+      "unit": "%",
+      "visuals": ["disbursement", "glp"],
+      "formula": {
+        "dax": "IF(\n    [Tot Disb_EUR] = 0,\n    BLANK(),\n    1 - (DIVIDE([Tot GLP_EUR], [Tot Disb_EUR], 0))\n)",
+        "explanation": {
+          "fr": "Mesure la proportion du crédit octroyé qui a été remboursée. Si le décaissement est nul, renvoie BLANK() pour éviter un ratio trompeur. La formule 1 - GLP/Disb donne le pourcentage remboursé : un ratio de 30% signifie que 30% des crédits décaissés ont été remboursés. Un ratio faible sur un portefeuille ancien signale une progression de recouvrement insuffisante.",
+          "en": "Measures the proportion of granted credit that has been repaid. If disbursement is zero, returns BLANK() to avoid a misleading ratio. The formula 1 - GLP/Disb gives the repaid percentage: a 30% ratio means 30% of disbursed credit has been repaid. A low ratio on an old portfolio signals insufficient repayment progress."
+        }
+      }
+    },
+    {
+      "id": "par-30-vol-eur",
+      "name": { "fr": "PAR 30+_Volume_Due_EUR", "en": "PAR 30+_Volume_Due_EUR" },
+      "variableName": "PAR 30+_Volume_Due_EUR",
+      "description": {
+        "fr": "Volume de l'encours en retard de 30 jours ou plus en euros. Indicateur standard du risque de crédit structurel en microfinance.",
+        "en": "Outstanding balance overdue by 30 days or more in euros. Standard structural credit risk indicator in microfinance."
+      },
+      "unit": "EUR",
+      "visuals": ["par-30"],
+      "formula": {
+        "dax": "CALCULATE(\n    'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n    'Donn\u00e9e_Transition'[ParType_Current_Month] = \"2- % 31-60\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"3- % 61-90\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n)",
+        "explanation": {
+          "fr": "Même logique que PAR 0+ mais en excluant la tranche 1-30 jours. Ne retient que les retards de 31 jours et plus, correspondant aux 6 tranches de retard grave. Ce seuil de 30 jours est la norme internationale (CGAP) pour qualifier un retard structurel.",
+          "en": "Same logic as PAR 0+ but excluding the 1-30 day tranche. Only retains overdue amounts of 31 days or more, corresponding to the 6 serious overdue tranches. The 30-day threshold is the international standard (CGAP) for qualifying structural overdue."
+        }
+      }
+    },
+    {
+      "id": "par-30-pct",
+      "name": { "fr": "PAR 30+ %_Due", "en": "PAR 30+ %_Due" },
+      "variableName": "PAR 30+ %_Due",
+      "description": {
+        "fr": "Ratio PAR 30+ exprimant la part du GLP total en retard de 30 jours ou plus. Indicateur de référence international pour la qualité du portefeuille.",
+        "en": "PAR 30+ ratio expressing the share of total GLP overdue by 30 days or more. International reference indicator for portfolio quality."
+      },
+      "unit": "%",
+      "visuals": ["par-30"],
+      "formula": {
+        "dax": "IFERROR(\n    DIVIDE(\n        CALCULATE(\n            'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n            'Donn\u00e9e_Transition'[ParType_Current_Month] = \"2- % 31-60\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"3- % 61-90\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n        ),\n        'Donn\u00e9e_Transition'[Tot GLP_EUR]\n    ),\n    0\n)",
+        "explanation": {
+          "fr": "Ratio PAR 30+ calculé sur le GLP total. IFERROR protège contre la division par zéro. Le seuil d'alerte standard en microfinance est 5% — au-delà, une action corrective est généralement requise. Ce ratio est également utilisé dans les reportings réglementaires.",
+          "en": "PAR 30+ ratio calculated on total GLP. IFERROR guards against division by zero. The standard microfinance alert threshold is 5% — beyond this, corrective action is generally required. This ratio is also used in regulatory reporting."
+        }
+      }
+    },
+    {
+      "id": "par-90-vol-eur",
+      "name": { "fr": "PAR 90+_Vol_EUR", "en": "PAR 90+_Vol_EUR" },
+      "variableName": "PAR 90+_Vol_EUR",
+      "description": {
+        "fr": "Volume de l'encours en retard critique (90 jours ou plus) en euros. Expositions considérées à très haut risque de perte définitive.",
+        "en": "Outstanding balance in critical overdue (90 days or more) in euros. Exposures considered at very high risk of permanent loss."
+      },
+      "unit": "EUR",
+      "visuals": ["par-90"],
+      "formula": {
+        "dax": "CALCULATE(\n    'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n    'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n        || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n)",
+        "explanation": {
+          "fr": "Filtre uniquement les 4 tranches de retard grave (91-120j, 121-150j, 151-180j, >180j), correspondant aux contrats en défaillance sévère. Ces contrats sont généralement candidats à la radiation dans les 1 à 3 mois. Le suivi de cette mesure en tendance permet d'anticiper le flux de radiations à venir.",
+          "en": "Filters only the 4 severe overdue tranches (91-120d, 121-150d, 151-180d, >180d), corresponding to severely defaulted contracts. These contracts are typically candidates for write-off within 1 to 3 months. Monitoring this measure as a trend allows anticipating the upcoming write-off flow."
+        }
+      }
+    },
+    {
+      "id": "par-90-pct",
+      "name": { "fr": "PAR 90+ %", "en": "PAR 90+ %" },
+      "variableName": "PAR 90+ %",
+      "description": {
+        "fr": "Ratio PAR 90+ exprimant la part du GLP total en défaillance sévère. Indicateur avancé du flux de radiations à venir.",
+        "en": "PAR 90+ ratio expressing the share of total GLP in severe default. Leading indicator of upcoming write-off flow."
+      },
+      "unit": "%",
+      "visuals": ["par-90"],
+      "formula": {
+        "dax": "IFERROR(\n    DIVIDE(\n        CALCULATE(\n            'Donn\u00e9e_Transition'[PrincipalDueAmt_EUR_Tot],\n            'Donn\u00e9e_Transition'[ParType_Current_Month] = \"4- % 91-120\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"5- % 121-150\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"6- % 151-180\"\n                || 'Donn\u00e9e_Transition'[ParType_Current_Month] = \"7- % >180\"\n        ),\n        'Donn\u00e9e_Transition'[Tot GLP_EUR]\n    ),\n    0\n)",
+        "explanation": {
+          "fr": "Ratio des encours en défaillance sévère sur le GLP total. Un PAR 90+ supérieur à 3% représente généralement un risque significatif de pertes à provisionner. La comparaison de PAR 90+ avec le taux de radiation historique permet d'évaluer la précision du processus de gestion des impayés.",
+          "en": "Ratio of severely defaulted outstanding balances to total GLP. A PAR 90+ above 3% generally represents a significant risk of losses to provision. Comparing PAR 90+ with the historical write-off rate allows assessing the accuracy of the non-performing loan management process."
+        }
+      }
+    },
+    {
+      "id": "total-wo-eur",
+      "name": { "fr": "Total WO EUR", "en": "Total WO EUR" },
+      "variableName": "Total WO EUR",
+      "description": {
+        "fr": "Montant total des créances radiées (Write-Off) en euros, incluant le cumul historique des radiations sur le périmètre filtré.",
+        "en": "Total amount of written-off receivables in euros, including the historical cumulation of write-offs on the filtered scope."
+      },
+      "unit": "EUR",
+      "visuals": ["wof"],
+      "formula": {
+        "dax": "SUM([Total_Amount_WOEuro])",
+        "explanation": {
+          "fr": "Somme directe du montant total radié en euros depuis la table MCR-WOF (colonne Total_Amount_WOEuro). Cette mesure agrège tous les montants radiés visibles dans le contexte de filtre courant — filtrée par année, elle donne le flux de radiations annuel ; sans filtre de date, elle donne le stock cumulé.",
+          "en": "Direct sum of the total written-off amount in euros from the MCR-WOF table (column Total_Amount_WOEuro). This measure aggregates all written-off amounts visible in the current filter context — filtered by year it gives the annual write-off flow; without date filter it gives the cumulated stock."
+        }
+      }
+    },
+    {
+      "id": "principal-lost-eur",
+      "name": { "fr": "Total Principal amount lost EUR CUR", "en": "Total Principal amount lost EUR CUR" },
+      "variableName": "Total Principal amount lost EUR CUR",
+      "description": {
+        "fr": "Principal net perdu en euros à la date de reporting courante, après déduction des recouvrements réalisés. Calculé uniquement sur les dernières données EOM disponibles pour refléter la position actuelle.",
+        "en": "Net principal lost in euros at the current reporting date, after deducting recoveries achieved. Calculated only on the latest available EOM data to reflect the current position."
+      },
+      "unit": "EUR",
+      "visuals": ["wof"],
+      "formula": {
+        "dax": "CALCULATE(\n    SUM([Principal Lost EUR Contract]),\n    FILTER('MCR-WOF', 'MCR-WOF'[EOM DateData] = MAX('MCR-WOF'[EOM DateData])),\n    FILTER('MCR-WOF', 'MCR-WOF'[EOM DateWOF] = MAX('MCR-WOF'[EOM DateWOF]))\n)",
+        "explanation": {
+          "fr": "Double filtre sur les colonnes EOM (End-of-Month) DateData et DateWOF pour ne retenir que les enregistrements correspondant aux dernières dates de reporting disponibles. Cela évite de cumuler des montants de mois différents et assure une vue ponctuelle cohérente. Principal Lost EUR Contract est une colonne calculée représentant le principal perdu net de chaque contrat.",
+          "en": "Double filter on EOM (End-of-Month) columns DateData and DateWOF to retain only records corresponding to the latest available reporting dates. This prevents cumulating amounts from different months and ensures a consistent point-in-time view. Principal Lost EUR Contract is a calculated column representing the net principal lost for each contract."
+        }
+      }
+    },
+    {
+      "id": "ratio-liquidation-woff",
+      "name": { "fr": "Ratio de liquidation_atWOFF", "en": "Repayment Ratio at Write-Off" },
+      "variableName": "Ratio de liquidation_atWOFF",
+      "description": {
+        "fr": "Ratio de liquidation calculé au moment de la radiation (at Write-Off). Mesure la proportion du crédit octroyé qui avait été remboursée avant la radiation.",
+        "en": "Repayment ratio calculated at the moment of write-off. Measures the proportion of granted credit that had been repaid before write-off."
+      },
+      "unit": "%",
+      "visuals": ["wof"],
+      "formula": {
+        "dax": "1 - (DIVIDE([Total Principal amount lost EUR CUR], [Total LoanAmount EUR], 0))",
+        "explanation": {
+          "fr": "Calculé comme 1 - (Principal perdu / Montant total du prêt). Un ratio élevé (ex : 80%) signifie que le client avait bien progressé dans son remboursement avant de cesser, ce qui peut indiquer un choc externe tardif. Un ratio très bas (ex : 10%) suggère un défaut rapide post-décaissement, potentiellement lié à une fraude ou à un problème d'octroi.",
+          "en": "Calculated as 1 - (Principal lost / Total loan amount). A high ratio (e.g., 80%) means the client had made good repayment progress before defaulting, which may indicate a late external shock. A very low ratio (e.g., 10%) suggests rapid post-disbursement default, potentially linked to fraud or underwriting issues."
+        }
+      }
+    },
+    {
+      "id": "nb-overdue-days-wof",
+      "name": { "fr": "Sum of NbOverduedays before WOF", "en": "Sum of NbOverduedays before WOF" },
+      "variableName": "Sum of NbOverduedays before WOF",
+      "description": {
+        "fr": "Nombre total de jours de retard cumulés avant la radiation. Indicateur de la durée de dégradation du contrat avant la décision de radiation.",
+        "en": "Total number of overdue days accumulated before write-off. Indicator of the contract degradation duration before the write-off decision."
+      },
+      "unit": "Jours",
+      "visuals": ["wof"],
+      "formula": {
+        "dax": "SUM([NbOverduedays before WOF])",
+        "explanation": {
+          "fr": "Somme de la colonne calculée NbOverduedays before WOF depuis MCR-WOF, qui mesure le nombre de jours écoulés entre le premier retard et la date de radiation. Une valeur élevée indique une politique de provisionnement et radiation tardive. Comparé au ratio de liquidation, permet d'identifier si les radiations tardives correspondent à une meilleure récupération.",
+          "en": "Sum of the calculated column NbOverduedays before WOF from MCR-WOF, which measures the number of days elapsed between the first overdue and the write-off date. A high value indicates a late provisioning and write-off policy. Compared to the repayment ratio, enables identifying whether late write-offs correspond to better recovery."
+        }
+      }
+    }
+  ]
+}
