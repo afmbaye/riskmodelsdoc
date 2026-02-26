@@ -1,0 +1,116 @@
+{
+  "modelId": "transition-smoothing",
+  "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedDuration": { "fr": "30-45 minutes", "en": "30-45 minutes" },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparer les fichiers sources", "en": "Prepare source files" },
+      "description": {
+        "fr": "Récupérer et renommer tous les fichiers sources selon la convention de nommage attendue par le modèle.",
+        "en": "Retrieve and rename all source files according to the naming convention expected by the model."
+      },
+      "details": {
+        "fr": [
+          "Fichier consolidé : Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx (ex: Consolide_2025-12-31_2026-01-31.xlsx)",
+          "Prêts atypiques : Atypical_Loans_V2_YYYY-MM-DD.xlsx — à récupérer pour les 2 derniers mois",
+          "Score client : Default Probability - Get client's credit score.xlsx",
+          "Mapping région : mapping _Région agence.xlsx",
+          "Mapping TOP 20 : Mapping_TOP 20.xlsx",
+          "Données collatérales par filiale (7 fichiers CSV) :",
+          "  - MCBF_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCCI_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCDC_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCMG_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCML_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCNG_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCSN_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "Recouvrement : VintageRecovery_YYYY-MM-DD.xlsx"
+        ],
+        "en": [
+          "Consolidated file: Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx (e.g. Consolide_2025-12-31_2026-01-31.xlsx)",
+          "Atypical loans: Atypical_Loans_V2_YYYY-MM-DD.xlsx — retrieve for the last 2 months",
+          "Client score: Default Probability - Get client's credit score.xlsx",
+          "Region mapping: mapping _Région agence.xlsx",
+          "TOP 20 mapping: Mapping_TOP 20.xlsx",
+          "Collateral data by subsidiary (7 CSV files):",
+          "  - MCBF_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCCI_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCDC_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCMG_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCML_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCNG_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "  - MCSN_Collateral_Loans - YYYY-MM-DD HH-MM-SS.csv",
+          "Recovery: VintageRecovery_YYYY-MM-DD.xlsx"
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configurer les chemins sources", "en": "Configure source paths" },
+      "description": {
+        "fr": "Dans Power BI Desktop, mettre à jour les chemins d'accès vers les 14 fichiers sources via l'éditeur Power Query.",
+        "en": "In Power BI Desktop, update the access paths to the 14 source files via the Power Query editor."
+      },
+      "firstTimeOnly": true,
+      "details": {
+        "fr": [
+          "Ouvrir Transformer les données → Éditeur Power Query",
+          "Pour chaque requête source, remplacer le chemin par l'emplacement local des nouveaux fichiers",
+          "Vérifier que les 14 sources sont correctement résolues (aucune erreur rouge)"
+        ],
+        "en": [
+          "Open Transform data → Power Query editor",
+          "For each source query, replace the path with the local location of the new files",
+          "Verify all 14 sources are correctly resolved (no red errors)"
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualiser le modèle", "en": "Refresh the model" },
+      "description": {
+        "fr": "Lancer l'actualisation complète du modèle et vérifier le chargement de la table principale Donn\u00e9e.",
+        "en": "Trigger a full model refresh and verify loading of the main Donn\u00e9e table."
+      },
+      "details": {
+        "fr": [
+          "Accueil → Actualiser (ou Maj+F5)",
+          "Attendre la fin de l'actualisation de toutes les tables",
+          "Vérifier que la table 'Donn\u00e9e' contient bien des données pour Previous_Date et Current_Date du mois courant",
+          "Contrôler que les tables de référence (CurrentPAR, PreviousPAR, Countries) sont bien chargées"
+        ],
+        "en": [
+          "Home → Refresh (or Shift+F5)",
+          "Wait for all tables to complete refresh",
+          "Verify that 'Donn\u00e9e' table contains data for Previous_Date and Current_Date of the current month",
+          "Check that reference tables (CurrentPAR, PreviousPAR, Countries) are properly loaded"
+        ]
+      }
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Valider les données et publier", "en": "Validate data and publish" },
+      "description": {
+        "fr": "Contrôler la cohérence de la matrice de transition et des indicateurs clés avant publication.",
+        "en": "Check transition matrix consistency and key indicators before publishing."
+      },
+      "details": {
+        "fr": [
+          "Onglet Transition matrix : vérifier que la somme des lignes = Total LP previous month (les flux sortants doivent couvrir 100% de l'encours initial)",
+          "Vérifier que Healthy LP in Total + PAR 0+ Mt = Total LP previous month EUR (cohérence globale)",
+          "Onglet Roll rate trend : confirmer que la dernière période affichée correspond bien au mois M-1",
+          "Onglet Trend Smoothing : vérifier la présence des décaissements du mois courant",
+          "Si OK → Fichier → Publier sur Power BI"
+        ],
+        "en": [
+          "Transition matrix tab: verify that row sums = Total LP previous month (outgoing flows must cover 100% of initial outstanding)",
+          "Verify that Healthy LP in Total + PAR 0+ Mt = Total LP previous month EUR (overall consistency)",
+          "Roll rate trend tab: confirm the last displayed period matches month M-1",
+          "Trend Smoothing tab: verify presence of current month disbursements",
+          "If OK → File → Publish to Power BI"
+        ]
+      }
+    }
+  ]
+}

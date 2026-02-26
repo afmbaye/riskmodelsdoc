@@ -1,0 +1,66 @@
+{
+  "modelId": "transition-smoothing",
+  "name": { "fr": "Transition & Smoothing", "en": "Transition & Smoothing" },
+  "description": {
+    "fr": "Tableau de bord mensuel analysant les transitions de qualité du portefeuille entre deux périodes via une matrice de transition PAR, et le lissage des décaissements, pour détecter précocement les contrats en dégradation avant qu'ils n'atteignent le stade de radiation.",
+    "en": "Monthly dashboard analyzing portfolio quality transitions between two periods via a PAR transition matrix, and disbursement smoothing, to early-detect contracts deteriorating before they reach write-off stage."
+  },
+  "lastUpdate": "2026-03-01",
+  "stats": [
+    { "icon": "layers", "value": 5, "label": { "fr": "Onglets", "en": "Tabs" } },
+    { "icon": "bar-chart-2", "value": 7, "label": { "fr": "KPIs", "en": "KPIs" } },
+    { "icon": "clock", "value": "M+1", "label": { "fr": "Fréquence", "en": "Frequency" } },
+    { "icon": "database", "value": 14, "label": { "fr": "Sources", "en": "Sources" } }
+  ],
+  "useCase": {
+    "fr": "Permet aux analystes de risque de quantifier les mouvements inter-tranches PAR d'un mois à l'autre, d'identifier les filiales et segments affichant les taux de glissement les plus élevés, et d'initier des plans d'action ciblés pour réduire le passage en radiation (WOF). L'onglet de lissage offre une vision corrigée des décaissements mensuels pour distinguer les tendances structurelles des effets de calendrier.",
+    "en": "Enables risk analysts to quantify inter-tranche PAR movements month over month, identify subsidiaries and segments with the highest roll rates, and initiate targeted action plans to reduce write-off migration. The smoothing tab provides a corrected view of monthly disbursements to distinguish structural trends from calendar effects."
+  },
+  "tabs": [
+    {
+      "id": "transition-matrix",
+      "name": { "fr": "Transition matrix", "en": "Transition matrix" },
+      "description": {
+        "fr": "Matrice croisant les catégories PAR du mois précédent (lignes) et du mois courant (colonnes), quantifiant les flux de contrats entre chaque tranche de retard pour mesurer la dégradation ou l'amélioration du portefeuille.",
+        "en": "Matrix crossing previous month PAR categories (rows) and current month (columns), quantifying contract flows between each overdue bucket to measure portfolio deterioration or improvement."
+      },
+      "screenshot": "Assets/Images/transition-smoothing/transition-matrix.png"
+    },
+    {
+      "id": "roll-rate-trend",
+      "name": { "fr": "Roll rate trend", "en": "Roll rate trend" },
+      "description": {
+        "fr": "Évolution temporelle des taux de transition entre catégories PAR, permettant de repérer les tendances de glissement sur plusieurs mois et d'anticiper les mouvements futurs du portefeuille.",
+        "en": "Time evolution of transition rates between PAR categories, enabling detection of roll rate trends over several months and anticipation of future portfolio movements."
+      },
+      "screenshot": "Assets/Images/transition-smoothing/roll-rate-trend.png"
+    },
+    {
+      "id": "trend-smoothing",
+      "name": { "fr": "Trend Smoothing", "en": "Trend Smoothing" },
+      "description": {
+        "fr": "Analyse lissée des décaissements mensuels distinguant les tendances structurelles des variations ponctuelles liées aux effets de calendrier ou aux décaissements exceptionnels.",
+        "en": "Smoothed analysis of monthly disbursements distinguishing structural trends from one-off variations linked to calendar effects or exceptional disbursements."
+      },
+      "screenshot": "Assets/Images/transition-smoothing/trend-smoothing.png"
+    },
+    {
+      "id": "closed-category-subsidiaries",
+      "name": { "fr": "Closed category analysis - Subsidiaries", "en": "Closed category analysis - Subsidiaries" },
+      "description": {
+        "fr": "Analyse des contrats ayant quitté le portefeuille actif (remboursés, radiés ou restructurés) par filiale, pour évaluer les performances de résolution du risque à l'échelle géographique.",
+        "en": "Analysis of contracts that exited the active portfolio (repaid, written off or restructured) by subsidiary, to assess risk resolution performance at geographic level."
+      },
+      "screenshot": "Assets/Images/transition-smoothing/closed-category-subsidiaries.png"
+    },
+    {
+      "id": "closed-category-segment",
+      "name": { "fr": "Closed category analysis - New Segment", "en": "Closed category analysis - New Segment" },
+      "description": {
+        "fr": "Même analyse des catégories fermées ventilée par nouveau segment client (SME, Micro, Vanille, Agricole…), permettant d'identifier les typologies de clients les plus exposées aux sorties en défaut.",
+        "en": "Same closed category analysis broken down by new customer segment (SME, Micro, Vanilla, Agricultural…), identifying client typologies most exposed to default exits."
+      },
+      "screenshot": "Assets/Images/transition-smoothing/closed-category-segment.png"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "modelId": "transition-smoothing",
+  "kpis": [
+    {
+      "name": "Total LP previous month EUR",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]))",
+      "formatString": "#,0",
+      "description": {
+        "fr": "Encours brut total du mois précédent exprimé en euros. Retourne vide si l'encours est nul, afin d'éviter d'afficher des zéros non significatifs dans la matrice de transition.",
+        "en": "Total gross outstanding balance from the previous month expressed in euros. Returns blank when outstanding is zero to avoid displaying non-significant zeros in the transition matrix."
+      },
+      "usedIn": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"]
+    },
+    {
+      "name": "Total LP previous month",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_LC])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_LC]))",
+      "formatString": "#,0",
+      "description": {
+        "fr": "Encours brut total du mois précédent en devise locale. Utilisé pour les filiales dont la devise de reporting n'est pas l'euro (ex. CDF pour la RDC).",
+        "en": "Total gross outstanding balance from the previous month in local currency. Used for subsidiaries whose reporting currency is not the euro (e.g. CDF for DRC)."
+      },
+      "usedIn": ["transition-matrix", "roll-rate-trend"]
+    },
+    {
+      "name": "Total LP current month EUR",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_Euro])),0,SUM('Donn\u00e9e'[GLP_Current_Month_Euro]))",
+      "formatString": "#,0",
+      "description": {
+        "fr": "Encours brut total du mois courant en euros. Retourne 0 (et non vide) pour permettre le calcul des ratios de transition même lorsque la catégorie courante est à zéro.",
+        "en": "Total gross outstanding balance for the current month in euros. Returns 0 (not blank) to allow transition ratio calculations even when the current category is zero."
+      },
+      "usedIn": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"]
+    },
+    {
+      "name": "Total LP current month",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_LC])),0,SUM('Donn\u00e9e'[GLP_Current_Month_LC]))",
+      "formatString": "#,0",
+      "description": {
+        "fr": "Encours brut total du mois courant en devise locale. Complémentaire au KPI EUR pour les filiales dont la devise fonctionnelle n'est pas l'euro.",
+        "en": "Total gross outstanding balance for the current month in local currency. Complements the EUR KPI for subsidiaries whose functional currency is not the euro."
+      },
+      "usedIn": ["transition-matrix", "roll-rate-trend"]
+    },
+    {
+      "name": "% of LP previous month",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",DIVIDE([Total LP previous month EUR],\nCALCULATE(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]),ALL(CurrentPAR[PAR category current month])),\"\"))",
+      "formatString": "0.00 %;-0.00 %;0.00 %",
+      "description": {
+        "fr": "Part de l'encours d'une catégorie PAR du mois précédent rapportée à l'encours total du portefeuille, toutes catégories confondues. Clé de lecture de la matrice de transition : indique le poids initial de chaque tranche avant migration.",
+        "en": "Share of a previous month PAR category outstanding relative to the total portfolio outstanding across all categories. Key for reading the transition matrix: indicates the initial weight of each bucket before migration."
+      },
+      "usedIn": ["transition-matrix"]
+    },
+    {
+      "name": "Nombre de ContractNumber",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "IF(ISBLANK(COUNTA('Donn\u00e9e'[ContractNumber])),\"\",COUNTA('Donn\u00e9e'[ContractNumber]))",
+      "formatString": "#,0",
+      "description": {
+        "fr": "Nombre de contrats distincts dans la sélection courante. Permet de quantifier en volume (nombre de contrats) les flux de la matrice de transition, en complément de l'analyse en montant.",
+        "en": "Number of distinct contracts in the current selection. Quantifies in volume (contract count) the transition matrix flows, complementing the amount-based analysis."
+      },
+      "usedIn": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"]
+    },
+    {
+      "name": "Nbre de client",
+      "table": "Donn\u00e9e",
+      "type": "measure",
+      "dax": "sum('Donn\u00e9e'[Client])",
+      "formatString": "0",
+      "description": {
+        "fr": "Nombre de clients distincts impactés dans la sélection. Permet de mesurer la concentration du risque : un volume élevé sur peu de clients signale un risque de concentration.",
+        "en": "Number of distinct clients affected in the selection. Measures risk concentration: a high volume on few clients signals concentration risk."
+      },
+      "usedIn": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"]
+    }
+  ]
+}

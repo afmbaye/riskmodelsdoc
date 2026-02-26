@@ -25,16 +25,52 @@
       "icon": "phone-call"
     },
     {
-      "id": "credit-risk",
-      "label": { "fr": "Risque Credit", "en": "Credit Risk" },
-      "color": "#8B5CF6",
-      "icon": "alert-triangle"
+      "id": "disbursement",
+      "label": { "fr": "Décaissements", "en": "Disbursement" },
+      "color": "#06B6D4",
+      "icon": "arrow-up-circle"
     },
     {
-      "id": "reporting",
-      "label": { "fr": "Reporting", "en": "Reporting" },
-      "color": "#06B6D4",
-      "icon": "file-text"
+      "id": "glp",
+      "label": { "fr": "Encours (GLP)", "en": "GLP" },
+      "color": "#3B82F6",
+      "icon": "layers"
+    },
+    {
+      "id": "par",
+      "label": { "fr": "PAR", "en": "PAR" },
+      "color": "#F97316",
+      "icon": "clock"
+    },
+    {
+      "id": "wof",
+      "label": { "fr": "Radiations (WOF)", "en": "Write-offs (WOF)" },
+      "color": "#EC4899",
+      "icon": "x-circle"
+    },
+    {
+      "id": "atypical",
+      "label": { "fr": "Atypique", "en": "Atypical" },
+      "color": "#EF4444",
+      "icon": "alert-circle"
+    },
+    {
+      "id": "provisioning",
+      "label": { "fr": "Provisionnement", "en": "Provisioning" },
+      "color": "#8B5CF6",
+      "icon": "shield-check"
+    },
+    {
+      "id": "transition",
+      "label": { "fr": "Transition", "en": "Transition" },
+      "color": "#6366F1",
+      "icon": "shuffle"
+    },
+    {
+      "id": "smoothing",
+      "label": { "fr": "Lissage", "en": "Smoothing" },
+      "color": "#A855F7",
+      "icon": "activity"
     }
   ]
 }
