@@ -1,0 +1,188 @@
+{
+  "modelId": "top-20",
+  "description": {
+    "fr": "Documentation des neuf onglets du rapport TOP 20, chacun dédié à une catégorie d'exposition du portefeuille.",
+    "en": "Documentation of the nine TOP 20 report tabs, each dedicated to a portfolio exposure category."
+  },
+  "visuals": [
+    {
+      "id": "disbursement",
+      "name": { "fr": "Disbursement", "en": "Disbursement" },
+      "screenshot": "Assets/Images/top-20/disbursement.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes expositions en décaissements cumulés, avec évaluation de la qualité du remboursement via le ratio de liquidation et le CCD alloué.",
+        "en": "Identify the 20 largest cumulative disbursement exposures, with repayment quality evaluation via the repayment ratio and allocated CCD."
+      },
+      "kpisUsed": ["Tot Disb_EUR", "CCDAmount-EUR", "Ratio de liquidation"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Segment", "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés (5, 10, 20)", "en": "Select the number of ranked items (5, 10, 20)" } },
+        { "name": "Dimension", "description": { "fr": "Choisir l'axe de classement : Client, Contrat, Agence ou DAO", "en": "Choose ranking dimension: Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau de classement affiche les N premiers selon le décaissement total. Le ratio de liquidation indique le pourcentage déjà remboursé : un ratio faible sur un montant décaissé élevé signale une concentration de risque. Le CCD alloué permet d'évaluer si l'exposition est cohérente avec le profil de crédit du client.",
+        "en": "The ranking table displays the top N by total disbursement. The repayment ratio indicates the percentage already repaid: a low ratio on a high disbursed amount signals a risk concentration. The allocated CCD allows assessing whether the exposure is consistent with the client's credit profile."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "charts-disbursement",
+      "name": { "fr": "Charts disbursement", "en": "Charts disbursement" },
+      "screenshot": "Assets/Images/top-20/charts-disbursement.png",
+      "objective": {
+        "fr": "Visualiser graphiquement la distribution et l'évolution des décaissements au sein du Top 20, pour identifier les tendances et les pics de concentration.",
+        "en": "Graphically visualize the distribution and evolution of disbursements within the Top 20, to identify trends and concentration peaks."
+      },
+      "kpisUsed": ["Tot Disb_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Période", "description": { "fr": "Sélectionner la période d'analyse", "en": "Select the analysis period" } }
+      ],
+      "howToRead": {
+        "fr": "Les graphiques montrent la répartition des décaissements parmi les N premiers. Un pic sur un client ou une agence indique une concentration à surveiller dans le temps.",
+        "en": "Charts show disbursement distribution among the top N. A spike on a client or branch indicates a concentration to monitor over time."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "glp",
+      "name": { "fr": "GLP", "en": "GLP" },
+      "screenshot": "Assets/Images/top-20/glp.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes concentrations d'encours bruts (GLP) actifs, avec la durée résiduelle des contrats pour anticiper les risques de renouvellement.",
+        "en": "Identify the 20 largest active gross loan portfolio (GLP) concentrations, with residual contract duration to anticipate renewal risks."
+      },
+      "kpisUsed": ["Tot GLP_EUR", "Durée residuelle", "Ratio de liquidation"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Segment", "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } },
+        { "name": "Dimension", "description": { "fr": "Client, Contrat, Agence ou DAO", "en": "Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Un GLP élevé couplé à une durée résiduelle courte signale un contrat bientôt à échéance avec un encours important. Un ratio de liquidation faible sur ce type de contrat est une alerte de remboursement insuffisant.",
+        "en": "A high GLP combined with a short residual duration signals a contract nearing maturity with a significant balance. A low repayment ratio on such a contract is an alert for insufficient repayment."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "charts-glp",
+      "name": { "fr": "Charts GLP", "en": "Charts GLP" },
+      "screenshot": "Assets/Images/top-20/charts-glp.png",
+      "objective": {
+        "fr": "Visualiser l'évolution et la répartition de l'encours brut (GLP) au sein du Top 20 sur la période sélectionnée.",
+        "en": "Visualize the evolution and distribution of the gross loan portfolio (GLP) within the Top 20 over the selected period."
+      },
+      "kpisUsed": ["Tot GLP_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Période", "description": { "fr": "Sélectionner la période d'analyse", "en": "Select the analysis period" } }
+      ],
+      "howToRead": {
+        "fr": "Surveillez la croissance ou la décroissance des encours parmi les top expositions. Une progression constante sur un même client peut indiquer une accumulation de risque.",
+        "en": "Monitor the growth or decline of outstanding balances among top exposures. Constant progression on the same client may indicate risk accumulation."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "par-0",
+      "name": { "fr": "PAR 0", "en": "PAR 0" },
+      "screenshot": "Assets/Images/top-20/par-0.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes expositions présentant au moins 1 jour de retard (PAR 0+), premier signal de dégradation du portefeuille.",
+        "en": "Identify the 20 largest exposures with at least 1 day overdue (PAR 0+), the first signal of portfolio deterioration."
+      },
+      "kpisUsed": ["PAR 0+_Vol_EUR", "PAR 0+ %", "Tot GLP_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } },
+        { "name": "Dimension", "description": { "fr": "Client, Contrat, Agence ou DAO", "en": "Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Le PAR 0+ englobe tous les retards, même d'un jour. Un ratio PAR 0+ % élevé sur un client ou une agence alerte sur une dégradation généralisée. Comparez avec le PAR 30+ pour évaluer si le retard est structurel ou ponctuel.",
+        "en": "PAR 0+ includes all overdue amounts, even by one day. A high PAR 0+ % ratio on a client or branch alerts to widespread deterioration. Compare with PAR 30+ to assess whether the overdue is structural or occasional."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "par-30",
+      "name": { "fr": "PAR 30", "en": "PAR 30" },
+      "screenshot": "Assets/Images/top-20/par-30.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes expositions en retard de 30 jours ou plus, indicateur de risque de crédit structurel nécessitant une action de recouvrement.",
+        "en": "Identify the 20 largest exposures overdue by 30 days or more, an indicator of structural credit risk requiring collection action."
+      },
+      "kpisUsed": ["PAR 30+_Volume_Due_EUR", "PAR 30+ %_Due", "Tot GLP_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } },
+        { "name": "Dimension", "description": { "fr": "Client, Contrat, Agence ou DAO", "en": "Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Le PAR 30+ est l'indicateur de risque standard dans le secteur de la microfinance. Un volume élevé sur peu de clients indique une forte concentration du risque. Consultez les détails du contrat pour initier les actions de recouvrement prioritaires.",
+        "en": "PAR 30+ is the standard risk indicator in the microfinance sector. A high volume on few clients indicates strong risk concentration. Review contract details to initiate priority collection actions."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "par-90",
+      "name": { "fr": "PAR 90", "en": "PAR 90" },
+      "screenshot": "Assets/Images/top-20/par-90.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes expositions en retard critique (90 jours ou plus), considérées comme à haut risque de radiation imminente.",
+        "en": "Identify the 20 largest critical overdue exposures (90 days or more), considered at high risk of imminent write-off."
+      },
+      "kpisUsed": ["PAR 90+_Vol_EUR", "PAR 90+ %", "Tot GLP_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } },
+        { "name": "Dimension", "description": { "fr": "Client, Contrat, Agence ou DAO", "en": "Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Le PAR 90+ signale des contrats en situation de défaillance avancée. La présence d'un même client à la fois dans le TOP PAR 30 et PAR 90 confirme un risque de radiation à traiter en urgence. Vérifiez le score de risque et la couverture en garanties.",
+        "en": "PAR 90+ signals contracts in advanced default. The presence of the same client in both the TOP PAR 30 and PAR 90 confirms an urgent write-off risk. Check the risk score and collateral coverage."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "no-payment",
+      "name": { "fr": "No payment since disb.", "en": "No payment since disb." },
+      "screenshot": "Assets/Images/top-20/no-payment.png",
+      "objective": {
+        "fr": "Identifier les 20 contrats les plus exposés n'ayant réalisé aucun paiement depuis le décaissement, révélant des défauts d'octroi ou des fraudes potentielles.",
+        "en": "Identify the 20 most exposed contracts that have made no payment since disbursement, revealing underwriting failures or potential fraud."
+      },
+      "kpisUsed": ["Tot GLP_EUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } }
+      ],
+      "howToRead": {
+        "fr": "Un contrat présent dans cet onglet n'a jamais honoré une seule échéance depuis son décaissement. Vérifiez si le client est joignable, si le décaissement a bien été effectué et si ce contrat n'est pas lié à une fraude interne ou externe.",
+        "en": "A contract appearing in this tab has never honored a single installment since disbursement. Verify whether the client is reachable, whether the disbursement was properly executed and whether this contract may be linked to internal or external fraud."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "wof",
+      "name": { "fr": "WOF", "en": "WOF" },
+      "screenshot": "Assets/Images/top-20/wof.png",
+      "objective": {
+        "fr": "Identifier les 20 plus grandes radiations (Write-Off) en valeur absolue, avec analyse du principal perdu, du ratio de liquidation au moment de la radiation et de la durée de dégradation avant radiation.",
+        "en": "Identify the 20 largest write-offs by absolute value, with analysis of principal lost, repayment ratio at write-off date and degradation duration before write-off."
+      },
+      "kpisUsed": ["Total WO EUR", "Total Principal amount lost EUR CUR", "Ratio de liquidation_atWOFF", "Sum of NbOverduedays before WOF", "Sum of ExecutionValueEUR"],
+      "filters": [
+        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "TOP N", "description": { "fr": "Sélectionner le nombre de classés", "en": "Select the number of ranked items" } },
+        { "name": "Dimension", "description": { "fr": "Client, Contrat, Agence ou DAO", "en": "Client, Contract, Branch or DAO" } }
+      ],
+      "howToRead": {
+        "fr": "Un ratio de liquidation élevé à la radiation signifie que le client avait bien remboursé une partie du crédit avant de cesser. Un ratio faible indique un défaut rapide post-décaissement. Comparez le principal perdu à la valeur d'exécution des garanties pour évaluer le taux de recouvrement potentiel.",
+        "en": "A high repayment ratio at write-off means the client had repaid a significant portion before defaulting. A low ratio indicates rapid post-disbursement default. Compare principal lost to collateral execution value to assess the potential recovery rate."
+      },
+      "colorCoding": null
+    }
+  ]
+}
