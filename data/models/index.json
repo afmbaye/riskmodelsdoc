@@ -28,13 +28,13 @@
       "id": "vintage-recovery",
       "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
       "description": {
-        "fr": "Suivi des performances de recouvrement par cohorte de prets.",
-        "en": "Recovery performance tracking by loan cohort."
+        "fr": "Suivi mensuel des montants radiés et des recouvrements réalisés, par filiale, pays et segment client.",
+        "en": "Monthly tracking of written-off amounts and recoveries achieved, by subsidiary, country and customer segment."
       },
-      "categories": ["collections"],
+      "categories": ["portfolio", "collections"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.fabric.microsoft.com/",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "top-20",
