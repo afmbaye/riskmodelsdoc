@@ -1,0 +1,71 @@
+{
+  "modelId": "vintage-recovery",
+  "description": {
+    "fr": "Documentation des onglets et visuels disponibles dans le rapport Vintage Recovery.",
+    "en": "Documentation of tabs and visuals available in the Vintage Recovery report."
+  },
+  "visuals": [
+    {
+      "id": "recovery-amounts",
+      "name": { "fr": "Recovery Amounts", "en": "Recovery Amounts" },
+      "screenshot": "Assets/Images/vintage-recovery/recovery-amounts.png",
+      "objective": {
+        "fr": "Fournir une vue d'ensemble des montants recouvrés et radiés par période, filiale et sous-segment client.",
+        "en": "Provide an overview of recovered and written-off amounts by period, subsidiary and customer sub-segment."
+      },
+      "kpisUsed": ["AmountRecovered EUR", "AmountRecovered LC"],
+      "filters": [
+        {
+          "name": "Company",
+          "description": { "fr": "Filtrer par filiale / entreprise", "en": "Filter by subsidiary / company" }
+        },
+        {
+          "name": "Country",
+          "description": { "fr": "Filtrer par pays", "en": "Filter by country" }
+        },
+        {
+          "name": "SubSegment",
+          "description": { "fr": "Filtrer par sous-segment client (Nano, SE, etc.)", "en": "Filter by customer sub-segment (Nano, SE, etc.)" }
+        },
+        {
+          "name": "Year-Month Data",
+          "description": { "fr": "Sélectionner la période de reporting", "en": "Select the reporting period" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Les cartes en haut affichent les totaux de montants recouvrés (EUR et LC) pour la sélection courante. Le graphique en barres compare les montants radiés aux montants recouvrés par filiale ou par période. Un ratio recouvrement / radiation élevé indique de bonnes performances post-radiation.",
+        "en": "Cards at the top display total recovered amounts (EUR and LC) for the current selection. The bar chart compares written-off amounts to recovered amounts by subsidiary or period. A high recovery / write-off ratio indicates strong post-write-off performance."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "recovery-rates",
+      "name": { "fr": "Recovery Rates", "en": "Recovery Rates" },
+      "screenshot": "Assets/Images/vintage-recovery/recovery-rates.png",
+      "objective": {
+        "fr": "Analyser les taux de recouvrement et leur évolution dans le temps par cohorte de radiation (Year-Month WO).",
+        "en": "Analyze recovery rates and their evolution over time by write-off cohort (Year-Month WO)."
+      },
+      "kpisUsed": ["AmountRecovered EUR"],
+      "filters": [
+        {
+          "name": "Year-Month WO",
+          "description": { "fr": "Sélectionner la cohorte de radiation (mois de radiation)", "en": "Select the write-off cohort (write-off month)" }
+        },
+        {
+          "name": "Country",
+          "description": { "fr": "Filtrer par pays", "en": "Filter by country" }
+        },
+        {
+          "name": "SubSegment",
+          "description": { "fr": "Filtrer par sous-segment client", "en": "Filter by customer sub-segment" }
+        }
+      ],
+      "howToRead": {
+        "fr": "Le graphique en courbes montre l'évolution cumulative du taux de recouvrement pour chaque cohorte de radiation. Chaque courbe représente un groupe de créances radiées le même mois. Une courbe qui monte rapidement indique un recouvrement actif dans les premiers mois post-radiation.",
+        "en": "The line chart shows the cumulative recovery rate evolution for each write-off cohort. Each curve represents a group of receivables written off in the same month. A rapidly rising curve indicates active recovery in the first months post-write-off."
+      },
+      "colorCoding": null
+    }
+  ]
+}

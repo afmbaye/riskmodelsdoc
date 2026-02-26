@@ -1,8 +1,8 @@
 # Project Handover - Power BI Documentation Portal
 
-**Date:** 2026-02-11
+**Date:** 2026-02-26
 **Project:** Baobab Group Risk - Power BI Documentation Portal
-**Status:** Phase 5 of 8 completed
+**Status:** Site fully deployed on GitHub Pages — pilot model (Installment Tracker) 100% documented
 
 ---
 
@@ -11,7 +11,7 @@
 ### Project Goal
 Transform a hardcoded Power BI documentation site into a **dynamic, model-agnostic, bilingual (FR/EN)** documentation portal hosted on GitHub Pages. The site documents 16 Power BI models for subsidiary risk analysts, with "Installment Tracker" as the pilot model.
 
-### Completed Phases
+### Phase Status
 
 | Phase | Status | Description |
 |-------|--------|-------------|
@@ -21,244 +21,223 @@ Transform a hardcoded Power BI documentation site into a **dynamic, model-agnost
 | Phase 4 | ✅ Done | Create shared CSS components |
 | Phase 5 | ✅ Done | Build main pages (Home, Data Flow, Glossary) |
 | Phase 6 | ✅ Done | Build documentation pages (5 sections) |
-| Phase 7 | ✅ Done | Organize screenshots |
-| Phase 8 | ⏳ Pending | Testing & refinement |
+| Phase 7 | ✅ Done | Organize screenshots & fix paths |
+| Phase 8 | ✅ Done | Deployment to GitHub Pages + UX improvements |
 
 ---
 
-## 2. What Worked
+## 2. Live Site
 
-### Architecture Decisions That Paid Off
-- **JSON-driven content**: All content in JSON files with `{ "fr": "...", "en": "..." }` structure makes translations clean
-- **Modular CSS**: Splitting CSS into 11 focused files (variables, base, layout, components, etc.) keeps things maintainable
-- **Core JS modules**: `LanguageManager`, `DataLoader`, `TemplateRenderer`, `NavigationManager` provide good separation of concerns
-- **No build step**: Pure HTML/CSS/JS works well for GitHub Pages static hosting
+**URL:** https://afmbaye.github.io/riskmodelsdoc/
 
-### Technical Wins
-- `DataLoader.getPathPrefix()` handles relative paths correctly for GitHub Pages subdirectories
-- Language preference persists via `localStorage` and can be overridden via `?lang=en` URL param
-- CSS variables make theming consistent (Baobab brand color `#E6007E`)
-- Feather Icons provide clean, consistent iconography
-
----
-
-## 3. What Didn't Work / Gotchas
-
-### Known Issues
-1. **No actual testing yet** - Pages created but not tested in browser
-2. **Screenshots missing** - Placeholder references exist but images not added
-3. **NavigationManager not rendering** - The header placeholder exists but NavigationManager needs to be called on page load (may need debugging)
-
-### Potential Problems to Watch
-- **Path handling on Windows**: Backslashes vs forward slashes may cause issues
-- **CSS @import performance**: `main.css` uses `@import` which can be slower than concatenation (acceptable for this project size)
-- **No error boundaries**: If JSON fails to load, pages may break silently
+| Page | URL |
+|------|-----|
+| Home (models list) | `/` |
+| Data Flow | `/data-flow/` |
+| Glossary | `/glossary/` |
+| Documentation → Overview | `/pages/documentation/?model=installment-tracker&section=overview` |
+| Documentation → Data Model | `/pages/documentation/?model=installment-tracker&section=data-model` |
+| Documentation → KPIs | `/pages/documentation/?model=installment-tracker&section=kpis` |
+| Documentation → Visuals | `/pages/documentation/?model=installment-tracker&section=visuals` |
+| Documentation → Update Process | `/pages/documentation/?model=installment-tracker&section=update` |
 
 ---
 
-## 4. Key Decisions Made
+## 3. Architecture
 
-| Decision | Rationale |
-|----------|-----------|
-| **JSON for data, not Excel/CSV** | GitHub Pages can't run server-side code to parse Excel |
-| **Query params for model selection** | `?model=installment-tracker` keeps URLs shareable and bookmarkable |
-| **Bilingual in same JSON file** | Simpler than separate translation files, easier to keep in sync |
-| **Slide-in panel for data dictionary** | User preference over modal - less disruptive for reference docs |
-| **Table format for models list** | User preference over cards - better for scanning many models |
-| **Global glossary** | Single glossary accessible from header, not per-model |
-| **6 categories** | Portfolio, Savings, Collaterals, Collections, Credit Risk, Reporting |
+### How It Works
+- **Pure static site** (HTML + CSS + JS) — no build step, no server
+- Content loaded via `fetch()` from JSON files at runtime
+- GitHub Pages serves from the `master` branch
+- Changes made on `epic-nobel` branch, merged into `master` to deploy
 
-### URL Structure
-```
-/                           → Home (models list)
-/data-flow/                 → Global data flow schema
-/glossary/                  → Global glossary
-/pages/documentation/?model=installment-tracker&section=overview
-/pages/documentation/?model=installment-tracker&section=data-model
-/pages/documentation/?model=installment-tracker&section=kpis
-/pages/documentation/?model=installment-tracker&section=visuals
-/pages/documentation/?model=installment-tracker&section=update
-```
+### URL & Path Handling
+- `DataLoader.getPath()` calculates `../` prefix based on URL depth
+- Special logic for GitHub Pages: excludes repo name segment (`riskmodelsdoc`) from depth count
+- `isGithubPages = window.location.hostname.includes('github.io')`
+
+### Bilingual Content
+All translatable content uses `{ "fr": "...", "en": "..." }` objects.
+Translated via `LanguageManager.t({ fr: '...', en: '...' })`.
+Language preference stored in `localStorage`, can be forced via `?lang=en`.
 
 ---
 
-## 5. Lessons Learned
-
-1. **Read before write**: The Edit tool requires reading files first - always use Read tool before attempting edits
-
-2. **Bilingual content structure**: Using `{ "fr": "...", "en": "..." }` objects everywhere makes the `LanguageManager.t()` function simple and consistent
-
-3. **CSS organization matters**: Having `variables.css` at the top of imports ensures all other files can use design tokens
-
-4. **GitHub Pages paths**: Need to handle relative paths carefully - `DataLoader` calculates path prefix based on current URL depth
-
-5. **Keep JSON schemas consistent**: All model-specific JSON files follow same patterns (overview, data-model, kpis, visuals, update-process)
-
----
-
-## 6. Clear Next Steps
-
-### Phase 6: Build Documentation Pages (Priority)
-Create the 5 documentation section pages in `/pages/documentation/`:
-
-1. **Overview** (`section=overview`)
-   - Model description, use case, quick stats
-   - Tab preview cards
-   - Last update info
-
-2. **Data Model** (`section=data-model`)
-   - Fact tables, dimension tables
-   - Relationships diagram/list
-   - Table screenshots
-
-3. **KPI Dictionary** (`section=kpis`)
-   - Searchable KPI table
-   - Formula modal with DAX syntax highlighting
-   - Visual usage tags
-
-4. **Visuals** (`section=visuals`)
-   - Visual cards with screenshots
-   - Objectives, KPIs used, filters
-   - How to read, color coding
-
-5. **Update Process** (`section=update`)
-   - Stepper component
-   - Task lists, warnings, checklists
-   - Model-specific mappings
-
-### Phase 7: Screenshots
-- Create `/assets/images/models/installment-tracker/` folder
-- Add placeholder or actual screenshots
-- Update JSON files with correct image paths
-
-### Phase 8: Testing
-- Test all pages in browser
-- Verify language switching
-- Test navigation and links
-- Check responsive design
-- Validate JSON loading
-
----
-
-## 7. Important Files Map
+## 4. File Structure
 
 ### Configuration & Data
 ```
 data/
-├── site.json                    # Site config (nav items, sidebar sections)
+├── site.json                    # Site config (nav, sidebar sections)
 ├── categories.json              # 6 model categories with colors
-├── glossary.json                # 15 glossary terms
+├── glossary.json                # 15+ glossary terms
 ├── data-flow.json               # Data sources & dictionary schema
+│     └── schema: Assets/Images/data-flow/global-schema.png
 └── models/
     ├── index.json               # Models list (4 models, 1 active)
     └── installment-tracker/
-        ├── overview.json        # Model overview, tabs, stats
-        ├── data-model.json      # Tables (2 fact, 9 dim), 8 relationships
-        ├── kpis.json            # 17 KPIs with DAX formulas
-        ├── visuals.json         # 9 visuals with details
-        └── update-process.json  # 4-step update guide
+        ├── overview.json        # Description, tabs, stats, use case
+        ├── data-model.json      # Tables (fact/dim), relationships, schema image
+        ├── kpis.json            # 17 KPIs with DAX formulas & explanations
+        ├── visuals.json         # 9 visuals with screenshots & details
+        └── update-process.json  # 4-step update guide with tasks/warnings
 ```
 
-### Styles
+### Styles (ALL paths use uppercase `Assets/`)
 ```
-assets/css/
-├── main.css          # Entry point (imports all others)
-├── variables.css     # Design tokens (colors, spacing, etc.)
+Assets/css/
+├── main.css          # Entry point (@import all others)
+├── variables.css     # Design tokens (colors, spacing, shadows)
 ├── base.css          # Reset, typography, form defaults
 ├── layout.css        # Header, sidebar, main content grid
-├── components.css    # Buttons, cards, badges, tags
+├── components.css    # Buttons, cards, badges, tags, breadcrumb
 ├── tables.css        # KPI table, models table, glossary
-├── modal.css         # Modal & slide-in panel
-├── stepper.css       # Update process stepper
+├── modal.css         # Modal & slide-in panel + formula toolbar
+├── stepper.css       # Update process stepper with completed states
 ├── hero.css          # Home page hero section
 ├── animations.css    # Keyframes & animation utilities
-├── errors.css        # Error states & notifications
-└── utilities.css     # Helper classes (flex, spacing, etc.)
+└── errors.css        # Error states & notifications
 ```
 
 ### JavaScript
 ```
-assets/js/
+Assets/js/
 ├── languageManager.js    # FR/EN switching, localStorage, t() function
 ├── dataLoader.js         # JSON fetching, caching, path handling
-├── templateRenderer.js   # HTML rendering utilities (cards, rows, etc.)
+├── templateRenderer.js   # Shared HTML rendering utilities
 └── navigationManager.js  # Header, sidebar, dropdown rendering
 ```
 
 ### Pages
 ```
-index.html                # Home - models list with search/filter
-data-flow/index.html      # Data flow diagram & dictionary panel
-glossary/index.html       # Alphabetical glossary with search
-
-# TO BE CREATED (Phase 6):
-pages/documentation/index.html   # Documentation shell with 5 sections
+index.html                        # Home - models list with search/filter
+data-flow/index.html              # Data flow diagram & dictionary panel
+glossary/index.html               # Alphabetical glossary with search
+pages/documentation/index.html   # Documentation shell (5 sections, dynamic)
 ```
 
-### Assets
+### Images (ALL paths use uppercase `Assets/Images/`)
 ```
-assets/images/
-└── logos/
-    └── baobab.png        # Favicon & header logo (needs to be added)
+Assets/Images/
+├── logos/
+│   └── baobab.png
+├── data-flow/
+│   └── global-schema.png
+└── installment-tracker/
+    ├── data-model.png           # Full schema diagram
+    ├── tab-*.png                # Tab screenshots (overview section)
+    ├── fact-*.png               # Fact table screenshots
+    ├── dim-*.png                # Dimension table screenshots
+    └── visual-*.png             # Visual screenshots
 ```
 
 ---
 
-## 8. Quick Reference
+## 5. Critical Gotchas
 
-### How to Add a New Model
-1. Create folder: `data/models/{model-id}/`
-2. Add 5 JSON files: `overview.json`, `data-model.json`, `kpis.json`, `visuals.json`, `update-process.json`
-3. Add entry to `data/models/index.json` with `isActive: true`
-4. Add screenshots to `assets/images/models/{model-id}/`
+### Case-Sensitive Paths (Linux / GitHub Pages)
+GitHub Pages runs on Linux — folder names are case-sensitive.
+- **Always use `Assets/` (capital A)** in all HTML `href`/`src` attributes and JS paths
+- **Always use `pages/` (lowercase p)** for the documentation folder
+- If you rename folders, use `git mv` (not OS rename) to ensure Git tracks the change:
+  ```bash
+  git mv OldName tmpname
+  git mv tmpname newname
+  ```
 
-### How to Add a Translation
-All bilingual content uses this pattern:
-```json
-{
-  "name": {
-    "fr": "Nom en français",
-    "en": "Name in English"
-  }
-}
+### JSON Structure for data-model.json
+```javascript
+// Correct property access in renderDataModel():
+data.tables.fact        // NOT data.factTables
+data.tables.dimension   // NOT data.dimensionTables
+rel.from.table          // NOT rel.fromTable
+rel.from.column         // NOT rel.fromColumn
+rel.to.table            // NOT rel.toTable
+rel.to.column           // NOT rel.toColumn
 ```
 
-### Key CSS Variables
+### GitHub Pages Path Depth
+`getPath()` in `dataLoader.js` and `getPathPrefix()` in `navigationManager.js` both exclude the repo name segment from depth calculation. Do not remove the `isGithubPages` check.
+
+### Two Worktrees
+- **`epic-nobel`** branch: `C:\Users\Adji MBAYE\.claude-worktrees\Documentation\epic-nobel\`
+- **`master`** branch: `C:\Users\Adji MBAYE\Downloads\Documentation\`
+- After pushing to `epic-nobel`, always merge into `master` and push to deploy:
+  ```bash
+  cd "C:/Users/Adji MBAYE/Downloads/Documentation"
+  git pull && git merge epic-nobel && git push origin master
+  ```
+
+---
+
+## 6. UX Improvements (Phase 8)
+
+Implemented in commit `3a0eed1` (feat(ux)):
+
+| Feature | Files Changed |
+|---------|--------------|
+| Image constraints (aspect-ratio, object-fit) | `Assets/css/components.css` |
+| Schema image max-height | `Assets/css/components.css` |
+| Step screenshot max-height | `Assets/css/stepper.css` |
+| Breadcrumb navigation in all 5 sections | `pages/documentation/index.html` |
+| Page header left-border accent | `pages/documentation/index.html` (inline style) |
+| Stepper: `completed` state (✓ green) | `Assets/css/stepper.css` + `index.html` |
+| DAX modal: toolbar with Copy button | `Assets/css/modal.css` + `index.html` |
+| DAX modal: max-height + internal scroll | `Assets/css/modal.css` |
+
+---
+
+## 7. How to Add a New Model
+
+1. Create folder: `data/models/{model-id}/`
+2. Add 5 JSON files following the Installment Tracker as template:
+   - `overview.json` — name, description, stats, tabs (with screenshots)
+   - `data-model.json` — schema image, fact/dimension tables, relationships
+   - `kpis.json` — KPI list with DAX formulas, units, visuals used
+   - `visuals.json` — visual cards with screenshots, objectives, filters
+   - `update-process.json` — steps with tasks, warnings, checklists
+3. Add entry to `data/models/index.json` with `"isActive": true`
+4. Add screenshots to `Assets/Images/{model-id}/`
+5. All image paths in JSON must be relative to repo root (e.g. `Assets/Images/my-model/schema.png`)
+
+---
+
+## 8. Key CSS Variables
+
 ```css
---primary-color: #E6007E;     /* Baobab pink */
---secondary-color: #2C5282;   /* Navy blue */
+--primary-color: #E6007E;      /* Baobab pink */
+--secondary-color: #2C5282;    /* Navy blue */
+--success-color: #38A169;      /* Green (stepper completed) */
 --sidebar-width: 280px;
 --header-height: 60px;
 ```
 
-### JavaScript Usage
-```javascript
-// Get current language
-LanguageManager.getCurrentLanguage(); // 'fr' or 'en'
+---
 
+## 9. JavaScript Usage
+
+```javascript
 // Translate content
 LanguageManager.t({ fr: 'Bonjour', en: 'Hello' });
 
 // Load data
-const data = await DataLoader.getModelOverview('installment-tracker');
+const overview = await DataLoader.getModelOverview('installment-tracker');
+const kpis     = await DataLoader.getModelKpis('installment-tracker');
 
-// Render HTML
-const html = TemplateRenderer.renderStatCard(icon, value, label);
+// Compute path prefix (handles GitHub Pages depth)
+const prefix = DataLoader.getPath('Assets/css/main.css');
 ```
 
 ---
 
-## 9. Contact & Resources
+## 10. Next Steps (Phase 9 — Content Expansion)
 
-- **Repository**: Current worktree at `C:\Users\Adji MBAYE\.claude-worktrees\Documentation\epic-nobel`
-- **Main branch**: `master`
-- **Current branch**: `epic-nobel`
-
-### External Dependencies
-- [Feather Icons](https://feathericons.com/) - via CDN
-- [Google Fonts](https://fonts.google.com/) - Inter & Poppins
-- [PrismJS](https://prismjs.com/) - for DAX syntax highlighting (to be added in Phase 6)
+1. **Add more models**: Use Installment Tracker JSON as template for the other 15 models
+2. **Add real screenshots**: Replace placeholder paths with actual Power BI screenshots
+3. **Enable inactive models**: Change `"isActive": false` to `true` in `data/models/index.json`
+4. **Expand glossary**: Add more Power BI / risk terminology to `data/glossary.json`
+5. **Add data flow details**: Expand `data/data-flow.json` with more data source entries
 
 ---
 
-*Handover prepared for project continuity. Next developer should start with Phase 6: Build Documentation Pages.*
+*Last updated: 2026-02-26 — Site live at https://afmbaye.github.io/riskmodelsdoc/*

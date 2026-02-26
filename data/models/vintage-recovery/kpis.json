@@ -1,0 +1,45 @@
+{
+  "modelId": "vintage-recovery",
+  "description": {
+    "fr": "Liste des indicateurs clés de performance utilisés dans les visuels du modèle Vintage Recovery.",
+    "en": "List of key performance indicators used in the Vintage Recovery model visuals."
+  },
+  "kpis": [
+    {
+      "id": "amount-recovered-eur",
+      "name": { "fr": "AmountRecovered EUR", "en": "AmountRecovered EUR" },
+      "variableName": "AmountRecovered EUR",
+      "description": {
+        "fr": "Montant total des créances recouvrées, exprimé en euros. Agrège les flux mensuels de recouvrement pour toutes les filiales sur la période sélectionnée.",
+        "en": "Total amount of recovered receivables, expressed in euros. Aggregates monthly recovery flows for all subsidiaries over the selected period."
+      },
+      "unit": "EUR",
+      "visuals": ["recovery-amounts", "recovery-rates"],
+      "formula": {
+        "dax": "SUM('Wof Recoveries'[TotalAmountRecoveredFlowEuro])",
+        "explanation": {
+          "fr": "Cette mesure additionne directement tous les montants recouvrés convertis en euros (colonne TotalAmountRecoveredFlowEuro). La conversion est déjà appliquée dans la source via le taux de change (CurrencyRate), ce qui rend la mesure simple et performante. Elle se comporte comme un agrégat standard et répond aux filtres de date, pays et segment appliqués dans le rapport.",
+          "en": "This measure directly sums all recovered amounts already converted to euros (column TotalAmountRecoveredFlowEuro). The conversion is applied at source via the exchange rate (CurrencyRate), making the measure simple and performant. It behaves as a standard aggregate and responds to date, country and segment filters applied in the report."
+        }
+      }
+    },
+    {
+      "id": "amount-recovered-lc",
+      "name": { "fr": "AmountRecovered LC", "en": "AmountRecovered LC" },
+      "variableName": "AmountRecovered LC",
+      "description": {
+        "fr": "Montant total des créances recouvrées en devise locale. Utilisé pour les analyses au niveau filiale, sans conversion de change.",
+        "en": "Total amount of recovered receivables in local currency. Used for subsidiary-level analysis, without currency conversion."
+      },
+      "unit": "LC (devise locale)",
+      "visuals": ["recovery-amounts"],
+      "formula": {
+        "dax": "SUM('Wof Recoveries'[TotalAmountRecoveredFlow])",
+        "explanation": {
+          "fr": "Cette mesure additionne les montants recouvrés en devise locale (colonne TotalAmountRecoveredFlow). Elle est particulièrement utile pour les analyses intra-filiale où la conversion en euros n'est pas nécessaire. Attention : cette mesure n'est pas comparable directement entre filiales ayant des devises différentes.",
+          "en": "This measure sums recovered amounts in local currency (column TotalAmountRecoveredFlow). It is especially useful for intra-subsidiary analysis where euro conversion is not needed. Note: this measure is not directly comparable across subsidiaries with different currencies."
+        }
+      }
+    }
+  ]
+}

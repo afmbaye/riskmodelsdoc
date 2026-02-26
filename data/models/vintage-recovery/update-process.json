@@ -1,0 +1,116 @@
+{
+  "modelId": "vintage-recovery",
+  "description": {
+    "fr": "Guide étape par étape pour mettre à jour le modèle Vintage Recovery avec les nouvelles données mensuelles.",
+    "en": "Step-by-step guide to update the Vintage Recovery model with new monthly data."
+  },
+  "frequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedTime": "15-30 min",
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparer le fichier source", "en": "Prepare the source file" },
+      "description": {
+        "fr": "Vérifiez que le fichier CSV source est disponible, correctement nommé et placé dans le bon répertoire.",
+        "en": "Verify that the source CSV file is available, correctly named and placed in the right directory."
+      },
+      "tasks": [
+        {
+          "description": {
+            "fr": "Localisez le fichier source mis à jour :",
+            "en": "Locate the updated source file:"
+          },
+          "items": [
+            { "fr": "Fichier : Wof Recoveries - New Segment.csv", "en": "File: Wof Recoveries - New Segment.csv" },
+            { "fr": "Vérifiez que les données du dernier mois sont bien incluses", "en": "Verify that last month's data is included" }
+          ]
+        }
+      ],
+      "screenshot": "Assets/Images/vintage-recovery/update-step1.png",
+      "warnings": [
+        { "fr": "Ne pas modifier le nom du fichier CSV", "en": "Do not modify the CSV file name" },
+        { "fr": "Ne pas modifier l'ordre ou le nom des colonnes", "en": "Do not modify column order or names" },
+        { "fr": "Le fichier doit contenir l'historique complet, pas seulement le dernier mois", "en": "The file must contain the full history, not just the last month" }
+      ],
+      "firstTimeOnly": false
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configurer la source de données", "en": "Configure the data source" },
+      "description": {
+        "fr": "Configuration initiale du chemin vers le fichier CSV (première utilisation uniquement).",
+        "en": "Initial configuration of the path to the CSV file (first use only)."
+      },
+      "firstTimeOnly": true,
+      "tasks": [
+        {
+          "description": { "fr": "Ouvrir le fichier Power BI", "en": "Open the Power BI file" },
+          "details": { "fr": "Localisez et ouvrez Vintage Recovery.pbix", "en": "Locate and open Vintage Recovery.pbix" }
+        },
+        {
+          "description": { "fr": "Accéder aux paramètres de source de données", "en": "Access data source settings" },
+          "details": { "fr": "Accueil > Transformer les données > Paramètres de la source de données", "en": "Home > Transform data > Data source settings" }
+        },
+        {
+          "description": { "fr": "Mettre à jour le chemin du fichier CSV", "en": "Update the CSV file path" },
+          "details": { "fr": "Sélectionner la source > Changer la source > Parcourir > sélectionner Wof Recoveries - New Segment.csv > OK", "en": "Select source > Change source > Browse > select Wof Recoveries - New Segment.csv > OK" }
+        }
+      ],
+      "screenshot": "Assets/Images/vintage-recovery/update-step2.png",
+      "warnings": [
+        { "fr": "Cette étape ne doit être effectuée qu'une seule fois, ou lors d'un déplacement du fichier source", "en": "This step only needs to be performed once, or when the source file is moved" }
+      ]
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualiser les données", "en": "Refresh the data" },
+      "description": {
+        "fr": "Lancez l'actualisation du modèle pour charger les nouvelles données depuis le fichier CSV.",
+        "en": "Launch the model refresh to load new data from the CSV file."
+      },
+      "tasks": [
+        {
+          "description": { "fr": "Actualiser le modèle", "en": "Refresh the model" },
+          "details": { "fr": "Accueil > Actualiser", "en": "Home > Refresh" }
+        },
+        {
+          "description": { "fr": "Vérifier l'absence d'erreurs", "en": "Verify there are no errors" },
+          "details": { "fr": "Vérifiez la barre de statut en bas de l'écran : toutes les tables doivent afficher un statut vert", "en": "Check the status bar at the bottom of the screen: all tables should show a green status" }
+        }
+      ],
+      "screenshot": "Assets/Images/vintage-recovery/update-step3.png",
+      "warnings": [
+        { "fr": "Si une erreur apparaît, vérifiez que le chemin du fichier CSV est correct (étape 2)", "en": "If an error appears, verify the CSV file path is correct (step 2)" },
+        { "fr": "Ne pas fermer Power BI pendant l'actualisation", "en": "Do not close Power BI during refresh" }
+      ],
+      "firstTimeOnly": false
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Valider et publier", "en": "Validate and publish" },
+      "description": {
+        "fr": "Vérifiez les visuels clés pour confirmer la bonne mise à jour, puis publiez sur Fabric.",
+        "en": "Check key visuals to confirm correct update, then publish to Fabric."
+      },
+      "tasks": [
+        {
+          "description": { "fr": "Vérifier les données sur l'onglet Recovery Amounts", "en": "Check data on the Recovery Amounts tab" },
+          "details": { "fr": "Confirmer que le dernier mois est bien visible dans les filtres et que les montants semblent cohérents", "en": "Confirm the latest month is visible in filters and amounts appear consistent" }
+        },
+        {
+          "description": { "fr": "Vérifier les courbes sur l'onglet Recovery Rates", "en": "Check curves on the Recovery Rates tab" },
+          "details": { "fr": "Confirmer que les nouvelles cohortes de radiation apparaissent correctement dans le graphique", "en": "Confirm new write-off cohorts appear correctly in the chart" }
+        },
+        {
+          "description": { "fr": "Publier sur Microsoft Fabric", "en": "Publish to Microsoft Fabric" },
+          "details": { "fr": "Accueil > Publier > sélectionner l'espace de travail cible > Sélectionner", "en": "Home > Publish > select target workspace > Select" }
+        }
+      ],
+      "screenshot": "Assets/Images/vintage-recovery/update-step4.png",
+      "warnings": [
+        { "fr": "Vérifier que le mois le plus récent correspond bien au mois M-1 (M+1 de mise à disposition)", "en": "Verify the most recent month corresponds to month M-1 (M+1 availability)" }
+      ],
+      "firstTimeOnly": false
+    }
+  ]
+}

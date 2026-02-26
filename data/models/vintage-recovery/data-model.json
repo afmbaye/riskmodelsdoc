@@ -1,0 +1,62 @@
+{
+  "modelId": "vintage-recovery",
+  "description": {
+    "fr": "Le modèle repose sur une table de faits unique contenant l'historique mensuel des radiations et des recouvrements réalisés, enrichie de colonnes calculées pour l'analyse temporelle.",
+    "en": "The model is built on a single fact table containing the monthly history of write-offs and recoveries achieved, enriched with calculated columns for time-based analysis."
+  },
+  "dataSources": [
+    {
+      "id": "wof-recoveries-csv",
+      "name": { "fr": "Wof Recoveries - New Segment.csv", "en": "Wof Recoveries - New Segment.csv" },
+      "type": "file",
+      "icon": "file-text",
+      "description": {
+        "fr": "Fichier CSV mensuel contenant les montants radiés et les recouvrements réalisés, par entreprise, pays, devise et sous-segment client.",
+        "en": "Monthly CSV file containing written-off amounts and recoveries achieved, by company, country, currency and customer sub-segment."
+      }
+    }
+  ],
+  "schema": {
+    "image": "Assets/Images/vintage-recovery/data-model.png",
+    "description": {
+      "fr": "Vue d'ensemble de la table centrale Wof Recoveries et de ses colonnes calculées.",
+      "en": "Overview of the central Wof Recoveries table and its calculated columns."
+    }
+  },
+  "relationships": [],
+  "tables": {
+    "fact": [
+      {
+        "name": "Wof Recoveries",
+        "description": {
+          "fr": "Table de faits principale contenant l'historique mensuel des créances radiées (write-offs) et des montants recouvrés. Chaque ligne représente un flux mensuel de recouvrement pour une combinaison entreprise / pays / devise / sous-segment.",
+          "en": "Main fact table containing the monthly history of written-off receivables and recovered amounts. Each row represents a monthly recovery flow for a company / country / currency / sub-segment combination."
+        },
+        "screenshot": "Assets/Images/vintage-recovery/wof-recoveries.png",
+        "icon": "package",
+        "columns": {
+          "source": [
+            { "name": "Company", "dataType": "String", "description": { "fr": "Nom de la filiale ou de l'entreprise concernée.", "en": "Name of the subsidiary or company concerned." } },
+            { "name": "DateData", "dataType": "DateTime", "description": { "fr": "Date de référence de la ligne de données (date de reporting).", "en": "Reference date of the data row (reporting date)." } },
+            { "name": "DateWOF", "dataType": "DateTime", "description": { "fr": "Date de radiation de la créance (write-off date).", "en": "Date when the receivable was written off." } },
+            { "name": "CurrencyRate", "dataType": "Double", "description": { "fr": "Taux de change utilisé pour la conversion en euros.", "en": "Exchange rate used for euro conversion." } },
+            { "name": "Currency", "dataType": "String", "description": { "fr": "Devise locale de la filiale.", "en": "Local currency of the subsidiary." } },
+            { "name": "SubSegment", "dataType": "String", "description": { "fr": "Sous-segment client (ex : Nano, SE, ME).", "en": "Customer sub-segment (e.g., Nano, SE, ME)." } },
+            { "name": "WritenOffPrincipalAmountFlow", "dataType": "Double", "description": { "fr": "Montant du principal radié en devise locale (flux mensuel).", "en": "Written-off principal amount in local currency (monthly flow)." } },
+            { "name": "WritenOffPrincipalAmountFlowEuro", "dataType": "Int64", "description": { "fr": "Montant du principal radié converti en euros (flux mensuel).", "en": "Written-off principal amount converted to euros (monthly flow)." } },
+            { "name": "TotalAmountRecoveredFlow", "dataType": "Double", "description": { "fr": "Montant total recouvré en devise locale (flux mensuel).", "en": "Total recovered amount in local currency (monthly flow)." } },
+            { "name": "TotalAmountRecoveredFlowEuro", "dataType": "Int64", "description": { "fr": "Montant total recouvré converti en euros (flux mensuel).", "en": "Total recovered amount converted to euros (monthly flow)." } },
+            { "name": "Country", "dataType": "String", "description": { "fr": "Pays de la filiale.", "en": "Country of the subsidiary." } }
+          ],
+          "calculated": [
+            { "name": "Year-Month Data", "dataType": "String", "description": { "fr": "Libellé année-mois de la date de reporting (ex : 2025-10).", "en": "Year-month label of the reporting date (e.g., 2025-10)." } },
+            { "name": "Year-Month WO", "dataType": "DateTime", "description": { "fr": "Date tronquée au mois de la radiation, utilisée pour l'analyse par cohorte.", "en": "Date truncated to write-off month, used for cohort analysis." } },
+            { "name": "YearData", "dataType": "Int64", "description": { "fr": "Année extraite de la date de reporting, pour les filtres annuels.", "en": "Year extracted from reporting date, for annual filters." } },
+            { "name": "sortYearMonthWO", "dataType": "Int64", "description": { "fr": "Clé numérique de tri pour Year-Month WO (format YYYYMM).", "en": "Numeric sort key for Year-Month WO (YYYYMM format)." } }
+          ]
+        }
+      }
+    ],
+    "dimension": []
+  }
+}
