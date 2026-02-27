@@ -19,10 +19,10 @@
         "fr": "Analyse des vintages, late days et write-offs du portefeuille.",
         "en": "Vintage analysis, late days and portfolio write-offs."
       },
-      "categories": ["portfolio", "collections"],
+      "categories": ["portfolio", "collections", "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.fabric.microsoft.com/",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "vintage-recovery",
@@ -56,6 +56,18 @@
         "en": "Monthly dashboard of the 20 largest portfolio concentrations: disbursements, gross loan portfolio, PAR 0/30/90 overdue, write-offs and contracts with no payment since disbursement."
       },
       "categories": ["portfolio", "par", "wof", "collections"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.fabric.microsoft.com/",
+      "isActive": true
+    },
+    {
+      "id": "llp",
+      "name": { "fr": "LLP", "en": "LLP" },
+      "description": {
+        "fr": "Suivi mensuel des provisions sur pertes de crédit en conformité IFRS : coût du risque, ratios de couverture PAR 30/90 et indicateurs financiers du portefeuille.",
+        "en": "Monthly monitoring of credit loss provisions in IFRS compliance: cost of risk, PAR 30/90 coverage ratios and portfolio financial indicators."
+      },
+      "categories": ["provisioning", "par"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.fabric.microsoft.com/",
       "isActive": true
