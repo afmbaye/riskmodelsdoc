@@ -1,89 +1,135 @@
 {
   "modelId": "transition-smoothing",
+  "description": {
+    "fr": "Liste des 7 indicateurs clés de performance utilisés dans la matrice de transition et les analyses de lissage du modèle Transition & Smoothing.",
+    "en": "List of 7 key performance indicators used in the transition matrix and smoothing analyses of the Transition & Smoothing model."
+  },
   "kpis": [
     {
-      "name": "Total LP previous month EUR",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]))",
-      "formatString": "#,0",
+      "id": "total-lp-previous-month-eur",
+      "name": { "fr": "Total LP previous month EUR", "en": "Total LP previous month EUR" },
+      "variableName": "Total LP previous month EUR",
       "description": {
         "fr": "Encours brut total du mois précédent exprimé en euros. Retourne vide si l'encours est nul, afin d'éviter d'afficher des zéros non significatifs dans la matrice de transition.",
         "en": "Total gross outstanding balance from the previous month expressed in euros. Returns blank when outstanding is zero to avoid displaying non-significant zeros in the transition matrix."
       },
-      "usedIn": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"]
+      "unit": "EUR",
+      "visuals": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"],
+      "formula": {
+        "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]))",
+        "explanation": {
+          "fr": "Additionne l'encours brut du mois précédent (colonne GLP_Previous_Month_Euro) depuis la table Donn\u00e9e. Le IF(ISBLANK(...),\"\") renvoie une cellule vide plutôt que 0 lorsqu'aucune donnée n'existe, ce qui permet à la matrice de transition d'afficher uniquement les migrations effectives sans polluer la lecture avec des zéros.",
+          "en": "Sums the previous month's gross outstanding balance (column GLP_Previous_Month_Euro) from the Donn\u00e9e table. The IF(ISBLANK(...),\"\") returns an empty cell rather than 0 when no data exists, allowing the transition matrix to display only effective migrations without polluting the view with zeros."
+        }
+      }
     },
     {
-      "name": "Total LP previous month",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_LC])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_LC]))",
-      "formatString": "#,0",
+      "id": "total-lp-previous-month-lc",
+      "name": { "fr": "Total LP previous month", "en": "Total LP previous month" },
+      "variableName": "Total LP previous month",
       "description": {
         "fr": "Encours brut total du mois précédent en devise locale. Utilisé pour les filiales dont la devise de reporting n'est pas l'euro (ex. CDF pour la RDC).",
         "en": "Total gross outstanding balance from the previous month in local currency. Used for subsidiaries whose reporting currency is not the euro (e.g. CDF for DRC)."
       },
-      "usedIn": ["transition-matrix", "roll-rate-trend"]
+      "unit": "LC (devise locale)",
+      "visuals": ["transition-matrix", "roll-rate-trend"],
+      "formula": {
+        "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_LC])),\"\",SUM('Donn\u00e9e'[GLP_Previous_Month_LC]))",
+        "explanation": {
+          "fr": "Même logique que la version EUR mais sur la colonne GLP_Previous_Month_LC (devise locale). La valeur reste vide si l'encours est nul. Utilisée exclusivement pour les analyses intra-filiale où la conversion en euros n'est pas pertinente.",
+          "en": "Same logic as the EUR version but on the GLP_Previous_Month_LC column (local currency). Returns blank if outstanding is zero. Used exclusively for intra-subsidiary analyses where euro conversion is not relevant."
+        }
+      }
     },
     {
-      "name": "Total LP current month EUR",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_Euro])),0,SUM('Donn\u00e9e'[GLP_Current_Month_Euro]))",
-      "formatString": "#,0",
+      "id": "total-lp-current-month-eur",
+      "name": { "fr": "Total LP current month EUR", "en": "Total LP current month EUR" },
+      "variableName": "Total LP current month EUR",
       "description": {
         "fr": "Encours brut total du mois courant en euros. Retourne 0 (et non vide) pour permettre le calcul des ratios de transition même lorsque la catégorie courante est à zéro.",
         "en": "Total gross outstanding balance for the current month in euros. Returns 0 (not blank) to allow transition ratio calculations even when the current category is zero."
       },
-      "usedIn": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"]
+      "unit": "EUR",
+      "visuals": ["transition-matrix", "roll-rate-trend", "closed-category-subsidiaries", "closed-category-segment"],
+      "formula": {
+        "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_Euro])),0,SUM('Donn\u00e9e'[GLP_Current_Month_Euro]))",
+        "explanation": {
+          "fr": "Additionne l'encours brut du mois courant (colonne GLP_Current_Month_Euro). Contrairement à la mesure du mois précédent, retourne 0 plutôt que vide — essentiel pour que les divisions dans les ratios de transition ne renvoient pas BLANK() lorsque le dénominateur est nul.",
+          "en": "Sums the current month's gross outstanding balance (column GLP_Current_Month_Euro). Unlike the previous month measure, returns 0 instead of blank — essential so that divisions in transition ratios do not return BLANK() when the denominator is zero."
+        }
+      }
     },
     {
-      "name": "Total LP current month",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_LC])),0,SUM('Donn\u00e9e'[GLP_Current_Month_LC]))",
-      "formatString": "#,0",
+      "id": "total-lp-current-month-lc",
+      "name": { "fr": "Total LP current month", "en": "Total LP current month" },
+      "variableName": "Total LP current month",
       "description": {
         "fr": "Encours brut total du mois courant en devise locale. Complémentaire au KPI EUR pour les filiales dont la devise fonctionnelle n'est pas l'euro.",
         "en": "Total gross outstanding balance for the current month in local currency. Complements the EUR KPI for subsidiaries whose functional currency is not the euro."
       },
-      "usedIn": ["transition-matrix", "roll-rate-trend"]
+      "unit": "LC (devise locale)",
+      "visuals": ["transition-matrix", "roll-rate-trend"],
+      "formula": {
+        "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Current_Month_LC])),0,SUM('Donn\u00e9e'[GLP_Current_Month_LC]))",
+        "explanation": {
+          "fr": "Même logique que la version EUR courant mais en devise locale (colonne GLP_Current_Month_LC). Retourne 0 pour les cellules vides afin de maintenir la cohérence des calculs matriciels.",
+          "en": "Same logic as the current month EUR version but in local currency (column GLP_Current_Month_LC). Returns 0 for empty cells to maintain consistency in matrix calculations."
+        }
+      }
     },
     {
-      "name": "% of LP previous month",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",DIVIDE([Total LP previous month EUR],\nCALCULATE(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]),ALL(CurrentPAR[PAR category current month])),\"\"))",
-      "formatString": "0.00 %;-0.00 %;0.00 %",
+      "id": "pct-lp-previous-month",
+      "name": { "fr": "% of LP previous month", "en": "% of LP previous month" },
+      "variableName": "% of LP previous month",
       "description": {
         "fr": "Part de l'encours d'une catégorie PAR du mois précédent rapportée à l'encours total du portefeuille, toutes catégories confondues. Clé de lecture de la matrice de transition : indique le poids initial de chaque tranche avant migration.",
         "en": "Share of a previous month PAR category outstanding relative to the total portfolio outstanding across all categories. Key for reading the transition matrix: indicates the initial weight of each bucket before migration."
       },
-      "usedIn": ["transition-matrix"]
+      "unit": "%",
+      "visuals": ["transition-matrix"],
+      "formula": {
+        "dax": "IF(ISBLANK(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro])),\"\",DIVIDE([Total LP previous month EUR],\nCALCULATE(SUM('Donn\u00e9e'[GLP_Previous_Month_Euro]),ALL(CurrentPAR[PAR category current month])),\"\"))",
+        "explanation": {
+          "fr": "Divise l'encours de la catégorie PAR courante par l'encours total toutes catégories confondues, en levant le filtre sur CurrentPAR via ALL(). Retourne vide si l'encours du mois précédent est nul. Ce ratio permet de lire le poids relatif de chaque tranche avant sa migration vers les catégories du mois suivant.",
+          "en": "Divides the current PAR category outstanding by the total outstanding across all categories, removing the filter on CurrentPAR via ALL(). Returns blank if the previous month outstanding is zero. This ratio enables reading the relative weight of each bucket before it migrates to the next month's categories."
+        }
+      }
     },
     {
-      "name": "Nombre de ContractNumber",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "IF(ISBLANK(COUNTA('Donn\u00e9e'[ContractNumber])),\"\",COUNTA('Donn\u00e9e'[ContractNumber]))",
-      "formatString": "#,0",
+      "id": "nombre-contract-number",
+      "name": { "fr": "Nombre de ContractNumber", "en": "Number of ContractNumbers" },
+      "variableName": "Nombre de ContractNumber",
       "description": {
-        "fr": "Nombre de contrats distincts dans la sélection courante. Permet de quantifier en volume (nombre de contrats) les flux de la matrice de transition, en complément de l'analyse en montant.",
-        "en": "Number of distinct contracts in the current selection. Quantifies in volume (contract count) the transition matrix flows, complementing the amount-based analysis."
+        "fr": "Nombre de contrats dans la sélection courante. Permet de quantifier en volume les flux de la matrice de transition, en complément de l'analyse en montant.",
+        "en": "Number of contracts in the current selection. Quantifies in volume the transition matrix flows, complementing the amount-based analysis."
       },
-      "usedIn": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"]
+      "unit": "Nombre",
+      "visuals": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"],
+      "formula": {
+        "dax": "IF(ISBLANK(COUNTA('Donn\u00e9e'[ContractNumber])),\"\",COUNTA('Donn\u00e9e'[ContractNumber]))",
+        "explanation": {
+          "fr": "Compte les valeurs non vides de la colonne ContractNumber via COUNTA. Retourne vide si aucun contrat n'est présent dans le contexte de filtre courant. Utilisé en parallèle du montant EUR pour détecter les effets de volume vs. montant (ex. peu de contrats de gros montant peuvent masquer un PAR élevé en valeur).",
+          "en": "Counts non-empty values in the ContractNumber column via COUNTA. Returns blank if no contracts exist in the current filter context. Used alongside the EUR amount to detect volume vs. amount effects (e.g. a few large contracts can mask a high PAR by value)."
+        }
+      }
     },
     {
-      "name": "Nbre de client",
-      "table": "Donn\u00e9e",
-      "type": "measure",
-      "dax": "sum('Donn\u00e9e'[Client])",
-      "formatString": "0",
+      "id": "nbre-client",
+      "name": { "fr": "Nbre de client", "en": "Number of Clients" },
+      "variableName": "Nbre de client",
       "description": {
-        "fr": "Nombre de clients distincts impactés dans la sélection. Permet de mesurer la concentration du risque : un volume élevé sur peu de clients signale un risque de concentration.",
+        "fr": "Nombre de clients distincts impactés dans la sélection. Mesure la concentration du risque : un volume élevé sur peu de clients signale un risque de concentration.",
         "en": "Number of distinct clients affected in the selection. Measures risk concentration: a high volume on few clients signals concentration risk."
       },
-      "usedIn": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"]
+      "unit": "Nombre",
+      "visuals": ["transition-matrix", "closed-category-subsidiaries", "closed-category-segment"],
+      "formula": {
+        "dax": "sum('Donn\u00e9e'[Client])",
+        "explanation": {
+          "fr": "Additionne la colonne Client de la table Donn\u00e9e. Cette colonne contient une valeur numérique par ligne représentant le client — la somme donne un proxy du nombre de clients uniques dans le contexte filtré. Utilisé conjointement avec Nombre de ContractNumber pour identifier les portefeuilles concentrés (ratio élevé de contrats par client).",
+          "en": "Sums the Client column from the Donn\u00e9e table. This column contains a numeric value per row representing the client — the sum gives a proxy for the number of unique clients in the filtered context. Used together with Number of ContractNumbers to identify concentrated portfolios (high ratio of contracts per client)."
+        }
+      }
     }
   ]
 }
