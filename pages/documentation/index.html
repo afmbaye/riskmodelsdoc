@@ -559,14 +559,14 @@
       renderKpiRow(kpi) {
         const t = LanguageManager.t.bind(LanguageManager);
 
-        const visualTags = (kpi.usedInVisuals || []).map(v =>
+        const visualTags = (kpi.visuals || []).map(v =>
           `<span class="visual-tag">${v}</span>`
         ).join('');
 
         return `
           <tr data-kpi-id="${kpi.id}">
             <td class="kpi-name">${t(kpi.name)}</td>
-            <td><code class="kpi-variable">${kpi.variable || '-'}</code></td>
+            <td><code class="kpi-variable">${kpi.variableName || '-'}</code></td>
             <td class="kpi-description">${t(kpi.description)}</td>
             <td class="kpi-unit">${kpi.unit || '-'}</td>
             <td class="kpi-visuals">${visualTags || '-'}</td>
@@ -596,7 +596,7 @@
             const row = tbody.querySelector(`tr[data-kpi-id="${kpi.id}"]`);
             const name = t(kpi.name).toLowerCase();
             const desc = t(kpi.description).toLowerCase();
-            const variable = (kpi.variable || '').toLowerCase();
+            const variable = (kpi.variableName || '').toLowerCase();
 
             const matches = name.includes(term) || desc.includes(term) || variable.includes(term);
 
@@ -625,9 +625,9 @@
 
         document.getElementById('formulaModalTitle').textContent = t(kpi.name);
         document.getElementById('formulaDescription').textContent = t(kpi.description);
-        document.getElementById('formulaCode').textContent = kpi.formula || 'N/A';
+        document.getElementById('formulaCode').textContent = (kpi.formula && kpi.formula.dax) || 'N/A';
         document.getElementById('explanationTitle').textContent = t({ fr: 'Explication', en: 'Explanation' });
-        document.getElementById('explanationText').textContent = t(kpi.explanation || { fr: 'Aucune explication disponible.', en: 'No explanation available.' });
+        document.getElementById('explanationText').textContent = t((kpi.formula && kpi.formula.explanation) || { fr: 'Aucune explication disponible.', en: 'No explanation available.' });
 
         // Update copy button label
         const copyLabel = document.getElementById('copyBtnLabel');
@@ -639,7 +639,7 @@
         // Setup copy button
         const copyBtn = document.getElementById('copyFormulaBtn');
         copyBtn.onclick = () => {
-          navigator.clipboard.writeText(kpi.formula || '').then(() => {
+          navigator.clipboard.writeText((kpi.formula && kpi.formula.dax) || '').then(() => {
             copyLabel.textContent = t({ fr: 'Copié !', en: 'Copied!' });
             setTimeout(() => {
               copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
