@@ -409,24 +409,15 @@
           </section>
           ` : ''}
 
-          <!-- Fact Tables -->
+          <!-- All Tables -->
           <section class="content-section">
             <h2 class="section-title">
               <i data-feather="table"></i>
-              ${t({ fr: 'Tables de faits', en: 'Fact Tables' })}
-            </h2>
-            <div class="content-grid-2">
-              ${data.tables.fact.map(table => this.renderTableCard(table, 'fact')).join('')}
-            </div>
-          </section>
-
-          <!-- Dimension Tables -->
-          <section class="content-section">
-            <h2 class="section-title">
-              <i data-feather="layers"></i>
-              ${t({ fr: 'Tables de dimensions', en: 'Dimension Tables' })}
+              ${t({ fr: 'Tables', en: 'Tables' })}
+              <span class="section-count">${data.tables.fact.length + data.tables.dimension.length}</span>
             </h2>
             <div class="content-grid">
+              ${data.tables.fact.map(table => this.renderTableCard(table, 'fact')).join('')}
               ${data.tables.dimension.map(table => this.renderTableCard(table, 'dimension')).join('')}
             </div>
           </section>
@@ -436,23 +427,33 @@
             <h2 class="section-title">
               <i data-feather="git-merge"></i>
               ${t({ fr: 'Relations', en: 'Relationships' })}
+              <span class="section-count">${data.relationships.length}</span>
             </h2>
-            <div class="relationships-list">
-              ${data.relationships.map(rel => `
-                <div class="relationship-row">
-                  <div class="relationship-tables">
-                    <span class="table-name">${rel.from.table}</span>
-                    <span class="column-name">[${rel.from.column}]</span>
-                    <span class="relationship-arrow">
-                      <span class="cardinality">${rel.cardinality}</span>
-                      <i data-feather="arrow-right"></i>
-                    </span>
-                    <span class="table-name">${rel.to.table}</span>
-                    <span class="column-name">[${rel.to.column}]</span>
-                  </div>
-                  <p class="relationship-description">${t(rel.description)}</p>
-                </div>
-              `).join('')}
+            <div class="table-wrapper">
+              <table class="data-table relationships-table">
+                <thead>
+                  <tr>
+                    <th>${t({ fr: 'Table source', en: 'From table' })}</th>
+                    <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
+                    <th style="text-align:center">${t({ fr: 'Cardinalité', en: 'Cardinality' })}</th>
+                    <th>${t({ fr: 'Table cible', en: 'To table' })}</th>
+                    <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
+                    <th>${t({ fr: 'Description', en: 'Description' })}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${data.relationships.map(rel => `
+                    <tr>
+                      <td><span class="rel-table-name">${rel.from.table}</span></td>
+                      <td><code class="kpi-variable">${rel.from.column}</code></td>
+                      <td style="text-align:center"><span class="cardinality-badge">${rel.cardinality}</span></td>
+                      <td><span class="rel-table-name">${rel.to.table}</span></td>
+                      <td><code class="kpi-variable">${rel.to.column}</code></td>
+                      <td class="rel-description">${t(rel.description)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
             </div>
           </section>
         `;
@@ -461,6 +462,8 @@
       renderTableCard(table, type) {
         const t = LanguageManager.t.bind(LanguageManager);
         const iconColor = type === 'fact' ? 'var(--primary-color)' : 'var(--info-color)';
+        const rowCount = table.rowCount ? `<span class="table-meta">${table.rowCount.toLocaleString()} lignes</span>` : '';
+        const colCount = table.columns ? `<span class="table-meta">${table.columns.length} col.</span>` : '';
 
         return `
           <div class="table-card">
@@ -472,14 +475,10 @@
                 <h3 class="table-name">${table.name}</h3>
                 <span class="badge badge-${type === 'fact' ? 'primary' : 'info'}">${type === 'fact' ? 'Fact' : 'Dimension'}</span>
               </div>
+              ${rowCount || colCount ? `<div class="table-meta-group">${rowCount}${colCount}</div>` : ''}
             </div>
             <div class="table-card-body">
               <p class="table-description">${t(table.description)}</p>
-              ${table.screenshot ? `
-                <div class="table-screenshot">
-                  <img src="../../${table.screenshot}" alt="${table.name}">
-                </div>
-              ` : ''}
             </div>
           </div>
         `;
