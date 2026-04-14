@@ -61,6 +61,18 @@
       "isActive": true
     },
     {
+      "id": "atypical",
+      "name": { "fr": "Atypical Loans", "en": "Atypical Loans" },
+      "description": {
+        "fr": "Suivi mensuel des crédits atypiques par catégorie et variable : décaissements, encours, PAR 30 et tendances sur l'historique du portefeuille.",
+        "en": "Monthly monitoring of atypical loans by category and variable: disbursements, outstanding, PAR 30 and portfolio historical trends."
+      },
+      "categories": ["portfolio", "disbursement", "atypical"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": false
+    },
+    {
       "id": "llp",
       "name": { "fr": "LLP", "en": "LLP" },
       "description": {

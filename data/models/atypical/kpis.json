@@ -1,0 +1,153 @@
+{
+  "modelId": "atypical",
+  "description": {
+    "fr": "Liste des 8 indicateurs clés de performance du modèle Atypical Loans. Les indicateurs EUR sont tous disponibles en devise locale (LC) via les mesures équivalentes suffixées _LC.",
+    "en": "List of 8 key performance indicators of the Atypical Loans model. EUR indicators are all available in local currency (LC) via equivalent measures suffixed _LC."
+  },
+  "kpis": [
+    {
+      "id": "atypical-disb-eur-current-month",
+      "name": { "fr": "Atypical Disb EUR current month", "en": "Atypical Disb EUR current month" },
+      "variableName": "Atypical Disb EUR current month",
+      "description": {
+        "fr": "Montant total décaissé en euros sur le mois courant pour les contrats classés dans une variable atypique. Permet de mesurer le flux de nouveaux crédits atypiques octroyés sur la période.",
+        "en": "Total amount disbursed in euros in the current month for contracts classified in an atypical variable. Measures the flow of new atypical loans granted in the period."
+      },
+      "unit": "EUR",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "CALCULATE(SUM(Atypical[Disbursement_Amount_EUR]),Contracts[CurrentMonthDisb]=\"CurrentMonthDisb\")+0",
+        "explanation": {
+          "fr": "Filtre la somme des montants décaissés en EUR (colonne calculée Disbursement_Amount_EUR de la table Atypical, héritée de Contracts) sur les contrats dont CurrentMonthDisb = \"CurrentMonthDisb\", c'est-à-dire dont la date de décaissement correspond au mois courant. Le +0 force l'affichage de 0 au lieu de BLANK() pour les variables sans décaissement ce mois.",
+          "en": "Filters the sum of disbursed EUR amounts (calculated column Disbursement_Amount_EUR from the Atypical table, inherited from Contracts) on contracts where CurrentMonthDisb = \"CurrentMonthDisb\", i.e. whose disbursement date falls in the current month. The +0 forces 0 instead of BLANK() for variables with no disbursement that month."
+        }
+      }
+    },
+    {
+      "id": "atypical-in-total-disb-cur-month",
+      "name": { "fr": "Atypical in total disb cur month", "en": "Atypical in total disb cur month" },
+      "variableName": "Atypical in total disb cur month",
+      "description": {
+        "fr": "Part du décaissement atypique du mois courant (EUR) rapportée au décaissement total du portefeuille sur le même mois. Indique le poids relatif des crédits atypiques dans la production mensuelle.",
+        "en": "Share of the current month atypical disbursement (EUR) relative to total portfolio disbursement for the same month. Indicates the relative weight of atypical loans in monthly production."
+      },
+      "unit": "%",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "IF(DIVIDE([Atypical Disb EUR current month],Contracts[Total Disb-s EUR current month],0)=0,BLANK(),DIVIDE([Atypical Disb EUR current month],Contracts[Total Disb-s EUR current month],0))+0",
+        "explanation": {
+          "fr": "Divise le décaissement atypique du mois par le décaissement total du portefeuille (mesure Contracts[Total Disb-s EUR current month]). Retourne BLANK() si le résultat est 0 pour éviter l'affichage de zéros non significatifs dans le tableau de bord.",
+          "en": "Divides the atypical monthly disbursement by total portfolio disbursement (Contracts[Total Disb-s EUR current month] measure). Returns BLANK() if result is 0 to avoid displaying non-significant zeros in the dashboard."
+        }
+      }
+    },
+    {
+      "id": "atypical-disb-nb-current-month",
+      "name": { "fr": "Atypical Disb # current month", "en": "Atypical Disb # current month" },
+      "variableName": "Atypical Disb # current month",
+      "description": {
+        "fr": "Nombre de contrats atypiques décaissés sur le mois courant. Complète l'indicateur en montant pour détecter les effets de concentration (peu de gros contrats vs. beaucoup de petits).",
+        "en": "Number of atypical contracts disbursed in the current month. Complements the amount indicator to detect concentration effects (few large contracts vs. many small ones)."
+      },
+      "unit": "Nombre",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "CALCULATE(COUNTA(Atypical[Company_AccountContractNo]),Contracts[CurrentMonthDisb]=\"CurrentMonthDisb\")",
+        "explanation": {
+          "fr": "Compte les numéros de contrats non vides (COUNTA) dans la table Atypical, filtrés sur les décaissements du mois courant via Contracts[CurrentMonthDisb]. Chaque ligne de la table Atypical représente un couple contrat × variable atypique, donc COUNTA donne le nombre de contrats atypiques distincts si une seule variable est sélectionnée.",
+          "en": "Counts non-empty contract numbers (COUNTA) in the Atypical table, filtered on current month disbursements via Contracts[CurrentMonthDisb]. Each row in the Atypical table represents a contract × atypical variable pair, so COUNTA gives the distinct atypical contract count when a single variable is selected."
+        }
+      }
+    },
+    {
+      "id": "atypical-glp-eur",
+      "name": { "fr": "Atypical GLP EUR", "en": "Atypical GLP EUR" },
+      "variableName": "Atypical GLP EUR",
+      "description": {
+        "fr": "Encours brut (GLP) des crédits atypiques en euros à la date de reporting. Mesure centrale du volume d'exposition atypique dans le portefeuille.",
+        "en": "Gross loan portfolio (GLP) of atypical loans in euros at the reporting date. Central measure of atypical exposure volume in the portfolio."
+      },
+      "unit": "EUR",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "SUM(Atypical[GLP_EUR])+0",
+        "explanation": {
+          "fr": "Additionne la colonne calculée GLP_EUR de la table Atypical (héritée de Contracts via RELATED). Le +0 garantit l'affichage de 0 pour les variables sans encours dans le contexte de filtre courant. GLP_EUR est le GLP converti en euros depuis la devise locale via le taux de change de Contracts.",
+          "en": "Sums the calculated column GLP_EUR from the Atypical table (inherited from Contracts via RELATED). The +0 ensures 0 is displayed for variables with no outstanding in the current filter context. GLP_EUR is the GLP converted to euros from local currency via the Contracts exchange rate."
+        }
+      }
+    },
+    {
+      "id": "atypical-volume-in-total-glp",
+      "name": { "fr": "Atypical volume in total GLP", "en": "Atypical volume in total GLP" },
+      "variableName": "Atypical volume in total GLP",
+      "description": {
+        "fr": "Part du GLP atypique rapportée au GLP total du portefeuille. Indique quelle proportion de l'encours total est classée dans la variable atypique sélectionnée.",
+        "en": "Share of atypical GLP relative to total portfolio GLP. Indicates what proportion of total outstanding is classified in the selected atypical variable."
+      },
+      "unit": "%",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "IF(DIVIDE([Atypical GLP EUR],Contracts[Total GLP EUR],0)=0,BLANK(),DIVIDE([Atypical GLP EUR],Contracts[Total GLP EUR],0))+0",
+        "explanation": {
+          "fr": "Divise le GLP atypique par le GLP total du portefeuille (mesure Contracts[Total GLP EUR]). Retourne BLANK() si le ratio est 0 pour nettoyer l'affichage dans les tableaux croisés. Un ratio élevé sur une variable atypique signale une concentration de risque à investiguer.",
+          "en": "Divides atypical GLP by total portfolio GLP (Contracts[Total GLP EUR] measure). Returns BLANK() if ratio is 0 to clean display in cross tables. A high ratio on an atypical variable signals a risk concentration to investigate."
+        }
+      }
+    },
+    {
+      "id": "atypical-nb-contracts",
+      "name": { "fr": "Atypical # of contracts", "en": "Atypical # of contracts" },
+      "variableName": "Atypical # of contracts",
+      "description": {
+        "fr": "Nombre total de contrats actifs dans la variable atypique sélectionnée à la date de reporting. Stock de contrats atypiques (vs. flux mensuel de Atypical Disb # current month).",
+        "en": "Total number of active contracts in the selected atypical variable at the reporting date. Stock of atypical contracts (vs. monthly flow of Atypical Disb # current month)."
+      },
+      "unit": "Nombre",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "COUNTA(Atypical[Company_AccountContractNo])+0",
+        "explanation": {
+          "fr": "Compte toutes les valeurs non vides de Company_AccountContractNo dans le contexte de filtre courant. C'est le stock de contrats atypiques : contrairement à Atypical Disb #, cette mesure n'est pas filtrée sur le mois de décaissement et inclut donc tous les contrats actifs de la variable.",
+          "en": "Counts all non-empty values of Company_AccountContractNo in the current filter context. This is the stock of atypical contracts: unlike Atypical Disb #, this measure is not filtered on disbursement month and thus includes all active contracts of the variable."
+        }
+      }
+    },
+    {
+      "id": "atypical-par-30-pct",
+      "name": { "fr": "Atypical PAR 30+ %", "en": "Atypical PAR 30+ %" },
+      "variableName": "Atypical PAR 30+ %",
+      "description": {
+        "fr": "Ratio PAR 30+ de la variable atypique : part du GLP atypique en retard de 30 jours ou plus, rapportée au GLP atypique total. Permet de comparer le taux de défaut de chaque variable atypique au PAR 30 global du portefeuille.",
+        "en": "Atypical variable PAR 30+ ratio: share of atypical GLP overdue 30 days or more, relative to total atypical GLP. Enables comparison of each atypical variable's default rate to the overall portfolio PAR 30."
+      },
+      "unit": "%",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "IF(\n    DIVIDE(\n        CALCULATE(Atypical[Atypical GLP EUR],Atypical[PAR]<>\"0-Healthy\",Atypical[PAR]<>\"1-PAR 1-30\"),\n        Atypical[Atypical GLP EUR],0)=0,\n    BLANK(),\n    DIVIDE(\n        CALCULATE(Atypical[Atypical GLP EUR],Atypical[PAR]<>\"0-Healthy\",Atypical[PAR]<>\"1-PAR 1-30\"),\n        Atypical[Atypical GLP EUR],0))+0",
+        "explanation": {
+          "fr": "Calcule la part du GLP atypique en PAR 30+ (catégories PAR hors \"0-Healthy\" et \"1-PAR 1-30\") divisée par le GLP atypical total. L'exclusion de PAR 1-30 aligne le calcul sur la définition standard PAR 30+. Retourne BLANK() si 0 pour nettoyer les tableaux. La mesure Color PAR 30+% compare ce ratio au PAR 30+ global pour colorer en rouge/vert.",
+          "en": "Calculates the share of atypical GLP in PAR 30+ (PAR categories excluding \"0-Healthy\" and \"1-PAR 1-30\") divided by total atypical GLP. Excluding PAR 1-30 aligns the calculation with the standard PAR 30+ definition. Returns BLANK() if 0 to clean tables. The Color PAR 30+% measure compares this ratio to the overall PAR 30+ to color red/green."
+        }
+      }
+    },
+    {
+      "id": "par-30-volume",
+      "name": { "fr": "PAR 30 Volume", "en": "PAR 30 Volume" },
+      "variableName": "PAR 30 Volume",
+      "description": {
+        "fr": "Volume d'encours en PAR 30+ de la variable atypique en euros. Numérateur du ratio Atypical PAR 30+ % et indicateur absolu du risque de défaut structurel dans la catégorie atypique.",
+        "en": "PAR 30+ outstanding volume of the atypical variable in euros. Numerator of the Atypical PAR 30+ % ratio and absolute indicator of structural default risk in the atypical category."
+      },
+      "unit": "EUR",
+      "visuals": ["atypical-dashboard", "atypical-trend"],
+      "formula": {
+        "dax": "CALCULATE(Atypical[Atypical GLP EUR],Atypical[PAR]<>\"0-Healthy\",Atypical[PAR]<>\"1-PAR 1-30\")",
+        "explanation": {
+          "fr": "Filtre le GLP atypique EUR sur les tranches PAR en défaut (toutes sauf Healthy et PAR 1-30). Représente le montant absolu d'encours à risque dans la variable atypique sélectionnée. À comparer à PAR 30 Volume_LC pour les analyses en devise locale. Disponible aussi en LC via PAR 30 Volume_LC.",
+          "en": "Filters atypical GLP EUR on defaulting PAR buckets (all except Healthy and PAR 1-30). Represents the absolute at-risk outstanding amount in the selected atypical variable. To compare against PAR 30 Volume_LC for local currency analyses. Also available in LC via PAR 30 Volume_LC."
+        }
+      }
+    }
+  ]
+}

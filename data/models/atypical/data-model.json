@@ -1,0 +1,213 @@
+{
+  "modelId": "atypical",
+  "schema": {
+    "image": "Assets/Images/atypical/data-model.png"
+  },
+  "tables": {
+    "fact": [
+      {
+        "name": "Atypical",
+        "description": {
+          "fr": "Table de faits centrale du modèle. Résulte d'un dépivotement (unpivot) de la table Main Data sur les colonnes de variables atypiques binaires : chaque ligne représente un couple contrat × variable atypique active (Value = \"O\"). Contient les colonnes héritées de Contracts via RELATED pour les calculs de GLP, décaissement et PAR.",
+          "en": "Central fact table of the model. Results from an unpivot of the Main Data table on binary atypical variable columns: each row represents a contract × active atypical variable pair (Value = \"O\"). Contains columns inherited from Contracts via RELATED for GLP, disbursement and PAR calculations."
+        },
+        "columns": [
+          { "name": "Company_AccountContractNo", "type": "String", "description": { "fr": "Clé composite filiale + numéro contrat (clé de jointure vers Contracts)", "en": "Composite key subsidiary + contract number (join key to Contracts)" } },
+          { "name": "AccountContractNo", "type": "String", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+          { "name": "DateData", "type": "DateTime", "description": { "fr": "Date de reporting (fin de mois)", "en": "Reporting date (end of month)" } },
+          { "name": "Attribute", "type": "String", "description": { "fr": "Nom de la variable atypique (clé de jointure vers Variables)", "en": "Atypical variable name (join key to Variables)" } },
+          { "name": "Value", "type": "String", "description": { "fr": "Valeur de la variable atypique : toujours \"O\" (filtrée à la création)", "en": "Atypical variable value: always \"O\" (filtered at creation)" } },
+          { "name": "GLP_EUR", "type": "Double", "description": { "fr": "Encours brut en euros (RELATED depuis Contracts)", "en": "Gross outstanding in euros (RELATED from Contracts)" } },
+          { "name": "GLP_LC", "type": "Double", "description": { "fr": "Encours brut en devise locale (calculé depuis GLP_EUR pour MCDC)", "en": "Gross outstanding in local currency (calculated from GLP_EUR for MCDC)" } },
+          { "name": "Disbursement_Amount_EUR", "type": "Double", "description": { "fr": "Montant décaissé en euros (RELATED depuis Contracts)", "en": "Disbursed amount in euros (RELATED from Contracts)" } },
+          { "name": "PAR", "type": "String", "description": { "fr": "Tranche PAR du contrat (RELATED depuis Contracts) : 0-Healthy, 1-PAR 1-30, 2-PAR 31-60, etc.", "en": "Contract PAR bucket (RELATED from Contracts): 0-Healthy, 1-PAR 1-30, 2-PAR 31-60, etc." } },
+          { "name": "Var_Category", "type": "String", "description": { "fr": "Catégorie de la variable atypique (RELATED depuis Variables)", "en": "Atypical variable category (RELATED from Variables)" } },
+          { "name": "Attibute FR", "type": "String", "description": { "fr": "Libellé français de la variable atypique (LOOKUPVALUE depuis Variables)", "en": "French label of the atypical variable (LOOKUPVALUE from Variables)" } }
+        ]
+      },
+      {
+        "name": "Contracts",
+        "description": {
+          "fr": "Table de faits principale des contrats de prêt. Contient une ligne par contrat et par date de reporting. Source des données financières (GLP, décaissement, PAR), des informations client et des variables atypiques calculées en colonnes binaires.",
+          "en": "Main loan contract fact table. Contains one row per contract and reporting date. Source of financial data (GLP, disbursement, PAR), client information and atypical variables calculated as binary columns."
+        },
+        "columns": [
+          { "name": "Company", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "AccountContractNo", "type": "String", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+          { "name": "ClientNo", "type": "Int64", "description": { "fr": "Numéro client", "en": "Client number" } },
+          { "name": "ClientName", "type": "String", "description": { "fr": "Nom du client", "en": "Client name" } },
+          { "name": "Branch", "type": "Int64", "description": { "fr": "Code agence", "en": "Branch code" } },
+          { "name": "BranchName", "type": "String", "description": { "fr": "Nom de l'agence", "en": "Branch name" } },
+          { "name": "LoanCycle", "type": "Int64", "description": { "fr": "Cycle de crédit du client", "en": "Client loan cycle" } },
+          { "name": "CategoryDesc", "type": "String", "description": { "fr": "Catégorie de produit (ex. Micro, PME)", "en": "Product category (e.g. Micro, SME)" } },
+          { "name": "Segment", "type": "String", "description": { "fr": "Segment client", "en": "Client segment" } },
+          { "name": "DisbursementDate", "type": "DateTime", "description": { "fr": "Date de décaissement", "en": "Disbursement date" } },
+          { "name": "LoanDuration", "type": "Int64", "description": { "fr": "Durée du prêt en mois", "en": "Loan duration in months" } },
+          { "name": "MaturityDate", "type": "DateTime", "description": { "fr": "Date d'échéance finale", "en": "Final maturity date" } },
+          { "name": "LoanStatus", "type": "String", "description": { "fr": "Statut du contrat (actif, liquidé, etc.)", "en": "Contract status (active, liquidated, etc.)" } },
+          { "name": "DisbursementAmount", "type": "Double", "description": { "fr": "Montant décaissé en devise locale", "en": "Disbursed amount in local currency" } },
+          { "name": "DisbursementAmount_EUR", "type": "Double", "description": { "fr": "Montant décaissé en euros", "en": "Disbursed amount in euros" } },
+          { "name": "GLP", "type": "Double", "description": { "fr": "Encours brut en devise locale", "en": "Gross outstanding in local currency" } },
+          { "name": "GLP_EUR", "type": "Double", "description": { "fr": "Encours brut en euros", "en": "Gross outstanding in euros" } },
+          { "name": "PAR", "type": "String", "description": { "fr": "Tranche PAR courante du contrat", "en": "Current PAR bucket of the contract" } },
+          { "name": "DateData", "type": "DateTime", "description": { "fr": "Date de reporting de la ligne", "en": "Reporting date of the row" } },
+          { "name": "Company_AccountContractNo", "type": "String", "description": { "fr": "Clé composite filiale + contrat", "en": "Composite key subsidiary + contract" } },
+          { "name": "CurrentMonthDisb", "type": "String", "description": { "fr": "Colonne calculée : \"CurrentMonthDisb\" si décaissement = mois courant, sinon vide", "en": "Calculated column: \"CurrentMonthDisb\" if disbursement = current month, otherwise empty" } }
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "name": "Variables",
+        "description": {
+          "fr": "Table de dimension des variables atypiques. Contient la liste officielle de toutes les variables avec leur catégorie, libellé FR, libellé EN et ordre de tri.",
+          "en": "Atypical variable dimension table. Contains the official list of all variables with their category, FR label, EN label and sort order."
+        },
+        "columns": [
+          { "name": "Category", "type": "String", "description": { "fr": "Catégorie de la variable (ex. Installment Late, Renewal Loans, T24 variables)", "en": "Variable category (e.g. Installment Late, Renewal Loans, T24 variables)" } },
+          { "name": "Var", "type": "String", "description": { "fr": "Nom technique de la variable (clé de jointure avec Atypical[Attribute])", "en": "Technical variable name (join key with Atypical[Attribute])" } },
+          { "name": "Var FR", "type": "String", "description": { "fr": "Libellé français de la variable atypique", "en": "French label of the atypical variable" } },
+          { "name": "Tri", "type": "Int64", "description": { "fr": "Ordre de tri dans le rapport", "en": "Sort order in the report" } }
+        ]
+      },
+      {
+        "name": "Countries",
+        "description": {
+          "fr": "Table de dimension des pays/filiales. Fournit la devise, la région et le nom normalisé pour chaque code filiale.",
+          "en": "Country/subsidiary dimension table. Provides currency, region and normalized name for each subsidiary code."
+        },
+        "columns": [
+          { "name": "Country Code old", "type": "String", "description": { "fr": "Code filiale (clé de jointure)", "en": "Subsidiary code (join key)" } },
+          { "name": "Country", "type": "String", "description": { "fr": "Nom du pays", "en": "Country name" } },
+          { "name": "Currency", "type": "String", "description": { "fr": "Devise locale", "en": "Local currency" } },
+          { "name": "Region", "type": "String", "description": { "fr": "Région géographique", "en": "Geographic region" } },
+          { "name": "Company", "type": "String", "description": { "fr": "Code filiale normalisé", "en": "Normalized subsidiary code" } }
+        ]
+      },
+      {
+        "name": "Calendar disb dates",
+        "description": {
+          "fr": "Table de dimension calendaire liée aux dates de décaissement. Fournit les axes temporels (mois-année, trimestre, année) pour les analyses de tendance des décaissements.",
+          "en": "Calendar dimension table linked to disbursement dates. Provides time axes (month-year, quarter, year) for disbursement trend analyses."
+        },
+        "columns": [
+          { "name": "DisbursementDate", "type": "DateTime", "description": { "fr": "Date de décaissement (clé de jointure)", "en": "Disbursement date (join key)" } },
+          { "name": "Year - month", "type": "String", "description": { "fr": "Période AAAA-MM", "en": "YYYY-MM period" } },
+          { "name": "End of disb month", "type": "String", "description": { "fr": "Fin de mois de décaissement", "en": "End of disbursement month" } },
+          { "name": "Month-Year", "type": "String", "description": { "fr": "Mois-Année affiché", "en": "Displayed Month-Year" } },
+          { "name": "Year Disb", "type": "String", "description": { "fr": "Année de décaissement", "en": "Disbursement year" } }
+        ]
+      },
+      {
+        "name": "Calendar_DateData",
+        "description": {
+          "fr": "Table de dimension calendaire liée aux dates de reporting (DateData). Fournit l'axe temporel principal pour filtrer le rapport par période de reporting.",
+          "en": "Calendar dimension table linked to reporting dates (DateData). Provides the main time axis for filtering the report by reporting period."
+        },
+        "columns": [
+          { "name": "DateData", "type": "DateTime", "description": { "fr": "Date de reporting fin de mois (clé de jointure)", "en": "End-of-month reporting date (join key)" } },
+          { "name": "Year-Months-DateData", "type": "String", "description": { "fr": "Période AAAA-MM de reporting", "en": "YYYY-MM reporting period" } }
+        ]
+      },
+      {
+        "name": "Currency_Rate_CDF",
+        "description": {
+          "fr": "Table de taux de change EUR/USD utilisée spécifiquement pour la filiale MCDC (RDC). Permet de convertir le GLP et les décaissements de MCDC depuis USD vers CDF.",
+          "en": "EUR/USD exchange rate table used specifically for the MCDC subsidiary (DRC). Enables conversion of MCDC GLP and disbursements from USD to CDF."
+        },
+        "columns": [
+          { "name": "Current_Date", "type": "DateTime", "description": { "fr": "Date du taux (clé de jointure)", "en": "Rate date (join key)" } },
+          { "name": "Currency", "type": "String", "description": { "fr": "Devise", "en": "Currency" } },
+          { "name": "CurrencyRate", "type": "Double", "description": { "fr": "Taux de change EUR/USD", "en": "EUR/USD exchange rate" } }
+        ]
+      },
+      {
+        "name": "Region",
+        "description": {
+          "fr": "Table de dimension régionale : lie chaque agence à sa zone et région. Clé composite Company&BranchID pour jointure fine au niveau agence.",
+          "en": "Regional dimension table: links each branch to its zone and region. Composite key Company&BranchID for fine-grained branch-level join."
+        },
+        "columns": [
+          { "name": "Company", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "Zone", "type": "String", "description": { "fr": "Zone géographique", "en": "Geographic zone" } },
+          { "name": "Region", "type": "String", "description": { "fr": "Région", "en": "Region" } },
+          { "name": "Branch_code", "type": "Int64", "description": { "fr": "Code agence", "en": "Branch code" } },
+          { "name": "Branch_name", "type": "String", "description": { "fr": "Nom de l'agence", "en": "Branch name" } },
+          { "name": "Company&BranchID", "type": "String", "description": { "fr": "Clé composite filiale + agence (clé de jointure)", "en": "Composite key subsidiary + branch (join key)" } }
+        ]
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "from": { "table": "Atypical", "column": "Company_AccountContractNo" },
+      "to": { "table": "Contracts", "column": "Company_AccountContractNo" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Relation principale du modèle : lie chaque ligne atypique (contrat × variable) au contrat source dans Contracts. Permet l'accès aux données financières via RELATED.",
+        "en": "Main model relationship: links each atypical row (contract × variable) to the source contract in Contracts. Enables access to financial data via RELATED."
+      }
+    },
+    {
+      "from": { "table": "Atypical", "column": "Attribute" },
+      "to": { "table": "Variables", "column": "Var" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie chaque variable atypique de la table Atypical à sa définition dans Variables (catégorie, libellé FR, ordre de tri).",
+        "en": "Links each atypical variable in the Atypical table to its definition in Variables (category, FR label, sort order)."
+      }
+    },
+    {
+      "from": { "table": "Contracts", "column": "Company" },
+      "to": { "table": "Countries", "column": "Country Code old" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les contrats à la table pays pour les filtres géographiques (région, devise, nom de pays).",
+        "en": "Links contracts to the country table for geographic filters (region, currency, country name)."
+      }
+    },
+    {
+      "from": { "table": "Contracts", "column": "DisbursementDate" },
+      "to": { "table": "Calendar disb dates", "column": "DisbursementDate" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les dates de décaissement au calendrier de décaissement pour les analyses temporelles des flux de nouveaux crédits.",
+        "en": "Links disbursement dates to the disbursement calendar for time-based analysis of new credit flows."
+      }
+    },
+    {
+      "from": { "table": "Contracts", "column": "DateData" },
+      "to": { "table": "Calendar_DateData", "column": "DateData" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les dates de reporting des contrats au calendrier de reporting. Axe temporel principal du rapport.",
+        "en": "Links contract reporting dates to the reporting calendar. Main time axis of the report."
+      }
+    },
+    {
+      "from": { "table": "Contracts", "column": "DateData" },
+      "to": { "table": "Currency_Rate_CDF", "column": "Current_Date" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les contrats aux taux de change CDF pour la conversion des montants MCDC de USD en CDF.",
+        "en": "Links contracts to CDF exchange rates for conversion of MCDC amounts from USD to CDF."
+      }
+    },
+    {
+      "from": { "table": "Contracts", "column": "Company&BranchDao" },
+      "to": { "table": "Region", "column": "Company&BranchID" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les contrats à la table régionale via la clé composite filiale + agence, permettant les filtres et regroupements par zone et région.",
+        "en": "Links contracts to the regional table via the composite subsidiary + branch key, enabling filters and groupings by zone and region."
+      }
+    }
+  ]
+}

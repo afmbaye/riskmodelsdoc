@@ -1,0 +1,63 @@
+{
+  "modelId": "atypical",
+  "name": { "fr": "Atypical Loans", "en": "Atypical Loans" },
+  "lastUpdate": "2026-03-01",
+  "stats": [
+    { "icon": "layers", "value": 2, "label": { "fr": "Onglets", "en": "Tabs" } },
+    { "icon": "bar-chart-2", "value": 8, "label": { "fr": "KPIs", "en": "KPIs" } },
+    { "icon": "clock", "value": "M+1", "label": { "fr": "Fréquence", "en": "Frequency" } },
+    { "icon": "database", "value": 2, "label": { "fr": "Sources", "en": "Sources" } }
+  ],
+  "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "categories": ["portfolio", "disbursement", "atypical"],
+  "description": {
+    "fr": "Modèle de suivi des crédits atypiques : identification, quantification et analyse des tendances des différentes catégories de prêts présentant des caractéristiques inhabituelles (renouvellements tardifs, impayés sur premières échéances, changements de gestionnaire, restructurations, etc.).",
+    "en": "Atypical loan monitoring model: identification, quantification and trend analysis of the various loan categories exhibiting unusual characteristics (late renewals, first installment defaults, portfolio manager changes, restructurings, etc.)."
+  },
+  "useCase": {
+    "fr": "Permet de suivre mensuellement le poids des crédits atypiques dans le portefeuille (décaissement, GLP, PAR 30), d'analyser les tendances par catégorie et sous-catégorie de variable atypique, et d'identifier les filiales ou agences concentrant le plus d'exposition atypique.",
+    "en": "Enables monthly monitoring of atypical loans' weight in the portfolio (disbursement, GLP, PAR 30), trend analysis by atypical variable category and sub-category, and identification of subsidiaries or branches concentrating the most atypical exposure."
+  },
+  "tabs": [
+    {
+      "id": "atypical-dashboard",
+      "name": { "fr": "Atypical Dashboard", "en": "Atypical Dashboard" },
+      "description": {
+        "fr": "Vue synthétique de toutes les variables atypiques pour le mois sélectionné : montant décaissé, % sur décaissement total, GLP, % sur GLP total, nombre de contrats, volume PAR 30 et % PAR 30. Filtres : date de reporting, catégorie atypique, filiale, segment.",
+        "en": "Synthetic view of all atypical variables for the selected month: disbursed amount, % of total disbursement, GLP, % of total GLP, number of contracts, PAR 30 volume and PAR 30 %. Filters: reporting date, atypical category, subsidiary, segment."
+      },
+      "screenshot": "Assets/Images/atypical/atypical-dashboard.png"
+    },
+    {
+      "id": "atypical-trend",
+      "name": { "fr": "Atypical trend", "en": "Atypical trend" },
+      "description": {
+        "fr": "4 graphiques de tendance (courbes + histogrammes groupés) par variable atypique sélectionnée : décaissement, nombre de contrats, GLP et PAR 30. Filtres : catégorie atypique, agence, variable (détermine la variable analysée sur les 4 graphiques).",
+        "en": "4 trend charts (lines + grouped bar charts) by selected atypical variable: disbursement, number of contracts, GLP and PAR 30. Filters: atypical category, branch, variable (determines the variable analyzed across the 4 charts)."
+      },
+      "screenshot": "Assets/Images/atypical/atypical-trend.png"
+    }
+  ],
+  "sources": [
+    {
+      "id": "mapping-atypical",
+      "name": "Mapping_Atypical.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Fichier de mapping des variables atypiques : définit les catégories, libellés FR/EN et ordre de tri de chaque variable atypique documentée dans le modèle.",
+        "en": "Atypical variable mapping file: defines the categories, FR/EN labels and sort order of each atypical variable documented in the model."
+      }
+    },
+    {
+      "id": "consolide-atypical",
+      "name": "Consolide_Atypica_Loansl&RenewalLoans_DD-MM-YYYY.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Export mensuel consolidé du portefeuille de prêts avec les variables atypiques calculées. Un fichier par mois est ajouté à l'historique (format : Consolide_Atypica_Loansl&RenewalLoans_JJ-MM-AAAA.xlsx). Contient toutes les données contrats (GLP, décaissements, PAR, variables atypiques binaires).",
+        "en": "Monthly consolidated export of the loan portfolio with calculated atypical variables. One file per month is added to the history (format: Consolide_Atypica_Loansl&RenewalLoans_DD-MM-YYYY.xlsx). Contains all contract data (GLP, disbursements, PAR, binary atypical variables)."
+      }
+    }
+  ],
+  "kpiCount": 8,
+  "tableCount": 8
+}
