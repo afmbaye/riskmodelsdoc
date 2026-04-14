@@ -1,0 +1,153 @@
+{
+  "modelId": "llp",
+  "description": {
+    "fr": "Liste des 8 indicateurs clés de performance documentés dans le modèle LLP, couvrant les provisions, radiations, recouvrements et ratios de risque financier.",
+    "en": "List of 8 key performance indicators documented in the LLP model, covering provisions, write-offs, recoveries and financial risk ratios."
+  },
+  "kpis": [
+    {
+      "id": "loan-loss-provision-eur",
+      "name": { "fr": "Loan loss provision_EUR", "en": "Loan loss provision_EUR" },
+      "variableName": "Loan loss provision_EUR",
+      "description": {
+        "fr": "Charge de provision pour pertes sur créances en euros, période Actual. Représente le coût comptable de la dégradation du portefeuille conformément à IFRS 9.",
+        "en": "Loan loss provision expense in euros, Actual period. Represents the accounting cost of portfolio deterioration in compliance with IFRS 9."
+      },
+      "unit": "EUR",
+      "visuals": ["llp-dashboard", "cost-of-risk-vol", "component-cost-of-risk"],
+      "formula": {
+        "dax": "CALCULATE([BDD_Amt / Qty EUR (-)_Actual],BDD[Item description]=\"Loan loss provision expense\")",
+        "explanation": {
+          "fr": "Filtre la mesure BDD_Amt/Qty EUR (-)_Actual sur la ligne Item description = \"Loan loss provision expense\" et la période \"Actual\". Le signe négatif (colonne Amount / Qty EUR (-)) est appliqué en amont pour que la provision apparaisse en valeur positive dans les visuels. Exclut automatiquement les lignes Budget et IFRS grâce au filtre Actual de la mesure parente.",
+          "en": "Filters the BDD_Amt/Qty EUR (-)_Actual measure on Item description = \"Loan loss provision expense\" and \"Actual\" period. The negative sign (column Amount / Qty EUR (-)) is applied upstream so the provision appears as a positive value in visuals. Automatically excludes Budget and IFRS lines through the Actual filter in the parent measure."
+        }
+      }
+    },
+    {
+      "id": "write-off-eur",
+      "name": { "fr": "Write off_EUR", "en": "Write off_EUR" },
+      "variableName": "Write off_EUR",
+      "description": {
+        "fr": "Montant des créances radiées en euros sur la période Actual. Mesure le flux de sorties définitives du bilan pour créances irrécouvrables.",
+        "en": "Amount of written-off receivables in euros over the Actual period. Measures the flow of definitive balance sheet exits for irrecoverable receivables."
+      },
+      "unit": "EUR",
+      "visuals": ["llp-dashboard", "cost-of-risk-vol", "component-cost-of-risk", "nco-ratio"],
+      "formula": {
+        "dax": "CALCULATE([BDD_Amt / Qty EUR (-)_Actual],BDD[Item description]=\"Write off\")",
+        "explanation": {
+          "fr": "Même logique que Loan loss provision_EUR mais filtre sur Item description = \"Write off\". La valeur est affichée en positif grâce à la colonne calculée Amount / Qty EUR (-). Les radiations sont distinctes des provisions : elles représentent les créances sorties du bilan après constat de perte définitive.",
+          "en": "Same logic as Loan loss provision_EUR but filters on Item description = \"Write off\". The value is displayed as positive via the calculated column Amount / Qty EUR (-). Write-offs differ from provisions: they represent receivables removed from the balance sheet after definitive loss recognition."
+        }
+      }
+    },
+    {
+      "id": "recovery-from-loans-written-off-eur",
+      "name": { "fr": "Recovery from loans written off_EUR", "en": "Recovery from loans written off_EUR" },
+      "variableName": "Recovery  from loans written off_EUR",
+      "description": {
+        "fr": "Montants recouvrés sur des créances précédemment radiées, en euros. Vient en déduction du coût net du risque (LLP net).",
+        "en": "Amounts recovered on previously written-off receivables, in euros. Deducted from the net cost of risk (net LLP)."
+      },
+      "unit": "EUR",
+      "visuals": ["llp-dashboard", "cost-of-risk-vol", "component-cost-of-risk", "nco-ratio"],
+      "formula": {
+        "dax": "CALCULATE([BDD_Amt / Qty EUR (-)_Actual],BDD[Item description]=\"Recovery from loans written off\")",
+        "explanation": {
+          "fr": "Filtre sur Item description = \"Recovery from loans written off\". Les recouvrements sont un flux positif qui réduit le coût net du crédit (Actual_NetLLP_EUR = Provision + Write-Off - Recovery). Un taux de recouvrement élevé sur les radiations passées signale une bonne gestion post-radiation.",
+          "en": "Filters on Item description = \"Recovery from loans written off\". Recoveries are a positive flow reducing the net credit cost (Actual_NetLLP_EUR = Provision + Write-Off - Recovery). A high recovery rate on past write-offs signals good post-write-off management."
+        }
+      }
+    },
+    {
+      "id": "coverage-ratio-par-30",
+      "name": { "fr": "Coverage ratio PAR 30", "en": "Coverage ratio PAR 30" },
+      "variableName": "Coverage ratio PAR 30",
+      "description": {
+        "fr": "Ratio de couverture PAR 30 : part de l'encours en retard de 30+ jours couverte par la réserve pour pertes (LL Reserve BSA0220). Indicateur clé d'adéquation des provisions.",
+        "en": "PAR 30 coverage ratio: share of the 30+ days overdue outstanding covered by the loss reserve (LL Reserve BSA0220). Key provision adequacy indicator."
+      },
+      "unit": "%",
+      "visuals": ["coverage-ratio-par", "financial-risk-ratio-trend"],
+      "formula": {
+        "dax": "-[LL Reserve_BSA0220_Actual]/[PAR 30 (Volume)]",
+        "explanation": {
+          "fr": "Divise la réserve comptable pour pertes (LL Reserve BSA0220, période Actual, signe négatif levé) par le volume d'encours PAR 30. Un ratio supérieur à 100% signifie que la réserve couvre intégralement l'encours en retard de 30+ jours — seuil standard de provisionnement prudent en microfinance IFRS.",
+          "en": "Divides the accounting loss reserve (LL Reserve BSA0220, Actual period, sign lifted) by the PAR 30 outstanding volume. A ratio above 100% means the reserve fully covers the 30+ days overdue outstanding — standard threshold for prudent IFRS microfinance provisioning."
+        }
+      }
+    },
+    {
+      "id": "coverage-ratio-par-90",
+      "name": { "fr": "Coverage ratio PAR 90", "en": "Coverage ratio PAR 90" },
+      "variableName": "Coverage ratio PAR 90",
+      "description": {
+        "fr": "Ratio de couverture PAR 90 : part de l'encours en défaillance sévère (90+ jours) couverte par la réserve pour pertes. Indicateur de protection contre les pertes définitives à court terme.",
+        "en": "PAR 90 coverage ratio: share of the severely overdue outstanding (90+ days) covered by the loss reserve. Indicator of protection against near-term permanent losses."
+      },
+      "unit": "%",
+      "visuals": ["coverage-ratio-par", "financial-risk-ratio-trend"],
+      "formula": {
+        "dax": "-[LL Reserve_BSA0220_Actual]/[PAR 90 (Volume)]",
+        "explanation": {
+          "fr": "Même structure que Coverage ratio PAR 30 mais rapporté à PAR 90 (Volume). Le PAR 90 étant plus faible que le PAR 30, le ratio de couverture PAR 90 est mécaniquement plus élevé. Un ratio très élevé (>200%) peut indiquer un sur-provisionnement ou un PAR 90 faible. Le suivi de l'écart PAR30/PAR90 coverage éclaire la structure des retards.",
+          "en": "Same structure as Coverage ratio PAR 30 but relative to PAR 90 (Volume). Since PAR 90 is lower than PAR 30, the PAR 90 coverage ratio is mechanically higher. A very high ratio (>200%) may indicate over-provisioning or low PAR 90. Monitoring the PAR30/PAR90 coverage gap sheds light on the overdue structure."
+        }
+      }
+    },
+    {
+      "id": "par-30-volume",
+      "name": { "fr": "PAR 30 (Volume)", "en": "PAR 30 (Volume)" },
+      "variableName": "PAR 30 (Volume)",
+      "description": {
+        "fr": "Encours brut des créances en retard de 30 jours ou plus, en euros. Dénominateur du ratio de couverture PAR 30 et indicateur de risque standard en microfinance.",
+        "en": "Gross outstanding of receivables overdue 30 days or more, in euros. Denominator of the PAR 30 coverage ratio and standard risk indicator in microfinance."
+      },
+      "unit": "EUR",
+      "visuals": ["coverage-ratio-par", "llp-dashboard"],
+      "formula": {
+        "dax": "CALCULATE('BDD'[LL Reserve],'BDD'[Category]=\"PAR 30\")",
+        "explanation": {
+          "fr": "Calcule la réserve pour pertes (LL Reserve = BDD_Amt/Qty EUR) filtrée sur Category = \"PAR 30\". Dans cette table, la catégorie PAR 30 regroupe les lignes d'encours correspondant à des contrats en retard de 30 jours ou plus. Cette mesure sert de dénominateur pour le Coverage ratio PAR 30.",
+          "en": "Calculates the loss reserve (LL Reserve = BDD_Amt/Qty EUR) filtered on Category = \"PAR 30\". In this table, the PAR 30 category groups outstanding lines corresponding to contracts overdue 30 days or more. This measure serves as the denominator for the Coverage ratio PAR 30."
+        }
+      }
+    },
+    {
+      "id": "par-90-volume",
+      "name": { "fr": "PAR 90 (Volume)", "en": "PAR 90 (Volume)" },
+      "variableName": "PAR 90 (Volume)",
+      "description": {
+        "fr": "Encours brut des créances en défaillance sévère (90 jours ou plus), en euros. Indicateur avancé du flux de radiations à venir et dénominateur du Coverage ratio PAR 90.",
+        "en": "Gross outstanding of severely defaulted receivables (90 days or more), in euros. Leading indicator of upcoming write-off flow and denominator of Coverage ratio PAR 90."
+      },
+      "unit": "EUR",
+      "visuals": ["coverage-ratio-par", "llp-dashboard"],
+      "formula": {
+        "dax": "CALCULATE('BDD'[LL Reserve],'BDD'[Category]=\"PAR 90\")",
+        "explanation": {
+          "fr": "Même logique que PAR 30 (Volume) mais filtre sur Category = \"PAR 90\". L'encours PAR 90 représente les créances dont le recouvrement est très incertain et qui sont candidates à la radiation dans les 1 à 3 mois. La surveillance de sa tendance permet d'anticiper les besoins de provision additionnelle.",
+          "en": "Same logic as PAR 30 (Volume) but filters on Category = \"PAR 90\". PAR 90 outstanding represents receivables whose recovery is very uncertain and which are candidates for write-off within 1 to 3 months. Monitoring its trend enables anticipation of additional provision needs."
+        }
+      }
+    },
+    {
+      "id": "ll-reserve-bsa0220",
+      "name": { "fr": "LL Reserve_BSA0220", "en": "LL Reserve_BSA0220" },
+      "variableName": "LL Reserve_BSA0220",
+      "description": {
+        "fr": "Réserve pour pertes sur créances au bilan, référencée par le code comptable BSA0220. Représente le stock de provisions constituées et reconnues dans les états financiers.",
+        "en": "Loan loss reserve on the balance sheet, referenced by accounting code BSA0220. Represents the stock of provisions built up and recognized in the financial statements."
+      },
+      "unit": "EUR",
+      "visuals": ["llp-dashboard", "coverage-ratio-par", "financial-risk-ratio-trend"],
+      "formula": {
+        "dax": "CALCULATE('BDD'[BDD_Amt / Qty EUR],'BDD'[Item code]=\"BSA0220\")",
+        "explanation": {
+          "fr": "Filtre la somme EUR de la table BDD sur le code comptable BSA0220 (LL Reserve au bilan). C'est le numérateur des deux ratios de couverture PAR 30 et PAR 90. Contrairement à la charge de provision (Loan loss provision_EUR qui est un flux), cette mesure représente un stock bilanciel cumulatif.",
+          "en": "Filters the EUR sum of the BDD table on accounting code BSA0220 (LL Reserve on balance sheet). It is the numerator of both PAR 30 and PAR 90 coverage ratios. Unlike the provision charge (Loan loss provision_EUR which is a flow), this measure represents a cumulative balance sheet stock."
+        }
+      }
+    }
+  ]
+}

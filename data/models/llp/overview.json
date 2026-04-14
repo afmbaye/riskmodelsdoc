@@ -1,0 +1,120 @@
+{
+  "modelId": "llp",
+  "name": { "fr": "LLP", "en": "LLP" },
+  "lastUpdate": "2026-02-26",
+  "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "categories": ["provisioning", "par"],
+  "description": {
+    "fr": "Tableau de bord de suivi du Loan Loss Portfolio en conformité IFRS : provisions sur pertes de crédit, coût du risque, ratios de couverture PAR 30/90 et indicateurs financiers du portefeuille.",
+    "en": "Loan Loss Portfolio monitoring dashboard in IFRS compliance: credit loss provisions, cost of risk, PAR 30/90 coverage ratios and portfolio financial indicators."
+  },
+  "useCase": {
+    "fr": "Permet aux analystes de suivre mensuellement le coût du crédit (LLP vs budget), les ratios de couverture des défauts (PAR 30/90), les créances irrécouvrables radiées, les recouvrements réalisés et d'estimer les provisions futures sur la base du portefeuille courant.",
+    "en": "Enables analysts to monitor monthly the cost of credit (LLP vs budget), default coverage ratios (PAR 30/90), written-off receivables, recoveries achieved and to estimate future provisions based on the current portfolio."
+  },
+  "tabs": [
+    {
+      "id": "llp-dashboard",
+      "name": { "fr": "LLP Dashboard", "en": "LLP Dashboard" },
+      "description": {
+        "fr": "Vue synthétique des principaux indicateurs de provisions : LLP, Write-Off, recouvrements et réserve comptable BSA0220, avec comparaison budget vs réel.",
+        "en": "Synthetic view of key provisioning indicators: LLP, Write-Off, recoveries and BSA0220 accounting reserve, with budget vs actual comparison."
+      },
+      "screenshot": "Assets/Images/llp/llp-dashboard.png"
+    },
+    {
+      "id": "coverage-ratio-par",
+      "name": { "fr": "Coverage ratio PAR 30 || PAR 90", "en": "Coverage ratio PAR 30 || PAR 90" },
+      "description": {
+        "fr": "Analyse des ratios de couverture PAR 30 et PAR 90 par pays : rapport entre la réserve pour pertes (LL Reserve) et l'encours en retard, pour évaluer l'adéquation des provisions.",
+        "en": "Analysis of PAR 30 and PAR 90 coverage ratios by country: ratio of the loss reserve (LL Reserve) to the overdue outstanding, to assess the adequacy of provisions."
+      },
+      "screenshot": "Assets/Images/llp/coverage-ratio-par.png"
+    },
+    {
+      "id": "cost-of-risk-vol",
+      "name": { "fr": "Cost of Risk Vol", "en": "Cost of Risk Vol" },
+      "description": {
+        "fr": "Évolution du coût du risque en volume (en millions d'euros) sur l'année courante, cumulé YTD, comparé aux années N-1, N-2, N-3 et au budget.",
+        "en": "Evolution of the cost of risk in volume (in millions of euros) over the current year, cumulated YTD, compared to years Y-1, Y-2, Y-3 and budget."
+      },
+      "screenshot": "Assets/Images/llp/cost-of-risk-vol.png"
+    },
+    {
+      "id": "component-cost-of-risk",
+      "name": { "fr": "Component Cost of Risk", "en": "Component Cost of Risk" },
+      "description": {
+        "fr": "Décomposition du coût du risque par composante : provisions (Loan Loss Provision), radiations (Write-Off) et recouvrements, permettant d'identifier la contribution de chaque élément au coût global.",
+        "en": "Breakdown of the cost of risk by component: provisions (Loan Loss Provision), write-offs and recoveries, enabling identification of each element's contribution to the overall cost."
+      },
+      "screenshot": "Assets/Images/llp/component-cost-of-risk.png"
+    },
+    {
+      "id": "financial-risk-ratio-trend",
+      "name": { "fr": "Financial Risk Ratio Trend", "en": "Financial Risk Ratio Trend" },
+      "description": {
+        "fr": "Tendance des ratios de risque financier : NPL Ratio, Loan Loss Coverage Ratio (LLCR) et Provisioning Ratio, pour évaluer la solidité de la politique de provisionnement dans le temps.",
+        "en": "Trend of financial risk ratios: NPL Ratio, Loan Loss Coverage Ratio (LLCR) and Provisioning Ratio, to assess the robustness of the provisioning policy over time."
+      },
+      "screenshot": "Assets/Images/llp/financial-risk-ratio-trend.png"
+    },
+    {
+      "id": "nco-ratio",
+      "name": { "fr": "Net Charge-Off (NCO) Ratio", "en": "Net Charge-Off (NCO) Ratio" },
+      "description": {
+        "fr": "Ratio net de radiation (NCO) calculé comme les radiations nettes de recouvrements rapportées au GLP. Indicateur clé de la perte définitive nette subie par le portefeuille.",
+        "en": "Net Charge-Off (NCO) ratio calculated as write-offs net of recoveries relative to GLP. Key indicator of the net permanent loss borne by the portfolio."
+      },
+      "screenshot": "Assets/Images/llp/nco-ratio.png"
+    },
+    {
+      "id": "llp-estimated",
+      "name": { "fr": "LLP estimated", "en": "LLP estimated" },
+      "description": {
+        "fr": "Estimation prospective du LLP sur la base de l'encours courant et des taux de provision par tranche PAR, issus de la table de mapping. Permet d'anticiper les besoins de provisionnement futurs.",
+        "en": "Forward-looking LLP estimate based on current outstanding and provision rates by PAR bucket from the mapping table. Enables anticipation of future provisioning needs."
+      },
+      "screenshot": "Assets/Images/llp/llp-estimated.png"
+    }
+  ],
+  "sources": [
+    {
+      "id": "data-llp",
+      "name": "Data_LLP.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Fichier principal agrégant les données financières reçues de la Finance et les données calculées issues du modèle PAR 30+12mNWO. Contient les montants de provisions, radiations et recouvrements par filiale et par période.",
+        "en": "Main file aggregating financial data received from Finance and calculated data from the PAR 30+12mNWO model. Contains provision, write-off and recovery amounts by subsidiary and period."
+      }
+    },
+    {
+      "id": "consolide",
+      "name": "Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Fichier consolidé mensuel contenant les données de portefeuille de prêts utilisées pour calculer l'encours PAR 30 et PAR 90 par filiale.",
+        "en": "Monthly consolidated file containing loan portfolio data used to calculate PAR 30 and PAR 90 outstanding balances by subsidiary."
+      }
+    },
+    {
+      "id": "mapping-llp",
+      "name": "Mapping LLP.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Table de correspondance des taux de provision IFRS par filiale et par tranche PAR (Stage 1, 2, 3). Utilisée pour estimer le LLP prospectif.",
+        "en": "IFRS provision rate mapping table by subsidiary and PAR bucket (Stage 1, 2, 3). Used to estimate the forward-looking LLP."
+      }
+    },
+    {
+      "id": "photos-pays",
+      "name": "Photos pays\\",
+      "type": "folder",
+      "description": {
+        "fr": "Dossier contenant les drapeaux et images des pays des filiales, utilisés comme visuels d'identification dans les rapports par pays.",
+        "en": "Folder containing flags and country images for subsidiaries, used as identification visuals in country-level reports."
+      }
+    }
+  ],
+  "kpiCount": 8,
+  "tableCount": 7
+}

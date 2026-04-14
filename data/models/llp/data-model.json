@@ -1,0 +1,224 @@
+{
+  "modelId": "llp",
+  "schema": {
+    "image": "Assets/Images/llp/data-model.png"
+  },
+  "tables": {
+    "fact": [
+      {
+        "name": "BDD",
+        "description": {
+          "fr": "Table de faits principale contenant les données financières IFRS par filiale, période et ligne comptable (provisions, radiations, recouvrements, GLP, réserves). Alimente la quasi-totalité des mesures du modèle.",
+          "en": "Main fact table containing IFRS financial data by subsidiary, period and accounting line (provisions, write-offs, recoveries, GLP, reserves). Feeds almost all model measures."
+        },
+        "columns": [
+          { "name": "Company Code", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "Company Name", "type": "String", "description": { "fr": "Nom de la filiale", "en": "Subsidiary name" } },
+          { "name": "Currency", "type": "String", "description": { "fr": "Devise locale de la filiale", "en": "Subsidiary local currency" } },
+          { "name": "Change Rate", "type": "Double", "description": { "fr": "Taux de change EUR appliqué", "en": "EUR exchange rate applied" } },
+          { "name": "Year", "type": "String", "description": { "fr": "Année de reporting", "en": "Reporting year" } },
+          { "name": "Month", "type": "String", "description": { "fr": "Mois de reporting", "en": "Reporting month" } },
+          { "name": "Period", "type": "String", "description": { "fr": "Type de période : Actual, Actual - IFRS, Budget", "en": "Period type: Actual, Actual - IFRS, Budget" } },
+          { "name": "Category", "type": "String", "description": { "fr": "Catégorie comptable (ex. PAR 30, PAR 90)", "en": "Accounting category (e.g. PAR 30, PAR 90)" } },
+          { "name": "Item code", "type": "String", "description": { "fr": "Code ligne comptable (ex. BSA0210, BSA0220)", "en": "Accounting line code (e.g. BSA0210, BSA0220)" } },
+          { "name": "Item description", "type": "String", "description": { "fr": "Libellé de la ligne comptable (ex. Loan loss provision expense, Write off)", "en": "Accounting line description (e.g. Loan loss provision expense, Write off)" } },
+          { "name": "Amount / Qty LC", "type": "Double", "description": { "fr": "Montant en devise locale", "en": "Amount in local currency" } },
+          { "name": "Amount / Qty EUR", "type": "Double", "description": { "fr": "Montant converti en euros", "en": "Amount converted to euros" } },
+          { "name": "Date", "type": "DateTime", "description": { "fr": "Date de la ligne de données (1er du mois)", "en": "Data row date (1st of month)" } }
+        ]
+      },
+      {
+        "name": "BDD_budget",
+        "description": {
+          "fr": "Table de faits budget, structurée de façon identique à BDD. Contient les montants budgétés par filiale et ligne comptable pour la comparaison Actual vs Budget.",
+          "en": "Budget fact table, structured identically to BDD. Contains budgeted amounts by subsidiary and accounting line for Actual vs Budget comparison."
+        },
+        "columns": [
+          { "name": "Company Code", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "Company Name", "type": "String", "description": { "fr": "Nom de la filiale", "en": "Subsidiary name" } },
+          { "name": "Currency", "type": "String", "description": { "fr": "Devise locale", "en": "Local currency" } },
+          { "name": "Change Rate", "type": "Double", "description": { "fr": "Taux de change EUR", "en": "EUR exchange rate" } },
+          { "name": "Year", "type": "Int64", "description": { "fr": "Année budgétée", "en": "Budget year" } },
+          { "name": "Month", "type": "Int64", "description": { "fr": "Mois budgété", "en": "Budget month" } },
+          { "name": "Period", "type": "String", "description": { "fr": "Type de période budget", "en": "Budget period type" } },
+          { "name": "Category", "type": "String", "description": { "fr": "Catégorie comptable", "en": "Accounting category" } },
+          { "name": "Item code", "type": "String", "description": { "fr": "Code ligne comptable", "en": "Accounting line code" } },
+          { "name": "Item description", "type": "String", "description": { "fr": "Libellé de la ligne", "en": "Line description" } },
+          { "name": "Amount / Qty LC", "type": "Double", "description": { "fr": "Montant budgété en devise locale", "en": "Budgeted amount in local currency" } },
+          { "name": "Amount / Qty EUR", "type": "Double", "description": { "fr": "Montant budgété en euros", "en": "Budgeted amount in euros" } },
+          { "name": "Date", "type": "DateTime", "description": { "fr": "Date du budget", "en": "Budget date" } }
+        ]
+      },
+      {
+        "name": "MAIN LOAN",
+        "description": {
+          "fr": "Table de faits des prêts courants par filiale et par tranche PAR (mois précédent et mois courant). Source des calculs d'estimation LLP et des ratios de couverture prospectifs.",
+          "en": "Current loan fact table by subsidiary and PAR bucket (previous and current month). Source for LLP estimation calculations and forward-looking coverage ratios."
+        },
+        "columns": [
+          { "name": "Previous_Date", "type": "String", "description": { "fr": "Date du mois précédent", "en": "Previous month date" } },
+          { "name": "Current_Date", "type": "String", "description": { "fr": "Date du mois courant", "en": "Current month date" } },
+          { "name": "Company", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "GLP_Previous_Month_Euro", "type": "Double", "description": { "fr": "Encours brut du mois précédent en euros", "en": "Previous month gross outstanding in euros" } },
+          { "name": "GLP_Current_Month_Euro", "type": "Double", "description": { "fr": "Encours brut du mois courant en euros", "en": "Current month gross outstanding in euros" } },
+          { "name": "ParType_Previous_Month", "type": "String", "description": { "fr": "Tranche PAR du mois précédent", "en": "Previous month PAR bucket" } },
+          { "name": "ParType_Current_Month", "type": "String", "description": { "fr": "Tranche PAR du mois courant", "en": "Current month PAR bucket" } },
+          { "name": "Company&PAR", "type": "String", "description": { "fr": "Clé composite filiale + tranche PAR pour jointure avec Mapping", "en": "Composite key subsidiary + PAR bucket for mapping join" } }
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "name": "Calendar",
+        "description": {
+          "fr": "Table de dimension temporelle. Fournit les axes d'analyse par année, mois et date de fin de mois (EOM) pour les filtres de rapport.",
+          "en": "Time dimension table. Provides analysis axes by year, month and end-of-month date (EOM) for report filters."
+        },
+        "columns": [
+          { "name": "Date", "type": "DateTime", "description": { "fr": "Date principale (1er du mois)", "en": "Primary date (1st of month)" } },
+          { "name": "Year-Months", "type": "String", "description": { "fr": "Période au format YYYY-MM", "en": "Period in YYYY-MM format" } },
+          { "name": "YEAR", "type": "Int64", "description": { "fr": "Année", "en": "Year" } },
+          { "name": "Mois", "type": "String", "description": { "fr": "Libellé du mois", "en": "Month label" } },
+          { "name": "EOM DATE DATA", "type": "DateTime", "description": { "fr": "Date de fin de mois des données", "en": "End-of-month data date" } },
+          { "name": "Month", "type": "String", "description": { "fr": "Numéro du mois", "en": "Month number" } }
+        ]
+      },
+      {
+        "name": "Company",
+        "description": {
+          "fr": "Table de dimension des filiales. Contient les informations d'identification, devise, région et code normalisé de chaque entité du groupe.",
+          "en": "Subsidiary dimension table. Contains identification, currency, region and normalized code information for each group entity."
+        },
+        "columns": [
+          { "name": "Company Code", "type": "String", "description": { "fr": "Code interne filiale (clé de jointure)", "en": "Internal subsidiary code (join key)" } },
+          { "name": "Company Name", "type": "String", "description": { "fr": "Nom complet de la filiale", "en": "Full subsidiary name" } },
+          { "name": "Currency", "type": "String", "description": { "fr": "Devise fonctionnelle", "en": "Functional currency" } },
+          { "name": "Company New Code", "type": "String", "description": { "fr": "Nouveau code normalisé", "en": "New normalized code" } },
+          { "name": "N°Code", "type": "Int64", "description": { "fr": "Numéro d'ordre", "en": "Order number" } },
+          { "name": "Countries New", "type": "String", "description": { "fr": "Nom du pays normalisé", "en": "Normalized country name" } },
+          { "name": "Region", "type": "String", "description": { "fr": "Région géographique", "en": "Geographic region" } }
+        ]
+      },
+      {
+        "name": "Mapping_Provision rates",
+        "description": {
+          "fr": "Table de mapping des taux de provision IFRS par filiale et par tranche PAR. Utilisée pour calculer le LLP estimé en multipliant l'encours de chaque tranche par le taux correspondant.",
+          "en": "IFRS provision rate mapping table by subsidiary and PAR bucket. Used to calculate estimated LLP by multiplying each bucket's outstanding by the corresponding rate."
+        },
+        "columns": [
+          { "name": "Company", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+          { "name": "PAR", "type": "String", "description": { "fr": "Tranche PAR", "en": "PAR bucket" } },
+          { "name": "PAR Scope 2", "type": "String", "description": { "fr": "Tranche PAR étendue (scope 2)", "en": "Extended PAR bucket (scope 2)" } },
+          { "name": "Stage", "type": "String", "description": { "fr": "Stage IFRS 9 (1, 2 ou 3)", "en": "IFRS 9 Stage (1, 2 or 3)" } },
+          { "name": "LLP rates", "type": "Double", "description": { "fr": "Taux de provision applicable à la tranche", "en": "Provision rate applicable to the bucket" } },
+          { "name": "Company&PAR", "type": "String", "description": { "fr": "Clé composite filiale + PAR pour jointure avec MAIN LOAN", "en": "Composite key subsidiary + PAR for join with MAIN LOAN" } }
+        ]
+      },
+      {
+        "name": "Photos pays",
+        "description": {
+          "fr": "Table de dimension contenant les images de drapeaux des pays des filiales, utilisées comme visuels d'identification dans les pages de rapport par pays.",
+          "en": "Dimension table containing subsidiary country flag images, used as identification visuals on country-level report pages."
+        },
+        "columns": [
+          { "name": "Country code", "type": "String", "description": { "fr": "Code pays (clé de jointure)", "en": "Country code (join key)" } },
+          { "name": "Image", "type": "String", "description": { "fr": "Chemin ou URL de l'image du drapeau", "en": "Flag image path or URL" } },
+          { "name": "Ordre", "type": "Int64", "description": { "fr": "Ordre d'affichage dans le rapport", "en": "Display order in the report" } },
+          { "name": "Country New code", "type": "String", "description": { "fr": "Nouveau code pays normalisé", "en": "New normalized country code" } }
+        ]
+      }
+    ]
+  },
+  "relationships": [
+    {
+      "from": { "table": "BDD", "column": "Date" },
+      "to": { "table": "Calendar", "column": "Date" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données financières IFRS de BDD à la table Calendar pour le filtrage temporel.",
+        "en": "Links BDD IFRS financial data to the Calendar table for time-based filtering."
+      }
+    },
+    {
+      "from": { "table": "BDD", "column": "Company Code" },
+      "to": { "table": "Company", "column": "Company Code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données BDD aux informations filiale (région, devise, nom normalisé).",
+        "en": "Links BDD data to subsidiary information (region, currency, normalized name)."
+      }
+    },
+    {
+      "from": { "table": "BDD", "column": "Company Code" },
+      "to": { "table": "Photos pays", "column": "Country code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données BDD aux images pays pour les rapports par filiale.",
+        "en": "Links BDD data to country images for subsidiary-level reports."
+      }
+    },
+    {
+      "from": { "table": "BDD_budget", "column": "Date" },
+      "to": { "table": "Calendar", "column": "Date" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données budget à la table Calendar pour aligner les comparaisons Actual vs Budget sur le même axe temporel.",
+        "en": "Links budget data to the Calendar table to align Actual vs Budget comparisons on the same time axis."
+      }
+    },
+    {
+      "from": { "table": "BDD_budget", "column": "Company Code" },
+      "to": { "table": "Company", "column": "Company Code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données budget aux informations filiale.",
+        "en": "Links budget data to subsidiary information."
+      }
+    },
+    {
+      "from": { "table": "BDD_budget", "column": "Company Code" },
+      "to": { "table": "Photos pays", "column": "Country code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie les données budget aux images pays.",
+        "en": "Links budget data to country images."
+      }
+    },
+    {
+      "from": { "table": "MAIN LOAN", "column": "Company" },
+      "to": { "table": "Company", "column": "Company Code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie le portefeuille courant aux informations filiale pour les filtres par pays et région.",
+        "en": "Links current loan portfolio to subsidiary information for country and region filters."
+      }
+    },
+    {
+      "from": { "table": "MAIN LOAN", "column": "Company&PAR" },
+      "to": { "table": "Mapping_Provision rates", "column": "Company&PAR" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Joint clé composite (filiale + tranche PAR) permettant de récupérer le taux de provision IFRS correspondant à chaque ligne du portefeuille pour l'estimation LLP.",
+        "en": "Composite key join (subsidiary + PAR bucket) enabling retrieval of the IFRS provision rate corresponding to each portfolio row for LLP estimation."
+      }
+    },
+    {
+      "from": { "table": "MAIN LOAN", "column": "Company" },
+      "to": { "table": "Photos pays", "column": "Country code" },
+      "cardinality": "N:1",
+      "isActive": true,
+      "description": {
+        "fr": "Lie le portefeuille courant aux images pays pour les visuels par filiale.",
+        "en": "Links current loan portfolio to country images for subsidiary visuals."
+      }
+    }
+  ]
+}
