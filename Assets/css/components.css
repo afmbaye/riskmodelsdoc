@@ -389,29 +389,29 @@
 }
 
 .table-card-body {
-  padding: var(--spacing-4);
+  padding: var(--spacing-3) var(--spacing-4);
 }
 
 .table-description {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
   line-height: var(--line-height-relaxed);
-  margin: 0 0 var(--spacing-4);
+  margin: 0;
 }
 
-.table-screenshot {
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border-color);
-  aspect-ratio: 16 / 9;
+.table-meta-group {
+  display: flex;
+  gap: var(--spacing-2);
+  margin-left: auto;
+}
+
+.table-meta {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
   background: var(--bg-gray-100);
-}
-
-.table-screenshot img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top;
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
 }
 
 /* Visual Card */
@@ -656,53 +656,45 @@
 }
 
 /* ============================================
-   RELATIONSHIPS
+   RELATIONSHIPS TABLE
    ============================================ */
-.relationship-row {
-  padding: var(--spacing-4);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  margin-bottom: var(--spacing-3);
-  background: var(--bg-white);
-}
-
-.relationship-tables {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-2);
-  flex-wrap: wrap;
-  margin-bottom: var(--spacing-3);
-  font-family: 'Fira Code', monospace;
-  font-size: var(--font-size-sm);
-}
-
-.relationship-tables .table-name {
+.relationships-table .rel-table-name {
   font-weight: var(--font-weight-semibold);
   color: var(--primary-color);
+  font-size: var(--font-size-sm);
 }
 
-.relationship-tables .column-name {
-  color: var(--text-muted);
-}
-
-.relationship-arrow {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-1);
-  color: var(--text-light);
-}
-
-.relationship-arrow .cardinality {
-  font-size: var(--font-size-xs);
-  background: var(--bg-gray-100);
-  padding: var(--spacing-1) var(--spacing-2);
-  border-radius: var(--radius-sm);
-}
-
-.relationship-description {
+.relationships-table .rel-description {
   font-size: var(--font-size-sm);
   color: var(--text-muted);
-  margin: 0;
+  max-width: 320px;
+}
+
+.cardinality-badge {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-family: 'Fira Code', monospace;
+  background: var(--bg-gray-100);
+  color: var(--text-color);
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+/* Section count badge */
+.section-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 var(--spacing-2);
+  background: var(--bg-gray-100);
+  color: var(--text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  border-radius: 99px;
+  margin-left: var(--spacing-2);
 }
 
 /* ============================================
