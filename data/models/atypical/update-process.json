@@ -1,0 +1,95 @@
+{
+  "modelId": "atypical",
+  "frequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedDuration": { "fr": "20 à 30 minutes", "en": "20 to 30 minutes" },
+  "steps": [
+    {
+      "id": 1,
+      "title": { "fr": "Ajouter le fichier consolidé du mois", "en": "Add the month's consolidated file" },
+      "description": {
+        "fr": "Récupérer le nouveau fichier Consolide du mois (export depuis le modèle source) et le déposer dans le dossier source avec le bon format de nommage.",
+        "en": "Retrieve the new month's Consolide file (export from the source model) and place it in the source folder with the correct naming format."
+      },
+      "checklist": [
+        {
+          "fr": "Exporter le fichier consolidé depuis le modèle source au format : Consolide_Atypica_Loansl&RenewalLoans_JJ-MM-AAAA.xlsx",
+          "en": "Export the consolidated file from the source model in the format: Consolide_Atypica_Loansl&RenewalLoans_DD-MM-YYYY.xlsx"
+        },
+        {
+          "fr": "Vérifier que le fichier contient bien les colonnes de variables atypiques binaires (VarNbContract=1, VarChangeGP, VarDelay30ForNewClient, etc.)",
+          "en": "Verify the file contains the binary atypical variable columns (VarNbContract=1, VarChangeGP, VarDelay30ForNewClient, etc.)"
+        },
+        {
+          "fr": "Déposer le fichier dans le même dossier que les fichiers historiques existants",
+          "en": "Place the file in the same folder as existing historical files"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": { "fr": "Vérifier le Mapping_Atypical.xlsx", "en": "Check Mapping_Atypical.xlsx" },
+      "description": {
+        "fr": "Si de nouvelles variables atypiques ont été ajoutées dans le fichier Consolide, les enregistrer dans le mapping avant de rafraîchir.",
+        "en": "If new atypical variables were added in the Consolide file, register them in the mapping before refreshing."
+      },
+      "checklist": [
+        {
+          "fr": "Vérifier que toutes les colonnes Var... du nouveau fichier Consolide sont bien présentes dans Mapping_Atypical.xlsx",
+          "en": "Verify all Var... columns from the new Consolide file are present in Mapping_Atypical.xlsx"
+        },
+        {
+          "fr": "Si nouvelles variables : ajouter leur Category, Var FR, et Tri dans le mapping",
+          "en": "If new variables: add their Category, Var FR, and Tri in the mapping"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": { "fr": "Rafraîchir le modèle Power BI", "en": "Refresh the Power BI model" },
+      "description": {
+        "fr": "Ouvrir AtypicalLoans model.pbix et lancer l'actualisation pour charger le nouveau fichier mensuel dans la table Main Data, puis propager vers Contracts et Atypical.",
+        "en": "Open AtypicalLoans model.pbix and trigger a refresh to load the new monthly file into the Main Data table, then propagate to Contracts and Atypical."
+      },
+      "checklist": [
+        {
+          "fr": "Accueil → Actualiser (toutes les tables : Main Data, Contracts, Atypical, Variables, Countries, Region, Currency_Rate_CDF)",
+          "en": "Home → Refresh (all tables: Main Data, Contracts, Atypical, Variables, Countries, Region, Currency_Rate_CDF)"
+        },
+        {
+          "fr": "Contrôler que le nouveau mois apparaît dans le filtre Reporting date du Dashboard",
+          "en": "Verify the new month appears in the Dashboard's Reporting date filter"
+        },
+        {
+          "fr": "Vérifier les totaux GLP et # de contrats du mois vs. source",
+          "en": "Check GLP totals and contract count for the month vs. source"
+        },
+        {
+          "fr": "Contrôler que le PAR 30 global est cohérent avec le rapport PAR mensuel",
+          "en": "Check the overall PAR 30 is consistent with the monthly PAR report"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": { "fr": "Publier sur Microsoft Fabric", "en": "Publish to Microsoft Fabric" },
+      "description": {
+        "fr": "Publier le rapport mis à jour sur le workspace Fabric et mettre à jour la date de dernière MàJ dans la documentation.",
+        "en": "Publish the updated report to the Fabric workspace and update the last update date in the documentation."
+      },
+      "checklist": [
+        {
+          "fr": "Accueil → Publier → sélectionner le workspace cible",
+          "en": "Home → Publish → select the target workspace"
+        },
+        {
+          "fr": "Vérifier l'affichage du rapport dans le service Fabric",
+          "en": "Verify report display in the Fabric service"
+        },
+        {
+          "fr": "Mettre à jour le champ lastUpdate dans overview.json",
+          "en": "Update the lastUpdate field in overview.json"
+        }
+      ]
+    }
+  ]
+}
