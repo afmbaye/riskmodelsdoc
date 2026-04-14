@@ -1,0 +1,107 @@
+{
+  "modelId": "llp",
+  "frequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedDuration": { "fr": "30 à 45 minutes", "en": "30 to 45 minutes" },
+  "steps": [
+    {
+      "id": 1,
+      "title": { "fr": "Préparer les fichiers sources", "en": "Prepare source files" },
+      "description": {
+        "fr": "Récupérer les fichiers sources auprès de la Finance et du modèle PAR 30+12mNWO, puis les déposer aux emplacements attendus sur le drive partagé.",
+        "en": "Retrieve source files from Finance and the PAR 30+12mNWO model, then place them in the expected locations on the shared drive."
+      },
+      "checklist": [
+        {
+          "fr": "Data_LLP.xlsx — reçu de la Finance (provisions, radiations, recouvrements, GLP par filiale)",
+          "en": "Data_LLP.xlsx — received from Finance (provisions, write-offs, recoveries, GLP by subsidiary)"
+        },
+        {
+          "fr": "Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx — export du mois courant depuis le modèle consolidé",
+          "en": "Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx — current month export from the consolidated model"
+        },
+        {
+          "fr": "Mapping LLP.xlsx — vérifier que les taux de provision IFRS sont à jour si une révision a eu lieu",
+          "en": "Mapping LLP.xlsx — verify that IFRS provision rates are up to date if a revision occurred"
+        },
+        {
+          "fr": "Photos pays\\ — ajouter les images si une nouvelle filiale a rejoint le périmètre",
+          "en": "Photos pays\\ — add images if a new subsidiary has joined the scope"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": { "fr": "Actualiser le modèle Power BI", "en": "Refresh the Power BI model" },
+      "description": {
+        "fr": "Ouvrir LLP Model.pbix dans Power BI Desktop et rafraîchir les données pour charger les nouveaux fichiers sources.",
+        "en": "Open LLP Model.pbix in Power BI Desktop and refresh data to load the new source files."
+      },
+      "checklist": [
+        {
+          "fr": "Ouvrir LLP Model.pbix depuis le drive partagé",
+          "en": "Open LLP Model.pbix from the shared drive"
+        },
+        {
+          "fr": "Accueil → Actualiser (rafraîchissement de toutes les tables : BDD, BDD_budget, MAIN LOAN, Calendar, Company, Photos pays, Mapping_Provision rates)",
+          "en": "Home → Refresh (refresh of all tables: BDD, BDD_budget, MAIN LOAN, Calendar, Company, Photos pays, Mapping_Provision rates)"
+        },
+        {
+          "fr": "Vérifier l'absence d'erreurs dans le volet Transformations / Power Query",
+          "en": "Verify no errors in the Transformations / Power Query pane"
+        },
+        {
+          "fr": "Contrôler les totaux LLP Dashboard : LLP, Write-Off et Recovery doivent correspondre au fichier Finance",
+          "en": "Check LLP Dashboard totals: LLP, Write-Off and Recovery must match the Finance file"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": { "fr": "Contrôler la cohérence des données", "en": "Check data consistency" },
+      "description": {
+        "fr": "Valider les chiffres clés du rapport par rapport aux données sources et aux indicateurs du mois précédent.",
+        "en": "Validate key report figures against source data and prior month indicators."
+      },
+      "checklist": [
+        {
+          "fr": "LLP Dashboard : vérifier les totaux Actual vs Budget par filiale",
+          "en": "LLP Dashboard: verify Actual vs Budget totals by subsidiary"
+        },
+        {
+          "fr": "Coverage ratio PAR 30 || PAR 90 : contrôler que les ratios sont dans des ordres de grandeur cohérents avec le mois précédent",
+          "en": "Coverage ratio PAR 30 || PAR 90: verify ratios are in line with prior month orders of magnitude"
+        },
+        {
+          "fr": "LLP estimated : vérifier que le total estimé est cohérent avec l'évolution du portefeuille",
+          "en": "LLP estimated: verify the estimated total is consistent with portfolio evolution"
+        },
+        {
+          "fr": "NCO Ratio : vérifier la cohérence entre données Finance (FIN) et T24",
+          "en": "NCO Ratio: verify consistency between Finance (FIN) and T24 data"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": { "fr": "Publier sur Microsoft Fabric", "en": "Publish to Microsoft Fabric" },
+      "description": {
+        "fr": "Publier le rapport actualisé sur le workspace Fabric pour le rendre disponible aux utilisateurs finaux.",
+        "en": "Publish the updated report to the Fabric workspace to make it available to end users."
+      },
+      "checklist": [
+        {
+          "fr": "Accueil → Publier → sélectionner le workspace cible",
+          "en": "Home → Publish → select the target workspace"
+        },
+        {
+          "fr": "Vérifier que le rapport s'affiche correctement dans le service Fabric (lien : fabricLink dans index.json)",
+          "en": "Verify the report displays correctly in the Fabric service (link: fabricLink in index.json)"
+        },
+        {
+          "fr": "Mettre à jour la date de dernière MàJ dans overview.json (champ lastUpdate)",
+          "en": "Update the last update date in overview.json (lastUpdate field)"
+        }
+      ]
+    }
+  ]
+}
