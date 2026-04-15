@@ -70,7 +70,7 @@
       "categories": ["portfolio", "disbursement", "atypical"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "llp",
