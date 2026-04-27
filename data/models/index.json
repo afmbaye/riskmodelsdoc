@@ -10,7 +10,7 @@
       "categories": ["portfolio", "par"],
       "updateFrequency": { "fr": "Quotidienne", "en": "Daily" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/60cf0a8f-0e53-4ace-b388-b6bbca244a88/09e3e9101a79c8ae35d1?experience=fabric-developer&bookmarkGuid=cbc957a1-e101-4b0d-ba41-31c3cdcfa697",
-      "isActive": true
+      "isActive": false
     },
     {
       "id": "vintage-ld-wo",
@@ -34,7 +34,7 @@
       "categories": ["portfolio", "collections"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/0134f2ce-ec66-4f57-85e8-568025439b98/b9c32449a486a32202d3?experience=fabric-developer",
-      "isActive": true
+      "isActive": false
     },
     {
       "id": "transition-smoothing",
@@ -46,7 +46,7 @@
       "categories": ["portfolio", "par", "transition", "smoothing"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/782faf3b-6db6-4404-8391-3a537b66c95c/76937128b430c489316a?experience=fabric-developer",
-      "isActive": true
+      "isActive": false
     },
     {
       "id": "top-20",
@@ -58,7 +58,7 @@
       "categories": ["portfolio", "par", "wof", "collections"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/6b875adb-ee86-4b9a-a154-5b76d7e86cff/9459b7c8547a5e9d598a?experience=fabric-developer",
-      "isActive": true
+      "isActive": false
     },
     {
       "id": "atypical",
@@ -70,7 +70,7 @@
       "categories": ["portfolio", "disbursement", "atypical"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "",
-      "isActive": true
+      "isActive": false
     },
     {
       "id": "llp",
@@ -82,7 +82,7 @@
       "categories": ["provisioning", "par"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/252b707e-f836-4cd8-b20d-d5d04ad2f096/bb20a8cf2c059046a9ab?experience=fabric-developer",
-      "isActive": true
+      "isActive": false
     }
   ]
 }
