@@ -532,6 +532,8 @@
 }
 
 .category-tag {
+  display: inline-flex;
+  align-items: center;
   padding: var(--spacing-1) var(--spacing-2);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
@@ -549,7 +551,8 @@
   padding-left: 44px;
 }
 
-.search-box i {
+.search-box i,
+.search-box svg {
   position: absolute;
   left: var(--spacing-4);
   top: 50%;
@@ -557,6 +560,7 @@
   width: 18px;
   height: 18px;
   color: var(--text-muted);
+  pointer-events: none;
 }
 
 .filter-group {
