@@ -28,8 +28,8 @@
       "id": "vintage-recovery",
       "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
       "description": {
-        "fr": "Suivi mensuel des cohortes de radiations et des recouvrements réalisés sur chacun de ces cohortes.",
-        "en": "Monthly tracking of written-off amounts and recoveries achieved on each write-off cohort."
+        "fr": "Suivi mensuel des cohortes de recouvrements et des montrés recouvrés sur chaque cohorte de radiation",
+        "en": "Monthly monitoring of recovery cohorts and amounts recovered on each write-off cohort."
       },
       "categories": ["recovery",  "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
