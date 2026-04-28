@@ -28,8 +28,8 @@
       "id": "vintage-recovery",
       "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
       "description": {
-        "fr": "Suivi mensuel des montants radiés et des recouvrements réalisés.",
-        "en": "Monthly tracking of written-off amounts and recoveries achieved."
+        "fr": "Suivi mensuel des cohortes de radiations et des recouvrements réalisés sur chacun de ces cohortes.",
+        "en": "Monthly tracking of written-off amounts and recoveries achieved on each write-off cohort."
       },
       "categories": ["recovery",  "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
@@ -46,7 +46,7 @@
       "categories": ["portfolio", "par", "transition", "smoothing"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/782faf3b-6db6-4404-8391-3a537b66c95c/76937128b430c489316a?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "top-20",

@@ -10,33 +10,36 @@
       "name": { "fr": "Recovery Amounts", "en": "Recovery Amounts" },
       "screenshot": "Assets/Images/vintage-recovery/recovery-amounts.png",
       "objective": {
-        "fr": "Fournir une vue d'ensemble des montants recouvrés et radiés par période, filiale et sous-segment client.",
-        "en": "Provide an overview of recovered and written-off amounts by period, subsidiary and customer sub-segment."
+        "fr": "Fournir une vue d'ensemble des montants recouvrés par cohorte de radiation",
+        "en": "Provide an overview of recovered and written-off amounts by write-off cohort."
       },
       "kpisUsed": ["AmountRecovered EUR", "AmountRecovered LC"],
       "filters": [
         {
-          "name": "Company",
-          "description": { "fr": "Filtrer par filiale / entreprise", "en": "Filter by subsidiary / company" }
+          "name": "Year-Month Data",
+          "description": { "fr": "Sélectionner les cohortes de radiations que vous voulez voir", "en": "Select the write-off cohorts you want to see" }
         },
         {
           "name": "Country",
-          "description": { "fr": "Filtrer par pays", "en": "Filter by country" }
+          "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" }
         },
         {
-          "name": "SubSegment",
-          "description": { "fr": "Filtrer par sous-segment client (Nano, SE, etc.)", "en": "Filter by customer sub-segment (Nano, SE, etc.)" }
+          "name": "Segment",
+          "description": { "fr": "Filtrer par segment (Nano, SE, etc.)", "en": "Filter by customer segment (Nano, SE, etc.)" }
         },
         {
-          "name": "Year-Month Data",
-          "description": { "fr": "Sélectionner la période de reporting", "en": "Select the reporting period" }
+          "name": "EUR | LC [Bookmarks]",
+          "description": { "fr": "Passer des montants en euros à ceux en devise locale", "en": "Switch between amounts in euros and local currency" }
         }
       ],
       "howToRead": {
-        "fr": "Les cartes en haut affichent les totaux de montants recouvrés (EUR et LC) pour la sélection courante. Le graphique en barres compare les montants radiés aux montants recouvrés par filiale ou par période. Un ratio recouvrement / radiation élevé indique de bonnes performances post-radiation.",
-        "en": "Cards at the top display total recovered amounts (EUR and LC) for the current selection. The bar chart compares written-off amounts to recovered amounts by subsidiary or period. A high recovery / write-off ratio indicates strong post-write-off performance."
+        "fr": "Chaque ligne représente un mois de récupération, et chaque colonne représente un mois de radiation. La valeur à l'intersection indique le montant récupéré sur une cohorte de radiation donnée durant un mois de recouvrement donné. La colonne Recovered (€) à gauche affiche le total récupéré tous vintages confondus pour ce mois. La diagonale colorée marque les premiers mois de recouvrement après radiation — les montants y sont généralement les plus élevés, puis décroissent à mesure que la cohorte vieillit. Pour analyser un mois de recouvrement, lire sa ligne de gauche à droite : on voit ainsi la décomposition du recouvrement par ancienneté de radiation — quelle part provient de radiations récentes vs. anciennes. Pour suivre une cohorte dans le temps, lire sa colonne de haut en bas : on observe comment le recouvrement s'étale et se réduit au fil des mois suivant la radiation.",
+        "en": "Each row represents a recovery month, and each column represents a write-off month. The value at the intersection indicates the amount recovered for a given cohort during a given month. The Recovered (€) column on the left shows the total cumulative recovered since write-off for each cohort. The colored diagonal (orange/yellow) marks the first month of recovery after write-off — the highest amounts typically concentrate there, then decrease over subsequent months as the cohort exhausts. To analyze a cohort, read its row from left to right: this shows the recovery curve over time since write-off. To compare performance across cohorts, read columns from top to bottom: a recent column with high amounts across multiple rows indicates an acceleration of multi-cohort recovery in that month."
       },
-      "colorCoding": null
+      "colorCoding": {
+        "fr": "Plus la cellule tire vers le orange, plus le montant récupéré est important ; plus elle tire vers le vert, plus le montant est faible. ",
+        "en": "The more the cell leans towards orange, the higher the recovered amount; the more it leans towards green, the lower the amount."
+      }
     },
     {
       "id": "recovery-rates",
@@ -46,7 +49,7 @@
         "fr": "Analyser les taux de recouvrement et leur évolution dans le temps par cohorte de radiation (Year-Month WO).",
         "en": "Analyze recovery rates and their evolution over time by write-off cohort (Year-Month WO)."
       },
-      "kpisUsed": ["AmountRecovered EUR"],
+      "kpisUsed": ["AmountRecovered EUR (aggrégé % total de la ligne)"],
       "filters": [
         {
           "name": "Year-Month WO",
@@ -62,10 +65,13 @@
         }
       ],
       "howToRead": {
-        "fr": "Le graphique en courbes montre l'évolution cumulative du taux de recouvrement pour chaque cohorte de radiation. Chaque courbe représente un groupe de créances radiées le même mois. Une courbe qui monte rapidement indique un recouvrement actif dans les premiers mois post-radiation.",
-        "en": "The line chart shows the cumulative recovery rate evolution for each write-off cohort. Each curve represents a group of receivables written off in the same month. A rapidly rising curve indicates active recovery in the first months post-write-off."
+        "fr": "Cette vue est le pendant en pourcentage de la matrice précédente : les montants absolus sont remplacés par la part de chaque cohorte dans le total récupéré du mois. Pour un mois de recouvrement donné, chaque cellule indique ainsi quelle proportion du Recovered (€) provient de chaque vintage de radiation.",
+        "en": "This view is the percentage counterpart of the previous matrix: absolute amounts are replaced by each cohort's share of the month's total recovered. For a given recovery month, each cell thus indicates what proportion of the Recovered (€) comes from each write-off vintage."
       },
-      "colorCoding": null
+      "colorCoding": {
+        "fr": "Plus la cellule tire vers le orange, plus le taux récupéré est important sur ce mois de radiation; plus elle tire vers le vert, plus le taux est faible. ",
+        "en": "The more the cell leans towards orange, the higher the recovered rate; the more it leans towards green, the lower the rate."
+      }
     }
   ]
 }
