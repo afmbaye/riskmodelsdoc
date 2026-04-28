@@ -83,6 +83,30 @@
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/252b707e-f836-4cd8-b20d-d5d04ad2f096/bb20a8cf2c059046a9ab?experience=fabric-developer",
       "isActive": true
+    },
+    {
+      "id": "collateral-loans",
+      "name": { "fr": "Collateral Loans", "en": "Collateral Loans" },
+      "description": {
+        "fr": "Suivi des garanties des clients.",
+        "en": "Monitoring of client collaterals."
+      },
+      "categories": ["portfolio"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/43851ac2-c222-424d-8f96-2a1842c6df81/bd7c3945b4b136049c12?experience=fabric-developer",
+      "isActive": false
+    },
+    {
+      "id": "maturity",
+      "name": { "fr": "Maturity", "en": "Maturity" },
+      "description": {
+        "fr": "Suivi de la maturité des crédits actifs.",
+        "en": "Monitoring of active loan maturity."
+      },
+      "categories": ["portfolio"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/5cfa86a4-0bee-4e2c-9dd3-7fd3b4ef1019/d014832c6b01a5e176c4?experience=fabric-developer",
+      "isActive": false
     }
   ]
 }
