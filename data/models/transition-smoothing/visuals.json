@@ -10,23 +10,25 @@
       "name": { "fr": "Transition matrix", "en": "Transition matrix" },
       "screenshot": "Assets/Images/transition-smoothing/transition-matrix.png",
       "objective": {
-        "fr": "Visualiser les migrations de contrats entre les diff\u00e9rentes cat\u00e9gories PAR d'un mois \u00e0 l'autre, en montant (EUR) et en nombre de contrats, pour identifier les tranches \u00e0 risque de glissement acc\u00e9l\u00e9r\u00e9.",
-        "en": "Visualize contract migrations between PAR categories from one month to the next, by amount (EUR) and contract count, to identify buckets at risk of accelerated roll."
+        "fr": "Visualiser les migrations du portefeuille entre les cat\u00e9gories PAR du mois pr\u00e9c\u00e9dent (lignes) et du mois courant (colonnes), afin de mesurer la d\u00e9gradation ou l'am\u00e9lioration de la qualit\u00e9 du portefeuille. Le total g\u00e9n\u00e9ral de la matrice correspond au GLP du mois pr\u00e9c\u00e9dent.",
+        "en": "Visualize portfolio migrations between previous month PAR categories (rows) and current month categories (columns), to measure portfolio quality deterioration or improvement. The matrix grand total equals the previous month GLP."
       },
       "kpisUsed": ["Total LP previous month EUR", "% of LP previous month", "Total LP current month EUR", "Nombre de ContractNumber", "Nbre de client"],
       "filters": [
-        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "Previous_Date", "description": { "fr": "S\u00e9lectionner le mois de r\u00e9f\u00e9rence (mois pr\u00e9c\u00e9dent)", "en": "Select the reference month (previous month)" } },
-        { "name": "Current_Date", "description": { "fr": "S\u00e9lectionner le mois courant", "en": "Select the current month" } },
-        { "name": "New Segment OPE Group", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } }
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Branch", "description": { "fr": "Filtrer par agence", "en": "Filter by branch" } },
+        { "name": "DAO Name", "description": { "fr": "Filtrer par DAO", "en": "Filter by DAO" } },
+        { "name": "New Segment", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } },
+        { "name": "Reporting Months", "description": { "fr": "Mois de r\u00e9f\u00e9rence qui sera compar\u00e9 au mois pr\u00e9c\u00e9dent", "en": "Reference month to be compared against the previous month" } },
+        { "name": "Comit\u00e9 Technique", "description": { "fr": "Filtrer les dossiers suivis en comit\u00e9 technique", "en": "Filter contracts monitored in technical committee" } }
       ],
       "howToRead": {
-        "fr": "Chaque ligne de la matrice repr\u00e9sente une cat\u00e9gorie PAR du mois pr\u00e9c\u00e9dent, chaque colonne une cat\u00e9gorie du mois courant. La diagonale indique les contrats stables. Les cellules \u00e0 droite de la diagonale signalent une d\u00e9gradation (glissement vers un PAR plus \u00e9lev\u00e9), celles \u00e0 gauche une am\u00e9lioration. Concentrez-vous sur les cellules Healthy \u2192 PAR 0-30 et PAR 30-60 \u2192 PAR 60-90 pour d\u00e9tecter les d\u00e9gradations naissantes.",
-        "en": "Each row represents a previous month PAR category, each column a current month category. The diagonal shows stable contracts. Cells to the right of the diagonal signal deterioration (roll to higher PAR), those to the left signal improvement. Focus on Healthy \u2192 PAR 0-30 and PAR 30-60 \u2192 PAR 60-90 cells to detect emerging deterioration."
+        "fr": "Chaque ligne repr\u00e9sente la cat\u00e9gorie PAR d'un contrat le mois pr\u00e9c\u00e9dent, chaque colonne sa cat\u00e9gorie le mois courant. Utilisez les boutons (Transition EUR / LC / Number / %) pour choisir la valeur affich\u00e9e. Les cartes en haut affichent le GLP du mois de rapport ainsi que les roll rates entre tranches successives. Concentrez-vous sur les cellules hors diagonale : celles \u00e0 droite indiquent des d\u00e9gradations, celles \u00e0 gauche des am\u00e9liorations.",
+        "en": "Each row represents a contract's PAR category in the previous month, each column its current month category. Use the buttons (Transition EUR / LC / Number / %) to select the displayed value. The top cards show the reporting month GLP and roll rates between successive buckets. Focus on off-diagonal cells: those to the right signal deterioration, those to the left signal improvement."
       },
       "colorCoding": {
-        "fr": "Les cellules de la matrice sont color\u00e9es via la mesure 'Trans Matrix mise en forme conditionnelle' : vert pour la diagonale (stable), orange pour les glissements mod\u00e9r\u00e9s, rouge pour les glissements critiques.",
-        "en": "Matrix cells are colored via the 'Trans Matrix mise en forme conditionnelle' measure: green for the diagonal (stable), orange for moderate rolls, red for critical rolls."
+        "fr": "Les cellules sont color\u00e9es via la mesure 'Trans Matrix Color' : vert pour une transition vers un niveau de PAR inf\u00e9rieur, vers Healthy ou vers Closed (am\u00e9lioration) ; orange pour un maintien au m\u00eame niveau (stable) ; rouge pour une transition vers un niveau de PAR plus avanc\u00e9 (d\u00e9gradation).",
+        "en": "Cells are colored via the 'Trans Matrix Color' measure: green for a transition to a lower PAR level, to Healthy or to Closed (improvement); orange for staying at the same level (stable); red for a transition to a higher PAR level (deterioration)."
       }
     },
     {
