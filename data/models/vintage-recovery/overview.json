@@ -2,8 +2,8 @@
   "modelId": "vintage-recovery",
   "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
   "description": {
-    "fr": "Suivi mensuel des cohortes de radiations et des recouvrements réalisés sur chacun de ces cohortes, par filiale, pays et segment. Ce modèle permet d'analyser les performances de recouvrement sur le portefeuille radié et d'évaluer le taux de récupération.",
-    "en": "Monthly tracking of written-off amounts and recoveries achieved, by subsidiary, country and segment. This model enables analysis of recovery performance on written-off portfolios and evaluation of receivables recovery rates."
+    "fr": " cohortes de recouvrements et des montrés recouvrés sur chaque cohorte de radiation, par filiale, pays et segment. Ce modèle permet d'analyser les performances de recouvrement sur le portefeuille radié et d'évaluer le taux de récupération.",
+    "en": "Monthly monitoring of recovery cohorts and amounts recovered on each write-off cohort, by subsidiary, country and segment. This model enables analysis of recovery performance on written-off portfolios and evaluation of receivables recovery rates."
   },
   "lastUpdate": "Avril 2026",
   "stats": [

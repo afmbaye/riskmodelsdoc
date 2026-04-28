@@ -15,7 +15,10 @@
       "Bash(git checkout master)",
       "Bash(git pull origin master)",
       "Bash(git merge epic-nobel)",
-      "Bash(find data/models -name \"overview.json\" -exec wc -l {} \\\\;)"
+      "Bash(find data/models -name \"overview.json\" -exec wc -l {} \\\\;)",
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/models/transition-smoothing/data-model.json', encoding='utf-8'\\)\\); print\\(type\\(d['tables']\\)\\)\")",
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/models/vintage-recovery/data-model.json', encoding='utf-8'\\)\\); print\\(list\\(d['tables'].keys\\(\\)\\)\\)\")",
+      "Bash(python -c ' *)"
     ]
   }
 }
