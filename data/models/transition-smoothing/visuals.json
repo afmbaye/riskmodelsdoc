@@ -18,7 +18,7 @@
         { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
         { "name": "Previous_Date", "description": { "fr": "S\u00e9lectionner le mois de r\u00e9f\u00e9rence (mois pr\u00e9c\u00e9dent)", "en": "Select the reference month (previous month)" } },
         { "name": "Current_Date", "description": { "fr": "S\u00e9lectionner le mois courant", "en": "Select the current month" } },
-        { "name": "New Segment OPE Group", "description": { "fr": "Filtrer par segment client (SME, Micro...)", "en": "Filter by customer segment (SME, Micro...)" } }
+        { "name": "New Segment OPE Group", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } }
       ],
       "howToRead": {
         "fr": "Chaque ligne de la matrice repr\u00e9sente une cat\u00e9gorie PAR du mois pr\u00e9c\u00e9dent, chaque colonne une cat\u00e9gorie du mois courant. La diagonale indique les contrats stables. Les cellules \u00e0 droite de la diagonale signalent une d\u00e9gradation (glissement vers un PAR plus \u00e9lev\u00e9), celles \u00e0 gauche une am\u00e9lioration. Concentrez-vous sur les cellules Healthy \u2192 PAR 0-30 et PAR 30-60 \u2192 PAR 60-90 pour d\u00e9tecter les d\u00e9gradations naissantes.",
@@ -73,8 +73,8 @@
       "name": { "fr": "Closed category analysis - Subsidiaries", "en": "Closed category analysis - Subsidiaries" },
       "screenshot": "Assets/Images/transition-smoothing/closed-category-subsidiaries.png",
       "objective": {
-        "fr": "Analyser les contrats ayant quitt\u00e9 le portefeuille actif (cat\u00e9gories ferm\u00e9es : rembours\u00e9s, radi\u00e9s, restructur\u00e9s) en les ventilant par filiale, pour identifier les entit\u00e9s g\u00e9rant le mieux la r\u00e9solution du risque.",
-        "en": "Analyze contracts that exited the active portfolio (closed categories: repaid, written off, restructured) broken down by subsidiary, to identify entities managing risk resolution most effectively."
+        "fr": "Analyser les cr\u00e9dits totalement rembours\u00e9s ayant quitt\u00e9 le portefeuille actif, ventil\u00e9s par filiale, pour identifier les entit\u00e9s avec les meilleures performances de remboursement.",
+        "en": "Analyze fully repaid loans that exited the active portfolio, broken down by subsidiary, to identify entities with the best repayment performance."
       },
       "kpisUsed": ["Total LP previous month EUR", "Total LP current month EUR", "Nombre de ContractNumber", "Nbre de client"],
       "filters": [
@@ -82,8 +82,8 @@
         { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la p\u00e9riode d'analyse", "en": "Select the analysis period" } }
       ],
       "howToRead": {
-        "fr": "Une filiale avec un taux de sortie \u00e9lev\u00e9 vers 'Rembours\u00e9' indique une bonne performance de recouvrement. Un taux de sortie \u00e9lev\u00e9 vers 'Radi\u00e9' signale au contraire des difficult\u00e9s structurelles. Comparez les filiales entre elles pour identifier les meilleures pratiques \u00e0 diffuser.",
-        "en": "A subsidiary with a high exit rate to 'Repaid' indicates good collection performance. A high exit rate to 'Written off' signals structural difficulties. Compare subsidiaries to identify best practices to spread."
+        "fr": "Comparez les filiales entre elles pour identifier celles avec le plus grand volume de cr\u00e9dits totalement rembours\u00e9s. Un volume \u00e9lev\u00e9 sur une filiale indique de bonnes performances de remboursement sur la p\u00e9riode.",
+        "en": "Compare subsidiaries to identify those with the highest volume of fully repaid loans. A high volume on a subsidiary indicates good repayment performance over the period."
       },
       "colorCoding": null
     },
@@ -92,8 +92,8 @@
       "name": { "fr": "Closed category analysis - New Segment", "en": "Closed category analysis - New Segment" },
       "screenshot": "Assets/Images/transition-smoothing/closed-category-segment.png",
       "objective": {
-        "fr": "Analyser les m\u00eames cat\u00e9gories ferm\u00e9es ventil\u00e9es par nouveau segment client (SME, Micro, Vanille, Agricole...) pour identifier les profils de clients les plus expos\u00e9s aux sorties en d\u00e9faut ou en radiation.",
-        "en": "Analyze the same closed categories broken down by new customer segment (SME, Micro, Vanilla, Agricultural...) to identify client profiles most exposed to default or write-off exits."
+        "fr": "Analyser les cr\u00e9dits totalement rembours\u00e9s ventil\u00e9s par segment client (Nano, VSE, SE, SME/SME+) pour identifier les profils de clients avec les meilleures performances de remboursement.",
+        "en": "Analyze fully repaid loans broken down by customer segment (Nano, VSE, SE, SME/SME+) to identify client profiles with the best repayment performance."
       },
       "kpisUsed": ["Total LP previous month EUR", "Total LP current month EUR", "Nombre de ContractNumber", "Nbre de client"],
       "filters": [
@@ -102,8 +102,8 @@
         { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la p\u00e9riode d'analyse", "en": "Select the analysis period" } }
       ],
       "howToRead": {
-        "fr": "Croisez cette vue avec la matrice de transition pour valider si la d\u00e9gradation observ\u00e9e sur un segment est structurelle (visible sur plusieurs mois) ou ponctuelle. Un segment avec un fort taux de radiation et un fort taux d'absence de paiement d\u00e8s le d\u00e9caissement n\u00e9cessite une r\u00e9vision des crit\u00e8res d'octroi.",
-        "en": "Cross-reference this view with the transition matrix to validate whether the deterioration observed on a segment is structural (visible over several months) or one-off. A segment with a high write-off rate and high no-payment-since-disbursement rate requires a revision of underwriting criteria."
+        "fr": "Comparez les segments (Nano, VSE, SE, SME/SME+) pour identifier ceux qui remboursent le mieux. Croisez avec la matrice de transition pour valider si les \u00e9carts entre segments sont structurels ou ponctuels.",
+        "en": "Compare segments (Nano, VSE, SE, SME/SME+) to identify those with the best repayment rates. Cross-reference with the transition matrix to validate whether differences between segments are structural or one-off."
       },
       "colorCoding": null
     }

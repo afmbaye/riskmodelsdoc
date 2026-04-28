@@ -40,8 +40,8 @@
       "id": "transition-smoothing",
       "name": { "fr": "Transition & Smoothing", "en": "Transition & Smoothing" },
       "description": {
-        "fr": "Suivi mensuel des glissements PAR du portefeuille via une matrice de transition et analyse du lissage des décaissements pour anticiper les passages en radiation.",
-        "en": "Monthly monitoring of portfolio PAR roll rates via a transition matrix and disbursement smoothing analysis to anticipate write-off migration."
+        "fr": "Outil d'analyse mensuel du lissage des décaissements et des transitions de PAR via une matrice de transition, pour suivre la qualité du portefeuille.",
+        "en": "Monthly analysis tool for disbursement smoothing and PAR transitions via a transition matrix, to monitor portfolio quality."
       },
       "categories": ["portfolio", "par", "transition", "smoothing"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
