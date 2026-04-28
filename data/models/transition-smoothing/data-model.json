@@ -4,10 +4,12 @@
     {
       "id": "consolidated-portfolio",
       "name": "Consolidated Portfolio",
-      "files": ["Consolide_2025-12-31_2026-01-31.xlsx"],
+      "files": [
+        "Consolide_2025-12-31_2026-01-31.xlsx"
+      ],
       "description": {
-        "fr": "Fichier consolidé mensuel du portefeuille de crédit du groupe. Source principale alimentant la table de faits Donn\u00e9e avec l'encours, le PAR, les statuts de prêt et les informations clients/contrats.",
-        "en": "Monthly consolidated group credit portfolio file. Primary source feeding the Donn\u00e9e fact table with outstanding balances, PAR, loan statuses and client/contract information."
+        "fr": "Fichier consolidé mensuel du portefeuille de crédit du groupe. Source principale alimentant la table de faits Donnée avec l'encours, le PAR, les statuts de prêt et les informations clients/contrats.",
+        "en": "Monthly consolidated group credit portfolio file. Primary source feeding the Donnée fact table with outstanding balances, PAR, loan statuses and client/contract information."
       }
     },
     {
@@ -25,7 +27,9 @@
     {
       "id": "credit-scores",
       "name": "Credit Scores",
-      "files": ["Default Probability - Get client's credit score.xlsx"],
+      "files": [
+        "Default Probability - Get client's credit score.xlsx"
+      ],
       "description": {
         "fr": "Scores de risque client issus du modèle de probabilité de défaut. Permet d'enrichir l'analyse de transition avec le profil de risque intrinsèque de chaque emprunteur.",
         "en": "Client risk scores from the default probability model. Enriches transition analysis with the intrinsic risk profile of each borrower."
@@ -35,7 +39,7 @@
       "id": "mapping-files",
       "name": "Mapping & Reference",
       "files": [
-        "mapping _R\u00e9gion agence.xlsx",
+        "mapping _Région agence.xlsx",
         "Mapping_TOP 20.xlsx"
       ],
       "description": {
@@ -63,206 +67,435 @@
     {
       "id": "vintage-recovery",
       "name": "Vintage Recovery",
-      "files": ["VintageRecovery_2026-02-02.xlsx"],
+      "files": [
+        "VintageRecovery_2026-02-02.xlsx"
+      ],
       "description": {
         "fr": "Données de recouvrement sur les créances radiées, utilisées pour enrichir l'analyse des catégories fermées (WOF) dans les onglets Closed category analysis.",
         "en": "Recovery data on written-off receivables, used to enrich closed category analysis (WOF) in the Closed category analysis tabs."
       }
     }
   ],
-  "tables": [
-    {
-      "name": "Donn\u00e9e",
-      "type": "fact",
-      "description": {
-        "fr": "Table de faits principale contenant les données mensuelles du portefeuille pour chaque contrat : encours du mois courant et précédent, catégories PAR, jours de retard, informations client et contrat, et colonnes calculées pour la matrice de transition.",
-        "en": "Main fact table containing monthly portfolio data per contract: current and previous month outstanding, PAR categories, overdue days, client and contract information, and calculated columns for the transition matrix."
+  "tables": {
+    "fact": [
+      {
+        "name": "Donnée",
+        "type": "fact",
+        "description": {
+          "fr": "Table de faits principale contenant les données mensuelles du portefeuille pour chaque contrat : encours du mois courant et précédent, catégories PAR, jours de retard, informations client et contrat, et colonnes calculées pour la matrice de transition.",
+          "en": "Main fact table containing monthly portfolio data per contract: current and previous month outstanding, PAR categories, overdue days, client and contract information, and calculated columns for the transition matrix."
+        },
+        "columnCount": 111,
+        "measureCount": 97,
+        "keyColumns": [
+          {
+            "name": "ContractNumber",
+            "type": "String",
+            "description": {
+              "fr": "Identifiant unique du contrat",
+              "en": "Unique contract identifier"
+            }
+          },
+          {
+            "name": "ClientNumber",
+            "type": "Int64",
+            "description": {
+              "fr": "Identifiant unique du client",
+              "en": "Unique client identifier"
+            }
+          },
+          {
+            "name": "Company1",
+            "type": "String",
+            "description": {
+              "fr": "Code filiale (clé de jointure vers Countries)",
+              "en": "Subsidiary code (join key to Countries)"
+            }
+          },
+          {
+            "name": "Previous_Date",
+            "type": "DateTime",
+            "description": {
+              "fr": "Date de référence du mois précédent",
+              "en": "Reference date of the previous month"
+            }
+          },
+          {
+            "name": "Current_Date",
+            "type": "DateTime",
+            "description": {
+              "fr": "Date de référence du mois courant",
+              "en": "Reference date of the current month"
+            }
+          },
+          {
+            "name": "ParType_Previous_Month",
+            "type": "String",
+            "description": {
+              "fr": "Catégorie PAR du contrat au mois précédent (clé vers PreviousPAR)",
+              "en": "Contract PAR category in the previous month (key to PreviousPAR)"
+            }
+          },
+          {
+            "name": "ParType_Current_Month",
+            "type": "String",
+            "description": {
+              "fr": "Catégorie PAR du contrat au mois courant (clé vers CurrentPAR)",
+              "en": "Contract PAR category in the current month (key to CurrentPAR)"
+            }
+          },
+          {
+            "name": "GLP_Previous_Month_Euro",
+            "type": "Double",
+            "description": {
+              "fr": "Encours brut du mois précédent en euros",
+              "en": "Gross outstanding of the previous month in euros"
+            }
+          },
+          {
+            "name": "GLP_Current_Month_Euro",
+            "type": "Double",
+            "description": {
+              "fr": "Encours brut du mois courant en euros",
+              "en": "Gross outstanding of the current month in euros"
+            }
+          },
+          {
+            "name": "NbOverdueDays",
+            "type": "Int64",
+            "description": {
+              "fr": "Nombre de jours de retard au mois courant",
+              "en": "Number of overdue days in the current month"
+            }
+          },
+          {
+            "name": "Transition Matrix",
+            "type": "String",
+            "isCalculated": true,
+            "description": {
+              "fr": "Colonne calculée déterminant la direction de la transition (amélioration, stable, dégradation) pour le formatage conditionnel de la matrice",
+              "en": "Calculated column determining the transition direction (improvement, stable, deterioration) for matrix conditional formatting"
+            }
+          },
+          {
+            "name": "New Segment OPE Group",
+            "type": "String",
+            "isCalculated": true,
+            "description": {
+              "fr": "Segment client calculé (SME, Micro, Vanille, Agricole...)",
+              "en": "Calculated customer segment (SME, Micro, Vanilla, Agricultural...)"
+            }
+          }
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "name": "CurrentPAR",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de référence des catégories PAR du mois courant, avec leur ordre de classement pour le tri de la matrice de transition.",
+          "en": "Reference table for current month PAR categories, with their ranking order for transition matrix sorting."
+        },
+        "columnCount": 3,
+        "keyColumns": [
+          {
+            "name": "PAR category current month",
+            "type": "String",
+            "description": {
+              "fr": "Libellé de la catégorie PAR (Healthy, 1-30, 31-60, 61-90, 91-120, 121-150, 151-180, WOF)",
+              "en": "PAR category label (Healthy, 1-30, 31-60, 61-90, 91-120, 121-150, 151-180, WOF)"
+            }
+          },
+          {
+            "name": "Current month PAR number",
+            "type": "Int64",
+            "description": {
+              "fr": "Numéro d'ordre pour le tri des colonnes de la matrice",
+              "en": "Order number for sorting matrix columns"
+            }
+          }
+        ]
       },
-      "columnCount": 111,
-      "measureCount": 97,
-      "keyColumns": [
-        { "name": "ContractNumber", "type": "String", "description": { "fr": "Identifiant unique du contrat", "en": "Unique contract identifier" } },
-        { "name": "ClientNumber", "type": "Int64", "description": { "fr": "Identifiant unique du client", "en": "Unique client identifier" } },
-        { "name": "Company1", "type": "String", "description": { "fr": "Code filiale (cl\u00e9 de jointure vers Countries)", "en": "Subsidiary code (join key to Countries)" } },
-        { "name": "Previous_Date", "type": "DateTime", "description": { "fr": "Date de r\u00e9f\u00e9rence du mois pr\u00e9c\u00e9dent", "en": "Reference date of the previous month" } },
-        { "name": "Current_Date", "type": "DateTime", "description": { "fr": "Date de r\u00e9f\u00e9rence du mois courant", "en": "Reference date of the current month" } },
-        { "name": "ParType_Previous_Month", "type": "String", "description": { "fr": "Cat\u00e9gorie PAR du contrat au mois pr\u00e9c\u00e9dent (cl\u00e9 vers PreviousPAR)", "en": "Contract PAR category in the previous month (key to PreviousPAR)" } },
-        { "name": "ParType_Current_Month", "type": "String", "description": { "fr": "Cat\u00e9gorie PAR du contrat au mois courant (cl\u00e9 vers CurrentPAR)", "en": "Contract PAR category in the current month (key to CurrentPAR)" } },
-        { "name": "GLP_Previous_Month_Euro", "type": "Double", "description": { "fr": "Encours brut du mois pr\u00e9c\u00e9dent en euros", "en": "Gross outstanding of the previous month in euros" } },
-        { "name": "GLP_Current_Month_Euro", "type": "Double", "description": { "fr": "Encours brut du mois courant en euros", "en": "Gross outstanding of the current month in euros" } },
-        { "name": "NbOverdueDays", "type": "Int64", "description": { "fr": "Nombre de jours de retard au mois courant", "en": "Number of overdue days in the current month" } },
-        { "name": "Transition Matrix", "type": "String", "isCalculated": true, "description": { "fr": "Colonne calcul\u00e9e d\u00e9terminant la direction de la transition (am\u00e9lioration, stable, d\u00e9gradation) pour le formatage conditionnel de la matrice", "en": "Calculated column determining the transition direction (improvement, stable, deterioration) for matrix conditional formatting" } },
-        { "name": "New Segment OPE Group", "type": "String", "isCalculated": true, "description": { "fr": "Segment client calcul\u00e9 (SME, Micro, Vanille, Agricole...)", "en": "Calculated customer segment (SME, Micro, Vanilla, Agricultural...)" } }
-      ]
-    },
-    {
-      "name": "CurrentPAR",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de r\u00e9f\u00e9rence des cat\u00e9gories PAR du mois courant, avec leur ordre de classement pour le tri de la matrice de transition.",
-        "en": "Reference table for current month PAR categories, with their ranking order for transition matrix sorting."
+      {
+        "name": "PreviousPAR",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de référence des catégories PAR du mois précédent, avec leur ordre de classement pour le tri des lignes de la matrice de transition.",
+          "en": "Reference table for previous month PAR categories, with their ranking order for sorting transition matrix rows."
+        },
+        "columnCount": 3,
+        "keyColumns": [
+          {
+            "name": "PAR category previous month",
+            "type": "String",
+            "description": {
+              "fr": "Libellé de la catégorie PAR du mois précédent",
+              "en": "PAR category label for the previous month"
+            }
+          },
+          {
+            "name": "Previous month PAR number",
+            "type": "Int64",
+            "description": {
+              "fr": "Numéro d'ordre pour le tri des lignes de la matrice",
+              "en": "Order number for sorting matrix rows"
+            }
+          }
+        ]
       },
-      "columnCount": 3,
-      "keyColumns": [
-        { "name": "PAR category current month", "type": "String", "description": { "fr": "Libell\u00e9 de la cat\u00e9gorie PAR (Healthy, 1-30, 31-60, 61-90, 91-120, 121-150, 151-180, WOF)", "en": "PAR category label (Healthy, 1-30, 31-60, 61-90, 91-120, 121-150, 151-180, WOF)" } },
-        { "name": "Current month PAR number", "type": "Int64", "description": { "fr": "Num\u00e9ro d'ordre pour le tri des colonnes de la matrice", "en": "Order number for sorting matrix columns" } }
-      ]
-    },
-    {
-      "name": "PreviousPAR",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de r\u00e9f\u00e9rence des cat\u00e9gories PAR du mois pr\u00e9c\u00e9dent, avec leur ordre de classement pour le tri des lignes de la matrice de transition.",
-        "en": "Reference table for previous month PAR categories, with their ranking order for sorting transition matrix rows."
+      {
+        "name": "Countries",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de référence géographique associant chaque code filiale à son pays, devise et région.",
+          "en": "Geographic reference table linking each subsidiary code to its country, currency and region."
+        },
+        "columnCount": 5,
+        "keyColumns": [
+          {
+            "name": "Country Code old",
+            "type": "String",
+            "description": {
+              "fr": "Code filiale (clé primaire)",
+              "en": "Subsidiary code (primary key)"
+            }
+          },
+          {
+            "name": "Country",
+            "type": "String",
+            "description": {
+              "fr": "Nom du pays",
+              "en": "Country name"
+            }
+          },
+          {
+            "name": "Currency",
+            "type": "String",
+            "description": {
+              "fr": "Devise locale de la filiale",
+              "en": "Local currency of the subsidiary"
+            }
+          },
+          {
+            "name": "Region",
+            "type": "String",
+            "description": {
+              "fr": "Région géographique",
+              "en": "Geographic region"
+            }
+          }
+        ]
       },
-      "columnCount": 3,
-      "keyColumns": [
-        { "name": "PAR category previous month", "type": "String", "description": { "fr": "Libell\u00e9 de la cat\u00e9gorie PAR du mois pr\u00e9c\u00e9dent", "en": "PAR category label for the previous month" } },
-        { "name": "Previous month PAR number", "type": "Int64", "description": { "fr": "Num\u00e9ro d'ordre pour le tri des lignes de la matrice", "en": "Order number for sorting matrix rows" } }
-      ]
-    },
-    {
-      "name": "Countries",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de r\u00e9f\u00e9rence g\u00e9ographique associant chaque code filiale \u00e0 son pays, devise et r\u00e9gion.",
-        "en": "Geographic reference table linking each subsidiary code to its country, currency and region."
+      {
+        "name": "TVanille",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de classification des contrats du segment Vanille, permettant d'identifier les crédits agricoles de type vanille dans l'analyse de transition.",
+          "en": "Classification table for Vanilla segment contracts, enabling identification of vanilla-type agricultural loans in transition analysis."
+        },
+        "columnCount": 4
       },
-      "columnCount": 5,
-      "keyColumns": [
-        { "name": "Country Code old", "type": "String", "description": { "fr": "Code filiale (cl\u00e9 primaire)", "en": "Subsidiary code (primary key)" } },
-        { "name": "Country", "type": "String", "description": { "fr": "Nom du pays", "en": "Country name" } },
-        { "name": "Currency", "type": "String", "description": { "fr": "Devise locale de la filiale", "en": "Local currency of the subsidiary" } },
-        { "name": "Region", "type": "String", "description": { "fr": "R\u00e9gion g\u00e9ographique", "en": "Geographic region" } }
-      ]
-    },
-    {
-      "name": "TVanille",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de classification des contrats du segment Vanille, permettant d'identifier les cr\u00e9dits agricoles de type vanille dans l'analyse de transition.",
-        "en": "Classification table for Vanilla segment contracts, enabling identification of vanilla-type agricultural loans in transition analysis."
+      {
+        "name": "TAgricole",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de classification des contrats agricoles, complémentaire à TVanille pour le segment agricole de Côte d'Ivoire.",
+          "en": "Classification table for agricultural contracts, complementary to TVanille for the Ivory Coast agricultural segment."
+        },
+        "columnCount": 10
       },
-      "columnCount": 4
-    },
-    {
-      "name": "TAgricole",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de classification des contrats agricoles, compl\u00e9mentaire \u00e0 TVanille pour le segment agricole de C\u00f4te d'Ivoire.",
-        "en": "Classification table for agricultural contracts, complementary to TVanille for the Ivory Coast agricultural segment."
+      {
+        "name": "Currency_CDF",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de taux de change pour la conversion CDF/EUR, utilisée pour les filiales opérant en franc congolais (RDC).",
+          "en": "Exchange rate table for CDF/EUR conversion, used for subsidiaries operating in Congolese francs (DRC)."
+        },
+        "columnCount": 6
       },
-      "columnCount": 10
-    },
-    {
-      "name": "Currency_CDF",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de taux de change pour la conversion CDF/EUR, utilis\u00e9e pour les filiales op\u00e9rant en franc congolais (RDC).",
-        "en": "Exchange rate table for CDF/EUR conversion, used for subsidiaries operating in Congolese francs (DRC)."
+      {
+        "name": "Mapping_LD by Segment",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de mapping des late days par segment client, permettant l'analyse du lissage des décaissements (onglet Trend Smoothing).",
+          "en": "Late days mapping table by customer segment, enabling disbursement smoothing analysis (Trend Smoothing tab)."
+        },
+        "columnCount": 10
       },
-      "columnCount": 6
-    },
-    {
-      "name": "Mapping_LD by Segment",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de mapping des late days par segment client, permettant l'analyse du lissage des d\u00e9caissements (onglet Trend Smoothing).",
-        "en": "Late days mapping table by customer segment, enabling disbursement smoothing analysis (Trend Smoothing tab)."
+      {
+        "name": "Metrics Transition",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de sélection des métriques pour l'onglet Transition matrix, permettant à l'utilisateur de basculer entre l'affichage en montant et en nombre de contrats.",
+          "en": "Metric selector table for the Transition matrix tab, allowing users to switch between amount and contract count display."
+        },
+        "columnCount": 3
       },
-      "columnCount": 10
-    },
-    {
-      "name": "Metrics Transition",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de s\u00e9lection des m\u00e9triques pour l'onglet Transition matrix, permettant \u00e0 l'utilisateur de basculer entre l'affichage en montant et en nombre de contrats.",
-        "en": "Metric selector table for the Transition matrix tab, allowing users to switch between amount and contract count display."
+      {
+        "name": "Metrics Smoothing",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de sélection des métriques pour l'onglet Trend Smoothing, permettant de choisir l'indicateur de lissage à afficher.",
+          "en": "Metric selector table for the Trend Smoothing tab, allowing selection of the smoothing indicator to display."
+        },
+        "columnCount": 3
       },
-      "columnCount": 3
-    },
-    {
-      "name": "Metrics Smoothing",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de s\u00e9lection des m\u00e9triques pour l'onglet Trend Smoothing, permettant de choisir l'indicateur de lissage \u00e0 afficher.",
-        "en": "Metric selector table for the Trend Smoothing tab, allowing selection of the smoothing indicator to display."
-      },
-      "columnCount": 3
-    },
-    {
-      "name": "mapping_comite_technique",
-      "type": "dimension",
-      "description": {
-        "fr": "Table de mapping pour le comit\u00e9 technique, permettant de filtrer ou d'annoter certains contrats faisant l'objet d'une revue sp\u00e9cifique.",
-        "en": "Mapping table for the technical committee, enabling filtering or annotation of contracts under specific review."
-      },
-      "columnCount": 3
-    }
-  ],
+      {
+        "name": "mapping_comite_technique",
+        "type": "dimension",
+        "description": {
+          "fr": "Table de mapping pour le comité technique, permettant de filtrer ou d'annoter certains contrats faisant l'objet d'une revue spécifique.",
+          "en": "Mapping table for the technical committee, enabling filtering or annotation of contracts under specific review."
+        },
+        "columnCount": 3
+      }
+    ]
+  },
   "relationships": [
     {
-      "from": { "table": "Donn\u00e9e", "column": "ParType_Current_Month" },
-      "to": { "table": "CurrentPAR", "column": "PAR category current month" },
+      "from": {
+        "table": "Donnée",
+        "column": "ParType_Current_Month"
+      },
+      "to": {
+        "table": "CurrentPAR",
+        "column": "PAR category current month"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Lie chaque contrat \u00e0 sa cat\u00e9gorie PAR du mois courant pour le tri et le filtrage de la matrice", "en": "Links each contract to its current month PAR category for matrix sorting and filtering" }
+      "description": {
+        "fr": "Lie chaque contrat à sa catégorie PAR du mois courant pour le tri et le filtrage de la matrice",
+        "en": "Links each contract to its current month PAR category for matrix sorting and filtering"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "ParType_Previous_Month" },
-      "to": { "table": "PreviousPAR", "column": "PAR category previous month" },
+      "from": {
+        "table": "Donnée",
+        "column": "ParType_Previous_Month"
+      },
+      "to": {
+        "table": "PreviousPAR",
+        "column": "PAR category previous month"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Lie chaque contrat \u00e0 sa cat\u00e9gorie PAR du mois pr\u00e9c\u00e9dent pour les lignes de la matrice", "en": "Links each contract to its previous month PAR category for matrix rows" }
+      "description": {
+        "fr": "Lie chaque contrat à sa catégorie PAR du mois précédent pour les lignes de la matrice",
+        "en": "Links each contract to its previous month PAR category for matrix rows"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "Company1" },
-      "to": { "table": "Countries", "column": "Country Code old" },
+      "from": {
+        "table": "Donnée",
+        "column": "Company1"
+      },
+      "to": {
+        "table": "Countries",
+        "column": "Country Code old"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Joint la table de faits aux informations g\u00e9ographiques (pays, devise, r\u00e9gion)", "en": "Joins the fact table to geographic information (country, currency, region)" }
+      "description": {
+        "fr": "Joint la table de faits aux informations géographiques (pays, devise, région)",
+        "en": "Joins the fact table to geographic information (country, currency, region)"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "CC&Customer" },
-      "to": { "table": "TVanille", "column": "CC&Customer" },
+      "from": {
+        "table": "Donnée",
+        "column": "CC&Customer"
+      },
+      "to": {
+        "table": "TVanille",
+        "column": "CC&Customer"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Identifie les contrats du segment Vanille pour la segmentation dans les onglets Closed category", "en": "Identifies Vanilla segment contracts for segmentation in Closed category tabs" }
+      "description": {
+        "fr": "Identifie les contrats du segment Vanille pour la segmentation dans les onglets Closed category",
+        "en": "Identifies Vanilla segment contracts for segmentation in Closed category tabs"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "Company&ContractNum" },
-      "to": { "table": "TAgricole", "column": "CC&Company" },
+      "from": {
+        "table": "Donnée",
+        "column": "Company&ContractNum"
+      },
+      "to": {
+        "table": "TAgricole",
+        "column": "CC&Company"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Identifie les contrats agricoles CIV pour la segmentation", "en": "Identifies CIV agricultural contracts for segmentation" }
+      "description": {
+        "fr": "Identifie les contrats agricoles CIV pour la segmentation",
+        "en": "Identifies CIV agricultural contracts for segmentation"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "Current Date format Date" },
-      "to": { "table": "Currency_CDF", "column": "Current_Date" },
+      "from": {
+        "table": "Donnée",
+        "column": "Current Date format Date"
+      },
+      "to": {
+        "table": "Currency_CDF",
+        "column": "Current_Date"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Joint le taux de change CDF/EUR du mois courant pour la conversion des montants", "en": "Joins the CDF/EUR exchange rate for the current month for amount conversion" }
+      "description": {
+        "fr": "Joint le taux de change CDF/EUR du mois courant pour la conversion des montants",
+        "en": "Joins the CDF/EUR exchange rate for the current month for amount conversion"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "CC&Customer" },
-      "to": { "table": "mapping_comite_technique", "column": "CC&Customer" },
+      "from": {
+        "table": "Donnée",
+        "column": "CC&Customer"
+      },
+      "to": {
+        "table": "mapping_comite_technique",
+        "column": "CC&Customer"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Associe les contrats aux annotations du comit\u00e9 technique", "en": "Associates contracts to technical committee annotations" }
+      "description": {
+        "fr": "Associe les contrats aux annotations du comité technique",
+        "en": "Associates contracts to technical committee annotations"
+      }
     },
     {
-      "from": { "table": "Donn\u00e9e", "column": "Company" },
-      "to": { "table": "Photos pays", "column": "Company" },
+      "from": {
+        "table": "Donnée",
+        "column": "Company"
+      },
+      "to": {
+        "table": "Photos pays",
+        "column": "Company"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Associe le drapeau ou logo de chaque filiale pour l'affichage visuel", "en": "Associates the flag or logo of each subsidiary for visual display" }
+      "description": {
+        "fr": "Associe le drapeau ou logo de chaque filiale pour l'affichage visuel",
+        "en": "Associates the flag or logo of each subsidiary for visual display"
+      }
     },
     {
-      "from": { "table": "Mapping_LD by Segment", "column": "Company" },
-      "to": { "table": "Photos pays", "column": "Company" },
+      "from": {
+        "table": "Mapping_LD by Segment",
+        "column": "Company"
+      },
+      "to": {
+        "table": "Photos pays",
+        "column": "Company"
+      },
       "cardinality": "Many-to-One",
       "isActive": true,
-      "description": { "fr": "Associe le logo de la filiale \u00e0 la table de mapping des late days", "en": "Associates the subsidiary logo to the late days mapping table" }
+      "description": {
+        "fr": "Associe le logo de la filiale à la table de mapping des late days",
+        "en": "Associates the subsidiary logo to the late days mapping table"
+      }
     }
   ]
 }
