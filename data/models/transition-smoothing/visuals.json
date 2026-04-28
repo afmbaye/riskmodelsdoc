@@ -84,17 +84,17 @@
       "name": { "fr": "Closed category analysis - Subsidiaries", "en": "Closed category analysis - Subsidiaries" },
       "screenshot": "Assets/Images/transition-smoothing/closed-category-subsidiaries.png",
       "objective": {
-        "fr": "Analyser les cr\u00e9dits totalement rembours\u00e9s ayant quitt\u00e9 le portefeuille actif, ventil\u00e9s par filiale, pour identifier les entit\u00e9s avec les meilleures performances de remboursement.",
-        "en": "Analyze fully repaid loans that exited the active portfolio, broken down by subsidiary, to identify entities with the best repayment performance."
+        "fr": "Suivre mensuellement le GLP des cr\u00e9dits en cat\u00e9gorie 'Closed' (totalement rembours\u00e9s) par filiale, en volume absolu et en part relative, afin d'identifier les entit\u00e9s contribuant le plus aux remboursements totaux.",
+        "en": "Monthly tracking of GLP for 'Closed' category loans (fully repaid) by subsidiary, in absolute volume and relative share, to identify entities contributing the most to total repayments."
       },
-      "kpisUsed": ["Total LP previous month EUR", "Total LP current month EUR", "Nombre de ContractNumber", "Nbre de client"],
+      "kpisUsed": ["Total LP current month EUR", "Nombre de ContractNumber"],
       "filters": [
-        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la p\u00e9riode d'analyse", "en": "Select the analysis period" } }
+        { "name": "New Segment", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } },
+        { "name": "Comit\u00e9 Technique", "description": { "fr": "Filtrer les dossiers suivis en comit\u00e9 technique", "en": "Filter contracts monitored in technical committee" } }
       ],
       "howToRead": {
-        "fr": "Comparez les filiales entre elles pour identifier celles avec le plus grand volume de cr\u00e9dits totalement rembours\u00e9s. Un volume \u00e9lev\u00e9 sur une filiale indique de bonnes performances de remboursement sur la p\u00e9riode.",
-        "en": "Compare subsidiaries to identify those with the highest volume of fully repaid loans. A high volume on a subsidiary indicates good repayment performance over the period."
+        "fr": "L'onglet pr\u00e9sente deux matrices par filiale : la premi\u00e8re affiche le GLP Closed en valeur absolue par mois, la seconde sa part en % du total groupe. La colonne de droite affiche la moyenne sur les 12 derniers mois. Le graphique en barres en bas d\u00e9compose ce GLP Closed par segment (Nano, VSE, SE, SME/SME+) pour chaque mois. Comparez les filiales et leur tendance mensuelle pour identifier les entit\u00e9s avec les meilleures dynamiques de remboursement.",
+        "en": "The tab shows two matrices by subsidiary: the first displays Closed GLP in absolute value by month, the second its % share of the group total. The right column shows the 12-month average. The bar chart at the bottom breaks down the Closed GLP by segment (Nano, VSE, SE, SME/SME+) per month. Compare subsidiaries and their monthly trend to identify entities with the best repayment dynamics."
       },
       "colorCoding": null
     },
@@ -103,18 +103,17 @@
       "name": { "fr": "Closed category analysis - New Segment", "en": "Closed category analysis - New Segment" },
       "screenshot": "Assets/Images/transition-smoothing/closed-category-segment.png",
       "objective": {
-        "fr": "Analyser les cr\u00e9dits totalement rembours\u00e9s ventil\u00e9s par segment client (Nano, VSE, SE, SME/SME+) pour identifier les profils de clients avec les meilleures performances de remboursement.",
-        "en": "Analyze fully repaid loans broken down by customer segment (Nano, VSE, SE, SME/SME+) to identify client profiles with the best repayment performance."
+        "fr": "Suivre mensuellement le GLP des cr\u00e9dits en cat\u00e9gorie 'Closed' (totalement rembours\u00e9s) par segment client (Nano, VSE, SE, SME/SME+), en volume absolu et en part relative, pour identifier les typologies de clients avec les meilleures dynamiques de remboursement.",
+        "en": "Monthly tracking of GLP for 'Closed' category loans (fully repaid) by customer segment (Nano, VSE, SE, SME/SME+), in absolute volume and relative share, to identify client typologies with the best repayment dynamics."
       },
-      "kpisUsed": ["Total LP previous month EUR", "Total LP current month EUR", "Nombre de ContractNumber", "Nbre de client"],
+      "kpisUsed": ["Total LP current month EUR", "Nombre de ContractNumber"],
       "filters": [
-        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "New Segment OPE Group", "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" } },
-        { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la p\u00e9riode d'analyse", "en": "Select the analysis period" } }
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Comit\u00e9 Technique", "description": { "fr": "Filtrer les dossiers suivis en comit\u00e9 technique", "en": "Filter contracts monitored in technical committee" } }
       ],
       "howToRead": {
-        "fr": "Comparez les segments (Nano, VSE, SE, SME/SME+) pour identifier ceux qui remboursent le mieux. Croisez avec la matrice de transition pour valider si les \u00e9carts entre segments sont structurels ou ponctuels.",
-        "en": "Compare segments (Nano, VSE, SE, SME/SME+) to identify those with the best repayment rates. Cross-reference with the transition matrix to validate whether differences between segments are structural or one-off."
+        "fr": "M\u00eame structure que l'onglet Subsidiaries mais ventil\u00e9e par segment (Nano, VSE, SE, SME/SME+) : deux matrices (valeur absolue et % du total) et une moyenne sur 12 mois \u00e0 droite. Le graphique en barres en bas illustre la contribution mensuelle de chaque segment au GLP Closed. Le segment VSE repr\u00e9sente g\u00e9n\u00e9ralement la part la plus \u00e9lev\u00e9e (~44% en moyenne). Comparez les tendances mensuelles par segment pour d\u00e9tecter des changements structurels dans les comportements de remboursement.",
+        "en": "Same structure as the Subsidiaries tab but broken down by segment (Nano, VSE, SE, SME/SME+): two matrices (absolute value and % of total) and a 12-month average on the right. The bar chart at the bottom shows each segment's monthly contribution to Closed GLP. The VSE segment typically represents the largest share (~44% on average). Compare monthly trends by segment to detect structural changes in repayment behavior."
       },
       "colorCoding": null
     }
