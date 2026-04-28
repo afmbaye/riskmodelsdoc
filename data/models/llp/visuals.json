@@ -5,60 +5,70 @@
       "id": "llp-dashboard",
       "name": { "fr": "LLP Dashboard", "en": "LLP Dashboard" },
       "description": {
-        "fr": "Tableau de bord principal du modèle LLP. Synthèse des indicateurs clés de provisions avec comparaison Actual vs Budget, vue par filiale et évolution temporelle.",
-        "en": "Main LLP model dashboard. Summary of key provisioning indicators with Actual vs Budget comparison, by subsidiary view and time evolution."
+        "fr": "Tableau de bord du coût du risque YTD. Vue synthétique du Net LLP (Loan loss provision + Write off - Recovery) par filiale et par mois, avec comparaison Actual vs Budget et analyse du taux de réalisation budgétaire.",
+        "en": "Cost of risk YTD dashboard. Synthetic view of Net LLP (Loan loss provision + Write off - Recovery) by subsidiary and by month, with Actual vs Budget comparison and budget achievement rate analysis."
       },
       "screenshot": "Assets/Images/llp/llp-dashboard.png",
       "kpis": ["loan-loss-provision-eur", "write-off-eur", "recovery-from-loans-written-off-eur", "ll-reserve-bsa0220"],
-      "filters": ["Filiale", "Année", "Mois"],
+      "filters": [
+        { "name": "Reporting Months", "description": { "fr": "Sélectionner le ou les mois de reporting YTD", "en": "Select the reporting month(s) for YTD view" } }
+      ],
       "howToRead": {
-        "fr": "Comparer la colonne Actual vs Budget pour identifier les filiales dépassant leur enveloppe de provision. Un LLP Actual supérieur au budget signale une dégradation non anticipée du portefeuille.",
-        "en": "Compare the Actual vs Budget column to identify subsidiaries exceeding their provision envelope. An Actual LLP above budget signals an unanticipated portfolio deterioration."
+        "fr": "L'onglet présente 4 graphiques : (1) YTD Cost of Credit Risk par filiale — barres empilées décomposant le Net LLP en Loan loss provision, Write off et Recovery, avec le Net LLP Actual (point) et Budget (ligne) ; (2) Cost of Credit Risk mensuel — même décomposition sur l'axe temporel ; (3) Net LLP Subsidiaries Achievement Analysis — taux de réalisation du budget Net LLP par filiale (barres vertes = sous le budget, barres rouges = au-dessus) ; (4) Net LLP Monthly Achievement Analysis — même analyse sur l'axe mensuel. La ligne pointillée à 100% est le seuil budgétaire de référence.",
+        "en": "The tab presents 4 charts: (1) YTD Cost of Credit Risk by subsidiary — stacked bars breaking down Net LLP into Loan loss provision, Write off and Recovery, with Net LLP Actual (dot) and Budget (line); (2) Monthly Cost of Credit Risk — same breakdown over time; (3) Net LLP Subsidiaries Achievement Analysis — budget achievement rate by subsidiary (green bars = below budget, red bars = above); (4) Net LLP Monthly Achievement Analysis — same analysis on the monthly axis. The dotted line at 100% is the budget reference threshold."
       }
     },
     {
       "id": "coverage-ratio-par",
       "name": { "fr": "Coverage ratio PAR 30 || PAR 90", "en": "Coverage ratio PAR 30 || PAR 90" },
       "description": {
-        "fr": "Analyse comparative des ratios de couverture PAR 30 et PAR 90 par pays. Évalue si les provisions constituées (LL Reserve BSA0220) sont suffisantes pour couvrir l'encours en retard.",
-        "en": "Comparative analysis of PAR 30 and PAR 90 coverage ratios by country. Assesses whether provisions built up (LL Reserve BSA0220) are sufficient to cover the overdue outstanding."
+        "fr": "Évolution mensuelle des ratios de couverture PAR 30 et PAR 90 au niveau groupe. Pour chaque indicateur, affiche le volume PAR, la LL Reserve et le ratio de couverture correspondant sur l'axe secondaire.",
+        "en": "Monthly evolution of PAR 30 and PAR 90 coverage ratios at group level. For each indicator, displays the PAR volume, the LL Reserve and the corresponding coverage ratio on the secondary axis."
       },
       "screenshot": "Assets/Images/llp/coverage-ratio-par.png",
       "kpis": ["coverage-ratio-par-30", "coverage-ratio-par-90", "par-30-volume", "par-90-volume", "ll-reserve-bsa0220"],
-      "filters": ["Pays", "Mois"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Sélectionner la filiale via les drapeaux pays en haut de page", "en": "Select the subsidiary via the country flags at the top of the page" } },
+        { "name": "Reporting Months", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } }
+      ],
       "howToRead": {
-        "fr": "Un ratio de couverture PAR 30 inférieur à 100% indique que les provisions sont insuffisantes pour absorber tous les retards 30+. Surveiller les pays avec un ratio en baisse tendancielle.",
-        "en": "A PAR 30 coverage ratio below 100% indicates provisions are insufficient to absorb all 30+ overdue amounts. Monitor countries with a downward trend in the ratio."
+        "fr": "Chaque graphique (PAR 30 à gauche, PAR 90 à droite) superpose deux barres — PAR Volume (rose foncé) et LL Reserve (rose clair) — sur l'axe gauche (M€), et une courbe du ratio de couverture sur l'axe droit (%). Lorsque la courbe de ratio dépasse 100%, la LL Reserve couvre intégralement le volume PAR correspondant. Utilisez le filtre drapeaux pour isoler une filiale.",
+        "en": "Each chart (PAR 30 on the left, PAR 90 on the right) overlays two bars — PAR Volume (dark pink) and LL Reserve (light pink) — on the left axis (M€), and a coverage ratio curve on the right axis (%). When the ratio curve exceeds 100%, the LL Reserve fully covers the corresponding PAR volume. Use the flags filter to isolate a subsidiary."
       }
     },
     {
       "id": "cost-of-risk-vol",
       "name": { "fr": "Cost of Risk Vol", "en": "Cost of Risk Vol" },
       "description": {
-        "fr": "Évolution du coût du risque en volume (M€) en cumul YTD, comparé sur 4 années glissantes (N, N-1, N-2, N-3) et au budget. Permet d'analyser la tendance pluriannuelle du provisionnement.",
-        "en": "Evolution of the cost of risk in volume (M€) YTD cumulated, compared over 4 rolling years (Y, Y-1, Y-2, Y-3) and vs budget. Enables multi-year provisioning trend analysis."
+        "fr": "Comparaison du coût du crédit YTD par filiale sur plusieurs années (2023, 2024, 2025, Actual, Budget), regroupées par zone géographique (WAEMU et Remaining Africa).",
+        "en": "Comparison of YTD cost of credit risk by subsidiary across multiple years (2023, 2024, 2025, Actual, Budget), grouped by geographic zone (WAEMU and Remaining Africa)."
       },
       "screenshot": "Assets/Images/llp/cost-of-risk-vol.png",
       "kpis": ["loan-loss-provision-eur", "write-off-eur", "recovery-from-loans-written-off-eur"],
-      "filters": ["Mois", "Filiale"],
+      "filters": [
+        { "name": "Reporting Months", "description": { "fr": "Sélectionner les mois pour le calcul YTD", "en": "Select months for the YTD calculation" } }
+      ],
       "howToRead": {
-        "fr": "Lire le graphique en courbes YTD : une courbe N au-dessus de N-1 à même mois indique une accélération du coût du risque. Comparer à la courbe Budget pour évaluer l'écart prévisionnel.",
-        "en": "Read the YTD line chart: a Y curve above Y-1 at the same month indicates an acceleration in cost of risk. Compare to the Budget curve to assess the forecast gap."
+        "fr": "Le graphique affiche pour chaque filiale 5 barres groupées : 2023, 2024, 2025, Actual (année en cours) et Budget. Les filiales sont organisées en deux zones : WAEMU (Côte d'Ivoire, Sénégal, Burkina Faso, Mali) et Remaining Africa (Madagascar, Nigeria, RD Congo). Comparez la barre Actual à la barre Budget pour évaluer le taux de réalisation, et aux années précédentes pour identifier les tendances pluriannuelles.",
+        "en": "The chart displays 5 grouped bars per subsidiary: 2023, 2024, 2025, Actual (current year) and Budget. Subsidiaries are organized into two zones: WAEMU (Côte d'Ivoire, Sénégal, Burkina Faso, Mali) and Remaining Africa (Madagascar, Nigeria, RD Congo). Compare the Actual bar to the Budget bar to assess achievement rate, and to prior years to identify multi-year trends."
       }
     },
     {
       "id": "component-cost-of-risk",
       "name": { "fr": "Component Cost of Risk", "en": "Component Cost of Risk" },
       "description": {
-        "fr": "Décomposition du coût du risque net (LLP net = Provisions + Write-Off - Recouvrements) par composante et par filiale. Identifie la contribution de chaque élément au coût global.",
-        "en": "Breakdown of net cost of risk (net LLP = Provisions + Write-Off - Recoveries) by component and by subsidiary. Identifies each element's contribution to the overall cost."
+        "fr": "Évolution mensuelle des quatre composantes du coût du risque — Loan loss provision, Write off, Recovery et Cost of Risk (Net LLP) — chacune comparée à son budget, avec filtre par filiale via les drapeaux pays.",
+        "en": "Monthly evolution of the four cost of risk components — Loan loss provision, Write off, Recovery and Cost of Risk (Net LLP) — each compared to its budget, with subsidiary filter via country flags."
       },
       "screenshot": "Assets/Images/llp/component-cost-of-risk.png",
       "kpis": ["loan-loss-provision-eur", "write-off-eur", "recovery-from-loans-written-off-eur"],
-      "filters": ["Filiale", "Année", "Mois"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Sélectionner la filiale via les drapeaux pays en haut de page", "en": "Select the subsidiary via the country flags at the top of the page" } },
+        { "name": "Reporting Months", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } }
+      ],
       "howToRead": {
-        "fr": "Les barres empilées montrent la décomposition : Provision (bleu) + Write-Off (orange) - Recouvrement (vert). Un Write-Off élevé sans recouvrement associé signale un portefeuille radié non géré post-radiation.",
-        "en": "Stacked bars show the breakdown: Provision (blue) + Write-Off (orange) - Recovery (green). A high Write-Off without associated recovery signals a written-off portfolio with no post-write-off management."
+        "fr": "L'onglet présente 4 graphiques indépendants en barres mensuelles, chacun avec sa ligne budget : Loan loss provision (barres jaunes), Write off (barres jaunes), Recovery (barres vertes) et Cost of Risk / Net LLP (barres roses). Analysez chaque composante séparément puis combinez-les pour comprendre la formation du Net LLP sur la période.",
+        "en": "The tab presents 4 independent monthly bar charts, each with its budget line: Loan loss provision (yellow bars), Write off (yellow bars), Recovery (green bars) and Cost of Risk / Net LLP (pink bars). Analyze each component separately then combine them to understand Net LLP formation over the period."
       }
     },
     {
