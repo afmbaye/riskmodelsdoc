@@ -14,7 +14,8 @@
       "mcp__powerbi-modeling-mcp__batch_measure_operations",
       "Bash(git checkout master)",
       "Bash(git pull origin master)",
-      "Bash(git merge epic-nobel)"
+      "Bash(git merge epic-nobel)",
+      "Bash(find data/models -name \"overview.json\" -exec wc -l {} \\\\;)"
     ]
   }
 }

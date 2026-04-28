@@ -11,8 +11,8 @@
       "type": "file",
       "icon": "file-text",
       "description": {
-        "fr": "Fichier CSV mensuel contenant les montants radiés et les recouvrements réalisés, par entreprise, pays, devise et sous-segment client.",
-        "en": "Monthly CSV file containing written-off amounts and recoveries achieved, by company, country, currency and customer sub-segment."
+        "fr": "Fichier CSV mensuel contenant les montants radiés et les recouvrements réalisés, par filiale, devise et sous-segment client.",
+        "en": "Monthly CSV file containing written-off amounts and recoveries achieved, by subsidiary, currency and customer sub-segment."
       }
     }
   ],
@@ -29,14 +29,14 @@
       {
         "name": "Wof Recoveries",
         "description": {
-          "fr": "Table de faits principale contenant l'historique mensuel des créances radiées (write-offs) et des montants recouvrés. Chaque ligne représente un flux mensuel de recouvrement pour une combinaison entreprise / pays / devise / sous-segment.",
-          "en": "Main fact table containing the monthly history of written-off receivables and recovered amounts. Each row represents a monthly recovery flow for a company / country / currency / sub-segment combination."
+          "fr": "Table de faits principale contenant l'historique mensuel des créances radiées (write-offs) et des montants recouvrés. Chaque ligne représente un flux mensuel de recouvrement pour une combinaison filiale / devise / sous-segment.",
+          "en": "Main fact table containing the monthly history of written-off receivables and recovered amounts. Each row represents a monthly recovery flow for a subsidiary / currency / sub-segment combination."
         },
         "screenshot": "Assets/Images/vintage-recovery/wof-recoveries.png",
         "icon": "package",
         "columns": {
           "source": [
-            { "name": "Company", "dataType": "String", "description": { "fr": "Nom de la filiale ou de l'entreprise concernée.", "en": "Name of the subsidiary or company concerned." } },
+            { "name": "Company", "dataType": "String", "description": { "fr": "Nom de la filiale concernée.", "en": "Name of the subsidiary concerned." } },
             { "name": "DateData", "dataType": "DateTime", "description": { "fr": "Date de référence de la ligne de données (date de reporting).", "en": "Reference date of the data row (reporting date)." } },
             { "name": "DateWOF", "dataType": "DateTime", "description": { "fr": "Date de radiation de la créance (write-off date).", "en": "Date when the receivable was written off." } },
             { "name": "CurrencyRate", "dataType": "Double", "description": { "fr": "Taux de change utilisé pour la conversion en euros.", "en": "Exchange rate used for euro conversion." } },

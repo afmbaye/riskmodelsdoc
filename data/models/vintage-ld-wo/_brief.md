@@ -83,7 +83,7 @@ et piloter les actions de recouvrement post-radiation.
 
 Source(s) de données :
 - Wof Recoveries - New Segment.csv : Fichier CSV mensuel contenant les montants radiés
-  et recouvrements réalisés par entreprise, pays, devise et sous-segment.
+  et recouvrements réalisés par filiale, devise et sous-segment.
 
 Onglets :
 1. Recovery Amounts : Vue d'ensemble des montants recouvrés et radiés par période,
