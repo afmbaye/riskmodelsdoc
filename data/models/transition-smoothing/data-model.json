@@ -76,6 +76,13 @@
       }
     }
   ],
+  "schema": {
+    "image": "Assets/Images/transition-smoothing/data-model.png",
+    "description": {
+      "fr": "Vue d'ensemble de la table centrale Wof Recoveries et de ses colonnes calculées.",
+      "en": "Overview of the central Wof Recoveries table and its calculated columns."
+    }
+  },
   "tables": {
     "fact": [
       {
@@ -318,8 +325,8 @@
         "name": "Mapping_LD by Segment",
         "type": "dimension",
         "description": {
-          "fr": "Table de mapping des late days par segment client, permettant l'analyse du lissage des décaissements (onglet Trend Smoothing).",
-          "en": "Late days mapping table by customer segment, enabling disbursement smoothing analysis (Trend Smoothing tab)."
+          "fr": "Table de mapping des segments (Nano, VSE, SE, SME/SME+) pour chaque contrat LD (contrats dont le numéro commence par LD).",
+          "en": "Segment mapping table (Nano, VSE, SE, SME/SME+) for each LD contract (contracts whose number starts with LD)."
         },
         "columnCount": 10
       },
@@ -493,8 +500,8 @@
       "cardinality": "Many-to-One",
       "isActive": true,
       "description": {
-        "fr": "Associe le logo de la filiale à la table de mapping des late days",
-        "en": "Associates the subsidiary logo to the late days mapping table"
+        "fr": "Associe le logo de la filiale à la table de mapping des contrats LD par segment",
+        "en": "Associates the subsidiary logo to the LD contract segment mapping table"
       }
     }
   ]
