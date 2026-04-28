@@ -23,8 +23,8 @@
       "id": "llp-dashboard",
       "name": { "fr": "LLP Dashboard", "en": "LLP Dashboard" },
       "description": {
-        "fr": "Vue synthétique des principaux indicateurs de provisions : LLP, Write-Off, recouvrements et réserve comptable BSA0220, avec comparaison budget vs réel.",
-        "en": "Synthetic view of key provisioning indicators: LLP, Write-Off, recoveries and BSA0220 accounting reserve, with budget vs actual comparison."
+        "fr": "Tableau de bord du coût du risque YTD. Vue synthétique du Net LLP (Loan loss provision + Write off - Recovery) par filiale et par mois, avec comparaison Actual vs Budget et analyse du taux de réalisation budgétaire.",
+        "en": "Cost of risk YTD dashboard. Synthetic view of Net LLP (Loan loss provision + Write off - Recovery) by subsidiary and by month, with Actual vs Budget comparison and budget achievement rate analysis."
       },
       "screenshot": "Assets/Images/llp/llp-dashboard.png"
     },
@@ -32,8 +32,8 @@
       "id": "coverage-ratio-par",
       "name": { "fr": "Coverage ratio PAR 30 || PAR 90", "en": "Coverage ratio PAR 30 || PAR 90" },
       "description": {
-        "fr": "Analyse des ratios de couverture PAR 30 et PAR 90 par pays : rapport entre la réserve pour pertes (LL Reserve) et l'encours en retard, pour évaluer l'adéquation des provisions.",
-        "en": "Analysis of PAR 30 and PAR 90 coverage ratios by country: ratio of the loss reserve (LL Reserve) to the overdue outstanding, to assess the adequacy of provisions."
+        "fr": "Évolution mensuelle des ratios de couverture PAR 30 et PAR 90 au niveau groupe. Pour chaque indicateur, affiche le volume PAR, la LL Reserve et le ratio de couverture correspondant sur l'axe secondaire.",
+        "en": "Monthly evolution of PAR 30 and PAR 90 coverage ratios at group level. For each indicator, displays the PAR volume, the LL Reserve and the corresponding coverage ratio on the secondary axis."
       },
       "screenshot": "Assets/Images/llp/coverage-ratio-par.png"
     },
@@ -41,8 +41,8 @@
       "id": "cost-of-risk-vol",
       "name": { "fr": "Cost of Risk Vol", "en": "Cost of Risk Vol" },
       "description": {
-        "fr": "Évolution du coût du risque en volume (en millions d'euros) sur l'année courante, cumulé YTD, comparé aux années N-1, N-2, N-3 et au budget.",
-        "en": "Evolution of the cost of risk in volume (in millions of euros) over the current year, cumulated YTD, compared to years Y-1, Y-2, Y-3 and budget."
+        "fr": "Comparaison du coût du crédit YTD par filiale sur plusieurs années (2023, 2024, 2025, Actual, Budget), regroupées par zone géographique (WAEMU et Remaining Africa).",
+        "en": "Comparison of YTD cost of credit risk by subsidiary across multiple years (2023, 2024, 2025, Actual, Budget), grouped by geographic zone (WAEMU and Remaining Africa)."
       },
       "screenshot": "Assets/Images/llp/cost-of-risk-vol.png"
     },
@@ -50,8 +50,8 @@
       "id": "component-cost-of-risk",
       "name": { "fr": "Component Cost of Risk", "en": "Component Cost of Risk" },
       "description": {
-        "fr": "Décomposition du coût du risque par composante : provisions (Loan Loss Provision), radiations (Write-Off) et recouvrements, permettant d'identifier la contribution de chaque élément au coût global.",
-        "en": "Breakdown of the cost of risk by component: provisions (Loan Loss Provision), write-offs and recoveries, enabling identification of each element's contribution to the overall cost."
+        "fr": "Évolution mensuelle des quatre composantes du coût du risque — Loan loss provision, Write off, Recovery et Cost of Risk (Net LLP) — chacune comparée à son budget, avec filtre par filiale via les drapeaux pays.",
+        "en": "Monthly evolution of the four cost of risk components — Loan loss provision, Write off, Recovery and Cost of Risk (Net LLP) — each compared to its budget, with subsidiary filter via country flags."
       },
       "screenshot": "Assets/Images/llp/component-cost-of-risk.png"
     },
@@ -59,8 +59,8 @@
       "id": "financial-risk-ratio-trend",
       "name": { "fr": "Financial Risk Ratio Trend", "en": "Financial Risk Ratio Trend" },
       "description": {
-        "fr": "Tendance des ratios de risque financier : NPL Ratio, Loan Loss Coverage Ratio (LLCR) et Provisioning Ratio, pour évaluer la solidité de la politique de provisionnement dans le temps.",
-        "en": "Trend of financial risk ratios: NPL Ratio, Loan Loss Coverage Ratio (LLCR) and Provisioning Ratio, to assess the robustness of the provisioning policy over time."
+        "fr": "Tableau synthétique des indicateurs de risque financier au mois sélectionné, présentant pour chaque filiale les volumes (NPL, GLP, LL Reserve, LLP expense, Net Charge-Offs) et les ratios associés (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio FIN et T24).",
+        "en": "Synthetic table of financial risk indicators for the selected month, showing for each subsidiary the volumes (NPL, GLP, LL Reserve, LLP expense, Net Charge-Offs) and associated ratios (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio FIN and T24)."
       },
       "screenshot": "Assets/Images/llp/financial-risk-ratio-trend.png"
     },
@@ -68,8 +68,8 @@
       "id": "nco-ratio",
       "name": { "fr": "Net Charge-Off (NCO) Ratio", "en": "Net Charge-Off (NCO) Ratio" },
       "description": {
-        "fr": "Ratio net de radiation (NCO) calculé comme les radiations nettes de recouvrements rapportées au GLP. Indicateur clé de la perte définitive nette subie par le portefeuille.",
-        "en": "Net Charge-Off (NCO) ratio calculated as write-offs net of recoveries relative to GLP. Key indicator of the net permanent loss borne by the portfolio."
+        "fr": "Évolution mensuelle de quatre ratios de risque financier — NPL Ratio, Loan Loss Coverage Ratio (LLCR), Provisioning Ratio et Net Charge-Off Ratio T24 — comparés à leur budget respectif, avec filtre par filiale via les drapeaux pays.",
+        "en": "Monthly evolution of four financial risk ratios — NPL Ratio, Loan Loss Coverage Ratio (LLCR), Provisioning Ratio and Net Charge-Off Ratio T24 — compared to their respective budgets, with subsidiary filter via country flags."
       },
       "screenshot": "Assets/Images/llp/nco-ratio.png"
     },
@@ -77,8 +77,8 @@
       "id": "llp-estimated",
       "name": { "fr": "LLP estimated", "en": "LLP estimated" },
       "description": {
-        "fr": "Estimation prospective du LLP sur la base de l'encours courant et des taux de provision par tranche PAR, issus de la table de mapping. Permet d'anticiper les besoins de provisionnement futurs.",
-        "en": "Forward-looking LLP estimate based on current outstanding and provision rates by PAR bucket from the mapping table. Enables anticipation of future provisioning needs."
+        "fr": "Estimation du LLP théorique par application des taux de provision IFRS sur le GLP courant et précédent, ventilé par tranche PAR (PAR Scope 2) et par filiale. Permet de calculer la LLP expense estimée et de la comparer aux composantes réelles du coût du risque.",
+        "en": "LLP theoretical estimate by applying IFRS provision rates to current and previous GLP, broken down by PAR bucket (PAR Scope 2) and subsidiary. Enables calculation of the estimated LLP expense and comparison with actual cost of risk components."
       },
       "screenshot": "Assets/Images/llp/llp-estimated.png"
     }
