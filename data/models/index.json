@@ -58,7 +58,7 @@
       "categories": ["portfolio", "par", "wof", "recovery"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/6b875adb-ee86-4b9a-a154-5b76d7e86cff/9459b7c8547a5e9d598a?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "atypical",
