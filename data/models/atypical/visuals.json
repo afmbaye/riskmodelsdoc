@@ -5,8 +5,8 @@
       "id": "atypical-dashboard",
       "name": { "fr": "Atypical Dashboard", "en": "Atypical Dashboard" },
       "description": {
-        "fr": "Tableau de bord principal des variables atypiques. Pour le mois de reporting sélectionné, affiche pour chaque variable atypique : le montant décaissé (EUR & LC), son poids dans le décaissement total, le GLP (EUR & LC), son poids dans le GLP total, le nombre de contrats, le volume PAR 30 et le taux PAR 30+.",
-        "en": "Main atypical variable dashboard. For the selected reporting month, displays for each atypical variable: disbursed amount (EUR & LC), its weight in total disbursement, GLP (EUR & LC), its weight in total GLP, number of contracts, PAR 30 volume and PAR 30+ rate."
+        "fr": "Tableau de bord principal des variables atypiques. Pour le mois de reporting sélectionné, affiche pour chaque variable atypique ses indicateurs clés : montant décaissé et poids dans le décaissement total, GLP et poids dans le GLP total, nombre de contrats, volume PAR 30 et taux PAR 30+. Les variables sont regroupées par catégorie (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP). Un panneau de KPIs synthétiques (PAR 0+ %, PAR 30+ %, PAR 90+ %, Total GLP, Total Disb, # Contrats, # Décaissements) s'affiche sur la droite pour l'ensemble du portefeuille filtré.",
+        "en": "Main atypical variable dashboard. For the selected reporting month, displays for each atypical variable its key indicators: disbursed amount and weight in total disbursement, GLP and weight in total GLP, number of contracts, PAR 30 volume and PAR 30+ rate. Variables are grouped by category (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP). A summary KPI panel (PAR 0+ %, PAR 30+ %, PAR 90+ %, Total GLP, Total Disb, # Contracts, # Disbursements) is displayed on the right for the entire filtered portfolio."
       },
       "screenshot": "Assets/Images/atypical/atypical-dashboard.png",
       "kpis": [
@@ -19,18 +19,25 @@
         "par-30-volume",
         "atypical-par-30-pct"
       ],
-      "filters": ["Reporting date", "Atypical Category", "Subsidiary", "Segment"],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Sélectionner le mois de reporting", "en": "Select the reporting month" } },
+        { "name": "Category", "description": { "fr": "Filtrer par catégorie atypique (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP)", "en": "Filter by atypical category (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP)" } },
+        { "name": "Branch", "description": { "fr": "Filtrer par agence", "en": "Filter by branch" } },
+        { "name": "Segment", "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" } },
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page (BBBF, BBCI, BBDC, BBMG, BBML, BBNG, BBSN)", "en": "Select the subsidiary via the buttons at the top of the page (BBBF, BBCI, BBDC, BBMG, BBML, BBNG, BBSN)" } },
+        { "name": "EUR / LC", "description": { "fr": "Basculer entre les montants en euros (EUR) et en devise locale (LC)", "en": "Toggle between amounts in euros (EUR) and local currency (LC)" } }
+      ],
       "howToRead": {
-        "fr": "Lire le tableau ligne par ligne : chaque ligne est une variable atypique. Comparer le % PAR 30 de chaque variable au PAR 30 global (coloré en rouge si supérieur). Trier par GLP pour identifier les variables les plus matérielles, puis par % PAR 30 pour celles les plus risquées.",
-        "en": "Read the table row by row: each row is an atypical variable. Compare each variable's PAR 30% to the overall PAR 30 (colored red if higher). Sort by GLP to identify the most material variables, then by PAR 30% for the riskiest ones."
+        "fr": "Le tableau regroupe les variables en 6 catégories (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP). Chaque ligne est une variable atypique avec ses métriques de décaissement, GLP, nombre de contrats et qualité de portefeuille. La colonne PAR 30+ % est mise en couleur pour signaler les variables dont le taux dépasse le PAR 30 global. Les KPI cards à droite donnent les totaux du portefeuille filtré. Utilisez le toggle EUR/LC pour basculer la devise d'affichage.",
+        "en": "The table groups variables into 6 categories (Installment Late, Renewal Loans, Delay, T24 Variables, Restructured Variables, Changed GP). Each row is an atypical variable with its disbursement, GLP, contract count and portfolio quality metrics. The PAR 30+ % column is color-coded to flag variables whose rate exceeds the overall PAR 30. The KPI cards on the right show totals for the filtered portfolio. Use the EUR/LC toggle to switch the display currency."
       }
     },
     {
       "id": "atypical-trend",
       "name": { "fr": "Atypical trend", "en": "Atypical trend" },
       "description": {
-        "fr": "Page de tendance pour une variable atypique sélectionnée. Affiche 4 graphiques en courbe + histogramme groupé : (1) Décaissement atypique vs. % sur décaissement total, (2) Nombre de contrats atypiques vs. % sur total, (3) GLP atypique vs. % sur GLP total, (4) GLP atypique + PAR 30+ % de la variable vs. PAR 30+ % global — les deux derniers sur axe Y secondaire.",
-        "en": "Trend page for a selected atypical variable. Displays 4 line + grouped bar charts: (1) Atypical disbursement vs. % of total disbursement, (2) Atypical contract count vs. % of total, (3) Atypical GLP vs. % of total GLP, (4) Atypical GLP + variable PAR 30+% vs. overall PAR 30+% — the last two on secondary Y axis."
+        "fr": "Page de tendance mensuelle pour une variable atypique sélectionnée. Affiche 4 graphiques combinant barres (volume absolu, axe gauche) et courbe (part en % du total, axe droit) : Décaissement, Nombre de contrats, GLP et PAR 30. Le titre de chaque graphique reprend le nom de la variable sélectionnée.",
+        "en": "Monthly trend page for a selected atypical variable. Displays 4 charts combining bars (absolute volume, left axis) and a line (share as % of total, right axis): Disbursement, Number of contracts, GLP and PAR 30. Each chart title includes the name of the selected variable."
       },
       "screenshot": "Assets/Images/atypical/atypical-trend.png",
       "kpis": [
@@ -42,10 +49,16 @@
         "atypical-nb-contracts",
         "atypical-par-30-pct"
       ],
-      "filters": ["Atypical Category", "Branch", "Variables"],
+      "filters": [
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page", "en": "Select the subsidiary via the buttons at the top of the page" } },
+        { "name": "EUR / LC", "description": { "fr": "Basculer entre euros et devise locale", "en": "Toggle between euros and local currency" } },
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Category", "description": { "fr": "Filtrer par catégorie atypique", "en": "Filter by atypical category" } },
+        { "name": "Variables", "description": { "fr": "Sélectionner la variable atypique à analyser — met à jour le titre et les données des 4 graphiques", "en": "Select the atypical variable to analyze — updates the title and data of all 4 charts" } }
+      ],
       "howToRead": {
-        "fr": "Sélectionner une variable dans le filtre Variables pour charger les 4 graphiques de tendance. Le graphique PAR 30 (4ème) est le plus critique : une tendance PAR 30+ de la variable au-dessus de la courbe PAR 30+ global indique que cette variable est un facteur aggravant du risque portefeuille.",
-        "en": "Select a variable in the Variables filter to load the 4 trend charts. The PAR 30 chart (4th) is the most critical: a variable PAR 30+ trend above the overall PAR 30+ curve indicates this variable is an aggravating factor for portfolio risk."
+        "fr": "Sélectionner une variable dans le filtre Variables : le nom de la variable s'affiche en titre de chacun des 4 graphiques. Pour les 3 premiers graphiques (Disbursement, # of Contracts, GLP), les barres représentent le volume absolu de la variable (axe gauche) et la courbe sa part dans le total portefeuille en % (axe droit). Le 4ème graphique (PAR 30) présente deux courbes : le PAR 30+ % de la variable et le PAR 30+ % global du portefeuille, permettant de comparer le niveau de risque de la variable à celui de l'ensemble du portefeuille.",
+        "en": "Select a variable in the Variables filter: the variable name appears as the title of each of the 4 charts. For the first 3 charts (Disbursement, # of Contracts, GLP), bars represent the variable's absolute volume (left axis) and the line its share of the total portfolio as a % (right axis). The 4th chart (PAR 30) shows two lines: the variable's PAR 30+ % and the overall portfolio PAR 30+ %, allowing comparison of the variable's risk level against the full portfolio."
       }
     }
   ]
