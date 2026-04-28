@@ -75,45 +75,52 @@
       "id": "financial-risk-ratio-trend",
       "name": { "fr": "Financial Risk Ratio Trend", "en": "Financial Risk Ratio Trend" },
       "description": {
-        "fr": "Tendance des ratios de risque financier : NPL Ratio (PAR 90/GLP), Loan Loss Coverage Ratio (LLCR = LL Reserve/PAR 90) et Provisioning Ratio (LLP/GLP). Vue comparative par filiale et dans le temps.",
-        "en": "Trend of financial risk ratios: NPL Ratio (PAR 90/GLP), Loan Loss Coverage Ratio (LLCR = LL Reserve/PAR 90) and Provisioning Ratio (LLP/GLP). Comparative view by subsidiary and over time."
+        "fr": "Tableau synthétique des indicateurs de risque financier au mois sélectionné, présentant pour chaque filiale les volumes (NPL, GLP, LL Reserve, LLP expense, Net Charge-Offs) et les ratios associés (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio FIN et T24).",
+        "en": "Synthetic table of financial risk indicators for the selected month, showing for each subsidiary the volumes (NPL, GLP, LL Reserve, LLP expense, Net Charge-Offs) and associated ratios (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio FIN and T24)."
       },
       "screenshot": "Assets/Images/llp/financial-risk-ratio-trend.png",
       "kpis": ["coverage-ratio-par-30", "coverage-ratio-par-90", "ll-reserve-bsa0220"],
-      "filters": ["Filiale", "Mois"],
+      "filters": [
+        { "name": "Reporting Months", "description": { "fr": "Sélectionner un mois de référence (affichage ponctuel, non cumulé)", "en": "Select a reference month (point-in-time view, not cumulative)" } }
+      ],
       "howToRead": {
-        "fr": "Surveiller le LLCR : un ratio en baisse indique que la réserve croît moins vite que le PAR 90, signal de sous-provisionnement relatif. Le Provisioning Ratio mesure l'effort de provisionnement rapporté au GLP.",
-        "en": "Monitor the LLCR: a declining ratio indicates the reserve is growing slower than PAR 90, a signal of relative under-provisioning. The Provisioning Ratio measures the provisioning effort relative to GLP."
+        "fr": "Le tableau croise les indicateurs en lignes et les filiales en colonnes, avec une colonne Baobab (total groupe) à droite. Les lignes en fond rose sont les ratios clés (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio), les lignes blanches sont les volumes associés. La ligne Net WO FIN-T24 mesure l'écart entre les radiations comptabilisées par la Finance et celles issues du système T24.",
+        "en": "The table crosses indicators in rows and subsidiaries in columns, with a Baobab (group total) column on the right. Pink-background rows are the key ratios (NPL Ratio, LLCR, Provisioning Ratio, NCO Ratio), white rows are the associated volumes. The Net WO FIN-T24 row measures the gap between write-offs booked by Finance and those from the T24 system."
       }
     },
     {
       "id": "nco-ratio",
       "name": { "fr": "Net Charge-Off (NCO) Ratio", "en": "Net Charge-Off (NCO) Ratio" },
       "description": {
-        "fr": "Ratio de radiation nette (NCO) = (Write-Off - Recouvrements) / GLP. Mesure la perte définitive nette subie par le portefeuille, après déduction des sommes récupérées sur les créances radiées.",
-        "en": "Net Charge-Off (NCO) ratio = (Write-Off - Recoveries) / GLP. Measures the net permanent loss borne by the portfolio, after deducting amounts recovered on written-off receivables."
+        "fr": "Évolution mensuelle de quatre ratios de risque financier — NPL Ratio, Loan Loss Coverage Ratio (LLCR), Provisioning Ratio et Net Charge-Off Ratio T24 — comparés à leur budget respectif, avec filtre par filiale via les drapeaux pays.",
+        "en": "Monthly evolution of four financial risk ratios — NPL Ratio, Loan Loss Coverage Ratio (LLCR), Provisioning Ratio and Net Charge-Off Ratio T24 — compared to their respective budgets, with subsidiary filter via country flags."
       },
       "screenshot": "Assets/Images/llp/nco-ratio.png",
       "kpis": ["write-off-eur", "recovery-from-loans-written-off-eur"],
-      "filters": ["Filiale", "Année", "Mois"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Sélectionner la filiale via les drapeaux pays en haut de page", "en": "Select the subsidiary via the country flags at the top of the page" } },
+        { "name": "Reporting Months", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } }
+      ],
       "howToRead": {
-        "fr": "Un NCO Ratio élevé indique que les radiations nettes pèsent significativement sur le portefeuille. Comparer les données Finance (FIN) et T24 pour identifier les écarts entre les deux sources de radiations.",
-        "en": "A high NCO Ratio indicates that net write-offs weigh significantly on the portfolio. Compare Finance (FIN) and T24 data to identify discrepancies between the two write-off sources."
+        "fr": "L'onglet présente 4 graphiques en barres mensuelles avec leur ligne budget : (1) NPL Ratio — part des encours non performants sur le GLP ; (2) LLCR — ratio de couverture des NPL par la LL Reserve, la ligne pointillée à 100% étant le seuil budgétaire ; (3) Provisioning Ratio — effort de provisionnement rapporté au GLP ; (4) Net Charge-Off (NCO) Ratio T24 — radiations nettes issues du système T24 rapportées au GLP. Utilisez le sélecteur de drapeaux pour analyser une filiale en particulier.",
+        "en": "The tab presents 4 monthly bar charts with their budget line: (1) NPL Ratio — share of non-performing outstanding in GLP; (2) LLCR — NPL coverage ratio by LL Reserve, with a dotted line at 100% as the budget threshold; (3) Provisioning Ratio — provisioning effort relative to GLP; (4) Net Charge-Off (NCO) Ratio T24 — net write-offs from the T24 system relative to GLP. Use the flags selector to analyze a specific subsidiary."
       }
     },
     {
       "id": "llp-estimated",
       "name": { "fr": "LLP estimated", "en": "LLP estimated" },
       "description": {
-        "fr": "Estimation prospective du LLP sur la base de l'encours courant (MAIN LOAN) et des taux de provision IFRS par tranche PAR (Mapping_Provision rates). Permet d'anticiper les besoins de provisionnement futurs par filiale.",
-        "en": "Forward-looking LLP estimate based on current outstanding (MAIN LOAN) and IFRS provision rates by PAR bucket (Mapping_Provision rates). Enables anticipation of future provisioning needs by subsidiary."
+        "fr": "Estimation du LLP théorique par application des taux de provision IFRS sur le GLP courant et précédent, ventilé par tranche PAR (PAR Scope 2) et par filiale. Permet de calculer la LLP expense estimée et de la comparer aux composantes réelles du coût du risque.",
+        "en": "LLP theoretical estimate by applying IFRS provision rates to current and previous GLP, broken down by PAR bucket (PAR Scope 2) and subsidiary. Enables calculation of the estimated LLP expense and comparison with actual cost of risk components."
       },
       "screenshot": "Assets/Images/llp/llp-estimated.png",
       "kpis": ["ll-reserve-bsa0220", "loan-loss-provision-eur"],
-      "filters": ["Filiale", "Tranche PAR"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Sélectionner la filiale via les drapeaux pays en haut de page", "en": "Select the subsidiary via the country flags at the top of the page" } }
+      ],
       "howToRead": {
-        "fr": "Lire le LLP estimé par filiale : comparer au LLP comptabilisé (LL Reserve BSA0220) pour identifier les filiales sous-provisionnées. L'écart entre LLP estimé et réserve actuelle indique le besoin de dotation complémentaire.",
-        "en": "Read estimated LLP by subsidiary: compare to the booked LLP (LL Reserve BSA0220) to identify under-provisioned subsidiaries. The gap between estimated LLP and current reserve indicates the additional provision requirement."
+        "fr": "L'onglet présente trois tableaux : (1) PAR Scope 2 — décomposition par tranche PAR avec GLP précédent, GLP courant, taux de provision IFRS appliqué, montant de provision précédent et courant, et LLP expense résultante (variation entre les deux) ; (2) LLP expense par filiale — ligne unique de synthèse ; (3) Récapitulatif par filiale — LLP expense, Write off, Recovery et Cost of Risk estimé. Utilisez le sélecteur de drapeaux pour isoler une filiale.",
+        "en": "The tab presents three tables: (1) PAR Scope 2 — breakdown by PAR bucket with previous GLP, current GLP, applied IFRS provision rate, previous and current provision amounts, and resulting LLP expense (variation between the two); (2) LLP expense by subsidiary — single summary row; (3) Subsidiary recap — LLP expense, Write off, Recovery and estimated Cost of Risk. Use the flags selector to isolate a subsidiary."
       }
     }
   ]
