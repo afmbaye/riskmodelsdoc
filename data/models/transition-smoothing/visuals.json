@@ -36,17 +36,21 @@
       "name": { "fr": "Roll rate trend", "en": "Roll rate trend" },
       "screenshot": "Assets/Images/transition-smoothing/roll-rate-trend.png",
       "objective": {
-        "fr": "Suivre l'\u00e9volution mensuelle des taux de transition entre cat\u00e9gories PAR pour identifier les tendances structurelles de d\u00e9gradation et anticiper les p\u00e9riodes \u00e0 risque.",
-        "en": "Track monthly evolution of transition rates between PAR categories to identify structural deterioration trends and anticipate at-risk periods."
+        "fr": "Suivre l'\u00e9volution mensuelle des taux de glissement (roll rates) entre tranches de PAR cons\u00e9cutives, en pourcentage et en volume EUR, pour d\u00e9tecter les tendances de d\u00e9gradation du portefeuille dans le temps.",
+        "en": "Track the monthly evolution of roll rates between consecutive PAR buckets, in percentage and EUR volume, to detect portfolio deterioration trends over time."
       },
       "kpisUsed": ["Total LP previous month EUR", "Total LP current month EUR", "% of LP previous month"],
       "filters": [
-        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la plage de mois \u00e0 analyser", "en": "Select the month range to analyze" } }
+        { "name": "Reporting Months", "description": { "fr": "Plage de mois \u00e0 analyser", "en": "Month range to analyze" } },
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "DAO Name", "description": { "fr": "Filtrer par DAO", "en": "Filter by DAO" } },
+        { "name": "Branch", "description": { "fr": "Filtrer par agence", "en": "Filter by branch" } },
+        { "name": "New Segment", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } },
+        { "name": "Comit\u00e9 Technique", "description": { "fr": "Filtrer les dossiers suivis en comit\u00e9 technique", "en": "Filter contracts monitored in technical committee" } }
       ],
       "howToRead": {
-        "fr": "Un taux de glissement (roll rate) en hausse d'un mois \u00e0 l'autre sur une tranche donn\u00e9e (ex. PAR 30-60 \u2192 PAR 60-90) signale une d\u00e9gradation syst\u00e9mique qui n\u00e9cessite une action imm\u00e9diate. Un taux stable ou en baisse t\u00e9moigne de l'efficacit\u00e9 des plans de recouvrement mis en place.",
-        "en": "A roll rate increasing month over month for a given bucket (e.g. PAR 30-60 \u2192 PAR 60-90) signals systemic deterioration requiring immediate action. A stable or declining rate demonstrates the effectiveness of collection plans in place."
+        "fr": "L'onglet pr\u00e9sente deux graphiques en courbes : 'Roll rate %' (taux de glissement entre tranches cons\u00e9cutives) et 'Roll rate Volume' (volume EUR correspondant). Chaque courbe repr\u00e9sente une transition sp\u00e9cifique (ex. 1-30 \u2192 31-60, 31-60 \u2192 61-90\u2026). La courbe pointill\u00e9e rose repr\u00e9sente Healthy \u2192 1-30, le premier signal d'entr\u00e9e en retard. Un roll rate en hausse sur plusieurs mois cons\u00e9cutifs signale une d\u00e9gradation structurelle ; une baisse t\u00e9moigne de l'efficacit\u00e9 des plans de recouvrement.",
+        "en": "The tab shows two line charts: 'Roll rate %' (transition rate between consecutive buckets) and 'Roll rate Volume' (corresponding EUR volume). Each line represents a specific transition (e.g. 1-30 \u2192 31-60, 31-60 \u2192 61-90\u2026). The dotted pink line represents Healthy \u2192 1-30, the first signal of overdue entry. A roll rate increasing over several consecutive months signals structural deterioration; a decline indicates the effectiveness of collection plans."
       },
       "colorCoding": null
     },
@@ -55,20 +59,25 @@
       "name": { "fr": "Trend Smoothing", "en": "Trend Smoothing" },
       "screenshot": "Assets/Images/transition-smoothing/trend-smoothing.png",
       "objective": {
-        "fr": "Analyser la tendance des d\u00e9caissements mensuels apr\u00e8s lissage, en \u00e9liminant les pics ponctuels li\u00e9s aux effets de calendrier, afin de distinguer la croissance structurelle du portefeuille des variations conjoncturelles.",
-        "en": "Analyze the trend of monthly disbursements after smoothing, eliminating one-off peaks linked to calendar effects, to distinguish structural portfolio growth from cyclical variations."
+        "fr": "Analyser la r\u00e9partition des d\u00e9caissements mensuels selon le nombre de jours de retard au moment du d\u00e9caissement, afin de d\u00e9tecter une concentration en fin de mois et d'anticiper les futurs passages en PAR.",
+        "en": "Analyze the distribution of monthly disbursements by late days at disbursement date, to detect end-of-month concentration and anticipate future PAR entries."
       },
-      "kpisUsed": ["Total LP current month EUR", "Total LP previous month EUR"],
+      "kpisUsed": ["Total LP current month EUR", "Nombre de ContractNumber"],
       "filters": [
-        { "name": "Company", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "P\u00e9riode", "description": { "fr": "S\u00e9lectionner la fen\u00eatre de lissage", "en": "Select the smoothing window" } },
-        { "name": "New Segment OPE Group", "description": { "fr": "Filtrer par segment pour comparer les tendances de d\u00e9caissement", "en": "Filter by segment to compare disbursement trends" } }
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Branch", "description": { "fr": "Filtrer par agence", "en": "Filter by branch" } },
+        { "name": "DAO Name", "description": { "fr": "Filtrer par DAO", "en": "Filter by DAO" } },
+        { "name": "New Segment", "description": { "fr": "Filtrer par segment client (Nano, VSE, SE, SME/SME+)", "en": "Filter by customer segment (Nano, VSE, SE, SME/SME+)" } },
+        { "name": "Comit\u00e9 Technique", "description": { "fr": "Filtrer les dossiers suivis en comit\u00e9 technique", "en": "Filter contracts monitored in technical committee" } }
       ],
       "howToRead": {
-        "fr": "La courbe liss\u00e9e att\u00e9nue les \u00e0-coups mensuels et met en \u00e9vidence la tendance de fond des d\u00e9caissements. Un \u00e9cart important entre la courbe brute et la courbe liss\u00e9e indique un mois atypique (campagne de d\u00e9caissement, fin d'exercice). Utilisez cette vue pour valider les objectifs de d\u00e9caissement et d\u00e9tecter des d\u00e9viations par rapport \u00e0 la trajectoire pr\u00e9vue.",
-        "en": "The smoothed curve attenuates monthly variations and highlights the underlying disbursement trend. A large gap between the raw and smoothed curves indicates an atypical month (disbursement campaign, year-end). Use this view to validate disbursement targets and detect deviations from the planned trajectory."
+        "fr": "L'onglet pr\u00e9sente trois tableaux selon le seuil de lissage (7e, 10e et 15e jour du mois). Chaque tableau r\u00e9partit les contrats d\u00e9caiss\u00e9s en tranches de 'late days' (jours \u00e9coul\u00e9s depuis le d\u00e9but du mois) et affiche leur % pour chaque mois. Un % \u00e9lev\u00e9 sur les derni\u00e8res tranches (ex. Sup \u00e0 25 jours) indique que les d\u00e9caissements sont concentr\u00e9s en fin de mois, ce qui augmente m\u00e9caniquement les premiers retards. Suivez l'\u00e9volution de ces % d'un mois \u00e0 l'autre pour d\u00e9tecter une d\u00e9gradation structurelle du rythme de d\u00e9caissement.",
+        "en": "The tab presents three tables based on the smoothing threshold (7th, 10th and 15th day of the month). Each table distributes disbursed contracts into late-day buckets and shows their % for each month. A high % in the last buckets (e.g. more than 25 days) indicates disbursements are concentrated at month-end, which mechanically increases early overdue entries. Track the evolution of these % month over month to detect structural deterioration in the disbursement rhythm."
       },
-      "colorCoding": null
+      "colorCoding": {
+        "fr": "Les cellules sont color\u00e9es du vert au rouge selon la tranche : vert pour les d\u00e9caissements pr\u00e9coces (premiers jours du mois), orange et rouge pour les d\u00e9caissements tardifs. Un tableau domin\u00e9 par le rouge signale un mois de d\u00e9caissements concentr\u00e9s en fin de p\u00e9riode.",
+        "en": "Cells are colored from green to red by bucket: green for early disbursements (first days of the month), orange and red for late disbursements. A table dominated by red signals a month with disbursements heavily concentrated at end of period."
+      }
     },
     {
       "id": "closed-category-subsidiaries",
