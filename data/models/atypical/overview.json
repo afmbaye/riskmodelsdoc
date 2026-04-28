@@ -1,7 +1,7 @@
 {
   "modelId": "atypical",
   "name": { "fr": "Atypical Loans", "en": "Atypical Loans" },
-  "lastUpdate": "2026-03-01",
+  "lastUpdate": "Avril 2026",
   "stats": [
     { "icon": "layers", "value": 2, "label": { "fr": "Onglets", "en": "Tabs" } },
     { "icon": "bar-chart-2", "value": 8, "label": { "fr": "KPIs", "en": "KPIs" } },

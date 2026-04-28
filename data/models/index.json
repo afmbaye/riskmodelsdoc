@@ -16,10 +16,10 @@
       "id": "vintage-ld-wo",
       "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
       "description": {
-        "fr": "Analyse des vintages, late days et write-offs du portefeuille.",
+        "fr": "Analyse des cohortes de décaissement et de radiations",
         "en": "Vintage analysis, late days and portfolio write-offs."
       },
-      "categories": ["portfolio", "collections", "wof"],
+      "categories": ["portfolio", "recovery", "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/43256694-6a2d-4a0b-9e2d-319a78dab864/d3de0cd00c79bd4c72c4?experience=fabric-developer",
       "isActive": false
@@ -28,13 +28,13 @@
       "id": "vintage-recovery",
       "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
       "description": {
-        "fr": "Suivi mensuel des montants radiés et des recouvrements réalisés, par filiale, pays et segment client.",
-        "en": "Monthly tracking of written-off amounts and recoveries achieved, by subsidiary, country and customer segment."
+        "fr": "Suivi mensuel des montants radiés et des recouvrements réalisés.",
+        "en": "Monthly tracking of written-off amounts and recoveries achieved."
       },
-      "categories": ["portfolio", "collections"],
+      "categories": ["recovery",  "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/0134f2ce-ec66-4f57-85e8-568025439b98/b9c32449a486a32202d3?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "transition-smoothing",
@@ -55,7 +55,7 @@
         "fr": "Tableau de bord mensuel des 20 plus grandes concentrations du portefeuille : décaissements, encours bruts, retards PAR 0/30/90, radiations et contrats sans paiement depuis le décaissement.",
         "en": "Monthly dashboard of the 20 largest portfolio concentrations: disbursements, gross loan portfolio, PAR 0/30/90 overdue, write-offs and contracts with no payment since disbursement."
       },
-      "categories": ["portfolio", "par", "wof", "collections"],
+      "categories": ["portfolio", "par", "wof", "recovery"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/6b875adb-ee86-4b9a-a154-5b76d7e86cff/9459b7c8547a5e9d598a?experience=fabric-developer",
       "isActive": false

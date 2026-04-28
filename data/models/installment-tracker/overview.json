@@ -5,7 +5,7 @@
     "fr": "Suivi quotidien de l'état de règlement des échéances au niveau du groupe, par filiale, agence, région et gestionnaire de portefeuille. Ce modèle permet d'identifier rapidement les zones de risque et d'optimiser les actions de recouvrement.",
     "en": "Daily monitoring of installment payment status at group level, by subsidiary, branch, region and portfolio manager. This model helps quickly identify risk areas and optimize collection actions."
   },
-  "lastUpdate": "2025-02-07",
+  "lastUpdate": "Avril 2026",
   "stats": [
     { "icon": "layers", "value": 9, "label": { "fr": "Onglets", "en": "Tabs" } },
     { "icon": "bar-chart-2", "value": 17, "label": { "fr": "KPIs", "en": "KPIs" } },

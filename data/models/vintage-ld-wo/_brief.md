@@ -8,7 +8,7 @@ Fichier .pbix ouvert     : Vintage LD & WO.pbix]
 Nom affiché              : Vintage LD & WO
 Dernière MàJ (YYYY-MM-DD): [ex: 2025-11-01]
 Fréquence                : Mensuelle
-Catégories               : portfolio | collections | disbursement | par | wof 
+Catégories               : portfolio | recovery | disbursement | par | wof 
 
 Description (1-2 phrases, ce que le modèle fait) :
 ...
@@ -69,7 +69,7 @@ Fichier .pbix ouvert     : Vintage Recovery.pbix
 Nom affiché              : Vintage Recovery
 Dernière MàJ (YYYY-MM-DD): 2025-10-03
 Fréquence                : Mensuelle
-Catégories               : portfolio, collections
+Catégories               : portfolio, recovery
 
 Description :
 Suivi mensuel des montants radiés (write-offs) et des recouvrements réalisés, par filiale,
