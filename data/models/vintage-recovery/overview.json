@@ -2,10 +2,10 @@
   "modelId": "vintage-recovery",
   "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
   "description": {
-    "fr": "Suivi mensuel des montants radiés (write-offs) et des recouvrements réalisés, par filiale, pays et segment client. Ce modèle permet d'analyser les performances de recouvrement sur les portefeuilles radiés et d'évaluer le taux de récupération des créances.",
-    "en": "Monthly tracking of written-off amounts and recoveries achieved, by subsidiary, country and customer segment. This model enables analysis of recovery performance on written-off portfolios and evaluation of receivables recovery rates."
+    "fr": "Suivi mensuel des cohortes de radiations et des recouvrements réalisés sur chacun de ces cohortes, par filiale, pays et segment. Ce modèle permet d'analyser les performances de recouvrement sur le portefeuille radié et d'évaluer le taux de récupération.",
+    "en": "Monthly tracking of written-off amounts and recoveries achieved, by subsidiary, country and segment. This model enables analysis of recovery performance on written-off portfolios and evaluation of receivables recovery rates."
   },
-  "lastUpdate": "2025-10-03",
+  "lastUpdate": "Avril 2026",
   "stats": [
     { "icon": "layers", "value": 2, "label": { "fr": "Onglets", "en": "Tabs" } },
     { "icon": "bar-chart-2", "value": 2, "label": { "fr": "KPIs", "en": "KPIs" } },
@@ -13,16 +13,16 @@
     { "icon": "database", "value": 1, "label": { "fr": "Source", "en": "Source" } }
   ],
   "useCase": {
-    "fr": "Utilisez ce modèle pour suivre mensuellement les recouvrements réalisés sur les créances radiées, identifier les filiales et segments avec les meilleurs taux de récupération, et piloter les actions de recouvrement post-radiation.",
-    "en": "Use this model to track monthly recoveries on written-off receivables, identify subsidiaries and segments with the best recovery rates, and manage post-write-off collection actions."
+    "fr": "Utilisez ce modèle pour suivre mensuellement les recouvrements réalisés sur les crédits radiées, et piloter les actions de recouvrement post-radiation.",
+    "en": "Use this model to track monthly recoveries on written-off credits, and manage post-write-off collection actions."
   },
   "tabs": [
     {
       "id": "recovery-amounts",
       "name": { "fr": "Recovery Amounts", "en": "Recovery Amounts" },
       "description": {
-        "fr": "Vue d'ensemble des montants recouvrés et radiés par période, filiale et segment client.",
-        "en": "Overview of recovered and written-off amounts by period, subsidiary and customer segment."
+        "fr": "Vue d'ensemble des montants radiés et recouvrés par chorte de radiation",
+        "en": "Overview of written-off and recovered amounts by write-off cohort"
       },
       "screenshot": "Assets/Images/vintage-recovery/recovery-amounts.png"
     },

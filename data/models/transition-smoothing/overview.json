@@ -5,7 +5,7 @@
     "fr": "Tableau de bord mensuel analysant les transitions de qualité du portefeuille entre deux périodes via une matrice de transition PAR, et le lissage des décaissements, pour détecter précocement les contrats en dégradation avant qu'ils n'atteignent le stade de radiation.",
     "en": "Monthly dashboard analyzing portfolio quality transitions between two periods via a PAR transition matrix, and disbursement smoothing, to early-detect contracts deteriorating before they reach write-off stage."
   },
-  "lastUpdate": "2026-03-01",
+  "lastUpdate": "Avril 2026",
   "stats": [
     { "icon": "layers", "value": 5, "label": { "fr": "Onglets", "en": "Tabs" } },
     { "icon": "bar-chart-2", "value": 7, "label": { "fr": "KPIs", "en": "KPIs" } },

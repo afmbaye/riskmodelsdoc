@@ -15,7 +15,7 @@ Fichier .pbix ouvert     : [nom exact, ex: Vintage LD & WO.pbix]
 Nom affiché              : [ex: Vintage LD & WO]
 Dernière MàJ (YYYY-MM-DD): [ex: 2025-11-01]
 Fréquence                : [Quotidienne | Mensuelle | Hebdomadaire]
-Catégories               : [choisir parmi : portfolio | savings | collaterals | collections | disbursement | glp | par | wof | atypical | provisioning | transition | smoothing]
+Catégories               : [choisir parmi : portfolio | savings | collaterals | recovery | disbursement | glp | par | wof | atypical | provisioning | transition | smoothing]
 
 Description (1-2 phrases, ce que le modèle fait) :
 ...
@@ -62,7 +62,7 @@ KPIs à documenter (noms exacts des mesures Power BI, exclure les "Somme de..." 
 | `portfolio` | Portfolio |
 | `savings` | Savings |
 | `collaterals` | Collaterals |
-| `collections` | Collections |
+| `recovery` | Recovery |
 | `disbursement` | Disbursement |
 | `glp` | GLP |
 | `par` | PAR |
@@ -81,7 +81,7 @@ Fichier .pbix ouvert     : Vintage Recovery.pbix
 Nom affiché              : Vintage Recovery
 Dernière MàJ (YYYY-MM-DD): 2025-10-03
 Fréquence                : Mensuelle
-Catégories               : portfolio, collections
+Catégories               : portfolio, recovery
 
 Description :
 Suivi mensuel des montants radiés (write-offs) et des recouvrements réalisés, par filiale,

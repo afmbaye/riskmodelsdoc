@@ -5,7 +5,7 @@
     "fr": "Tableau de bord mensuel identifiant les 20 plus grandes expositions du portefeuille sur six axes d'analyse : décaissements, encours bruts (GLP), risque PAR 0+, PAR 30+, PAR 90+, radiations (WOF) et absence de paiement depuis le décaissement. Chaque onglet offre un classement dynamique par client, contrat, agence ou gestionnaire de portefeuille.",
     "en": "Monthly dashboard identifying the 20 largest portfolio exposures across six analysis dimensions: disbursements, gross loan portfolio (GLP), PAR 0+, PAR 30+, PAR 90+ overdue risk, write-offs (WOF) and no payment since disbursement. Each tab provides a dynamic ranking by client, contract, branch or portfolio manager."
   },
-  "lastUpdate": "2026-03-02",
+  "lastUpdate": "Avril 2026",
   "stats": [
     { "icon": "layers", "value": 9, "label": { "fr": "Onglets", "en": "Tabs" } },
     { "icon": "bar-chart-2", "value": 16, "label": { "fr": "KPIs", "en": "KPIs" } },

@@ -19,8 +19,8 @@
       "icon": "shield"
     },
     {
-      "id": "collections",
-      "label": { "fr": "Recouvrement", "en": "Collections" },
+      "id": "recovery",
+      "label": { "fr": "Recouvrement", "en": "Recovery" },
       "color": "#EF4444",
       "icon": "phone-call"
     },
