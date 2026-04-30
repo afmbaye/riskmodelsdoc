@@ -97,6 +97,18 @@
       "isActive": false
     },
     {
+      "id": "operational-risk-appetite",
+      "name": { "fr": "Operational Risk Appetite", "en": "Operational Risk Appetite" },
+      "description": {
+        "fr": "Suivi mensuel des indicateurs de risque opérationnel (KRIs) par filiale, comparés aux seuils d'appétit au risque définis au niveau groupe.",
+        "en": "Monthly monitoring of operational risk indicators (KRIs) by subsidiary, compared to group-level risk appetite thresholds."
+      },
+      "categories": ["appetite", "risk-ope"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/45b89dbf-28b1-46c0-a2d0-7d9f7ad18dd2/f4aa74c0ea11a9a0cd7b?experience=fabric-developer",
+      "isActive": true
+    },
+    {
       "id": "maturity",
       "name": { "fr": "Maturity", "en": "Maturity" },
       "description": {

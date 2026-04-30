@@ -1,0 +1,85 @@
+{
+  "modelId": "operational-risk-appetite",
+  "visuals": [
+    {
+      "id": "synthese",
+      "name": { "fr": "Synthèse", "en": "Synthèse" },
+      "description": {
+        "fr": "Vue ponctuelle des 14 KRIs de risque opérationnel au mois sélectionné. Pour chaque indicateur, le tableau présente le seuil d'appétit au risque, la valeur du mois précédent, les valeurs par filiale (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) et le total groupe (Baobab). Le code couleur vert/rouge signale le respect ou le dépassement du seuil.",
+        "en": "Point-in-time view of the 14 operational risk KRIs for the selected month. For each indicator, the table presents the risk appetite threshold, the previous month value, values by subsidiary (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) and the group total (Baobab). Green/red color coding flags compliance or breach of the threshold."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/synthese.png",
+      "kpis": [
+        "avg-time-credit-decision", "customer-complaints", "confirmed-frauds",
+        "operational-losses-eur", "branch-cash-limit-breach", "customer-coverage-visits",
+        "unperformed-controls-rate", "late-permanent-control-recommendations",
+        "litigations-open", "policy-localisation", "disciplinary-sanctions",
+        "regulatory-fines", "late-audit-recommendations-rate", "top-10-deposits"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Sélectionner un mois de référence (vue ponctuelle)", "en": "Select a reference month (point-in-time view)" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau liste les 14 KRIs en lignes. La première colonne affiche le seuil d'appétit au risque défini au niveau groupe. La deuxième colonne affiche la valeur du mois précédent. Les colonnes suivantes présentent les valeurs de chaque filiale, puis la colonne Baobab (total groupe) à droite. Le code couleur vert indique que la valeur est dans le seuil ; rouge signale un dépassement. Comparez la valeur du mois en cours à la valeur du mois précédent pour détecter des dégradations récentes.",
+        "en": "The table lists the 14 KRIs in rows. The first column displays the group-level risk appetite threshold. The second column shows the previous month value. The following columns present each subsidiary's value, then the Baobab (group total) column on the right. Green color coding indicates the value is within the threshold; red flags a breach. Compare the current month value to the previous month to detect recent deteriorations."
+      },
+      "colorCoding": {
+        "fr": "Vert : la valeur respecte le seuil d'appétit au risque. Rouge : la valeur dépasse le seuil. La logique de dépassement dépend du KRI — pour certains indicateurs, c'est un dépassement à la hausse (ex. fraudes > 0), pour d'autres à la baisse (ex. Customer coverage visits < 10%).",
+        "en": "Green: the value respects the risk appetite threshold. Red: the value exceeds the threshold. The breach logic depends on the KRI — for some indicators it is an upward breach (e.g. frauds > 0), for others a downward breach (e.g. Customer coverage visits < 10%)."
+      }
+    },
+    {
+      "id": "trend-kpis",
+      "name": { "fr": "Trend KPIs", "en": "Trend KPIs" },
+      "description": {
+        "fr": "Évolution mensuelle des 14 KRIs en taux sur une plage de mois sélectionnable, avec les seuils de référence. Le même code couleur vert/rouge permet de visualiser les dépassements mois par mois. Filtrable par filiale via les boutons en haut de page.",
+        "en": "Monthly evolution of the 14 KRIs as rates over a selectable month range, with reference thresholds. The same green/red color coding allows visualization of breaches month by month. Filterable by subsidiary via the buttons at the top of the page."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/trend-kpis.png",
+      "kpis": [
+        "avg-time-credit-decision", "customer-complaints", "confirmed-frauds",
+        "operational-losses-eur", "branch-cash-limit-breach", "customer-coverage-visits",
+        "unperformed-controls-rate", "late-permanent-control-recommendations",
+        "litigations-open", "policy-localisation", "disciplinary-sanctions",
+        "regulatory-fines", "late-audit-recommendations-rate", "top-10-deposits"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria)", "en": "Select the subsidiary via the buttons at the top of the page (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria)" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau croise les 14 KRIs en lignes et les mois en colonnes. La première colonne affiche le seuil d'appétit au risque. Le code couleur vert/rouge s'applique cellule par cellule : chaque valeur mensuelle est comparée au seuil correspondant. Utilisez les boutons filiale en haut de page pour analyser une entité spécifique ; sans sélection, la vue affiche les valeurs groupe (Baobab).",
+        "en": "The table crosses the 14 KRIs in rows and months in columns. The first column shows the risk appetite threshold. The green/red color coding applies cell by cell: each monthly value is compared to the corresponding threshold. Use the subsidiary buttons at the top of the page to analyze a specific entity; without selection, the view displays group (Baobab) values."
+      },
+      "colorCoding": {
+        "fr": "Même logique que l'onglet Synthèse : vert si la valeur respecte le seuil, rouge si elle le dépasse. Le sens du dépassement (supérieur ou inférieur au seuil) dépend de la nature du KRI.",
+        "en": "Same logic as the Synthèse tab: green if the value respects the threshold, red if it breaches it. The direction of the breach (above or below the threshold) depends on the nature of the KRI."
+      }
+    },
+    {
+      "id": "general",
+      "name": { "fr": "General", "en": "General" },
+      "description": {
+        "fr": "Tableau étendu présentant un ensemble plus large de KPIs en valeurs absolues sur plusieurs mois. Inclut des indicateurs complémentaires non présents dans la Synthèse : nombre de demandes de crédit traitées, nombre total de clients, nombre de contrôles de second niveau, nombre de recommandations ouvertes, encours dépôts, etc. Filtrable par filiale et par plage de mois.",
+        "en": "Extended table presenting a broader set of KPIs in absolute values over multiple months. Includes additional indicators not in the Synthèse tab: number of credit applications processed, total number of customers, number of second-level controls, number of open recommendations, deposit outstanding, etc. Filterable by subsidiary and month range."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/general.png",
+      "kpis": [
+        "avg-time-credit-decision", "customer-complaints", "confirmed-frauds",
+        "operational-losses-eur", "branch-cash-limit-breach", "customer-coverage-visits",
+        "unperformed-controls-rate", "late-permanent-control-recommendations",
+        "litigations-open", "policy-localisation", "disciplinary-sanctions",
+        "regulatory-fines", "late-audit-recommendations-rate", "top-10-deposits"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page", "en": "Select the subsidiary via the buttons at the top of the page" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau présente un ensemble élargi de KPIs en valeurs absolues, organisés en lignes, avec les mois en colonnes. Contrairement aux onglets Synthèse et Trend KPIs, il n'y a pas de code couleur lié aux seuils : l'objectif est de fournir un contexte opérationnel complet (volumes, effectifs, encours). Utilisez les filtres de filiale et de plage de mois pour isoler une entité ou une période particulière.",
+        "en": "The table presents an expanded set of KPIs in absolute values, organized in rows with months in columns. Unlike the Synthèse and Trend KPIs tabs, there is no threshold-based color coding: the objective is to provide full operational context (volumes, headcount, outstanding). Use the subsidiary and month range filters to isolate a specific entity or period."
+      },
+      "colorCoding": null
+    }
+  ]
+}

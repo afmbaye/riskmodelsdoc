@@ -1,0 +1,81 @@
+{
+  "modelId": "operational-risk-appetite",
+  "name": { "fr": "Operational Risk Appetite", "en": "Operational Risk Appetite" },
+  "lastUpdate": "Avril 2026",
+  "stats": [
+    { "icon": "layers", "value": 3, "label": { "fr": "Onglets", "en": "Tabs" } },
+    { "icon": "bar-chart-2", "value": 14, "label": { "fr": "KPIs", "en": "KPIs" } },
+    { "icon": "clock", "value": "M+1", "label": { "fr": "Fréquence", "en": "Frequency" } },
+    { "icon": "database", "value": 3, "label": { "fr": "Sources", "en": "Sources" } }
+  ],
+  "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "categories": ["appetite", "risk-ope"],
+  "description": {
+    "fr": "Tableau de bord de suivi mensuel des indicateurs clés de risque opérationnel (KRIs) par filiale, comparés aux seuils d'appétit au risque définis au niveau groupe. Couvre 14 indicateurs répartis en domaines : fraudes, pertes opérationnelles, contrôles internes, litiges, conformité réglementaire et concentration des dépôts.",
+    "en": "Monthly monitoring dashboard of key operational risk indicators (KRIs) by subsidiary, compared to group-level risk appetite thresholds. Covers 14 indicators across domains: fraud, operational losses, internal controls, litigations, regulatory compliance and deposit concentration."
+  },
+  "useCase": {
+    "fr": "Permet au département Risk de suivre mensuellement le niveau de risque opérationnel de chaque filiale face aux seuils fixés, d'identifier les dépassements de limite (signalés en rouge), de comparer les valeurs au mois précédent et d'analyser les tendances sur l'historique disponible.",
+    "en": "Enables the Risk department to monitor monthly the operational risk level of each subsidiary against defined thresholds, identify limit breaches (flagged in red), compare values to the previous month, and analyze trends over available history."
+  },
+  "tabs": [
+    {
+      "id": "synthese",
+      "name": { "fr": "Synthèse", "en": "Synthèse" },
+      "description": {
+        "fr": "Vue ponctuelle des 14 KRIs au mois sélectionné : pour chaque indicateur, affiche le seuil, la valeur du mois précédent, les valeurs par filiale (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) et le total groupe (Baobab). Le code couleur vert/rouge signale le respect ou le dépassement du seuil.",
+        "en": "Point-in-time view of the 14 KRIs for the selected month: for each indicator, displays the threshold, the previous month value, values by subsidiary (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) and the group total (Baobab). Green/red color coding flags compliance or breach of the threshold."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/synthese.png"
+    },
+    {
+      "id": "trend-kpis",
+      "name": { "fr": "Trend KPIs", "en": "Trend KPIs" },
+      "description": {
+        "fr": "Évolution mensuelle des KRIs en taux (%) sur une plage de mois sélectionnable, avec les seuils de référence. Le même code couleur vert/rouge permet de visualiser les dépassements mois par mois. Filtrable par filiale via les boutons en haut de page.",
+        "en": "Monthly evolution of KRIs as rates (%) over a selectable month range, with reference thresholds. The same green/red color coding allows visualization of breaches month by month. Filterable by subsidiary via the buttons at the top of the page."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/trend-kpis.png"
+    },
+    {
+      "id": "general",
+      "name": { "fr": "General", "en": "General" },
+      "description": {
+        "fr": "Tableau étendu présentant un ensemble plus large de KPIs en valeurs absolues sur plusieurs mois. Inclut des indicateurs complémentaires non présents dans la Synthèse (nombre de demandes de crédit traitées, nombre total de clients, nombre de recommandations ouvertes, etc.). Filtrable par filiale et par plage de mois.",
+        "en": "Extended table presenting a broader set of KPIs in absolute values over multiple months. Includes additional indicators not in the Synthèse tab (number of credit applications processed, total number of customers, number of open recommendations, etc.). Filterable by subsidiary and month range."
+      },
+      "screenshot": "Assets/Images/operational-risk-appetite/general.png"
+    }
+  ],
+  "sources": [
+    {
+      "id": "data-appetite-ope",
+      "name": "Data appetite OPE.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Base de données principale contenant les valeurs mensuelles de chaque KRI par filiale depuis 2022, ainsi que les seuils (budgets) d'appétit au risque définis au niveau groupe.",
+        "en": "Main database containing the monthly values of each KRI by subsidiary since 2022, as well as the group-level risk appetite thresholds."
+      }
+    },
+    {
+      "id": "mapping-appetite",
+      "name": "Mapping appetite.xlsx",
+      "type": "excel",
+      "description": {
+        "fr": "Table de mapping des pays (code pays, devise, taux de change EUR, région) utilisée pour la conversion des valeurs en devise locale vers l'EUR et pour l'identification des filiales.",
+        "en": "Country mapping table (country code, currency, EUR exchange rate, region) used for converting local currency values to EUR and for subsidiary identification."
+      }
+    },
+    {
+      "id": "photos-pays",
+      "name": "Photo Pays\\",
+      "type": "folder",
+      "description": {
+        "fr": "Dossier contenant les pictogrammes de chaque filiale, utilisés comme sélecteur visuel (slicer) dans les rapports.",
+        "en": "Folder containing the pictograms for each subsidiary, used as a visual slicer in the reports."
+      }
+    }
+  ],
+  "kpiCount": 14,
+  "tableCount": 3
+}

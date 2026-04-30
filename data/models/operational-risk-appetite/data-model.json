@@ -1,0 +1,115 @@
+{
+  "modelId": "operational-risk-appetite",
+  "tables": {
+    "fact": [
+      {
+        "name": "Operational KPIs",
+        "description": {
+          "fr": "Table de faits principale contenant les valeurs mensuelles de chaque indicateur de risque opérationnel par filiale, depuis 2022. Chaque ligne représente la valeur d'un KRI pour une filiale et un mois donné.",
+          "en": "Main fact table containing the monthly values of each operational risk indicator by subsidiary, since 2022. Each row represents the value of a KRI for a given subsidiary and month."
+        },
+        "columns": [
+          { "name": "Company", "dataType": "String", "description": { "fr": "Code identifiant la filiale (ex. BBCI, BBSN)", "en": "Code identifying the subsidiary (e.g. BBCI, BBSN)" } },
+          { "name": "Risk Indicators FR", "dataType": "String", "description": { "fr": "Nom du KRI en français", "en": "KRI name in French" } },
+          { "name": "Risk Indicators EN", "dataType": "String", "description": { "fr": "Nom du KRI en anglais, utilisé comme clé de filtre dans les mesures DAX", "en": "KRI name in English, used as filter key in DAX measures" } },
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de reporting (1er jour du mois)", "en": "Reporting date (first day of the month)" } },
+          { "name": "Value LC", "dataType": "Int64", "description": { "fr": "Valeur du KRI en devise locale", "en": "KRI value in local currency" } },
+          { "name": "Fx rate to EUR", "dataType": "Double", "isCalculated": true, "description": { "fr": "Taux de change appliqué pour convertir la valeur en EUR, issu de la table Mapping Countries", "en": "Exchange rate applied to convert the value to EUR, sourced from the Mapping Countries table" } },
+          { "name": "Value EUR", "dataType": "Double", "isCalculated": true, "description": { "fr": "Valeur du KRI convertie en euros (Value LC × Fx rate to EUR)", "en": "KRI value converted to euros (Value LC × Fx rate to EUR)" } },
+          { "name": "Country", "dataType": "String", "isCalculated": true, "description": { "fr": "Nom du pays de la filiale, calculé depuis la table Mapping Countries", "en": "Country name of the subsidiary, calculated from the Mapping Countries table" } }
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "name": "Calendar",
+        "description": {
+          "fr": "Table calendrier générée automatiquement. Contient les dates, les mois de reporting formatés (YYYY-MM) et les dates du mois précédent pour les comparaisons MoM.",
+          "en": "Auto-generated calendar table. Contains dates, formatted reporting months (YYYY-MM) and previous month dates for MoM comparisons."
+        },
+        "columns": [
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de calendrier", "en": "Calendar date" } },
+          { "name": "Year Months", "dataType": "String", "isCalculated": true, "description": { "fr": "Mois de reporting au format YYYY-MM", "en": "Reporting month in YYYY-MM format" } },
+          { "name": "Year", "dataType": "String", "isCalculated": true, "description": { "fr": "Année de reporting", "en": "Reporting year" } },
+          { "name": "Previous Date", "dataType": "DateTime", "isCalculated": true, "description": { "fr": "Date du mois précédent, utilisée pour les mesures de comparaison MoM", "en": "Previous month date, used for MoM comparison measures" } },
+          { "name": "Year Months Prev", "dataType": "String", "isCalculated": true, "description": { "fr": "Mois précédent au format YYYY-MM", "en": "Previous month in YYYY-MM format" } }
+        ]
+      },
+      {
+        "name": "Mapping Countries",
+        "description": {
+          "fr": "Table de référence des filiales contenant les métadonnées pays : code pays, devise, taux de change EUR, région et ordre d'affichage.",
+          "en": "Subsidiary reference table containing country metadata: country code, currency, EUR exchange rate, region and display order."
+        },
+        "columns": [
+          { "name": "Country Code old", "dataType": "String", "description": { "fr": "Code pays historique utilisé comme clé de jointure avec la table Operational KPIs", "en": "Historical country code used as join key with the Operational KPIs table" } },
+          { "name": "Country", "dataType": "String", "description": { "fr": "Nom du pays de la filiale", "en": "Country name of the subsidiary" } },
+          { "name": "Currency", "dataType": "String", "description": { "fr": "Devise locale de la filiale", "en": "Local currency of the subsidiary" } },
+          { "name": "Region", "dataType": "String", "description": { "fr": "Zone géographique (ex. WAEMU, Remaining Africa)", "en": "Geographic zone (e.g. WAEMU, Remaining Africa)" } },
+          { "name": "Country Code", "dataType": "String", "description": { "fr": "Code pays standardisé", "en": "Standardized country code" } },
+          { "name": "Currency rate", "dataType": "Double", "description": { "fr": "Taux de change de la devise locale vers l'EUR", "en": "Exchange rate from local currency to EUR" } },
+          { "name": "Ordre", "dataType": "Int64", "description": { "fr": "Ordre d'affichage des filiales dans les visuels", "en": "Display order of subsidiaries in visuals" } }
+        ]
+      },
+      {
+        "name": "Photos pays",
+        "description": {
+          "fr": "Table de mapping des pictogrammes filiales, utilisée pour alimenter le slicer visuel (drapeaux/logos) dans les rapports.",
+          "en": "Subsidiary pictogram mapping table, used to feed the visual slicer (flags/logos) in the reports."
+        },
+        "columns": [
+          { "name": "Company", "dataType": "String", "description": { "fr": "Code filiale, clé de jointure avec la table Operational KPIs", "en": "Subsidiary code, join key with the Operational KPIs table" } }
+        ]
+      }
+    ]
+  },
+  "measureTables": [
+    {
+      "name": "KPis #",
+      "description": { "fr": "Table de mesures contenant les 24 KPIs en valeurs absolues (nombre, montant). Chaque mesure filtre la table Operational KPIs sur le nom de l'indicateur correspondant.", "en": "Measure table containing the 24 KPIs in absolute values (count, amount). Each measure filters the Operational KPIs table on the corresponding indicator name." }
+    },
+    {
+      "name": "KPI %",
+      "description": { "fr": "Table de mesures contenant les 6 KPIs exprimés en taux (%). Calculs dérivés des mesures de la table KPIs #.", "en": "Measure table containing the 6 KPIs expressed as rates (%). Calculations derived from KPIs # table measures." }
+    },
+    {
+      "name": "KPIs with total",
+      "description": { "fr": "Versions des KPIs adaptées pour l'affichage avec le total groupe (Baobab), utilisées dans l'onglet Synthèse.", "en": "Versions of KPIs adapted for display with the group total (Baobab), used in the Synthèse tab." }
+    },
+    {
+      "name": "KPIs Previous",
+      "description": { "fr": "Mesures du mois précédent pour chaque KPI, calculées via la colonne 'Previous Date' de la table Calendar.", "en": "Previous month measures for each KPI, calculated via the 'Previous Date' column of the Calendar table." }
+    },
+    {
+      "name": "Threshold",
+      "description": { "fr": "Mesures retournant le seuil d'appétit au risque défini pour chaque KRI. Valeurs fixes issues de la source Data appetite OPE.xlsx.", "en": "Measures returning the risk appetite threshold defined for each KRI. Fixed values sourced from Data appetite OPE.xlsx." }
+    },
+    {
+      "name": "Color KPIs",
+      "description": { "fr": "Mesures de code couleur pour chaque KRI. Retournent une valeur (vert/rouge) selon la comparaison entre la valeur du KRI et son seuil, utilisées pour la mise en forme conditionnelle des tableaux.", "en": "Color code measures for each KRI. Return a value (green/red) based on the comparison between the KRI value and its threshold, used for conditional formatting of tables." }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Operational KPIs[Date]",
+      "to": "Calendar[Date]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de KPI à son mois dans la table calendrier, permettant les filtres temporels.", "en": "Links each KPI row to its month in the calendar table, enabling time filters." }
+    },
+    {
+      "from": "Operational KPIs[Company]",
+      "to": "Mapping Countries[Country Code old]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de KPI à la filiale correspondante dans la table de mapping pays pour la conversion de devise et les métadonnées.", "en": "Links each KPI row to the corresponding subsidiary in the country mapping table for currency conversion and metadata." }
+    },
+    {
+      "from": "Operational KPIs[Company]",
+      "to": "Photos pays[Company]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de KPI au pictogramme de la filiale pour le slicer visuel.", "en": "Links each KPI row to the subsidiary pictogram for the visual slicer." }
+    }
+  ]
+}
