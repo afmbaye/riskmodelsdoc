@@ -1,0 +1,257 @@
+{
+  "modelId": "operational-risk-appetite",
+  "kpis": [
+    {
+      "id": "avg-time-credit-decision",
+      "name": { "fr": "Délai moyen de décision crédit", "en": "Average Time to Decision on Credit Applications" },
+      "variableName": "Average Time to decision on credit applications",
+      "description": {
+        "fr": "Délai moyen (en jours) entre le dépôt d'une demande de crédit et la décision finale, calculé comme la moyenne de l'indicateur sur la période sélectionnée.",
+        "en": "Average time (in days) between the submission of a credit application and the final decision, calculated as the average of the indicator over the selected period."
+      },
+      "unit": "jours",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Ave.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Average Time to decision on credit applications\")",
+        "explanation": {
+          "fr": "Calcule la valeur moyenne (Ave.Value LC) de l'indicateur 'Average Time to decision on credit applications' depuis la table Operational KPIs.",
+          "en": "Calculates the average value (Ave.Value LC) of the 'Average Time to decision on credit applications' indicator from the Operational KPIs table."
+        }
+      }
+    },
+    {
+      "id": "customer-complaints",
+      "name": { "fr": "Réclamations clients en cours", "en": "Customer Complaints in Progress" },
+      "variableName": "Customer complaints in progress",
+      "description": {
+        "fr": "Nombre de réclamations clients en cours de traitement au moment du reporting.",
+        "en": "Number of customer complaints currently being processed at the time of reporting."
+      },
+      "unit": "nombre",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Customer complaints in progress\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Customer complaints in progress' et agrège la valeur mensuelle.",
+          "en": "Filters the Operational KPIs table on the 'Customer complaints in progress' indicator and aggregates the monthly value."
+        }
+      }
+    },
+    {
+      "id": "confirmed-frauds",
+      "name": { "fr": "Fraudes confirmées", "en": "Confirmed Frauds" },
+      "variableName": "Confirmed frauds",
+      "description": {
+        "fr": "Nombre de cas de fraude confirmés sur la période de reporting.",
+        "en": "Number of confirmed fraud cases over the reporting period."
+      },
+      "unit": "nombre",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Confirmed frauds\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Confirmed frauds' et agrège la valeur mensuelle.",
+          "en": "Filters the Operational KPIs table on the 'Confirmed frauds' indicator and aggregates the monthly value."
+        }
+      }
+    },
+    {
+      "id": "operational-losses-eur",
+      "name": { "fr": "Pertes opérationnelles (EUR)", "en": "Operational Losses EUR" },
+      "variableName": "Operational losses EUR",
+      "description": {
+        "fr": "Montant total des pertes opérationnelles subies sur la période de reporting, converti en euros.",
+        "en": "Total amount of operational losses incurred over the reporting period, converted to euros."
+      },
+      "unit": "EUR",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value EUR], 'Operational KPIs'[Risk Indicators EN]=\"Operational losses\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Operational losses' et agrège la valeur convertie en EUR via le taux de change de la table Mapping Countries.",
+          "en": "Filters the Operational KPIs table on the 'Operational losses' indicator and aggregates the value converted to EUR via the exchange rate from the Mapping Countries table."
+        }
+      }
+    },
+    {
+      "id": "branch-cash-limit-breach",
+      "name": { "fr": "Dépassements de limite de caisse agence", "en": "Branch Cash Limit Breach" },
+      "variableName": "Branch cash limit breach",
+      "description": {
+        "fr": "Nombre d'agences ayant dépassé leur limite de caisse autorisée sur la période de reporting.",
+        "en": "Number of branches that exceeded their authorized cash limit over the reporting period."
+      },
+      "unit": "nombre",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Branch cash limit breach\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Branch cash limit breach' et agrège la valeur mensuelle.",
+          "en": "Filters the Operational KPIs table on the 'Branch cash limit breach' indicator and aggregates the monthly value."
+        }
+      }
+    },
+    {
+      "id": "customer-coverage-visits",
+      "name": { "fr": "Taux de couverture clients (visites)", "en": "Customer Coverage Visits" },
+      "variableName": "Customer coverage visits",
+      "description": {
+        "fr": "Taux de couverture des clients par des visites terrain, calculé comme le rapport entre le nombre de visites cumulées sur 12 mois et le nombre moyen de clients sur la même période.",
+        "en": "Customer coverage rate through field visits, calculated as the ratio of visits cumulated over 12 months to the average number of customers over the same period."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "VAR Sum_visits_12 = CALCULATE([Customer visits], DATESINPERIOD('Calendar'[Date], MAX('Calendar'[Date]), -12, MONTH))\nVAR Sum_Customers_12 = DIVIDE(CALCULATE([Total number of customers], DATESINPERIOD('Calendar'[Date], MAX('Calendar'[Date]), -12, MONTH)), 12)\nRETURN DIVIDE(Sum_visits_12, Sum_Customers_12)",
+        "explanation": {
+          "fr": "Calcule le nombre total de visites clients sur les 12 derniers mois, divisé par le nombre moyen mensuel de clients sur la même période.",
+          "en": "Calculates the total number of customer visits over the last 12 months, divided by the average monthly number of customers over the same period."
+        }
+      }
+    },
+    {
+      "id": "unperformed-controls-rate",
+      "name": { "fr": "Taux de contrôles non réalisés", "en": "Unperformed Controls Rate" },
+      "variableName": "Unperformed controls rate",
+      "description": {
+        "fr": "Part des contrôles permanents de second niveau non réalisés sur le total des contrôles prévus dans le plan de contrôle.",
+        "en": "Share of second-level permanent controls not performed relative to the total controls planned in the control plan."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "DIVIDE([Unperformed controls], [Second level controls per Control plan])",
+        "explanation": {
+          "fr": "Divise le nombre de contrôles non réalisés par le nombre total de contrôles de second niveau prévus.",
+          "en": "Divides the number of unperformed controls by the total number of second-level controls planned."
+        }
+      }
+    },
+    {
+      "id": "late-permanent-control-recommendations",
+      "name": { "fr": "Recommandations de contrôle permanent en retard", "en": "Late Permanent Control Recommendations" },
+      "variableName": "Late permanent control recommendations",
+      "description": {
+        "fr": "Taux de recommandations issues des contrôles permanents opérationnels en retard de mise en oeuvre, rapporté au nombre total de recommandations ouvertes.",
+        "en": "Rate of recommendations from operational permanent controls that are late in implementation, relative to the total number of open recommendations."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "IF([Number of operational risk recommendations open]=0, \"no controls\", DIVIDE([Late operational risk recommendations], [Number of operational risk recommendations open]))",
+        "explanation": {
+          "fr": "Si aucune recommandation n'est ouverte, retourne 'no controls'. Sinon, divise le nombre de recommandations en retard par le total des recommandations ouvertes.",
+          "en": "If no recommendation is open, returns 'no controls'. Otherwise, divides the number of late recommendations by the total open recommendations."
+        }
+      }
+    },
+    {
+      "id": "litigations-open",
+      "name": { "fr": "Litiges ouverts", "en": "Litigations Open" },
+      "variableName": "Litigations open",
+      "description": {
+        "fr": "Nombre de dossiers contentieux (litiges) ouverts à la date de reporting.",
+        "en": "Number of litigation cases open at the reporting date."
+      },
+      "unit": "nombre",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Litigations open\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Litigations open' et agrège la valeur mensuelle.",
+          "en": "Filters the Operational KPIs table on the 'Litigations open' indicator and aggregates the monthly value."
+        }
+      }
+    },
+    {
+      "id": "policy-localisation",
+      "name": { "fr": "Taux de localisation des politiques groupe", "en": "Policy Localisation" },
+      "variableName": "Policy localisation",
+      "description": {
+        "fr": "Taux de politiques groupe validées localement par rapport au nombre total de politiques groupe à valider. Retourne 'no policies' si aucune politique n'est à valider.",
+        "en": "Rate of group policies validated locally relative to the total number of group policies to be validated. Returns 'no policies' if no policy is to be validated."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "IF([Number of Group policies to validate locally]=0, \"no policies\", DIVIDE([Number of Group policies validated locally], [Number of Group policies to validate locally]))",
+        "explanation": {
+          "fr": "Si aucune politique groupe n'est à valider localement, retourne 'no policies'. Sinon, divise le nombre de politiques validées par le nombre total à valider.",
+          "en": "If no group policy needs to be validated locally, returns 'no policies'. Otherwise, divides the number of validated policies by the total to validate."
+        }
+      }
+    },
+    {
+      "id": "disciplinary-sanctions",
+      "name": { "fr": "Sanctions disciplinaires", "en": "Disciplinary Sanctions" },
+      "variableName": "Disciplinary sanctions",
+      "description": {
+        "fr": "Nombre de sanctions disciplinaires prononcées sur la période de reporting.",
+        "en": "Number of disciplinary sanctions issued over the reporting period."
+      },
+      "unit": "nombre",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Disciplinary sanctions\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Disciplinary sanctions' et agrège la valeur mensuelle.",
+          "en": "Filters the Operational KPIs table on the 'Disciplinary sanctions' indicator and aggregates the monthly value."
+        }
+      }
+    },
+    {
+      "id": "regulatory-fines",
+      "name": { "fr": "Amendes et pénalités réglementaires", "en": "Regulatory Fines and Penalties" },
+      "variableName": "Regulatory fines and penalities",
+      "description": {
+        "fr": "Montant des amendes et pénalités réglementaires reçues sur la période de reporting.",
+        "en": "Amount of regulatory fines and penalties received over the reporting period."
+      },
+      "unit": "LC",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "CALCULATE([Mes.Value LC], 'Operational KPIs'[Risk Indicators EN]=\"Regulatory fines and penalities\")",
+        "explanation": {
+          "fr": "Filtre la table Operational KPIs sur l'indicateur 'Regulatory fines and penalities' et agrège la valeur en devise locale.",
+          "en": "Filters the Operational KPIs table on the 'Regulatory fines and penalities' indicator and aggregates the value in local currency."
+        }
+      }
+    },
+    {
+      "id": "late-audit-recommendations-rate",
+      "name": { "fr": "Taux de recommandations d'audit en retard", "en": "Late Audit Recommendations Rate" },
+      "variableName": "Late audit recommendations rate",
+      "description": {
+        "fr": "Part des recommandations d'audit interne en retard de mise en oeuvre par rapport au total des recommandations d'audit ouvertes.",
+        "en": "Share of internal audit recommendations late in implementation relative to the total number of open audit recommendations."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "DIVIDE([Late audit recommendations], [Number of audit recommendations open])",
+        "explanation": {
+          "fr": "Divise le nombre de recommandations d'audit en retard par le nombre total de recommandations d'audit ouvertes.",
+          "en": "Divides the number of late audit recommendations by the total number of open audit recommendations."
+        }
+      }
+    },
+    {
+      "id": "top-10-deposits",
+      "name": { "fr": "Concentration TOP 10 dépôts", "en": "Top 10 Deposits" },
+      "variableName": "Top 10 deposits",
+      "description": {
+        "fr": "Part des 10 plus grands dépôts dans l'encours total des dépôts (GLP dépôts), indicateur de concentration du risque de liquidité.",
+        "en": "Share of the top 10 deposits in the total deposit outstanding (GLP deposits), an indicator of liquidity risk concentration."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "trend-kpis", "general"],
+      "formula": {
+        "dax": "DIVIDE([TOP 10 deposits EUR], [GLP deposits EUR])",
+        "explanation": {
+          "fr": "Divise le montant des 10 plus grands dépôts (en EUR) par l'encours total des dépôts (en EUR).",
+          "en": "Divides the amount of the top 10 deposits (in EUR) by the total deposit outstanding (in EUR)."
+        }
+      }
+    }
+  ]
+}

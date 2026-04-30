@@ -71,6 +71,18 @@
       "label": { "fr": "Lissage", "en": "Smoothing" },
       "color": "#A855F7",
       "icon": "activity"
+    },
+    {
+      "id": "appetite",
+      "label": { "fr": "Appétit au risque", "en": "Risk Appetite" },
+      "color": "#0EA5E9",
+      "icon": "target"
+    },
+    {
+      "id": "risk-ope",
+      "label": { "fr": "Risque Opérationnel", "en": "Operational Risk" },
+      "color": "#DC2626",
+      "icon": "alert-triangle"
     }
   ]
 }
