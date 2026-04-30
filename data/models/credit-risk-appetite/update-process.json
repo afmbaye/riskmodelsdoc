@@ -1,0 +1,43 @@
+{
+  "modelId": "credit-risk-appetite",
+  "frequency": { "fr": "Mensuelle", "en": "Monthly" },
+  "estimatedDuration": { "fr": "30-45 minutes", "en": "30-45 minutes" },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Mise à jour des fichiers RISK par filiale", "en": "Update RISK files per subsidiary" },
+      "description": {
+        "fr": "Ajouter les nouvelles valeurs mensuelles des indicateurs de risque de crédit dans chacun des 7 fichiers RISK (RISK BBCI.xlsx, RISK BBSN.xlsx, RISK BBML.xlsx, RISK BBBF.xlsx, RISK BBMG.xlsx, RISK BBDC.xlsx, RISK BBNG.xlsx). Vérifier que la date de reporting est au format cohérent avec l'historique (1er jour du mois) et que tous les indicateurs sont renseignés pour chaque filiale.",
+        "en": "Add the new monthly values of credit risk indicators in each of the 7 RISK files (RISK BBCI.xlsx, RISK BBSN.xlsx, RISK BBML.xlsx, RISK BBBF.xlsx, RISK BBMG.xlsx, RISK BBDC.xlsx, RISK BBNG.xlsx). Verify that the reporting date format is consistent with the history (first day of the month) and that all indicators are populated for each subsidiary."
+      },
+      "source": "RISK BB*.xlsx (×7)"
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Vérification de la table de mapping", "en": "Verify the mapping table" },
+      "description": {
+        "fr": "Vérifier que le fichier Mapping Appetite.xlsx est à jour : taux de change EUR appliqués au mois de reporting et codes pays cohérents avec les tables RISK et BUDGET. S'assurer que les seuils d'appétit au risque sont toujours valides ou les mettre à jour si une révision a été décidée.",
+        "en": "Verify that the Mapping Appetite.xlsx file is up to date: EUR exchange rates applied for the reporting month and country codes consistent with the RISK and BUDGET tables. Ensure that risk appetite thresholds are still valid or update them if a revision has been decided."
+      },
+      "source": "Mapping Appetite.xlsx"
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Rafraîchissement du modèle Power BI", "en": "Refresh the Power BI model" },
+      "description": {
+        "fr": "Ouvrir le fichier Credit Risk Appetite.pbix et lancer le rafraîchissement des données (Accueil > Actualiser). Vérifier que les données du nouveau mois apparaissent correctement dans les cinq onglets (Synthèse, KPIs ratio Table, KPIs Volume Table, KPIs Ratio Charts, KPIs Volume Charts).",
+        "en": "Open the Credit Risk Appetite.pbix file and trigger the data refresh (Home > Refresh). Verify that the new month's data appears correctly in all five tabs (Synthèse, KPIs ratio Table, KPIs Volume Table, KPIs Ratio Charts, KPIs Volume Charts)."
+      },
+      "source": "Credit Risk Appetite.pbix"
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Contrôle qualité et publication", "en": "Quality check and publish" },
+      "description": {
+        "fr": "Vérifier le code couleur de l'onglet Synthèse pour le nouveau mois : les cellules en rouge correspondent aux KRIs dont la valeur dépasse le seuil d'appétit au risque. Contrôler la cohérence des valeurs entre les onglets table et graphiques. Publier le rapport sur Microsoft Fabric (Power BI Service) pour le rendre accessible aux équipes.",
+        "en": "Check the color coding of the Synthèse tab for the new month: red cells correspond to KRIs whose value exceeds the risk appetite threshold. Verify consistency of values between table and chart tabs. Publish the report to Microsoft Fabric (Power BI Service) to make it accessible to the teams."
+      },
+      "source": "Microsoft Fabric"
+    }
+  ]
+}

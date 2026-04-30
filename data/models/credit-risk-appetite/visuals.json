@@ -1,0 +1,121 @@
+{
+  "modelId": "credit-risk-appetite",
+  "visuals": [
+    {
+      "id": "synthese",
+      "name": { "fr": "Synthèse", "en": "Synthèse" },
+      "description": {
+        "fr": "Vue ponctuelle au mois sélectionné des indicateurs de risque de crédit, organisée en trois sections : KPIs ratio (réalisation vs budget), KPIs concentration GLP (part des segments dans l'encours) et KPIs augmentation (ratio d'augmentation de concentration RAC). Chaque section présente les valeurs par filiale (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) avec code couleur vert/rouge selon le respect du seuil d'appétit au risque groupe.",
+        "en": "Point-in-time view for the selected month of credit risk indicators, organized in three sections: KPIs ratio (achievement vs budget), KPIs concentration GLP (share of segments in outstanding portfolio) and KPIs augmentation (concentration increase ratio RAC). Each section shows values by subsidiary (Ivory Coast, Senegal, Mali, Burkina Faso, Madagascar, DR Congo, Nigeria) with green/red color coding based on compliance with the group risk appetite threshold."
+      },
+      "screenshot": "Assets/Images/credit-risk-appetite/synthese.png",
+      "kpis": [
+        "pct-total-disbursements", "pct-glp", "pct-par30", "pct-write-offs",
+        "pct-unsecured-glp", "pct-individual-glp", "pct-agriculture-glp", "pct-top10-glp",
+        "unsecured-rac", "individual-rac", "agriculture-rac"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Sélectionner le mois de référence pour la vue ponctuelle", "en": "Select the reference month for the point-in-time view" } }
+      ],
+      "howToRead": {
+        "fr": "L'onglet est structuré en trois tableaux verticaux correspondant aux trois dimensions d'appétit au risque. Chaque tableau liste les KRIs en lignes et les filiales en colonnes. La première colonne de chaque section affiche le seuil d'appétit au risque groupe. Le code couleur vert indique que la valeur respecte le seuil ; rouge signale un dépassement. La section KPIs ratio compare les réalisations au budget. La section KPIs concentration GLP mesure la composition de l'encours par segment. La section KPIs augmentation (RAC) indique si les nouveaux décaissements accroissent ou réduisent la concentration existante.",
+        "en": "The tab is structured in three vertical tables corresponding to the three risk appetite dimensions. Each table lists KRIs in rows and subsidiaries in columns. The first column of each section displays the group risk appetite threshold. Green color coding indicates the value respects the threshold; red flags a breach. The KPIs ratio section compares achievements to budget. The KPIs concentration GLP section measures the composition of outstanding portfolio by segment. The KPIs augmentation (RAC) section indicates whether new disbursements are increasing or reducing existing concentration."
+      },
+      "colorCoding": {
+        "fr": "Vert : la valeur respecte le seuil d'appétit au risque. Rouge : la valeur dépasse le seuil. Le sens du dépassement dépend du KRI — pour les ratios budgétaires (ex. % décaissements), un dépassement à la hausse est positif. Pour les indicateurs de risque (PAR 30, radiations, concentration), un dépassement à la hausse est négatif.",
+        "en": "Green: the value respects the risk appetite threshold. Red: the value exceeds the threshold. The direction of the breach depends on the KRI — for budget ratios (e.g. % disbursements), an upward breach is positive. For risk indicators (PAR 30, write-offs, concentration), an upward breach is negative."
+      }
+    },
+    {
+      "id": "kpis-ratio-table",
+      "name": { "fr": "KPIs ratio Table", "en": "KPIs ratio Table" },
+      "description": {
+        "fr": "Tableau de tendance mensuelle des KPIs ratio sur une plage de mois sélectionnable. Présente l'évolution des taux de réalisation vs budget et des ratios de concentration par filiale, avec le seuil d'appétit au risque en première colonne et le même code couleur vert/rouge appliqué cellule par cellule.",
+        "en": "Monthly trend table of KPIs ratio over a selectable month range. Shows the evolution of budget achievement rates and concentration ratios by subsidiary, with the risk appetite threshold in the first column and the same green/red color coding applied cell by cell."
+      },
+      "screenshot": "Assets/Images/credit-risk-appetite/kpis-ratio-table.png",
+      "kpis": [
+        "pct-total-disbursements", "pct-glp", "pct-par30", "pct-write-offs",
+        "pct-unsecured-glp", "pct-individual-glp", "pct-agriculture-glp", "pct-top10-glp",
+        "unsecured-rac", "individual-rac", "agriculture-rac"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page", "en": "Select the subsidiary via the buttons at the top of the page" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau croise les KRIs en lignes et les mois en colonnes. La première colonne affiche le seuil d'appétit au risque. Chaque cellule est colorée en vert (dans le seuil) ou rouge (dépassement). Utilisez les boutons filiale pour analyser une entité spécifique. Sans sélection, la vue affiche les valeurs consolidées groupe.",
+        "en": "The table crosses KRIs in rows and months in columns. The first column shows the risk appetite threshold. Each cell is colored green (within threshold) or red (breach). Use the subsidiary buttons to analyze a specific entity. Without selection, the view displays consolidated group values."
+      },
+      "colorCoding": {
+        "fr": "Même logique que l'onglet Synthèse : vert si la valeur respecte le seuil, rouge si elle le dépasse. Le sens du dépassement dépend de la nature du KRI.",
+        "en": "Same logic as the Synthèse tab: green if the value respects the threshold, red if it breaches it. The direction of the breach depends on the nature of the KRI."
+      }
+    },
+    {
+      "id": "kpis-volume-table",
+      "name": { "fr": "KPIs Volume Table", "en": "KPIs Volume Table" },
+      "description": {
+        "fr": "Tableau de tendance mensuelle des KPIs en valeurs absolues (montants en EUR) sur une plage de mois sélectionnable. Présente les volumes réels et budgétés (décaissements, GLP, PAR 30, radiations) par filiale, sans code couleur lié aux seuils d'appétit au risque.",
+        "en": "Monthly trend table of KPIs in absolute values (amounts in EUR) over a selectable month range. Shows actual and budgeted volumes (disbursements, GLP, PAR 30, write-offs) by subsidiary, without threshold-based color coding."
+      },
+      "screenshot": "Assets/Images/credit-risk-appetite/kpis-volume-table.png",
+      "kpis": [
+        "total-disbursements-eur", "glp-eur", "par30-eur", "write-offs-eur"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Subsidiary", "description": { "fr": "Sélectionner la filiale via les boutons en haut de page", "en": "Select the subsidiary via the buttons at the top of the page" } }
+      ],
+      "howToRead": {
+        "fr": "Le tableau présente les montants en EUR des principaux KPIs en valeurs absolues, croisés avec les mois en colonnes. Les lignes alternent entre valeurs réelles et valeurs budget pour chaque indicateur, permettant de mesurer l'écart au budget dans le temps. Utilisez les boutons filiale pour isoler une entité ou consulter les données groupe.",
+        "en": "The table shows EUR amounts of key KPIs in absolute values, crossed with months in columns. Rows alternate between actual and budget values for each indicator, enabling measurement of the budget gap over time. Use the subsidiary buttons to isolate an entity or view group data."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "kpis-ratio-charts",
+      "name": { "fr": "KPIs Ratio Charts", "en": "KPIs Ratio Charts" },
+      "description": {
+        "fr": "Visualisation graphique de l'évolution mensuelle des KPIs ratio par indicateur. La navigation entre indicateurs s'effectue via des boutons (bookmarks). Chaque graphique présente la tendance historique du ratio par filiale et le seuil d'appétit au risque en ligne de référence horizontale.",
+        "en": "Chart visualization of the monthly evolution of KPIs ratio by indicator. Navigation between indicators is done via buttons (bookmarks). Each chart shows the historical trend of the ratio by subsidiary and the risk appetite threshold as a horizontal reference line."
+      },
+      "screenshot": "Assets/Images/credit-risk-appetite/kpis-ratio-charts.png",
+      "kpis": [
+        "pct-total-disbursements", "pct-glp", "pct-par30", "pct-write-offs",
+        "pct-unsecured-glp", "pct-individual-glp", "pct-agriculture-glp",
+        "unsecured-rac", "individual-rac", "agriculture-rac"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Indicator", "description": { "fr": "Naviguer entre les indicateurs via les boutons de sélection (bookmarks)", "en": "Navigate between indicators via the selection buttons (bookmarks)" } }
+      ],
+      "howToRead": {
+        "fr": "Chaque graphique présente un KRI ratio en tendance mensuelle. Les courbes ou barres représentent les valeurs par filiale. La ligne horizontale marque le seuil d'appétit au risque. Utilisez les boutons en haut de page pour sélectionner l'indicateur à visualiser. La comparaison entre filiales permet d'identifier les entités les plus éloignées du seuil.",
+        "en": "Each chart shows a KRI ratio in monthly trend. Lines or bars represent values by subsidiary. The horizontal line marks the risk appetite threshold. Use the buttons at the top of the page to select the indicator to visualize. Cross-subsidiary comparison helps identify entities furthest from the threshold."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "kpis-volume-charts",
+      "name": { "fr": "KPIs Volume Charts", "en": "KPIs Volume Charts" },
+      "description": {
+        "fr": "Visualisation graphique de l'évolution mensuelle des KPIs en volumes (EUR) par indicateur. Navigation via bookmarks. Chaque graphique présente les valeurs réelles et budgétées sous forme de barres groupées ou courbes superposées, permettant de visualiser l'écart au budget dans le temps.",
+        "en": "Chart visualization of the monthly evolution of KPIs in volumes (EUR) by indicator. Navigation via bookmarks. Each chart shows actual and budgeted values as grouped bars or overlaid lines, enabling visualization of the budget gap over time."
+      },
+      "screenshot": "Assets/Images/credit-risk-appetite/kpis-volume-charts.png",
+      "kpis": [
+        "total-disbursements-eur", "glp-eur", "par30-eur", "write-offs-eur"
+      ],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Plage de mois à analyser", "en": "Month range to analyze" } },
+        { "name": "Indicator", "description": { "fr": "Naviguer entre les indicateurs via les boutons de sélection (bookmarks)", "en": "Navigate between indicators via the selection buttons (bookmarks)" } }
+      ],
+      "howToRead": {
+        "fr": "Chaque graphique présente un KPI en volume (EUR) en tendance mensuelle, avec les montants réels et budgétés côte à côte. Utilisez les boutons de sélection pour changer d'indicateur. L'écart entre la barre réelle et la barre budget indique le niveau de réalisation ou de dépassement par rapport à l'objectif.",
+        "en": "Each chart shows a volume KPI (EUR) in monthly trend, with actual and budgeted amounts side by side. Use the selection buttons to change the indicator. The gap between the actual and budget bar indicates the level of achievement or overrun relative to the target."
+      },
+      "colorCoding": null
+    }
+  ]
+}

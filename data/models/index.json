@@ -109,6 +109,18 @@
       "isActive": true
     },
     {
+      "id": "credit-risk-appetite",
+      "name": { "fr": "Credit Risk Appetite", "en": "Credit Risk Appetite" },
+      "description": {
+        "fr": "Suivi mensuel des indicateurs de risque de crédit par filiale — ratios budget, concentration du portefeuille (GLP) et augmentation de concentration — comparés aux seuils d'appétit au risque groupe.",
+        "en": "Monthly monitoring of credit risk indicators by subsidiary — budget ratios, portfolio concentration (GLP) and concentration increase — compared to group risk appetite thresholds."
+      },
+      "categories": ["credit-risk", "appetite"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/64bfdda3-3b8a-4c2a-a926-e00f4209a972/a2573360eb2c9a1860fd?experience=fabric-developer",
+      "isActive": true
+    },
+    {
       "id": "maturity",
       "name": { "fr": "Maturity", "en": "Maturity" },
       "description": {
