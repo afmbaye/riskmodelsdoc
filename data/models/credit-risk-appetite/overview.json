@@ -1,0 +1,95 @@
+{
+  "modelId": "credit-risk-appetite",
+  "name": { "fr": "Credit Risk Appetite", "en": "Credit Risk Appetite" },
+  "description": {
+    "fr": "Tableau de bord mensuel de suivi de l'appétit au risque de crédit du groupe Baobab. Il présente les indicateurs de risque de crédit (KRIs) par filiale selon trois dimensions : le respect des ratios budgétaires, la concentration du portefeuille (GLP) et l'évolution de la concentration (RAC). Chaque indicateur est comparé à un seuil d'appétit au risque défini au niveau groupe.",
+    "en": "Monthly dashboard for monitoring Baobab Group's credit risk appetite. It presents credit risk indicators (KRIs) by subsidiary across three dimensions: compliance with budget ratios, portfolio concentration (GLP), and concentration increase (RAC). Each indicator is compared to a group-level risk appetite threshold."
+  },
+  "useCases": {
+    "fr": "Les analystes risque et les directeurs de filiale utilisent ce rapport pour vérifier si les indicateurs clés de risque de crédit restent dans les limites d'appétit au risque définies par le groupe. Le tableau de bord Synthèse offre une lecture instantanée du statut de chaque filiale. Les onglets table et graphiques permettent d'analyser les tendances mensuelles et de comparer les filiales.",
+    "en": "Risk analysts and subsidiary directors use this report to verify whether key credit risk indicators remain within the group's defined risk appetite limits. The Synthèse dashboard provides an instant read of each subsidiary's status. The table and chart tabs enable analysis of monthly trends and cross-subsidiary comparison."
+  },
+  "lastUpdated": "2026-04-01",
+  "stats": {
+    "tabs": 5,
+    "kpis": 15,
+    "updateFrequency": "M+1",
+    "sources": 8
+  },
+  "sources": [
+    {
+      "name": "RISK BBCI.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Ivory Coast", "en": "Credit risk data for the Ivory Coast subsidiary" }
+    },
+    {
+      "name": "RISK BBSN.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Sénégal", "en": "Credit risk data for the Senegal subsidiary" }
+    },
+    {
+      "name": "RISK BBML.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Mali", "en": "Credit risk data for the Mali subsidiary" }
+    },
+    {
+      "name": "RISK BBBF.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Burkina Faso", "en": "Credit risk data for the Burkina Faso subsidiary" }
+    },
+    {
+      "name": "RISK BBMG.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Madagascar", "en": "Credit risk data for the Madagascar subsidiary" }
+    },
+    {
+      "name": "RISK BBDC.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale DR Congo", "en": "Credit risk data for the DR Congo subsidiary" }
+    },
+    {
+      "name": "RISK BBNG.xlsx",
+      "description": { "fr": "Données de risque de crédit de la filiale Nigeria", "en": "Credit risk data for the Nigeria subsidiary" }
+    },
+    {
+      "name": "Mapping Appetite.xlsx",
+      "description": { "fr": "Table de référence des filiales : taux de change EUR, codes pays et seuils d'appétit au risque", "en": "Subsidiary reference table: EUR exchange rates, country codes and risk appetite thresholds" }
+    }
+  ],
+  "tabs": [
+    {
+      "id": "synthese",
+      "name": { "fr": "Synthèse", "en": "Synthèse" },
+      "description": {
+        "fr": "Vue ponctuelle au mois sélectionné des KRIs de risque de crédit organisés en trois sections : KPIs ratio (réalisation vs budget), KPIs concentration GLP (part des segments dans l'encours) et KPIs augmentation (ratio d'augmentation de concentration RAC). Chaque section présente les valeurs par filiale avec code couleur vert/rouge selon le respect du seuil d'appétit au risque.",
+        "en": "Point-in-time view for the selected month of credit risk KRIs organized in three sections: KPIs ratio (achievement vs budget), KPIs concentration GLP (share of segments in outstanding portfolio) and KPIs augmentation (concentration increase ratio RAC). Each section shows values by subsidiary with green/red color coding based on compliance with the risk appetite threshold."
+      }
+    },
+    {
+      "id": "kpis-ratio-table",
+      "name": { "fr": "KPIs ratio Table", "en": "KPIs ratio Table" },
+      "description": {
+        "fr": "Tableau de tendance mensuelle des KPIs ratio sur une plage de mois sélectionnable. Présente l'évolution des taux de réalisation vs budget (décaissements, GLP, PAR, etc.) par filiale, avec le seuil d'appétit au risque en référence et le même code couleur vert/rouge.",
+        "en": "Monthly trend table of KPIs ratio over a selectable month range. Shows the evolution of budget achievement rates (disbursements, GLP, PAR, etc.) by subsidiary, with the risk appetite threshold as reference and the same green/red color coding."
+      }
+    },
+    {
+      "id": "kpis-volume-table",
+      "name": { "fr": "KPIs Volume Table", "en": "KPIs Volume Table" },
+      "description": {
+        "fr": "Tableau de tendance mensuelle des KPIs en valeurs absolues (montants en EUR) sur une plage de mois sélectionnable. Permet de suivre les volumes réels (décaissements, encours GLP, montants PAR) et de les comparer aux valeurs budgétées par filiale.",
+        "en": "Monthly trend table of KPIs in absolute values (amounts in EUR) over a selectable month range. Enables tracking of actual volumes (disbursements, GLP outstanding, PAR amounts) and comparison to budgeted values by subsidiary."
+      }
+    },
+    {
+      "id": "kpis-ratio-charts",
+      "name": { "fr": "KPIs Ratio Charts", "en": "KPIs Ratio Charts" },
+      "description": {
+        "fr": "Visualisation graphique de l'évolution mensuelle des KPIs ratio par indicateur. La navigation entre indicateurs s'effectue via des boutons (bookmarks). Chaque graphique présente la tendance historique du ratio et le seuil d'appétit au risque en ligne de référence.",
+        "en": "Chart visualization of the monthly evolution of KPIs ratio by indicator. Navigation between indicators is done via buttons (bookmarks). Each chart shows the historical trend of the ratio and the risk appetite threshold as a reference line."
+      }
+    },
+    {
+      "id": "kpis-volume-charts",
+      "name": { "fr": "KPIs Volume Charts", "en": "KPIs Volume Charts" },
+      "description": {
+        "fr": "Visualisation graphique de l'évolution mensuelle des KPIs en volumes (EUR) par indicateur. Navigation via bookmarks. Chaque graphique présente les valeurs réelles et budgétées en barres ou courbes, permettant de visualiser l'écart au budget dans le temps.",
+        "en": "Chart visualization of the monthly evolution of KPIs in volumes (EUR) by indicator. Navigation via bookmarks. Each chart shows actual and budgeted values as bars or lines, enabling visualization of the budget gap over time."
+      }
+    }
+  ]
+}

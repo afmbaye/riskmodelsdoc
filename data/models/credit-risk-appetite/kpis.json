@@ -1,0 +1,275 @@
+{
+  "modelId": "credit-risk-appetite",
+  "kpis": [
+    {
+      "id": "pct-total-disbursements",
+      "name": { "fr": "% Décaissements totaux", "en": "% Total Disbursements" },
+      "variableName": "% Total disbursements",
+      "description": {
+        "fr": "Taux de réalisation des décaissements totaux par rapport à l'objectif budgétaire, exprimé en pourcentage.",
+        "en": "Achievement rate of total disbursements relative to the budgeted target, expressed as a percentage."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([Total disbursements (€)],[Total disbursements (Budget) (€)])",
+        "explanation": {
+          "fr": "Divise le montant réel des décaissements totaux (en EUR) par le montant budgété correspondant.",
+          "en": "Divides the actual total disbursements amount (in EUR) by the corresponding budgeted amount."
+        }
+      }
+    },
+    {
+      "id": "pct-glp",
+      "name": { "fr": "% GLP (Encours brut)", "en": "% GLP (Gross Loan Portfolio)" },
+      "variableName": "% GLP",
+      "description": {
+        "fr": "Taux de réalisation de l'encours brut de crédits (GLP) par rapport à l'objectif budgétaire.",
+        "en": "Achievement rate of the gross loan portfolio (GLP) relative to the budgeted target."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([GLP (€)],[GLP (Budget) (€)])",
+        "explanation": {
+          "fr": "Divise l'encours brut réel (en EUR) par l'encours brut budgété.",
+          "en": "Divides the actual gross loan portfolio (in EUR) by the budgeted gross loan portfolio."
+        }
+      }
+    },
+    {
+      "id": "pct-par30",
+      "name": { "fr": "% PAR 30", "en": "% PAR 30" },
+      "variableName": "% PAR 30",
+      "description": {
+        "fr": "Taux de réalisation du PAR 30 (portefeuille à risque > 30 jours) par rapport au seuil budgétaire. Un dépassement indique une dégradation de la qualité du portefeuille au-delà du seuil accepté.",
+        "en": "Achievement rate of PAR 30 (portfolio at risk > 30 days) relative to the budget threshold. A breach indicates portfolio quality degradation beyond the accepted threshold."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([PAR 30 (€)],[PAR 30 (Budget) (€)])",
+        "explanation": {
+          "fr": "Divise le montant réel du PAR 30 (en EUR) par le montant budgété du PAR 30.",
+          "en": "Divides the actual PAR 30 amount (in EUR) by the budgeted PAR 30 amount."
+        }
+      }
+    },
+    {
+      "id": "pct-write-offs",
+      "name": { "fr": "% Radiations (WO)", "en": "% Write-offs (WO)" },
+      "variableName": "% Write-offs",
+      "description": {
+        "fr": "Taux de réalisation des radiations de créances par rapport au seuil budgétaire.",
+        "en": "Achievement rate of loan write-offs relative to the budget threshold."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([Write-offs (€)],[Write-offs (Budget) (€)])",
+        "explanation": {
+          "fr": "Divise le montant réel des radiations (en EUR) par le montant budgété des radiations.",
+          "en": "Divides the actual write-offs amount (in EUR) by the budgeted write-offs amount."
+        }
+      }
+    },
+    {
+      "id": "pct-unsecured-glp",
+      "name": { "fr": "% Non sécurisé (GLP)", "en": "% Unsecured (GLP)" },
+      "variableName": "% Unsecured (GLP)",
+      "description": {
+        "fr": "Part des crédits non sécurisés (sans garantie) dans l'encours brut total (GLP). Indicateur de concentration du risque de crédit sur des crédits sans garantie.",
+        "en": "Share of unsecured loans (without collateral) in the total gross loan portfolio (GLP). Indicator of credit risk concentration on loans without collateral."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([Unsecured (GLP) (€)],[GLP (€)])",
+        "explanation": {
+          "fr": "Divise l'encours des crédits non sécurisés (en EUR) par l'encours brut total (GLP, en EUR).",
+          "en": "Divides the outstanding unsecured loans (in EUR) by the total gross loan portfolio (GLP, in EUR)."
+        }
+      }
+    },
+    {
+      "id": "pct-individual-glp",
+      "name": { "fr": "% Individuel (GLP)", "en": "% Individual (GLP)" },
+      "variableName": "% Individual (GLP)",
+      "description": {
+        "fr": "Part des crédits individuels dans l'encours brut total (GLP). Indicateur de concentration du portefeuille par type de crédit.",
+        "en": "Share of individual loans in the total gross loan portfolio (GLP). Portfolio concentration indicator by loan type."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([Individual (GLP) (€)],[GLP (€)])",
+        "explanation": {
+          "fr": "Divise l'encours des crédits individuels (en EUR) par l'encours brut total (GLP, en EUR).",
+          "en": "Divides the individual loan outstanding (in EUR) by the total gross loan portfolio (GLP, in EUR)."
+        }
+      }
+    },
+    {
+      "id": "pct-agriculture-glp",
+      "name": { "fr": "% Agriculture (GLP)", "en": "% Agriculture (GLP)" },
+      "variableName": "% Agriculture (GLP)",
+      "description": {
+        "fr": "Part des crédits accordés au secteur agricole dans l'encours brut total (GLP). Indicateur de concentration sectorielle du portefeuille.",
+        "en": "Share of loans granted to the agricultural sector in the total gross loan portfolio (GLP). Portfolio sector concentration indicator."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([Agriculture (GLP) (€)],[GLP (€)])",
+        "explanation": {
+          "fr": "Divise l'encours des crédits agricoles (en EUR) par l'encours brut total (GLP, en EUR).",
+          "en": "Divides the agricultural loan outstanding (in EUR) by the total gross loan portfolio (GLP, in EUR)."
+        }
+      }
+    },
+    {
+      "id": "pct-top10-glp",
+      "name": { "fr": "% TOP 10 (GLP)", "en": "% TOP 10 (GLP)" },
+      "variableName": "% TOP 10 (GLP)",
+      "description": {
+        "fr": "Part des 10 plus grands crédits dans l'encours brut total. Indicateur de concentration individuelle du portefeuille.",
+        "en": "Share of the 10 largest loans in the total gross loan portfolio. Individual concentration indicator of the portfolio."
+      },
+      "unit": "%",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([TOP 10 (GLP) (€)],[GLP (€)])",
+        "explanation": {
+          "fr": "Divise l'encours des 10 plus grands crédits (en EUR) par l'encours brut total (GLP, en EUR).",
+          "en": "Divides the outstanding of the 10 largest loans (in EUR) by the total gross loan portfolio (GLP, in EUR)."
+        }
+      }
+    },
+    {
+      "id": "unsecured-rac",
+      "name": { "fr": "RAC Non sécurisé", "en": "Unsecured (RAC)" },
+      "variableName": "Unsecured (RAC)",
+      "description": {
+        "fr": "Ratio d'augmentation de concentration (RAC) pour les crédits non sécurisés : rapport entre la part des décaissements non sécurisés et la part de l'encours non sécurisé. Un RAC > 1 signale une tendance à l'augmentation de la concentration.",
+        "en": "Concentration increase ratio (RAC) for unsecured loans: ratio of the share of unsecured disbursements to the share of unsecured outstanding. A RAC > 1 signals a trend toward increasing concentration."
+      },
+      "unit": "ratio",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([% Unsecured (disb)],[% Unsecured (GLP)])",
+        "explanation": {
+          "fr": "Divise la part des décaissements non sécurisés (% des décaissements totaux) par la part de l'encours non sécurisé (% du GLP). Si le ratio dépasse 1, les nouveaux décaissements augmentent la concentration sur les non sécurisés.",
+          "en": "Divides the share of unsecured disbursements (% of total disbursements) by the share of unsecured outstanding (% of GLP). If the ratio exceeds 1, new disbursements are increasing concentration on unsecured loans."
+        }
+      }
+    },
+    {
+      "id": "individual-rac",
+      "name": { "fr": "RAC Individuel", "en": "Individual (RAC)" },
+      "variableName": "Individual (RAC)",
+      "description": {
+        "fr": "Ratio d'augmentation de concentration (RAC) pour les crédits individuels : rapport entre la part des décaissements individuels et la part de l'encours individuel.",
+        "en": "Concentration increase ratio (RAC) for individual loans: ratio of the share of individual disbursements to the share of individual outstanding."
+      },
+      "unit": "ratio",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([% Individual (disb)],[% Individual (GLP)])",
+        "explanation": {
+          "fr": "Divise la part des décaissements individuels par la part de l'encours individuel dans le GLP.",
+          "en": "Divides the share of individual disbursements by the share of individual outstanding in the GLP."
+        }
+      }
+    },
+    {
+      "id": "agriculture-rac",
+      "name": { "fr": "RAC Agriculture", "en": "Agriculture (RAC)" },
+      "variableName": "Agriculture (RAC)",
+      "description": {
+        "fr": "Ratio d'augmentation de concentration (RAC) pour les crédits agricoles : rapport entre la part des décaissements agricoles et la part de l'encours agricole.",
+        "en": "Concentration increase ratio (RAC) for agricultural loans: ratio of the share of agricultural disbursements to the share of agricultural outstanding."
+      },
+      "unit": "ratio",
+      "visuals": ["synthese", "kpis-ratio-table", "kpis-ratio-charts"],
+      "formula": {
+        "dax": "DIVIDE([% Agriculture (disb)],[% Agriculture (GLP)])",
+        "explanation": {
+          "fr": "Divise la part des décaissements agricoles par la part de l'encours agricole dans le GLP.",
+          "en": "Divides the share of agricultural disbursements by the share of agricultural outstanding in the GLP."
+        }
+      }
+    },
+    {
+      "id": "total-disbursements-eur",
+      "name": { "fr": "Décaissements totaux (EUR)", "en": "Total Disbursements (EUR)" },
+      "variableName": "Total disbursements (€)",
+      "description": {
+        "fr": "Montant total des décaissements réalisés sur la période de reporting, converti en euros.",
+        "en": "Total amount of disbursements made over the reporting period, converted to euros."
+      },
+      "unit": "EUR",
+      "visuals": ["synthese", "kpis-volume-table", "kpis-volume-charts"],
+      "formula": {
+        "dax": "CALCULATE(SUM(RISK[Valeur EUR]), RISK[Risk type]=\"Disbursements\")",
+        "explanation": {
+          "fr": "Agrège la valeur EUR des enregistrements correspondant au type de risque 'Disbursements' dans la table RISK.",
+          "en": "Aggregates the EUR value of records corresponding to risk type 'Disbursements' in the RISK table."
+        }
+      }
+    },
+    {
+      "id": "glp-eur",
+      "name": { "fr": "Encours brut GLP (EUR)", "en": "GLP (EUR)" },
+      "variableName": "GLP (€)",
+      "description": {
+        "fr": "Encours brut de crédits (Gross Loan Portfolio) à la date de reporting, converti en euros.",
+        "en": "Gross loan portfolio outstanding at the reporting date, converted to euros."
+      },
+      "unit": "EUR",
+      "visuals": ["synthese", "kpis-volume-table", "kpis-volume-charts"],
+      "formula": {
+        "dax": "CALCULATE(SUM(RISK[Valeur EUR]), RISK[Risk type]=\"GLP\")",
+        "explanation": {
+          "fr": "Agrège la valeur EUR des enregistrements correspondant au type de risque 'GLP' dans la table RISK.",
+          "en": "Aggregates the EUR value of records corresponding to risk type 'GLP' in the RISK table."
+        }
+      }
+    },
+    {
+      "id": "par30-eur",
+      "name": { "fr": "PAR 30 (EUR)", "en": "PAR 30 (EUR)" },
+      "variableName": "PAR 30 (€)",
+      "description": {
+        "fr": "Montant du portefeuille à risque à plus de 30 jours (PAR 30) à la date de reporting, converti en euros.",
+        "en": "Amount of portfolio at risk above 30 days (PAR 30) at the reporting date, converted to euros."
+      },
+      "unit": "EUR",
+      "visuals": ["synthese", "kpis-volume-table", "kpis-volume-charts"],
+      "formula": {
+        "dax": "CALCULATE(SUM(RISK[Valeur EUR]), RISK[Risk type]=\"PAR 30\")",
+        "explanation": {
+          "fr": "Agrège la valeur EUR des enregistrements correspondant au type de risque 'PAR 30' dans la table RISK.",
+          "en": "Aggregates the EUR value of records corresponding to risk type 'PAR 30' in the RISK table."
+        }
+      }
+    },
+    {
+      "id": "write-offs-eur",
+      "name": { "fr": "Radiations (EUR)", "en": "Write-offs (EUR)" },
+      "variableName": "Write-offs (€)",
+      "description": {
+        "fr": "Montant des créances radiées du bilan sur la période de reporting, converti en euros.",
+        "en": "Amount of loans written off from the balance sheet over the reporting period, converted to euros."
+      },
+      "unit": "EUR",
+      "visuals": ["synthese", "kpis-volume-table", "kpis-volume-charts"],
+      "formula": {
+        "dax": "CALCULATE(SUM(RISK[Valeur EUR]), RISK[Risk type]=\"Write-offs\")",
+        "explanation": {
+          "fr": "Agrège la valeur EUR des enregistrements correspondant au type de risque 'Write-offs' dans la table RISK.",
+          "en": "Aggregates the EUR value of records corresponding to risk type 'Write-offs' in the RISK table."
+        }
+      }
+    }
+  ]
+}

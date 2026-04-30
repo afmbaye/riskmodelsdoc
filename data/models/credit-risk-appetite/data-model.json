@@ -1,0 +1,147 @@
+{
+  "modelId": "credit-risk-appetite",
+  "tables": {
+    "fact": [
+      {
+        "name": "RISK",
+        "description": {
+          "fr": "Table de faits principale contenant les valeurs mensuelles des indicateurs de risque de crédit par filiale, depuis 2022. Chaque ligne représente la valeur d'un indicateur pour une filiale et un mois donné, en devise locale et convertie en EUR.",
+          "en": "Main fact table containing the monthly values of credit risk indicators by subsidiary, since 2022. Each row represents the value of an indicator for a given subsidiary and month, in local currency and converted to EUR."
+        },
+        "columns": [
+          { "name": "Company Code", "dataType": "String", "description": { "fr": "Code identifiant la filiale (ex. BBCI, BBSN)", "en": "Code identifying the subsidiary (e.g. BBCI, BBSN)" } },
+          { "name": "Risk Category", "dataType": "String", "description": { "fr": "Catégorie de risque de l'indicateur (ex. Ratio, Concentration GLP, Augmentation)", "en": "Risk category of the indicator (e.g. Ratio, Concentration GLP, Augmentation)" } },
+          { "name": "Risk type", "dataType": "String", "description": { "fr": "Type d'indicateur de risque (ex. PAR 30, GLP, Disbursements)", "en": "Risk indicator type (e.g. PAR 30, GLP, Disbursements)" } },
+          { "name": "RISK INDICATOR", "dataType": "String", "description": { "fr": "Nom de l'indicateur de risque en anglais, utilisé comme clé de filtre dans les mesures DAX", "en": "Risk indicator name in English, used as filter key in DAX measures" } },
+          { "name": "INDICATEURS RISQUES", "dataType": "String", "description": { "fr": "Nom de l'indicateur de risque en français", "en": "Risk indicator name in French" } },
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de reporting (1er jour du mois)", "en": "Reporting date (first day of the month)" } },
+          { "name": "Valeur", "dataType": "Double", "description": { "fr": "Valeur de l'indicateur en devise locale", "en": "Indicator value in local currency" } },
+          { "name": "FX rate", "dataType": "Double", "isCalculated": true, "description": { "fr": "Taux de change vers EUR, issu de la table de mapping", "en": "Exchange rate to EUR, sourced from the mapping table" } },
+          { "name": "Valeur EUR", "dataType": "Double", "isCalculated": true, "description": { "fr": "Valeur de l'indicateur convertie en euros (Valeur × FX rate)", "en": "Indicator value converted to euros (Valeur × FX rate)" } }
+        ]
+      },
+      {
+        "name": "BUDGET",
+        "description": {
+          "fr": "Table de faits contenant les valeurs budgétées des indicateurs de risque de crédit par filiale. Même structure que la table RISK, utilisée pour les comparaisons réel vs budget dans les mesures DAX.",
+          "en": "Fact table containing the budgeted values of credit risk indicators by subsidiary. Same structure as the RISK table, used for actual vs budget comparisons in DAX measures."
+        },
+        "columns": [
+          { "name": "Company Code", "dataType": "String", "description": { "fr": "Code identifiant la filiale", "en": "Code identifying the subsidiary" } },
+          { "name": "Risk Category", "dataType": "String", "description": { "fr": "Catégorie de risque de l'indicateur budgété", "en": "Risk category of the budgeted indicator" } },
+          { "name": "Risk type", "dataType": "String", "description": { "fr": "Type d'indicateur de risque budgété", "en": "Budgeted risk indicator type" } },
+          { "name": "RISK INDICATOR", "dataType": "String", "description": { "fr": "Nom de l'indicateur budgété en anglais", "en": "Budgeted indicator name in English" } },
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de reporting du budget (1er jour du mois)", "en": "Budget reporting date (first day of the month)" } },
+          { "name": "Valeur", "dataType": "Double", "description": { "fr": "Valeur budgétée de l'indicateur en devise locale", "en": "Budgeted indicator value in local currency" } },
+          { "name": "FX rate", "dataType": "Double", "isCalculated": true, "description": { "fr": "Taux de change vers EUR", "en": "Exchange rate to EUR" } },
+          { "name": "Valeur EUR", "dataType": "Double", "isCalculated": true, "description": { "fr": "Valeur budgétée convertie en euros", "en": "Budgeted value converted to euros" } }
+        ]
+      }
+    ],
+    "dimension": [
+      {
+        "name": "APPETITE",
+        "description": {
+          "fr": "Table de référence des seuils d'appétit au risque définis au niveau groupe pour chaque indicateur de risque de crédit et chaque filiale.",
+          "en": "Reference table of group-level risk appetite thresholds defined for each credit risk indicator and each subsidiary."
+        },
+        "columns": [
+          { "name": "Company Code", "dataType": "String", "description": { "fr": "Code filiale, clé de jointure avec les tables RISK et BUDGET", "en": "Subsidiary code, join key with the RISK and BUDGET tables" } },
+          { "name": "Risk Category", "dataType": "String", "description": { "fr": "Catégorie de risque de l'indicateur", "en": "Risk category of the indicator" } },
+          { "name": "Risk type", "dataType": "String", "description": { "fr": "Type d'indicateur de risque", "en": "Risk indicator type" } },
+          { "name": "RISK INDICATOR", "dataType": "String", "description": { "fr": "Nom de l'indicateur en anglais, clé de jointure", "en": "Indicator name in English, join key" } },
+          { "name": "INDICATEURS RISQUES", "dataType": "String", "description": { "fr": "Nom de l'indicateur en français", "en": "Indicator name in French" } },
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de validité du seuil", "en": "Threshold validity date" } },
+          { "name": "Valeur", "dataType": "Double", "description": { "fr": "Valeur du seuil d'appétit au risque en devise locale", "en": "Risk appetite threshold value in local currency" } },
+          { "name": "FX rate", "dataType": "Double", "isCalculated": true, "description": { "fr": "Taux de change vers EUR", "en": "Exchange rate to EUR" } },
+          { "name": "Valeur EUR", "dataType": "Double", "isCalculated": true, "description": { "fr": "Valeur du seuil convertie en euros", "en": "Threshold value converted to euros" } }
+        ]
+      },
+      {
+        "name": "TCountries",
+        "description": {
+          "fr": "Table de référence des filiales contenant les métadonnées pays : code pays, nom du pays, devise, taux de change EUR et ordre d'affichage.",
+          "en": "Subsidiary reference table containing country metadata: country code, country name, currency, EUR exchange rate and display order."
+        },
+        "columns": [
+          { "name": "Company Code", "dataType": "String", "description": { "fr": "Code pays standardisé, clé de jointure avec les tables de faits", "en": "Standardized country code, join key with fact tables" } },
+          { "name": "Country", "dataType": "String", "description": { "fr": "Nom du pays de la filiale", "en": "Country name of the subsidiary" } },
+          { "name": "Currency", "dataType": "String", "description": { "fr": "Devise locale de la filiale", "en": "Local currency of the subsidiary" } },
+          { "name": "FX rate", "dataType": "Double", "description": { "fr": "Taux de change de la devise locale vers l'EUR", "en": "Exchange rate from local currency to EUR" } }
+        ]
+      },
+      {
+        "name": "Calendar",
+        "description": {
+          "fr": "Table calendrier générée automatiquement. Contient les dates et les mois de reporting pour les filtres temporels.",
+          "en": "Auto-generated calendar table. Contains dates and reporting months for time filters."
+        },
+        "columns": [
+          { "name": "Date", "dataType": "DateTime", "description": { "fr": "Date de calendrier", "en": "Calendar date" } },
+          { "name": "Year Months", "dataType": "String", "isCalculated": true, "description": { "fr": "Mois de reporting au format YYYY-MM", "en": "Reporting month in YYYY-MM format" } },
+          { "name": "Year", "dataType": "String", "isCalculated": true, "description": { "fr": "Année de reporting", "en": "Reporting year" } }
+        ]
+      }
+    ]
+  },
+  "measureTables": [
+    {
+      "name": "KPIs ratio on Budget",
+      "description": { "fr": "Mesures des KPIs ratio : taux de réalisation des indicateurs de risque de crédit par rapport aux valeurs budgétées.", "en": "KPIs ratio measures: achievement rates of credit risk indicators relative to budgeted values." }
+    },
+    {
+      "name": "KPIs concentration on GLP",
+      "description": { "fr": "Mesures des KPIs de concentration : parts des différents segments (non sécurisé, individuel, agricole, TOP 10) dans l'encours brut total.", "en": "KPIs concentration measures: shares of different segments (unsecured, individual, agricultural, TOP 10) in the total gross loan portfolio." }
+    },
+    {
+      "name": "KPIs Ratios augmentation concentration",
+      "description": { "fr": "Mesures RAC (Ratio d'Augmentation de Concentration) : rapport entre la part d'un segment dans les décaissements et sa part dans l'encours, pour détecter les tendances à l'augmentation de concentration.", "en": "RAC (Concentration Increase Ratio) measures: ratio of a segment's share in disbursements to its share in outstanding, to detect concentration increase trends." }
+    },
+    {
+      "name": "KPIs Volume RISK",
+      "description": { "fr": "Mesures des volumes réels en EUR : montants des décaissements, GLP, PAR 30, radiations et autres indicateurs issus de la table RISK.", "en": "Actual volume measures in EUR: amounts of disbursements, GLP, PAR 30, write-offs and other indicators from the RISK table." }
+    },
+    {
+      "name": "KPIs Volume BUDGET",
+      "description": { "fr": "Mesures des volumes budgétés en EUR : montants budgétés des principaux indicateurs issus de la table BUDGET.", "en": "Budgeted volume measures in EUR: budgeted amounts of key indicators from the BUDGET table." }
+    },
+    {
+      "name": "Threshold",
+      "description": { "fr": "Mesures retournant les seuils d'appétit au risque sous forme de labels textuels (ex. 'vs. target 1%') pour affichage dans les tableaux et graphiques.", "en": "Measures returning risk appetite thresholds as text labels (e.g. 'vs. target 1%') for display in tables and charts." }
+    },
+    {
+      "name": "Color KPIs",
+      "description": { "fr": "Mesures de code couleur pour la mise en forme conditionnelle des tableaux. Retournent une valeur (vert/rouge) selon la comparaison entre la valeur réelle et le seuil d'appétit au risque.", "en": "Color code measures for conditional formatting of tables. Return a value (green/red) based on the comparison between the actual value and the risk appetite threshold." }
+    }
+  ],
+  "relationships": [
+    {
+      "from": "RISK[Date]",
+      "to": "Calendar[Date]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de données réelles à son mois dans la table calendrier, permettant les filtres temporels.", "en": "Links each actual data row to its month in the calendar table, enabling time filters." }
+    },
+    {
+      "from": "BUDGET[Date]",
+      "to": "Calendar[Date]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de données budgétées à son mois dans la table calendrier.", "en": "Links each budgeted data row to its month in the calendar table." }
+    },
+    {
+      "from": "RISK[Company Code]",
+      "to": "TCountries[Company Code]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de données réelles à la filiale correspondante dans la table pays pour la conversion de devise et les métadonnées.", "en": "Links each actual data row to the corresponding subsidiary in the countries table for currency conversion and metadata." }
+    },
+    {
+      "from": "BUDGET[Company Code]",
+      "to": "TCountries[Company Code]",
+      "cardinality": "Many-to-One",
+      "active": true,
+      "description": { "fr": "Relie chaque ligne de données budgétées à la filiale correspondante dans la table pays.", "en": "Links each budgeted data row to the corresponding subsidiary in the countries table." }
+    }
+  ]
+}

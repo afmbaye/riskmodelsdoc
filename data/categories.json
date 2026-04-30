@@ -73,6 +73,12 @@
       "icon": "activity"
     },
     {
+      "id": "credit-risk",
+      "label": { "fr": "Risque de Crédit", "en": "Credit Risk" },
+      "color": "#7C3AED",
+      "icon": "trending-down"
+    },
+    {
       "id": "appetite",
       "label": { "fr": "Appétit au risque", "en": "Risk Appetite" },
       "color": "#0EA5E9",
