@@ -8,136 +8,334 @@
       "id": "glp",
       "term": { "fr": "GLP (Gross Loan Portfolio)", "en": "GLP (Gross Loan Portfolio)" },
       "definition": {
-        "fr": "Encours brut de credit. Represente le montant total des prets actifs avant deduction des provisions pour pertes.",
+        "fr": "Encours brut de crédit. Représente le montant total des prêts actifs avant déduction des provisions pour pertes.",
         "en": "Gross loan outstanding. Represents total active loans before provision deductions for losses."
       },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
-    },
-    {
-      "id": "echeance",
-      "term": { "fr": "Echeance", "en": "Installment" },
-      "definition": {
-        "fr": "Montant periodique (generalement mensuel) que le client doit rembourser selon son contrat de pret. Comprend le capital et les interets.",
-        "en": "Periodic amount (usually monthly) the customer must repay according to their loan contract. Includes principal and interest."
-      },
-      "relatedModels": ["installment-tracker"]
-    },
-    {
-      "id": "vintage",
-      "term": { "fr": "Vintage", "en": "Vintage" },
-      "definition": {
-        "fr": "Cohorte de prets regroupes par date d'octroi (mois ou trimestre). Permet d'analyser le comportement d'un groupe de prets au fil du temps et de comparer les performances entre cohortes.",
-        "en": "Cohort of loans grouped by origination date (month or quarter). Allows analyzing a loan group's behavior over time and comparing performance between cohorts."
-      },
-      "relatedModels": ["vintage-ld-wo", "installment-tracker", "vintage-recovery"]
-    },
-    {
-      "id": "dao",
-      "term": { "fr": "DAO (Gestionnaire de portefeuille)", "en": "DAO (Portfolio Manager)" },
-      "definition": {
-        "fr": "Responsable en charge du suivi et du recouvrement d'un portefeuille de clients. Egalement appele GP (Gestionnaire de Portefeuille).",
-        "en": "Person responsible for monitoring and collecting on a customer portfolio. Also called GP (Portfolio Manager)."
-      },
-      "relatedModels": ["installment-tracker"]
-    },
-    {
-      "id": "write-off",
-      "term": { "fr": "Write-off (Passage en perte)", "en": "Write-off" },
-      "definition": {
-        "fr": "Creance consideree comme irrecuperable et passee en perte comptable. Generalement applique apres un certain nombre de jours d'impayes (ex: 180 jours).",
-        "en": "Loan considered unrecoverable and written off. Usually applied after a certain number of days past due (e.g., 180 days)."
-      },
-      "relatedModels": ["vintage-ld-wo"]
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "llp", "atypical", "top-20", "credit-risk-appetite"]
     },
     {
       "id": "par",
       "term": { "fr": "PAR (Portfolio at Risk)", "en": "PAR (Portfolio at Risk)" },
       "definition": {
-        "fr": "Portefeuille a risque. Ratio mesurant la proportion de l'encours dont au moins une echeance est en retard d'un certain nombre de jours (PAR30, PAR60, PAR90).",
-        "en": "Portfolio at Risk. Ratio measuring proportion of outstanding with at least one installment overdue by a certain number of days (PAR30, PAR60, PAR90)."
+        "fr": "Portefeuille à risque. Ratio mesurant la proportion de l'encours dont au moins une échéance est en retard d'un certain nombre de jours. Le PAR 30 couvre les retards de plus de 30 jours, le PAR 90 ceux de plus de 90 jours.",
+        "en": "Portfolio at Risk. Ratio measuring the proportion of outstanding loans with at least one installment overdue by a certain number of days. PAR 30 covers delays over 30 days, PAR 90 covers delays over 90 days."
       },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "llp", "atypical", "top-20", "transition-smoothing", "credit-risk-appetite"]
     },
     {
-      "id": "entry-rate",
-      "term": { "fr": "Taux d'entree (Entry Rate)", "en": "Entry Rate" },
+      "id": "write-off",
+      "term": { "fr": "Write-off / Radiation (WOF)", "en": "Write-off (WOF)" },
       "definition": {
-        "fr": "Pourcentage de nouveaux impayes le jour meme de l'echeance (J0). Indicateur precoce de la qualite du portefeuille et des problemes potentiels de recouvrement.",
-        "en": "Percentage of new defaults on due date (D0). Early indicator of portfolio quality and potential collection issues."
+        "fr": "Créance considérée comme irrécupérable et passée en perte comptable. Généralement appliqué après 180 jours d'impayés. Abréviation courante : WO ou WOF.",
+        "en": "Loan considered unrecoverable and written off the balance sheet. Usually applied after 180 days past due. Common abbreviation: WO or WOF."
       },
-      "relatedModels": ["installment-tracker"]
+      "relatedModels": ["vintage-ld-wo", "vintage-recovery", "llp", "top-20", "credit-risk-appetite"]
     },
     {
-      "id": "recovery-rate",
-      "term": { "fr": "Taux de recouvrement", "en": "Recovery Rate" },
+      "id": "disbursement",
+      "term": { "fr": "Décaissement (Disbursement)", "en": "Disbursement" },
       "definition": {
-        "fr": "Pourcentage des montants effectivement recouvres par rapport aux montants dus. Mesure l'efficacite des actions de recouvrement.",
-        "en": "Percentage of amounts actually recovered compared to amounts due. Measures collection action effectiveness."
+        "fr": "Montant total du prêt versé au client au moment de l'octroi du crédit.",
+        "en": "Total loan amount paid to customer at credit origination."
       },
-      "relatedModels": ["vintage-recovery", "installment-tracker"]
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "atypical", "top-20", "transition-smoothing", "credit-risk-appetite"]
     },
     {
-      "id": "segment",
-      "term": { "fr": "Segment client", "en": "Customer Segment" },
+      "id": "vintage",
+      "term": { "fr": "Vintage (Cohorte)", "en": "Vintage (Cohort)" },
       "definition": {
-        "fr": "Classification des clients selon leur profil : Nano (tres petits prets), SE (Small Enterprise), ME (Medium Enterprise), etc.",
-        "en": "Customer classification by profile: Nano (very small loans), SE (Small Enterprise), ME (Medium Enterprise), etc."
+        "fr": "Cohorte de prêts regroupés par date d'octroi (mois ou trimestre). Permet d'analyser le comportement d'un groupe de prêts au fil du temps et de comparer les performances entre cohortes.",
+        "en": "Cohort of loans grouped by origination date (month or quarter). Allows analyzing a loan group's behavior over time and comparing performance between cohorts."
       },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
+      "relatedModels": ["vintage-ld-wo", "vintage-recovery", "installment-tracker"]
+    },
+    {
+      "id": "llp",
+      "term": { "fr": "LLP (Loan Loss Provisions)", "en": "LLP (Loan Loss Provisions)" },
+      "definition": {
+        "fr": "Provisions pour pertes sur crédits. Montant comptabilisé pour couvrir les pertes anticipées sur le portefeuille de prêts, conformément aux normes IFRS. Comprend les provisions sur les encours en retard et les encours sains à risque.",
+        "en": "Loan Loss Provisions. Amount recorded to cover anticipated losses on the loan portfolio, in compliance with IFRS standards. Includes provisions on overdue and performing loans at risk."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "ifrs",
+      "term": { "fr": "IFRS 9", "en": "IFRS 9" },
+      "definition": {
+        "fr": "Norme comptable internationale régissant la classification et le provisionnement des instruments financiers. Introduit un modèle de pertes de crédit attendues (ECL) en trois stades (Stage 1, 2, 3) selon le niveau de risque de crédit.",
+        "en": "International accounting standard governing the classification and provisioning of financial instruments. Introduces an expected credit loss (ECL) model in three stages (Stage 1, 2, 3) based on the level of credit risk."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "nco",
+      "term": { "fr": "NCO (Net Charge-Off)", "en": "NCO (Net Charge-Off)" },
+      "definition": {
+        "fr": "Pertes nettes sur crédits irrécouvrables, calculées comme la différence entre les radiations brutes et les recouvrements sur créances radiées. Le NCO Ratio rapporte ce montant à l'encours moyen du portefeuille.",
+        "en": "Net losses on unrecoverable loans, calculated as the difference between gross write-offs and recoveries on written-off loans. The NCO Ratio divides this amount by the average loan portfolio outstanding."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "npl",
+      "term": { "fr": "NPL (Non-Performing Loans)", "en": "NPL (Non-Performing Loans)" },
+      "definition": {
+        "fr": "Prêts non performants. Encours de crédits dont le remboursement est compromis, généralement classifiés à partir de 90 jours de retard. Le NPL Ratio mesure leur part dans l'encours brut total.",
+        "en": "Non-performing loans. Loan outstanding where repayment is compromised, generally classified from 90 days past due. The NPL Ratio measures their share in the total gross loan portfolio."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "llcr",
+      "term": { "fr": "LLCR (Loan Loss Coverage Ratio)", "en": "LLCR (Loan Loss Coverage Ratio)" },
+      "definition": {
+        "fr": "Taux de couverture des provisions. Rapport entre le stock de provisions LLP et l'encours des prêts non performants (NPL). Un ratio supérieur à 100% indique une couverture intégrale des pertes potentielles.",
+        "en": "Loan loss coverage ratio. Ratio of LLP provisions stock to non-performing loan (NPL) outstanding. A ratio above 100% indicates full coverage of potential losses."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "cost-of-risk",
+      "term": { "fr": "Coût du risque (Cost of Risk)", "en": "Cost of Risk" },
+      "definition": {
+        "fr": "Charge nette de provisionnement rapportée à l'encours moyen du portefeuille. Exprimé en pourcentage ou en points de base, il mesure le coût annualisé du risque de crédit supporté par une filiale ou le groupe.",
+        "en": "Net provisioning charge divided by the average loan portfolio outstanding. Expressed as a percentage or basis points, it measures the annualized cost of credit risk borne by a subsidiary or the group."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "provisioning-ratio",
+      "term": { "fr": "Taux de provisionnement", "en": "Provisioning Ratio" },
+      "definition": {
+        "fr": "Rapport entre le stock de provisions LLP et l'encours brut total (GLP). Mesure le niveau de couverture globale du portefeuille par les provisions.",
+        "en": "Ratio of LLP provisions stock to total gross loan portfolio (GLP). Measures the overall coverage level of the portfolio by provisions."
+      },
+      "relatedModels": ["llp"]
+    },
+    {
+      "id": "transition-matrix",
+      "term": { "fr": "Matrice de transition", "en": "Transition Matrix" },
+      "definition": {
+        "fr": "Tableau mesurant le flux de contrats entre différents états de retard (buckets PAR) d'un mois à l'autre. Permet d'analyser les migrations du portefeuille : amélioration (cure), dégradation ou stabilité.",
+        "en": "Table measuring the flow of contracts between different delinquency states (PAR buckets) from one month to the next. Allows analysis of portfolio migrations: improvement (cure), deterioration or stability."
+      },
+      "relatedModels": ["transition-smoothing"]
+    },
+    {
+      "id": "smoothing",
+      "term": { "fr": "Lissage (Smoothing)", "en": "Smoothing" },
+      "definition": {
+        "fr": "Technique d'analyse des décaissements qui corrige les effets saisonniers ou ponctuels en calculant une moyenne mobile sur plusieurs mois. Permet de distinguer les tendances structurelles des variations conjoncturelles.",
+        "en": "Disbursement analysis technique that corrects seasonal or one-off effects by calculating a moving average over several months. Enables distinction between structural trends and cyclical variations."
+      },
+      "relatedModels": ["transition-smoothing"]
+    },
+    {
+      "id": "bucket",
+      "term": { "fr": "Bucket (Tranche de retard)", "en": "Bucket (Delinquency Bucket)" },
+      "definition": {
+        "fr": "Tranche de jours de retard utilisée pour classifier les contrats en souffrance. Exemples : PAR 0 (retard de 1 jour), PAR 1-30, PAR 31-90, PAR 91-180, PAR >180.",
+        "en": "Range of days past due used to classify delinquent contracts. Examples: PAR 0 (1 day overdue), PAR 1-30, PAR 31-90, PAR 91-180, PAR >180."
+      },
+      "relatedModels": ["installment-tracker", "transition-smoothing", "llp", "top-20"]
+    },
+    {
+      "id": "kri",
+      "term": { "fr": "KRI (Key Risk Indicator)", "en": "KRI (Key Risk Indicator)" },
+      "definition": {
+        "fr": "Indicateur clé de risque. Mesure quantitative utilisée pour surveiller et signaler les niveaux de risque opérationnel ou de crédit. Chaque KRI est associé à un seuil d'appétit au risque défini par le groupe.",
+        "en": "Key Risk Indicator. Quantitative measure used to monitor and report operational or credit risk levels. Each KRI is associated with a risk appetite threshold defined by the group."
+      },
+      "relatedModels": ["operational-risk-appetite", "credit-risk-appetite"]
+    },
+    {
+      "id": "risk-appetite",
+      "term": { "fr": "Appétit au risque", "en": "Risk Appetite" },
+      "definition": {
+        "fr": "Niveau de risque maximal que le groupe Baobab est prêt à accepter pour atteindre ses objectifs stratégiques. Formalisé sous forme de seuils quantitatifs (thresholds) associés à chaque KRI.",
+        "en": "Maximum level of risk that Baobab Group is willing to accept to achieve its strategic objectives. Formalized as quantitative thresholds associated with each KRI."
+      },
+      "relatedModels": ["operational-risk-appetite", "credit-risk-appetite"]
+    },
+    {
+      "id": "threshold",
+      "term": { "fr": "Seuil (Threshold)", "en": "Threshold" },
+      "definition": {
+        "fr": "Valeur limite associée à un KRI dans le cadre de l'appétit au risque. Un dépassement du seuil déclenche un signal d'alerte (code rouge) et peut nécessiter un plan d'action correctif.",
+        "en": "Limit value associated with a KRI within the risk appetite framework. Breaching the threshold triggers an alert signal (red code) and may require a corrective action plan."
+      },
+      "relatedModels": ["operational-risk-appetite", "credit-risk-appetite"]
+    },
+    {
+      "id": "operational-risk",
+      "term": { "fr": "Risque opérationnel", "en": "Operational Risk" },
+      "definition": {
+        "fr": "Risque de pertes résultant de processus internes défaillants, d'erreurs humaines, de défaillances de systèmes ou d'événements externes. Suivi via des KRIs couvrant les fraudes, les contrôles, les litiges, les amendes réglementaires, etc.",
+        "en": "Risk of losses resulting from failed internal processes, human errors, system failures or external events. Monitored via KRIs covering frauds, controls, litigations, regulatory fines, etc."
+      },
+      "relatedModels": ["operational-risk-appetite"]
+    },
+    {
+      "id": "rac",
+      "term": { "fr": "RAC (Ratio d'Augmentation de Concentration)", "en": "RAC (Concentration Increase Ratio)" },
+      "definition": {
+        "fr": "Rapport entre la part d'un segment dans les décaissements et sa part dans l'encours (GLP). Un RAC supérieur à 1 indique que les nouveaux décaissements augmentent la concentration sur ce segment ; inférieur à 1, qu'ils la réduisent.",
+        "en": "Ratio of a segment's share in disbursements to its share in outstanding (GLP). A RAC above 1 indicates that new disbursements are increasing concentration on this segment; below 1, that they are reducing it."
+      },
+      "relatedModels": ["credit-risk-appetite"]
+    },
+    {
+      "id": "concentration",
+      "term": { "fr": "Concentration (risque de)", "en": "Concentration Risk" },
+      "definition": {
+        "fr": "Risque lié à une exposition excessive à un seul emprunteur, secteur, produit ou région. Se mesure par la part d'un segment dans le GLP (ex. : TOP 10 emprunteurs, crédits non sécurisés, secteur agricole).",
+        "en": "Risk associated with excessive exposure to a single borrower, sector, product or region. Measured by a segment's share in the GLP (e.g. TOP 10 borrowers, unsecured loans, agricultural sector)."
+      },
+      "relatedModels": ["top-20", "credit-risk-appetite"]
+    },
+    {
+      "id": "atypical",
+      "term": { "fr": "Crédit atypique", "en": "Atypical Loan" },
+      "definition": {
+        "fr": "Crédit présentant des caractéristiques non standard par rapport au portefeuille habituel : montant, durée, secteur ou profil emprunteur hors de la norme. Fait l'objet d'un suivi spécifique pour mesurer son impact sur la qualité du portefeuille.",
+        "en": "Loan with non-standard characteristics compared to the usual portfolio: amount, tenor, sector or borrower profile outside the norm. Subject to specific monitoring to measure its impact on portfolio quality."
+      },
+      "relatedModels": ["atypical"]
+    },
+    {
+      "id": "collateral",
+      "term": { "fr": "Garantie (Collateral)", "en": "Collateral" },
+      "definition": {
+        "fr": "Actif mis en gage par l'emprunteur pour sécuriser un crédit. En cas de défaut, la garantie peut être saisie pour couvrir la perte. Les crédits sans garantie sont dits non sécurisés (unsecured).",
+        "en": "Asset pledged by the borrower to secure a loan. In case of default, the collateral can be seized to cover the loss. Loans without collateral are called unsecured."
+      },
+      "relatedModels": ["collateral-loans", "credit-risk-appetite"]
+    },
+    {
+      "id": "waemu",
+      "term": { "fr": "WAEMU / UEMOA", "en": "WAEMU (West African Economic and Monetary Union)" },
+      "definition": {
+        "fr": "Union Économique et Monétaire Ouest Africaine. Zone regroupant les filiales partageant le franc CFA (XOF) : Ivory Coast, Sénégal, Mali, Burkina Faso. Utilisée comme axe de consolidation régionale dans les rapports groupe.",
+        "en": "West African Economic and Monetary Union. Zone grouping subsidiaries sharing the CFA franc (XOF): Ivory Coast, Senegal, Mali, Burkina Faso. Used as a regional consolidation axis in group reports."
+      },
+      "relatedModels": ["llp", "vintage-ld-wo", "top-20"]
+    },
+    {
+      "id": "subsidiary",
+      "term": { "fr": "Filiale", "en": "Subsidiary" },
+      "definition": {
+        "fr": "Entité du groupe Baobab opérant dans un pays donné. Les filiales documentées sont : BBCI (Ivory Coast), BBSN (Sénégal), BBML (Mali), BBBF (Burkina Faso), BBMG (Madagascar), BBDC (DR Congo), BBNG (Nigeria).",
+        "en": "Baobab Group entity operating in a given country. Documented subsidiaries are: BBCI (Ivory Coast), BBSN (Senegal), BBML (Mali), BBBF (Burkina Faso), BBMG (Madagascar), BBDC (DR Congo), BBNG (Nigeria)."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "vintage-recovery", "llp", "atypical", "top-20", "transition-smoothing", "operational-risk-appetite", "credit-risk-appetite"]
     },
     {
       "id": "fx-rate",
       "term": { "fr": "Taux de change (FX Rate)", "en": "FX Rate (Exchange Rate)" },
       "definition": {
-        "fr": "Taux de conversion entre la devise locale (LC) et l'euro (EUR). Utilise pour consolider les donnees de toutes les filiales.",
-        "en": "Conversion rate between local currency (LC) and euro (EUR). Used to consolidate data from all subsidiaries."
+        "fr": "Taux de conversion entre la devise locale (LC) et l'euro (EUR). Appliqué mensuellement pour consolider les données de toutes les filiales en une devise commune.",
+        "en": "Conversion rate between local currency (LC) and euro (EUR). Applied monthly to consolidate data from all subsidiaries into a common currency."
       },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20"]
-    },
-    {
-      "id": "disbursement",
-      "term": { "fr": "Decaissement (Disbursement)", "en": "Disbursement" },
-      "definition": {
-        "fr": "Montant total du pret verse au client au moment de l'octroi du credit.",
-        "en": "Total loan amount paid to customer at credit origination."
-      },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo"]
-    },
-    {
-      "id": "eom",
-      "term": { "fr": "EOM (End of Month)", "en": "EOM (End of Month)" },
-      "definition": {
-        "fr": "Fin de mois. Reference temporelle utilisee pour les snapshots mensuels du portefeuille.",
-        "en": "End of Month. Time reference used for monthly portfolio snapshots."
-      },
-      "relatedModels": ["installment-tracker"]
-    },
-    {
-      "id": "anticipation",
-      "term": { "fr": "Anticipation", "en": "Early Payment / Anticipation" },
-      "definition": {
-        "fr": "Situation ou le client paie son echeance avant la date prevue, ou dispose d'un solde suffisant sur son compte pour couvrir les echeances futures.",
-        "en": "Situation where customer pays installment before due date, or has sufficient account balance to cover future installments."
-      },
-      "relatedModels": ["installment-tracker"]
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20", "llp", "operational-risk-appetite", "credit-risk-appetite"]
     },
     {
       "id": "lc",
       "term": { "fr": "LC (Local Currency)", "en": "LC (Local Currency)" },
       "definition": {
-        "fr": "Devise locale de chaque filiale (XOF, XAF, NGN, etc.). Les montants sont convertis en EUR pour la consolidation groupe.",
-        "en": "Local currency of each subsidiary (XOF, XAF, NGN, etc.). Amounts are converted to EUR for group consolidation."
+        "fr": "Devise locale de chaque filiale : XOF (WAEMU), MGA (Madagascar), CDF (DR Congo), NGN (Nigeria). Les montants sont convertis en EUR pour la consolidation groupe.",
+        "en": "Local currency of each subsidiary: XOF (WAEMU), MGA (Madagascar), CDF (DR Congo), NGN (Nigeria). Amounts are converted to EUR for group consolidation."
       },
-      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20"]
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "top-20", "operational-risk-appetite", "credit-risk-appetite"]
+    },
+    {
+      "id": "recovery-rate",
+      "term": { "fr": "Taux de recouvrement", "en": "Recovery Rate" },
+      "definition": {
+        "fr": "Pourcentage des montants effectivement recouvrés par rapport aux montants radiés. Mesure l'efficacité des actions de recouvrement sur les créances passées en perte.",
+        "en": "Percentage of amounts actually recovered compared to written-off amounts. Measures the effectiveness of collection actions on loans previously written off."
+      },
+      "relatedModels": ["vintage-recovery", "installment-tracker"]
+    },
+    {
+      "id": "dao",
+      "term": { "fr": "DAO / GP (Gestionnaire de Portefeuille)", "en": "DAO / PM (Portfolio Manager)" },
+      "definition": {
+        "fr": "Responsable en charge du suivi et du recouvrement d'un portefeuille de clients. Egalement appelé GP (Gestionnaire de Portefeuille).",
+        "en": "Person responsible for monitoring and collecting on a customer portfolio. Also called GP (Portfolio Manager)."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "entry-rate",
+      "term": { "fr": "Taux d'entrée (Entry Rate)", "en": "Entry Rate" },
+      "definition": {
+        "fr": "Pourcentage de nouveaux impayés le jour même de l'échéance (J0). Indicateur précoce de la qualité du portefeuille et des problèmes potentiels de recouvrement.",
+        "en": "Percentage of new defaults on due date (D0). Early indicator of portfolio quality and potential collection issues."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "eom",
+      "term": { "fr": "EOM (End of Month)", "en": "EOM (End of Month)" },
+      "definition": {
+        "fr": "Fin de mois. Référence temporelle utilisée pour les snapshots mensuels du portefeuille.",
+        "en": "End of Month. Time reference used for monthly portfolio snapshots."
+      },
+      "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "segment",
+      "term": { "fr": "Segment client", "en": "Customer Segment" },
+      "definition": {
+        "fr": "Classification des clients selon leur profil : Nano (très petits prêts), SE (Small Enterprise), ME (Medium Enterprise), etc.",
+        "en": "Customer classification by profile: Nano (very small loans), SE (Small Enterprise), ME (Medium Enterprise), etc."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "atypical"]
     },
     {
       "id": "branch",
       "term": { "fr": "Agence (Branch)", "en": "Branch" },
       "definition": {
-        "fr": "Point de vente physique ou les clients peuvent effectuer leurs operations bancaires. Chaque agence est rattachee a une region.",
-        "en": "Physical point of sale where customers can conduct banking operations. Each branch belongs to a region."
+        "fr": "Point de vente physique où les clients peuvent effectuer leurs opérations. Chaque agence est rattachée à une région et à une filiale.",
+        "en": "Physical point of sale where customers can conduct operations. Each branch belongs to a region and a subsidiary."
+      },
+      "relatedModels": ["installment-tracker", "operational-risk-appetite"]
+    },
+    {
+      "id": "anticipation",
+      "term": { "fr": "Anticipation (Paiement anticipé)", "en": "Early Payment / Anticipation" },
+      "definition": {
+        "fr": "Situation où le client paie son échéance avant la date prévue, ou dispose d'un solde suffisant sur son compte pour couvrir les échéances futures.",
+        "en": "Situation where customer pays installment before due date, or has sufficient account balance to cover future installments."
       },
       "relatedModels": ["installment-tracker"]
+    },
+    {
+      "id": "bookmark",
+      "term": { "fr": "Bookmark (Power BI)", "en": "Bookmark (Power BI)" },
+      "definition": {
+        "fr": "Fonctionnalité Power BI permettant de sauvegarder et de naviguer entre différents états d'un rapport (filtres, sélections, pages). Utilisée dans les onglets graphiques pour basculer d'un indicateur à l'autre via des boutons.",
+        "en": "Power BI feature allowing saving and navigating between different report states (filters, selections, pages). Used in chart tabs to switch between indicators via buttons."
+      },
+      "relatedModels": ["credit-risk-appetite", "vintage-ld-wo"]
+    },
+    {
+      "id": "mom",
+      "term": { "fr": "MoM (Month-over-Month)", "en": "MoM (Month-over-Month)" },
+      "definition": {
+        "fr": "Variation d'un indicateur par rapport au mois précédent. Utilisée pour détecter les dégradations ou améliorations récentes dans les tableaux de bord.",
+        "en": "Change in an indicator compared to the previous month. Used to detect recent deteriorations or improvements in dashboards."
+      },
+      "relatedModels": ["operational-risk-appetite", "llp", "installment-tracker"]
+    },
+    {
+      "id": "microsoft-fabric",
+      "term": { "fr": "Microsoft Fabric / Power BI Service", "en": "Microsoft Fabric / Power BI Service" },
+      "definition": {
+        "fr": "Plateforme cloud Microsoft utilisée pour publier et partager les rapports Power BI au sein du groupe Baobab. Accessible via app.powerbi.com. Tous les modèles documentés sont publiés sur cette plateforme.",
+        "en": "Microsoft cloud platform used to publish and share Power BI reports within the Baobab Group. Accessible via app.powerbi.com. All documented models are published on this platform."
+      },
+      "relatedModels": ["installment-tracker", "vintage-ld-wo", "vintage-recovery", "llp", "atypical", "top-20", "transition-smoothing", "operational-risk-appetite", "credit-risk-appetite"]
     }
   ]
 }
