@@ -21,8 +21,8 @@
       "id": "glp",
       "name": { "fr": "GLP", "en": "GLP" },
       "description": {
-        "fr": "Vue d'ensemble du portefeuille brut (Gross Loan Portfolio) et des paiements attendus vs réalisés.",
-        "en": "Overview of Gross Loan Portfolio and expected vs actual payments."
+        "fr": "Suivi jour par jour des remboursements sur l'encours brut (GLP) : barres attendu vs réel, courbe d'anticipation et taux de paiement réel.",
+        "en": "Day-by-day tracking of repayments on the gross loan portfolio (GLP): expected vs actual bars, anticipation curve and real payment ratio."
       },
       "screenshot": "Assets/Images/installment-tracker/glp.png"
     },
@@ -30,8 +30,8 @@
       "id": "installments",
       "name": { "fr": "Installments", "en": "Installments" },
       "description": {
-        "fr": "Détail des échéances par statut : remboursées, attendues, en retard.",
-        "en": "Installment details by status: paid, expected, overdue."
+        "fr": "Détail jour par jour des échéances attendues et réglées, avec suivi des impayés, de la liquidité disponible et du taux de paiement réel.",
+        "en": "Day-by-day breakdown of expected and settled installments, with tracking of overdue, available liquidity and real payment ratio."
       },
       "screenshot": "Assets/Images/installment-tracker/Installments.png"
     },
@@ -39,8 +39,8 @@
       "id": "benchmark",
       "name": { "fr": "Benchmark", "en": "Benchmark" },
       "description": {
-        "fr": "Comparaison des performances entre filiales avec indicateurs clés.",
-        "en": "Performance comparison across subsidiaries with key indicators."
+        "fr": "Comparaison des filiales sur Payment to date, Entry rate et Entry rate after recovery, avec la cible groupe de 98% de Payment to date.",
+        "en": "Subsidiary comparison on Payment to date, Entry rate and Entry rate after recovery, with the group target of 98% Payment to date."
       },
       "screenshot": "Assets/Images/installment-tracker/benchmark.png"
     },
@@ -48,8 +48,8 @@
       "id": "subsidiaries",
       "name": { "fr": "Subsidiaries", "en": "Subsidiaries" },
       "description": {
-        "fr": "Analyse détaillée par filiale avec drill-down possible.",
-        "en": "Detailed analysis by subsidiary with drill-down capability."
+        "fr": "Matrice groupe croisant filiales × jours du mois : échéances attendues (€), impayés (€) et taux d'impayés journalier par filiale.",
+        "en": "Group matrix crossing subsidiaries × days of month: expected installments (€), overdue (€) and daily overdue ratio per subsidiary."
       },
       "screenshot": "Assets/Images/installment-tracker/subsidiaries.png"
     },
@@ -57,8 +57,8 @@
       "id": "region",
       "name": { "fr": "Region", "en": "Region" },
       "description": {
-        "fr": "Répartition géographique des performances par région.",
-        "en": "Geographic distribution of performance by region."
+        "fr": "Matrice des impayés par zone régionale × jours du mois : échéance attendue (LC), impayée (LC) et taux d'impayés, code couleur vert/orange/rouge.",
+        "en": "Overdue matrix by geographic region × days of month: expected (LC), overdue (LC) and overdue ratio, green/orange/red color coding."
       },
       "screenshot": "Assets/Images/installment-tracker/region.png"
     },
@@ -66,8 +66,8 @@
       "id": "branch-desc",
       "name": { "fr": "BranchDesc", "en": "BranchDesc" },
       "description": {
-        "fr": "Performance détaillée par agence avec matrice colorée.",
-        "en": "Detailed branch performance with color-coded matrix."
+        "fr": "Matrice des impayés par agence × jours du mois : échéance attendue (LC), impayée (LC) et taux d'impayés, code couleur vert/orange/rouge.",
+        "en": "Overdue matrix by branch × days of month: expected (LC), overdue (LC) and overdue ratio, green/orange/red color coding."
       },
       "screenshot": "Assets/Images/installment-tracker/branch.png"
     },
@@ -75,8 +75,8 @@
       "id": "category-desc",
       "name": { "fr": "CategoryDesc", "en": "CategoryDesc" },
       "description": {
-        "fr": "Analyse par catégorie de produit et segment client.",
-        "en": "Analysis by product category and customer segment."
+        "fr": "Matrice des impayés par produit de crédit × jours du mois : taux d'impayés par type de crédit (BIZ'NESS Loan, HABITAT, CREDIT AGRI...), code couleur vert/orange/rouge.",
+        "en": "Overdue matrix by credit product × days of month: overdue ratio by loan type (BIZ'NESS Loan, HABITAT, CREDIT AGRI...), green/orange/red color coding."
       },
       "screenshot": "Assets/Images/installment-tracker/categoryDesc.png"
     },
@@ -84,8 +84,8 @@
       "id": "installment-overdue-ratio",
       "name": { "fr": "Installment Overdue Ratio", "en": "Installment Overdue Ratio" },
       "description": {
-        "fr": "Évolution du taux d'impayés dans le temps.",
-        "en": "Evolution of overdue rate over time."
+        "fr": "Évolution du taux d'impayés dans le temps par filiale, pour détecter les tendances de dégradation ou d'amélioration du portefeuille.",
+        "en": "Evolution of overdue ratio over time by subsidiary, to detect portfolio quality deterioration or improvement trends."
       },
       "screenshot": "Assets/Images/installment-tracker/instoverdueRatio.png"
     },
@@ -93,8 +93,8 @@
       "id": "customer-details",
       "name": { "fr": "Customer Details", "en": "Customer Details" },
       "description": {
-        "fr": "Vue détaillée au niveau client avec informations de contact.",
-        "en": "Detailed customer-level view with contact information."
+        "fr": "Tableau détaillé des contrats en retard : identifiants, dates clés, montants impayés — filtrable par agence ou gestionnaire de portefeuille (DAO) pour cibler les actions de recouvrement.",
+        "en": "Detailed table of overdue contracts: identifiers, key dates, overdue amounts — filterable by branch or portfolio manager (DAO) to target collection actions."
       },
       "screenshot": "Assets/Images/installment-tracker/customerDetails.png"
     }
