@@ -10,7 +10,7 @@
       "categories": ["portfolio", "par"],
       "updateFrequency": { "fr": "Quotidienne", "en": "Daily" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/60cf0a8f-0e53-4ace-b388-b6bbca244a88/09e3e9101a79c8ae35d1?experience=fabric-developer&bookmarkGuid=cbc957a1-e101-4b0d-ba41-31c3cdcfa697",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "vintage-ld-wo",
