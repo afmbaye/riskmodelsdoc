@@ -13,7 +13,9 @@
 <body>
 
   <!-- Header (NavigationManager target) -->
-  <div class="layout-wrapper no-sidebar" id="layoutWrapper">
+  <!-- min-height:0 overrides the global 100vh so the empty wrapper
+       doesn't push doc content down by a full viewport height -->
+  <div class="layout-wrapper no-sidebar" id="layoutWrapper" style="min-height:0;grid-template-rows:auto;">
     <header class="header"><!-- Rendered by NavigationManager --></header>
   </div>
 
