@@ -693,6 +693,7 @@
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--border-color) transparent;
+  align-self: start; /* required for sticky inside CSS grid */
 }
 
 .doc-toc::-webkit-scrollbar {
