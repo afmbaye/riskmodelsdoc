@@ -592,3 +592,311 @@
     font-size: var(--font-size-2xl);
   }
 }
+
+/* ============================================
+   ONE-PAGE DOCUMENTATION LAYOUT
+   ============================================ */
+
+/* Sticky breadcrumb bar below header */
+.doc-breadcrumb-bar {
+  position: fixed;
+  top: var(--header-height);
+  left: 0;
+  right: 0;
+  z-index: calc(var(--z-fixed) - 1);
+  background: var(--bg-white);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0 var(--spacing-8);
+  height: 40px;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  box-shadow: var(--shadow-xs);
+}
+
+.doc-breadcrumb-bar a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.doc-breadcrumb-bar a:hover {
+  color: var(--primary-color);
+}
+
+.doc-breadcrumb-bar .bc-sep {
+  display: flex;
+  align-items: center;
+  color: var(--text-light);
+}
+
+.doc-breadcrumb-bar .bc-sep svg,
+.doc-breadcrumb-bar .bc-sep i {
+  width: 14px;
+  height: 14px;
+}
+
+.doc-breadcrumb-bar .bc-current {
+  color: var(--text-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.doc-breadcrumb-bar svg,
+.doc-breadcrumb-bar i {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Loading / error full-page states */
+.doc-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  min-height: calc(100vh - var(--header-height) - 40px);
+  margin-top: calc(var(--header-height) + 40px);
+  color: var(--text-muted);
+}
+
+/* Main page wrapper: content + right TOC */
+.doc-page-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: var(--spacing-8);
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: var(--spacing-8) var(--spacing-6) var(--spacing-12);
+  margin-top: calc(var(--header-height) + 40px);
+  align-items: start;
+}
+
+/* Main content area */
+.doc-main {
+  min-width: 0;
+  max-width: 860px;
+}
+
+/* ============================================
+   FLOATING TOC (RIGHT SIDEBAR)
+   ============================================ */
+.doc-toc {
+  position: sticky;
+  top: calc(var(--header-height) + 40px + var(--spacing-6));
+  max-height: calc(100vh - var(--header-height) - 40px - var(--spacing-12));
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.doc-toc::-webkit-scrollbar {
+  width: 4px;
+}
+
+.doc-toc::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 2px;
+}
+
+.doc-toc-title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-3);
+  padding: 0 var(--spacing-2);
+}
+
+.doc-toc-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toc-item {
+  display: block;
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  line-height: 1.4;
+  transition: color var(--transition-fast), background var(--transition-fast);
+  cursor: pointer;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+}
+
+.toc-item:hover {
+  color: var(--text-color);
+  background: var(--bg-gray-50);
+}
+
+.toc-item.active {
+  color: var(--primary-color);
+  font-weight: var(--font-weight-medium);
+}
+
+.toc-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.toc-section {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-color);
+}
+
+.toc-subs {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-left: var(--spacing-3);
+  border-left: 1px solid var(--border-color);
+  padding-left: var(--spacing-2);
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.25s ease;
+}
+
+.toc-subs.open {
+  max-height: 600px;
+}
+
+.toc-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  padding: 3px var(--spacing-2);
+}
+
+.toc-sub.active {
+  color: var(--primary-color);
+}
+
+/* ============================================
+   SECTION ACCORDIONS
+   ============================================ */
+.doc-section {
+  margin-bottom: var(--spacing-2);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  background: var(--bg-white);
+  overflow: hidden;
+  scroll-margin-top: calc(var(--header-height) + 40px + var(--spacing-4));
+}
+
+.doc-section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: var(--spacing-5) var(--spacing-6);
+  cursor: pointer;
+  user-select: none;
+  transition: background var(--transition-fast);
+}
+
+.doc-section-header:hover {
+  background: var(--bg-gray-50);
+}
+
+.doc-section-header.no-toggle {
+  cursor: default;
+}
+
+.doc-section-header.no-toggle:hover {
+  background: none;
+}
+
+.doc-section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: var(--primary-light);
+  border-radius: var(--radius-md);
+  color: var(--primary-color);
+  flex-shrink: 0;
+}
+
+.doc-section-icon svg,
+.doc-section-icon i {
+  width: 18px;
+  height: 18px;
+}
+
+.doc-section-title-group {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.doc-section-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.doc-section-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+  margin: 2px 0 0;
+}
+
+.doc-section-chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.doc-section.collapsed .doc-section-chevron {
+  transform: rotate(-90deg);
+}
+
+.doc-section-body {
+  padding: var(--spacing-2) var(--spacing-6) var(--spacing-6);
+  border-top: 1px solid var(--border-color);
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.doc-section.collapsed .doc-section-body {
+  display: none;
+}
+
+/* ============================================
+   RESPONSIVE — DOC ONE-PAGE
+   ============================================ */
+@media (max-width: 1100px) {
+  .doc-page-wrapper {
+    grid-template-columns: 1fr;
+  }
+  .doc-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .doc-page-wrapper {
+    padding: var(--spacing-4);
+    margin-top: calc(var(--header-height) + 40px);
+  }
+  .doc-breadcrumb-bar {
+    padding: 0 var(--spacing-4);
+  }
+}

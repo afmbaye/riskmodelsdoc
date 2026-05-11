@@ -4,87 +4,77 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentation - Power BI</title>
-
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="../../Assets/Images/logos/baobab-icon.png">
-
-  <!-- Styles -->
   <link rel="stylesheet" href="../../Assets/css/main.css">
-
-  <!-- PrismJS for DAX syntax highlighting -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-
-  <!-- Feather Icons -->
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
-  <div class="layout-wrapper" id="layoutWrapper">
-    <!-- Header -->
-    <header class="header">
-      <!-- Rendered by NavigationManager -->
-    </header>
 
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-      <!-- Rendered dynamically -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="main-content" id="mainContent">
-      <!-- Loading State -->
-      <div class="loading" id="loadingState">
-        <div class="loading-spinner"></div>
-      </div>
-
-      <!-- Error State (hidden by default) -->
-      <div class="error-page d-none" id="errorState">
-        <div class="error-icon">
-          <i data-feather="alert-circle"></i>
-        </div>
-        <h1 id="errorTitle">Modèle non trouvé</h1>
-        <p id="errorDescription">Le modèle demandé n'existe pas ou n'est pas encore documenté.</p>
-        <a href="../../index.html" class="btn btn-primary" id="errorBackBtn">
-          <i data-feather="arrow-left"></i>
-          <span>Retour à l'accueil</span>
-        </a>
-      </div>
-
-      <!-- Content Container (sections loaded here) -->
-      <div class="d-none" id="contentContainer">
-        <!-- Section content rendered dynamically -->
-      </div>
-    </main>
+  <!-- Header (NavigationManager target) -->
+  <div class="layout-wrapper no-sidebar" id="layoutWrapper">
+    <header class="header"><!-- Rendered by NavigationManager --></header>
   </div>
 
-  <!-- Formula Modal -->
-  <div class="modal-overlay" id="formulaModalOverlay">
-    <div class="modal modal-lg formula-modal" id="formulaModal">
-      <div class="modal-header">
-        <h3 class="modal-title" id="formulaModalTitle">Formule DAX</h3>
-        <button class="modal-close" id="formulaModalClose">
-          <i data-feather="x"></i>
+  <!-- Hidden sidebar anchor (prevents NavigationManager getElementById errors) -->
+  <div id="sidebar" style="display:none"></div>
+
+  <!-- Breadcrumb bar — sticky under header -->
+  <div class="doc-breadcrumb-bar d-none" id="docBreadcrumbBar">
+    <a href="../../index.html" class="doc-bc-link" id="docBcHomeLink">
+      <i data-feather="arrow-left"></i>
+      <span id="docBcHome">Accueil</span>
+    </a>
+    <i data-feather="chevron-right" class="doc-bc-sep"></i>
+    <span class="doc-bc-model" id="docBcModel"></span>
+  </div>
+
+  <!-- Loading state -->
+  <div class="doc-loading" id="loadingState">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Error state -->
+  <div class="error-page d-none" id="errorState">
+    <div class="error-icon"><i data-feather="alert-circle"></i></div>
+    <h1 id="errorTitle">Modèle non trouvé</h1>
+    <p id="errorDescription"></p>
+    <a href="../../index.html" class="btn btn-primary" id="errorBackBtn">
+      <i data-feather="arrow-left"></i>
+      <span>Retour à l'accueil</span>
+    </a>
+  </div>
+
+  <!-- One-page layout -->
+  <div class="doc-page-wrapper d-none" id="docPageWrapper">
+    <main class="doc-main" id="docMain">
+      <!-- All sections rendered here dynamically -->
+    </main>
+
+    <!-- Floating TOC -->
+    <aside class="doc-toc" id="docToc">
+      <div class="doc-toc-title" id="tocTitle">Dans cette page</div>
+      <nav class="doc-toc-nav" id="tocNav"></nav>
+    </aside>
+  </div>
+
+  <!-- KPI Popover (portal, not in scroll flow) -->
+  <div class="kpi-popover" id="kpiPopover">
+    <button class="kpi-popover-close" id="kpiPopoverClose">
+      <i data-feather="x"></i>
+    </button>
+    <div class="kpi-popover-name" id="kpiPopoverName"></div>
+    <div class="kpi-popover-desc" id="kpiPopoverDesc"></div>
+    <div class="kpi-popover-formula">
+      <div class="kpi-popover-formula-toolbar">
+        <span>DAX</span>
+        <button class="btn btn-sm btn-ghost kpi-popover-copy-btn" id="kpiPopoverCopy">
+          <i data-feather="copy"></i>
+          <span id="kpiPopoverCopyLabel">Copier</span>
         </button>
       </div>
-      <div class="modal-body">
-        <div class="formula-info mb-4">
-          <p id="formulaDescription"></p>
-        </div>
-        <div class="formula-container">
-          <div class="formula-toolbar">
-            <span class="formula-lang-label">DAX</span>
-            <button class="btn btn-sm btn-ghost copy-formula-btn" id="copyFormulaBtn">
-              <i data-feather="copy"></i>
-              <span id="copyBtnLabel">Copier</span>
-            </button>
-          </div>
-          <pre><code class="language-dax" id="formulaCode"></code></pre>
-        </div>
-        <div class="formula-description" id="formulaExplanation">
-          <h4 id="explanationTitle">Explication</h4>
-          <p id="explanationText"></p>
-        </div>
-      </div>
+      <pre class="kpi-popover-formula-code"><code class="language-dax" id="kpiPopoverCode"></code></pre>
     </div>
   </div>
 
@@ -95,935 +85,814 @@
   <script src="../../Assets/js/navigationManager.js"></script>
 
   <script>
-    /**
-     * Documentation Page Controller
-     * Handles routing between sections and loading model-specific content
-     */
-    const DocumentationPage = {
-      modelId: null,
-      section: 'overview',
-      modelData: {},
-      siteConfig: null,
-      modelInfo: null,
+  /**
+   * One-page Documentation Controller
+   * Loads all 5 JSONs in parallel, renders all sections at once,
+   * with floating TOC, accordion sections and KPI popovers.
+   */
+  const DocPage = {
+    modelId: null,
+    modelInfo: null,
+    modelData: {},
+    kpiIndex: {},
 
-      async init() {
-        try {
-          // Parse URL parameters
-          const params = new URLSearchParams(window.location.search);
-          this.modelId = params.get('model');
-          this.section = params.get('section') || 'overview';
+    // ─── Translation helper ───────────────────────────────────
+    t(obj) { return LanguageManager.t.call(LanguageManager, obj); },
 
-          // Validate model ID
-          if (!this.modelId) {
-            this.showError('no-model');
-            return;
-          }
+    // ─── Init ────────────────────────────────────────────────
+    async init() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        this.modelId = params.get('model');
+        if (!this.modelId) { this.showError('no-model'); return; }
 
-          // Load site config and model data
-          this.siteConfig = await DataLoader.getSiteConfig();
+        const modelsIndex = await DataLoader.getModelsIndex();
+        this.modelInfo = modelsIndex.models.find(m => m.id === this.modelId);
+        if (!this.modelInfo)  { this.showError('not-found');  return; }
+        if (!this.modelInfo.isActive) { this.showError('not-active'); return; }
 
-          // Check if model exists
-          const modelsIndex = await DataLoader.getModelsIndex();
-          const modelInfo = modelsIndex.models.find(m => m.id === this.modelId);
+        await this.loadAllData();
+        this.buildKpiIndex();
 
-          if (!modelInfo) {
-            this.showError('not-found');
-            return;
-          }
-
-          if (!modelInfo.isActive) {
-            this.showError('not-active');
-            return;
-          }
-
-          // Load model-specific data based on section
-          await this.loadModelData();
-
-          // Store modelInfo for breadcrumb use
-          this.modelInfo = modelInfo;
-
-          // Render UI
-          this.renderSidebar(modelInfo);
-          this.renderSection();
-          this.setupEventListeners();
-
-          // Hide loading, show content
-          document.getElementById('loadingState').classList.add('d-none');
-          document.getElementById('contentContainer').classList.remove('d-none');
-
-          // Initialize icons
-          feather.replace();
-
-        } catch (error) {
-          console.error('Documentation page initialization error:', error);
-          this.showError('load-error');
-        }
-      },
-
-      async loadModelData() {
-        // Load data based on current section
-        switch (this.section) {
-          case 'overview':
-            this.modelData.overview = await DataLoader.getModelOverview(this.modelId);
-            break;
-          case 'data-model':
-            this.modelData.dataModel = await DataLoader.getModelDataModel(this.modelId);
-            break;
-          case 'kpis':
-            this.modelData.kpis = await DataLoader.getModelKpis(this.modelId);
-            break;
-          case 'visuals':
-            this.modelData.visuals = await DataLoader.getModelVisuals(this.modelId);
-            break;
-          case 'update':
-            this.modelData.update = await DataLoader.getModelUpdateProcess(this.modelId);
-            break;
-        }
-      },
-
-      showError(type) {
-        const t = LanguageManager.t.bind(LanguageManager);
+        this.renderBreadcrumbBar();
+        this.renderAllSections();
+        this.renderToc();
+        this.setupAccordions();
+        this.setupScrollSpy();
+        this.setupKpiPopovers();
+        this.setupKpiSearch();
+        this.setupDmTableAccordions();
+        this.setupMiniToc();
+        this.setupLanguageSwitch();
 
         document.getElementById('loadingState').classList.add('d-none');
-        document.getElementById('errorState').classList.remove('d-none');
-        document.getElementById('layoutWrapper').classList.add('no-sidebar');
-
-        const errors = {
-          'no-model': {
-            title: { fr: 'Aucun modèle spécifié', en: 'No model specified' },
-            desc: { fr: 'Veuillez sélectionner un modèle depuis la page d\'accueil.', en: 'Please select a model from the home page.' }
-          },
-          'not-found': {
-            title: { fr: 'Modèle non trouvé', en: 'Model not found' },
-            desc: { fr: 'Le modèle demandé n\'existe pas.', en: 'The requested model does not exist.' }
-          },
-          'not-active': {
-            title: { fr: 'Documentation en cours', en: 'Documentation in progress' },
-            desc: { fr: 'Ce modèle n\'est pas encore documenté.', en: 'This model is not yet documented.' }
-          },
-          'load-error': {
-            title: { fr: 'Erreur de chargement', en: 'Loading error' },
-            desc: { fr: 'Impossible de charger les données du modèle.', en: 'Unable to load model data.' }
-          }
-        };
-
-        const error = errors[type] || errors['load-error'];
-        document.getElementById('errorTitle').textContent = t(error.title);
-        document.getElementById('errorDescription').textContent = t(error.desc);
-        document.getElementById('errorBackBtn').innerHTML = `
-          <i data-feather="arrow-left"></i>
-          <span>${t({ fr: 'Retour à l\'accueil', en: 'Back to home' })}</span>
-        `;
+        document.getElementById('docBreadcrumbBar').classList.remove('d-none');
+        document.getElementById('docPageWrapper').classList.remove('d-none');
 
         feather.replace();
-      },
+      } catch (err) {
+        console.error('DocPage init error:', err);
+        this.showError('load-error');
+      }
+    },
 
-      renderSidebar(modelInfo) {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const sidebar = document.getElementById('sidebar');
+    // ─── Data loading ─────────────────────────────────────────
+    async loadAllData() {
+      const safeLoad = fn => fn.catch(() => null);
+      const [overview, visuals, kpis, dataModel, update] = await Promise.all([
+        DataLoader.getModelOverview(this.modelId),
+        safeLoad(DataLoader.getModelVisuals(this.modelId)),
+        safeLoad(DataLoader.getModelKpis(this.modelId)),
+        safeLoad(DataLoader.getModelDataModel(this.modelId)),
+        safeLoad(DataLoader.getModelUpdateProcess(this.modelId)),
+      ]);
+      this.modelData = { overview, visuals, kpis, dataModel, update };
+    },
 
-        const sections = [
-          { id: 'overview', icon: 'info', label: { fr: 'Vue d\'ensemble', en: 'Overview' } },
-          { id: 'data-model', icon: 'database', label: { fr: 'Modèle de données', en: 'Data Model' } },
-          { id: 'kpis', icon: 'bar-chart-2', label: { fr: 'Dictionnaire KPIs', en: 'KPI Dictionary' } },
-          { id: 'visuals', icon: 'layout', label: { fr: 'Visuels', en: 'Visuals' } },
-          { id: 'update', icon: 'refresh-cw', label: { fr: 'Mise à jour', en: 'Update Process' } }
-        ];
+    buildKpiIndex() {
+      this.kpiIndex = {};
+      (this.modelData.kpis?.kpis || []).forEach(k => { this.kpiIndex[k.id] = k; });
+    },
 
-        sidebar.innerHTML = `
-          <div class="sidebar-title">
-            <h2>${t(modelInfo.name)}</h2>
-          </div>
-          <nav class="nav-menu">
-            ${sections.map(section => `
-              <a href="?model=${this.modelId}&section=${section.id}"
-                 class="nav-item ${this.section === section.id ? 'active' : ''}"
-                 data-section="${section.id}">
-                <i data-feather="${section.icon}"></i>
-                <span class="label">${t(section.label)}</span>
-              </a>
-            `).join('')}
-          </nav>
-          <div class="sidebar-footer mt-8">
-            <a href="../../index.html" class="nav-item">
-              <i data-feather="arrow-left"></i>
-              <span class="label">${t({ fr: 'Retour aux modèles', en: 'Back to models' })}</span>
-            </a>
-          </div>
-        `;
-      },
+    // ─── Breadcrumb bar ───────────────────────────────────────
+    renderBreadcrumbBar() {
+      document.getElementById('docBcModel').textContent = this.t(this.modelInfo.name);
+      document.getElementById('docBcHome').textContent = this.t({ fr: 'Accueil', en: 'Home' });
+      document.title = `${this.t(this.modelInfo.name)} — Documentation`;
+    },
 
-      renderSection() {
-        switch (this.section) {
-          case 'overview':
-            this.renderOverview();
-            break;
-          case 'data-model':
-            this.renderDataModel();
-            break;
-          case 'kpis':
-            this.renderKpis();
-            break;
-          case 'visuals':
-            this.renderVisuals();
-            break;
-          case 'update':
-            this.renderUpdateProcess();
-            break;
-        }
-      },
-
-      renderBreadcrumb(sectionLabel) {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const modelName = this.modelInfo?.name
-          ? t(this.modelInfo.name)
-          : (this.modelData.overview?.name ? t(this.modelData.overview.name) : this.modelId);
-        return `
-          <nav class="doc-breadcrumb" aria-label="breadcrumb">
-            <a href="../../index.html" class="doc-breadcrumb-item">
-              <i data-feather="home"></i>
-              <span>${t({ fr: 'Accueil', en: 'Home' })}</span>
-            </a>
-            <i data-feather="chevron-right" class="doc-breadcrumb-sep"></i>
-            <span class="doc-breadcrumb-item">${modelName}</span>
-            <i data-feather="chevron-right" class="doc-breadcrumb-sep"></i>
-            <span class="doc-breadcrumb-item active">${t(sectionLabel)}</span>
-          </nav>
-        `;
-      },
-
-      // ==========================================
-      // SECTION: Overview
-      // ==========================================
-      renderOverview() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const data = this.modelData.overview;
-        const container = document.getElementById('contentContainer');
-
-        container.innerHTML = `
-          ${this.renderBreadcrumb({ fr: 'Vue d\'ensemble', en: 'Overview' })}
-
-          <!-- Page Header -->
-          <div class="page-header">
-            <h1 class="page-title">${t(data.name)}</h1>
-            <p class="page-description">${t(data.description)}</p>
-          </div>
-
-          <!-- Quick Stats -->
-          <section class="content-section">
-            <h2 class="section-title">
-              <i data-feather="activity"></i>
-              ${t({ fr: 'Statistiques', en: 'Statistics' })}
-            </h2>
-            <div class="content-grid-4">
-              ${data.stats.map(stat => `
-                <div class="stat-card">
-                  <div class="stat-icon">
-                    <i data-feather="${stat.icon}"></i>
-                  </div>
-                  <div class="stat-content">
-                    <div class="stat-value">${stat.value}</div>
-                    <div class="stat-label">${t(stat.label)}</div>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </section>
-
-          <!-- Use Case -->
-          ${data.useCase ? `
-          <section class="content-section">
-            <h2 class="section-title">
-              <i data-feather="target"></i>
-              ${t({ fr: 'Cas d\'utilisation', en: 'Use Case' })}
-            </h2>
-            <p class="text-lg text-muted">${t(data.useCase)}</p>
-          </section>
-          ` : ''}
-
-          <!-- Tabs Preview -->
-          <section class="content-section">
-            <h2 class="section-title">
-              <i data-feather="layout"></i>
-              ${t({ fr: 'Onglets du rapport', en: 'Report Tabs' })}
-            </h2>
-            <div class="content-grid">
-              ${data.tabs.map(tab => `
-                <div class="tab-card">
-                  <div class="tab-card-image">
-                    ${tab.screenshot
-                      ? `<img src="../../${tab.screenshot}" alt="${t(tab.name)}">`
-                      : `<div class="skeleton skeleton-image"></div>`
-                    }
-                  </div>
-                  <div class="tab-card-content">
-                    <h3 class="tab-card-title">${t(tab.name)}</h3>
-                    <p class="tab-card-description">${t(tab.description)}</p>
-                  </div>
-                </div>
-              `).join('')}
-            </div>
-          </section>
-
-          <!-- Last Update Info -->
-          ${data.lastUpdate ? `
-          <section class="content-section">
-            <div class="alert alert-info">
-              <i data-feather="clock" class="alert-icon"></i>
-              <div class="alert-content">
-                <div class="alert-title">${t({ fr: 'Dernière mise à jour', en: 'Last Update' })}</div>
-                <p class="alert-message">${data.lastUpdate}</p>
+    // ─── Section wrapper builder ──────────────────────────────
+    buildSection(id, icon, title, subtitle, body, opts = {}) {
+      const collapsed = opts.collapsed !== false;
+      const noChevron = !!opts.noChevron;
+      const titleText  = typeof title    === 'string' ? title    : this.t(title);
+      const subText    = subtitle ? (typeof subtitle === 'string' ? subtitle : this.t(subtitle)) : '';
+      return `
+        <section class="doc-section ${collapsed ? 'collapsed' : ''} ${opts.cls || ''}"
+                 id="sec-${id}">
+          <div class="doc-section-header ${noChevron ? 'no-toggle' : ''}"
+               data-section="${id}">
+            <div class="doc-section-title-group">
+              <div class="doc-section-icon">
+                <i data-feather="${icon}"></i>
+              </div>
+              <div>
+                <h2 class="doc-section-title">${titleText}</h2>
+                ${subText ? `<p class="doc-section-subtitle">${subText}</p>` : ''}
               </div>
             </div>
-          </section>
-          ` : ''}
-        `;
-      },
-
-      // ==========================================
-      // SECTION: Data Model
-      // ==========================================
-      renderDataModel() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const data = this.modelData.dataModel;
-        const container = document.getElementById('contentContainer');
-
-        container.innerHTML = `
-          ${this.renderBreadcrumb({ fr: 'Modèle de données', en: 'Data Model' })}
-
-          <!-- Page Header -->
-          <div class="page-header">
-            <h1 class="page-title">${t({ fr: 'Modèle de données', en: 'Data Model' })}</h1>
-            <p class="page-description">${t({
-              fr: 'Structure des tables et relations du modèle sémantique.',
-              en: 'Structure of tables and relationships in the semantic model.'
-            })}</p>
+            ${noChevron ? '' : `<i data-feather="chevron-down" class="doc-section-chevron"></i>`}
           </div>
+          <div class="doc-section-body">${body}</div>
+        </section>`;
+    },
 
-          <!-- Schema Image -->
-          ${data.schema && data.schema.image ? `
-          <section class="content-section">
+    // ─── Render all ───────────────────────────────────────────
+    renderAllSections() {
+      document.getElementById('docMain').innerHTML = [
+        this.buildOverviewSection(),
+        this.buildVisualsSection(),
+        this.buildKpisSection(),
+        this.buildDataModelSection(),
+        this.buildUpdateSection(),
+      ].filter(Boolean).join('');
+    },
+
+    // ─── OVERVIEW ─────────────────────────────────────────────
+    buildOverviewSection() {
+      const d = this.modelData.overview;
+      const stats = (d.stats || []).map(s => `
+        <div class="stat-card">
+          <div class="stat-icon"><i data-feather="${s.icon}"></i></div>
+          <div class="stat-content">
+            <div class="stat-value">${s.value}</div>
+            <div class="stat-label">${this.t(s.label)}</div>
+          </div>
+        </div>`).join('');
+
+      const body = `
+        <p class="overview-description">${this.t(d.description)}</p>
+        <div class="content-grid-4 mt-4">${stats}</div>
+        ${d.useCase ? `
+          <div class="overview-use-case mt-6">
+            <span class="overview-use-case-label">${this.t({ fr: 'Cas d\'utilisation', en: 'Use Case' })}</span>
+            <p>${this.t(d.useCase)}</p>
+          </div>` : ''}
+        ${d.lastUpdate ? `
+          <div class="alert alert-info mt-6">
+            <i data-feather="clock" class="alert-icon"></i>
+            <div class="alert-content">
+              <div class="alert-title">${this.t({ fr: 'Dernière mise à jour', en: 'Last update' })}</div>
+              <p class="alert-message">${d.lastUpdate}</p>
+            </div>
+          </div>` : ''}`;
+
+      return this.buildSection(
+        'overview', 'info',
+        { fr: 'Vue d\'ensemble', en: 'Overview' }, null, body,
+        { collapsed: false, noChevron: true, cls: 'overview' }
+      );
+    },
+
+    // ─── VISUALS ──────────────────────────────────────────────
+    buildVisualsSection() {
+      const d = this.modelData.visuals;
+      if (!d?.visuals?.length) return '';
+      const count = d.visuals.length;
+
+      const miniToc = `
+        <div class="visual-mini-toc">
+          ${d.visuals.map(v => `
+            <button class="visual-mini-toc-chip" data-target="visual-${v.id}">
+              ${this.t(v.name)}
+            </button>`).join('')}
+        </div>`;
+
+      const articles = d.visuals.map((v, i) => this.buildVisualArticle(v, i)).join('');
+
+      return this.buildSection(
+        'visuals', 'layout',
+        { fr: 'Visuels', en: 'Visuals' },
+        { fr: `${count} onglet${count > 1 ? 's' : ''}`, en: `${count} tab${count > 1 ? 's' : ''}` },
+        miniToc + articles
+      );
+    },
+
+    buildVisualArticle(v, index) {
+      const desc = this.t(v.description || v.objective || { fr: '', en: '' });
+      const howToRead = this.t(v.howToRead || { fr: '', en: '' });
+
+      // Filters: support both string[] and {name, description}[]
+      const filterChips = (v.filters || []).map(f => {
+        const name = typeof f === 'string' ? f : f.name;
+        const tip  = typeof f === 'string' ? '' : this.t(f.description || { fr: '', en: '' });
+        return `<span class="visual-filter-chip"${tip ? ` title="${tip}"` : ''}>${name}</span>`;
+      }).join('');
+
+      // KPI chips: support both `kpisUsed` (id strings) and `kpis` (id strings)
+      const kpiIds = v.kpisUsed || v.kpis || [];
+      const kpiChips = kpiIds.map(kid => {
+        const kpi   = this.kpiIndex[kid];
+        const label = kpi ? this.t(kpi.name) : kid;
+        return `<button class="visual-kpi-chip" data-kpi-id="${kid}">${label}</button>`;
+      }).join('');
+
+      // Color coding: {fr,en} prose OR {color: {fr,en}} map
+      let colorHtml = '';
+      if (v.colorCoding) {
+        const colorMap = { green:'#48BB78', red:'#F56565', orange:'#ED8936',
+                           yellow:'#ECC94B', blue:'#4299E1', gray:'#A0AEC0', grey:'#A0AEC0' };
+        if (v.colorCoding.fr || v.colorCoding.en) {
+          colorHtml = `
+            <div class="visual-color-coding">
+              <span class="visual-meta-label">${this.t({ fr: 'Code couleur', en: 'Color coding' })}</span>
+              <p class="color-coding-prose">${this.t(v.colorCoding)}</p>
+            </div>`;
+        } else {
+          const dots = Object.entries(v.colorCoding).map(([c, m]) => `
+            <span class="color-coding-item">
+              <span class="color-coding-dot"
+                    style="background:${colorMap[c.toLowerCase()] || c}"></span>
+              <span>${this.t(m)}</span>
+            </span>`).join('');
+          colorHtml = `<div class="visual-color-coding">${dots}</div>`;
+        }
+      }
+
+      return `
+        <article class="visual-article" id="visual-${v.id}">
+          <h3 class="visual-article-title">
+            <span class="visual-article-number">${index + 1}</span>
+            ${this.t(v.name)}
+          </h3>
+          ${desc       ? `<p class="visual-article-description">${desc}</p>` : ''}
+          ${v.screenshot ? `
+            <div class="visual-article-screenshot">
+              <img src="../../${v.screenshot}" alt="${this.t(v.name)}" loading="lazy">
+            </div>` : ''}
+          ${howToRead  ? `<div class="visual-article-how-to-read">${howToRead}</div>` : ''}
+          <div class="visual-meta-row">
+            ${filterChips ? `
+              <div class="visual-meta-group">
+                <span class="visual-meta-label">${this.t({ fr: 'Filtres', en: 'Filters' })}</span>
+                <div class="visual-filter-chips">${filterChips}</div>
+              </div>` : ''}
+            ${kpiChips ? `
+              <div class="visual-meta-group">
+                <span class="visual-meta-label">KPIs</span>
+                <div class="visual-kpi-chips">${kpiChips}</div>
+              </div>` : ''}
+          </div>
+          ${colorHtml}
+        </article>`;
+    },
+
+    // ─── KPI DICTIONARY ───────────────────────────────────────
+    buildKpisSection() {
+      const d = this.modelData.kpis;
+      if (!d?.kpis?.length) return '';
+
+      const rows = d.kpis.map(k => `
+        <tr data-kpi-id="${k.id}" id="kpi-row-${k.id}">
+          <td class="kpi-name">${this.t(k.name)}</td>
+          <td><code class="kpi-variable">${k.variableName || '—'}</code></td>
+          <td class="kpi-description">${this.t(k.description)}</td>
+          <td class="kpi-unit">${k.unit || '—'}</td>
+          <td class="kpi-action">
+            ${k.formula?.dax ? `
+              <button class="view-formula-btn" data-kpi-id="${k.id}">
+                <i data-feather="code"></i>
+                ${this.t({ fr: 'Voir', en: 'View' })}
+              </button>` : '—'}
+          </td>
+        </tr>`).join('');
+
+      const body = `
+        <div class="section-header mb-4">
+          <span class="text-muted text-sm">
+            ${d.kpis.length} ${this.t({ fr: 'indicateurs', en: 'indicators' })}
+          </span>
+          <div class="search-box">
+            <i data-feather="search"></i>
+            <input type="text" id="kpiSearchInput"
+                   placeholder="${this.t({ fr: 'Rechercher un KPI...', en: 'Search KPI...' })}">
+          </div>
+        </div>
+        <div class="table-wrapper" id="kpiTableWrapper">
+          <table class="kpi-table" id="kpiTable">
+            <thead>
+              <tr>
+                <th>${this.t({ fr: 'Nom', en: 'Name' })}</th>
+                <th>${this.t({ fr: 'Variable', en: 'Variable' })}</th>
+                <th>${this.t({ fr: 'Description', en: 'Description' })}</th>
+                <th>${this.t({ fr: 'Unité', en: 'Unit' })}</th>
+                <th>${this.t({ fr: 'Formule', en: 'Formula' })}</th>
+              </tr>
+            </thead>
+            <tbody id="kpiTableBody">${rows}</tbody>
+          </table>
+        </div>
+        <div class="empty-state d-none" id="kpiEmptyState">
+          <i data-feather="search" class="empty-state-icon"></i>
+          <h3 class="empty-state-title">${this.t({ fr: 'Aucun KPI trouvé', en: 'No KPI found' })}</h3>
+        </div>`;
+
+      return this.buildSection(
+        'kpis', 'bar-chart-2',
+        { fr: 'Dictionnaire KPIs', en: 'KPI Dictionary' },
+        `${d.kpis.length} ${this.t({ fr: 'indicateurs', en: 'indicators' })}`,
+        body
+      );
+    },
+
+    // ─── DATA MODEL ───────────────────────────────────────────
+    buildDataModelSection() {
+      const dm       = this.modelData.dataModel;
+      const overview = this.modelData.overview;
+      if (!dm) return '';
+
+      // Sources (from overview.json)
+      let sourcesHtml = '';
+      if (overview?.sources?.length) {
+        const iconFor = type => ({ folder: 'folder', excel: 'file-text', csv: 'file' }[type] || 'database');
+        const items = overview.sources.map(s => `
+          <div class="source-item">
+            <div class="source-icon">
+              <i data-feather="${iconFor(s.type)}"></i>
+            </div>
+            <div class="source-body">
+              <div class="source-name">${s.name}</div>
+              <div class="source-desc">${this.t(s.description)}</div>
+            </div>
+          </div>`).join('');
+        sourcesHtml = `
+          <div class="dm-subsection" id="dm-sources">
+            <h3 class="dm-subsection-title">
+              <i data-feather="link"></i>
+              ${this.t({ fr: 'Sources de données', en: 'Data Sources' })}
+            </h3>
+            <div class="sources-list">${items}</div>
+          </div>`;
+      }
+
+      // Schema image
+      let schemaHtml = '';
+      if (dm.schema?.image) {
+        schemaHtml = `
+          <div class="dm-subsection" id="dm-schema">
+            <h3 class="dm-subsection-title">
+              <i data-feather="share-2"></i>
+              ${this.t({ fr: 'Schéma', en: 'Schema' })}
+            </h3>
             <div class="schema-image">
-              <img src="../../${data.schema.image}" alt="${t({ fr: 'Schéma du modèle', en: 'Model schema' })}">
+              <img src="../../${dm.schema.image}"
+                   alt="${this.t({ fr: 'Schéma du modèle', en: 'Model schema' })}">
             </div>
-          </section>
-          ` : ''}
+          </div>`;
+      }
 
-          <!-- All Tables -->
-          <section class="content-section">
-            <h2 class="section-title">
-              <i data-feather="table"></i>
-              ${t({ fr: 'Tables', en: 'Tables' })}
-              <span class="section-count">${data.tables.fact.length + data.tables.dimension.length}</span>
-            </h2>
-            <div class="content-grid">
-              ${data.tables.fact.map(table => this.renderTableCard(table, 'fact')).join('')}
-              ${data.tables.dimension.map(table => this.renderTableCard(table, 'dimension')).join('')}
+      // Table accordion builder
+      const buildTableItems = (tables, type) => tables.map(tbl => {
+        const badge = type === 'fact'
+          ? `<span class="badge badge-primary">Fact</span>`
+          : `<span class="badge badge-info">Dimension</span>`;
+        const colRows = (tbl.columns || []).map(col => `
+          <tr>
+            <td>${col.name}</td>
+            <td><span class="col-type-badge">${col.type || ''}</span></td>
+            <td class="text-muted">${this.t(col.description || { fr: '', en: '' })}</td>
+          </tr>`).join('');
+        return `
+          <div class="dm-table-item">
+            <div class="dm-table-header">
+              <div class="dm-table-header-left">
+                ${badge}
+                <span class="dm-table-name">${tbl.name}</span>
+                ${tbl.columns?.length
+                  ? `<span class="dm-table-meta">${tbl.columns.length} col.</span>` : ''}
+              </div>
+              <i data-feather="chevron-down" class="dm-chevron"></i>
             </div>
-          </section>
+            <div class="dm-table-body">
+              ${tbl.description
+                ? `<p class="dm-table-description">${this.t(tbl.description)}</p>` : ''}
+              ${colRows ? `
+                <table class="dm-columns-table">
+                  <thead>
+                    <tr>
+                      <th>${this.t({ fr: 'Colonne', en: 'Column' })}</th>
+                      <th>${this.t({ fr: 'Type', en: 'Type' })}</th>
+                      <th>${this.t({ fr: 'Description', en: 'Description' })}</th>
+                    </tr>
+                  </thead>
+                  <tbody>${colRows}</tbody>
+                </table>` : ''}
+            </div>
+          </div>`;
+      }).join('');
 
-          <!-- Relationships -->
-          <section class="content-section">
-            <h2 class="section-title">
+      const factTables = dm.tables?.fact || [];
+      const dimTables  = dm.tables?.dimension || [];
+
+      const tablesHtml = [
+        factTables.length ? `
+          <div class="dm-subsection" id="dm-fact-tables">
+            <h3 class="dm-subsection-title">
+              <i data-feather="database"></i>
+              ${this.t({ fr: 'Tables de faits', en: 'Fact Tables' })} (${factTables.length})
+            </h3>
+            <div class="dm-table-group">${buildTableItems(factTables, 'fact')}</div>
+          </div>` : '',
+        dimTables.length ? `
+          <div class="dm-subsection" id="dm-dim-tables">
+            <h3 class="dm-subsection-title">
+              <i data-feather="box"></i>
+              ${this.t({ fr: 'Tables de dimensions', en: 'Dimension Tables' })} (${dimTables.length})
+            </h3>
+            <div class="dm-table-group">${buildTableItems(dimTables, 'dimension')}</div>
+          </div>` : ''
+      ].filter(Boolean).join('');
+
+      // Relationships
+      let relsHtml = '';
+      if (dm.relationships?.length) {
+        const relRows = dm.relationships.map(r => `
+          <tr>
+            <td><span class="rel-table-name">${r.from.table}</span></td>
+            <td><code class="kpi-variable">${r.from.column}</code></td>
+            <td style="text-align:center">
+              <span class="cardinality-badge">${r.cardinality}</span>
+            </td>
+            <td><span class="rel-table-name">${r.to.table}</span></td>
+            <td><code class="kpi-variable">${r.to.column}</code></td>
+            <td class="rel-description">${this.t(r.description)}</td>
+          </tr>`).join('');
+        relsHtml = `
+          <div class="dm-subsection" id="dm-relations">
+            <h3 class="dm-subsection-title">
               <i data-feather="git-merge"></i>
-              ${t({ fr: 'Relations', en: 'Relationships' })}
-              <span class="section-count">${data.relationships.length}</span>
-            </h2>
+              ${this.t({ fr: 'Relations', en: 'Relationships' })} (${dm.relationships.length})
+            </h3>
             <div class="table-wrapper">
               <table class="data-table relationships-table">
                 <thead>
                   <tr>
-                    <th>${t({ fr: 'Table source', en: 'From table' })}</th>
-                    <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
-                    <th style="text-align:center">${t({ fr: 'Cardinalité', en: 'Cardinality' })}</th>
-                    <th>${t({ fr: 'Table cible', en: 'To table' })}</th>
-                    <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
-                    <th>${t({ fr: 'Description', en: 'Description' })}</th>
+                    <th>${this.t({ fr: 'Table source', en: 'From' })}</th>
+                    <th>${this.t({ fr: 'Colonne', en: 'Column' })}</th>
+                    <th style="text-align:center">
+                      ${this.t({ fr: 'Cardinalité', en: 'Cardinality' })}
+                    </th>
+                    <th>${this.t({ fr: 'Table cible', en: 'To' })}</th>
+                    <th>${this.t({ fr: 'Colonne', en: 'Column' })}</th>
+                    <th>${this.t({ fr: 'Description', en: 'Description' })}</th>
                   </tr>
                 </thead>
-                <tbody>
-                  ${data.relationships.map(rel => `
-                    <tr>
-                      <td><span class="rel-table-name">${rel.from.table}</span></td>
-                      <td><code class="kpi-variable">${rel.from.column}</code></td>
-                      <td style="text-align:center"><span class="cardinality-badge">${rel.cardinality}</span></td>
-                      <td><span class="rel-table-name">${rel.to.table}</span></td>
-                      <td><code class="kpi-variable">${rel.to.column}</code></td>
-                      <td class="rel-description">${t(rel.description)}</td>
-                    </tr>
-                  `).join('')}
-                </tbody>
+                <tbody>${relRows}</tbody>
               </table>
             </div>
-          </section>
-        `;
-      },
+          </div>`;
+      }
 
-      renderTableCard(table, type) {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const iconColor = type === 'fact' ? 'var(--primary-color)' : 'var(--info-color)';
-        const rowCount = table.rowCount ? `<span class="table-meta">${table.rowCount.toLocaleString()} lignes</span>` : '';
-        const colCount = table.columns ? `<span class="table-meta">${table.columns.length} col.</span>` : '';
+      const totalTables = factTables.length + dimTables.length;
+      const relCount    = dm.relationships?.length || 0;
+      return this.buildSection(
+        'datamodel', 'database',
+        { fr: 'Modèle de données', en: 'Data Model' },
+        `${totalTables} tables · ${relCount} ${this.t({ fr: 'relations', en: 'relationships' })}`,
+        sourcesHtml + schemaHtml + tablesHtml + relsHtml
+      );
+    },
 
-        return `
-          <div class="table-card">
-            <div class="table-card-header">
-              <div class="table-icon" style="color: ${iconColor}">
-                <i data-feather="${type === 'fact' ? 'database' : 'box'}"></i>
-              </div>
-              <div class="table-info">
-                <h3 class="table-name">${table.name}</h3>
-                <span class="badge badge-${type === 'fact' ? 'primary' : 'info'}">${type === 'fact' ? 'Fact' : 'Dimension'}</span>
-              </div>
-              ${rowCount || colCount ? `<div class="table-meta-group">${rowCount}${colCount}</div>` : ''}
-            </div>
-            <div class="table-card-body">
-              <p class="table-description">${t(table.description)}</p>
-            </div>
-          </div>
-        `;
-      },
+    // ─── UPDATE PROCESS ───────────────────────────────────────
+    buildUpdateSection() {
+      const d = this.modelData.update;
+      if (!d?.steps?.length) return '';
 
-      // ==========================================
-      // SECTION: KPIs
-      // ==========================================
-      renderKpis() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const data = this.modelData.kpis;
-        const container = document.getElementById('contentContainer');
-
-        container.innerHTML = `
-          ${this.renderBreadcrumb({ fr: 'Dictionnaire KPIs', en: 'KPI Dictionary' })}
-
-          <!-- Page Header -->
-          <div class="page-header">
-            <h1 class="page-title">${t({ fr: 'Dictionnaire des KPIs', en: 'KPI Dictionary' })}</h1>
-            <p class="page-description">${t({
-              fr: 'Liste complète des indicateurs et leurs formules DAX.',
-              en: 'Complete list of indicators and their DAX formulas.'
-            })}</p>
-          </div>
-
-          <!-- Search -->
-          <section class="content-section">
-            <div class="section-header">
-              <h2 class="section-title">
-                <i data-feather="bar-chart-2"></i>
-                ${t({ fr: 'Indicateurs', en: 'Indicators' })} (${data.kpis.length})
-              </h2>
-              <div class="search-box">
-                <i data-feather="search"></i>
-                <input type="text" id="kpiSearchInput" placeholder="${t({
-                  fr: 'Rechercher un KPI...',
-                  en: 'Search for a KPI...'
-                })}">
-              </div>
-            </div>
-
-            <!-- KPI Table -->
-            <div class="table-wrapper">
-              <table class="kpi-table" id="kpiTable">
-                <thead>
-                  <tr>
-                    <th>${t({ fr: 'Nom', en: 'Name' })}</th>
-                    <th>${t({ fr: 'Variable', en: 'Variable' })}</th>
-                    <th>${t({ fr: 'Description', en: 'Description' })}</th>
-                    <th>${t({ fr: 'Unité', en: 'Unit' })}</th>
-                    <th>${t({ fr: 'Visuels', en: 'Visuals' })}</th>
-                    <th>${t({ fr: 'Formule', en: 'Formula' })}</th>
-                  </tr>
-                </thead>
-                <tbody id="kpiTableBody">
-                  ${data.kpis.map(kpi => this.renderKpiRow(kpi)).join('')}
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Empty State -->
-            <div class="empty-state d-none" id="kpiEmptyState">
-              <i data-feather="search" class="empty-state-icon"></i>
-              <h3 class="empty-state-title">${t({ fr: 'Aucun KPI trouvé', en: 'No KPI found' })}</h3>
-              <p class="empty-state-description">${t({
-                fr: 'Essayez de modifier vos critères de recherche.',
-                en: 'Try modifying your search criteria.'
-              })}</p>
-            </div>
-          </section>
-        `;
-
-        // Setup KPI search
-        this.setupKpiSearch(data.kpis);
-      },
-
-      renderKpiRow(kpi) {
-        const t = LanguageManager.t.bind(LanguageManager);
-
-        const visualTags = (kpi.visuals || []).map(v =>
-          `<span class="visual-tag">${v}</span>`
-        ).join('');
-
-        return `
-          <tr data-kpi-id="${kpi.id}">
-            <td class="kpi-name">${t(kpi.name)}</td>
-            <td><code class="kpi-variable">${kpi.variableName || '-'}</code></td>
-            <td class="kpi-description">${t(kpi.description)}</td>
-            <td class="kpi-unit">${kpi.unit || '-'}</td>
-            <td class="kpi-visuals">${visualTags || '-'}</td>
-            <td class="kpi-action">
-              <button class="view-formula-btn" data-kpi-id="${kpi.id}">
-                <i data-feather="code"></i>
-                ${t({ fr: 'Voir', en: 'View' })}
-              </button>
-            </td>
-          </tr>
-        `;
-      },
-
-      setupKpiSearch(kpis) {
-        const searchInput = document.getElementById('kpiSearchInput');
-        const tbody = document.getElementById('kpiTableBody');
-        const emptyState = document.getElementById('kpiEmptyState');
-        const tableWrapper = document.querySelector('.table-wrapper');
-
-        searchInput.addEventListener('input', (e) => {
-          const term = e.target.value.toLowerCase();
-          const t = LanguageManager.t.bind(LanguageManager);
-
-          let visibleCount = 0;
-
-          kpis.forEach(kpi => {
-            const row = tbody.querySelector(`tr[data-kpi-id="${kpi.id}"]`);
-            const name = t(kpi.name).toLowerCase();
-            const desc = t(kpi.description).toLowerCase();
-            const variable = (kpi.variableName || '').toLowerCase();
-
-            const matches = name.includes(term) || desc.includes(term) || variable.includes(term);
-
-            if (matches) {
-              row.classList.remove('d-none');
-              visibleCount++;
-            } else {
-              row.classList.add('d-none');
-            }
-          });
-
-          if (visibleCount === 0) {
-            tableWrapper.classList.add('d-none');
-            emptyState.classList.remove('d-none');
-          } else {
-            tableWrapper.classList.remove('d-none');
-            emptyState.classList.add('d-none');
-          }
-        });
-      },
-
-      showFormulaModal(kpiId) {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const kpi = this.modelData.kpis.kpis.find(k => k.id === kpiId);
-        if (!kpi) return;
-
-        document.getElementById('formulaModalTitle').textContent = t(kpi.name);
-        document.getElementById('formulaDescription').textContent = t(kpi.description);
-        document.getElementById('formulaCode').textContent = (kpi.formula && kpi.formula.dax) || 'N/A';
-        document.getElementById('explanationTitle').textContent = t({ fr: 'Explication', en: 'Explanation' });
-        document.getElementById('explanationText').textContent = t((kpi.formula && kpi.formula.explanation) || { fr: 'Aucune explication disponible.', en: 'No explanation available.' });
-
-        // Update copy button label
-        const copyLabel = document.getElementById('copyBtnLabel');
-        copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
-
-        // Highlight code
-        Prism.highlightAll();
-
-        // Setup copy button
-        const copyBtn = document.getElementById('copyFormulaBtn');
-        copyBtn.onclick = () => {
-          navigator.clipboard.writeText((kpi.formula && kpi.formula.dax) || '').then(() => {
-            copyLabel.textContent = t({ fr: 'Copié !', en: 'Copied!' });
-            setTimeout(() => {
-              copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
-            }, 2000);
-          }).catch(() => {
-            // Fallback for browsers without clipboard API
-            copyLabel.textContent = t({ fr: 'Erreur', en: 'Error' });
-            setTimeout(() => {
-              copyLabel.textContent = t({ fr: 'Copier', en: 'Copy' });
-            }, 2000);
-          });
-        };
-
-        // Initialize icons in modal
-        feather.replace();
-
-        // Show modal
-        document.getElementById('formulaModalOverlay').classList.add('show');
-        document.getElementById('formulaModal').classList.add('show');
-      },
-
-      hideFormulaModal() {
-        document.getElementById('formulaModalOverlay').classList.remove('show');
-        document.getElementById('formulaModal').classList.remove('show');
-      },
-
-      // ==========================================
-      // SECTION: Visuals
-      // ==========================================
-      renderVisuals() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const data = this.modelData.visuals;
-        const container = document.getElementById('contentContainer');
-
-        container.innerHTML = `
-          ${this.renderBreadcrumb({ fr: 'Visuels', en: 'Visuals' })}
-
-          <!-- Page Header -->
-          <div class="page-header">
-            <h1 class="page-title">${t({ fr: 'Visuels du rapport', en: 'Report Visuals' })}</h1>
-            <p class="page-description">${t({
-              fr: 'Guide détaillé des visuels et de leur interprétation.',
-              en: 'Detailed guide to visuals and their interpretation.'
-            })}</p>
-          </div>
-
-          <!-- Visuals List -->
-          <div class="visuals-list">
-            ${data.visuals.map((visual, index) => this.renderVisualCard(visual, index)).join('')}
-          </div>
-        `;
-      },
-
-      renderVisualCard(visual, index) {
-        const t = LanguageManager.t.bind(LanguageManager);
-
-        const kpiTags = (visual.kpisUsed || []).map(kpi =>
-          `<span class="kpi-tag">${kpi}</span>`
-        ).join('');
-
-        const filtersList = (visual.filters || []).map(filter =>
-          `<li><strong>${filter.name}:</strong> ${t(filter.description)}</li>`
-        ).join('');
-
-        const colorLegend = visual.colorCoding ? `
-          <div class="color-legend">
-            <h5>${t({ fr: 'Légende des couleurs', en: 'Color Legend' })}</h5>
-            <div class="legend-items">
-              ${Object.entries(visual.colorCoding).map(([color, meaning]) => `
-                <div class="legend-item">
-                  <span class="legend-color" style="background: ${this.getColorValue(color)}"></span>
-                  <span class="legend-label">${t(meaning)}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        ` : '';
-
-        return `
-          <div class="visual-card" id="visual-${index}">
-            <div class="visual-header">
-              <h3 class="visual-name">${t(visual.name)}</h3>
-            </div>
-
-            ${visual.screenshot ? `
-              <div class="visual-screenshot">
-                <img src="../../${visual.screenshot}" alt="${t(visual.name)}">
-              </div>
-            ` : ''}
-
-            <div class="visual-content">
-              <!-- Objective -->
-              <div class="visual-section">
-                <h4><i data-feather="target"></i> ${t({ fr: 'Objectif', en: 'Objective' })}</h4>
-                <p>${t(visual.objective)}</p>
-              </div>
-
-              <!-- KPIs Used -->
-              ${kpiTags ? `
-              <div class="visual-section">
-                <h4><i data-feather="bar-chart-2"></i> ${t({ fr: 'KPIs utilisés', en: 'KPIs Used' })}</h4>
-                <div class="kpi-tags">${kpiTags}</div>
-              </div>
-              ` : ''}
-
-              <!-- Filters -->
-              ${filtersList ? `
-              <div class="visual-section">
-                <h4><i data-feather="filter"></i> ${t({ fr: 'Filtres', en: 'Filters' })}</h4>
-                <ul class="filters-list">${filtersList}</ul>
-              </div>
-              ` : ''}
-
-              <!-- How to Read -->
-              ${visual.howToRead ? `
-              <div class="visual-section">
-                <h4><i data-feather="book-open"></i> ${t({ fr: 'Comment lire', en: 'How to Read' })}</h4>
-                <p>${t(visual.howToRead)}</p>
-              </div>
-              ` : ''}
-
-              <!-- Color Coding -->
-              ${colorLegend}
-            </div>
-          </div>
-        `;
-      },
-
-      getColorValue(colorName) {
-        const colors = {
-          'green': 'var(--success-color)',
-          'red': 'var(--error-color)',
-          'yellow': 'var(--warning-color)',
-          'orange': '#ED8936',
-          'blue': 'var(--info-color)',
-          'gray': 'var(--text-muted)',
-          'grey': 'var(--text-muted)'
-        };
-        return colors[colorName.toLowerCase()] || colorName;
-      },
-
-      // ==========================================
-      // SECTION: Update Process
-      // ==========================================
-      renderUpdateProcess() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const data = this.modelData.update;
-        const container = document.getElementById('contentContainer');
-
-        container.innerHTML = `
-          ${this.renderBreadcrumb({ fr: 'Mise à jour', en: 'Update Process' })}
-
-          <!-- Page Header -->
-          <div class="page-header">
-            <h1 class="page-title">${t({ fr: 'Processus de mise à jour', en: 'Update Process' })}</h1>
-            <p class="page-description">${t({
-              fr: 'Guide étape par étape pour mettre à jour le modèle.',
-              en: 'Step-by-step guide to update the model.'
-            })}</p>
-          </div>
-
-          <!-- Stepper Navigation -->
-          <div class="stepper">
-            <div class="stepper-nav" id="stepperNav">
-              ${data.steps.map((step, index) => `
-                <div class="stepper-nav-item ${index === 0 ? 'active' : ''}" data-step="${index}">
-                  <div class="step-indicator"><span>${index + 1}</span></div>
-                  <span class="step-label">${t(step.title)}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-
-          <!-- Steps Content -->
-          <div class="steps-content" id="stepsContent">
-            ${data.steps.map((step, index) => this.renderStep(step, index)).join('')}
-          </div>
-        `;
-
-        // Setup stepper navigation
-        this.setupStepperNav(data.steps.length);
-      },
-
-      renderStep(step, index) {
-        const t = LanguageManager.t.bind(LanguageManager);
-
-        const tasksList = (step.tasks || []).map(task => `
+      const steps = d.steps.map((step, i) => {
+        const tasks = (step.tasks || []).map(task => `
           <div class="task">
-            <p class="task-description">${t(task.description)}</p>
-            ${task.details ? `<p class="task-details">${t(task.details)}</p>` : ''}
-            ${task.items ? `
-              <ul class="task-items">
-                ${task.items.map(item => `<li>${t(item)}</li>`).join('')}
-              </ul>
-            ` : ''}
-          </div>
-        `).join('');
+            <p>${this.t(task.description || task)}</p>
+            ${(task.items || []).length
+              ? `<ul>${task.items.map(it => `<li>${this.t(it)}</li>`).join('')}</ul>` : ''}
+          </div>`).join('');
 
-        const warningsList = (step.warnings || []).map(warning =>
-          `<li><i data-feather="alert-triangle"></i> ${t(warning)}</li>`
-        ).join('');
+        const warnings = (step.warnings || []).map(w =>
+          `<li><i data-feather="alert-triangle"></i> ${this.t(w)}</li>`).join('');
 
-        const checklistItems = (step.checklist || []).map(item =>
-          `<li><input type="checkbox"> ${t(item)}</li>`
-        ).join('');
+        const checklist = (step.checklist || []).map(c =>
+          `<li><label><input type="checkbox"> ${this.t(c)}</label></li>`).join('');
 
         return `
-          <div class="step-content ${index === 0 ? 'active' : 'd-none'}" data-step="${index}">
-            <div class="step-header">
-              <div class="step-number">${index + 1}</div>
-              <div class="step-title-wrapper">
-                <h3 class="step-title">${t(step.title)}</h3>
+          <div class="update-step" id="update-step-${i + 1}">
+            <div class="update-step-indicator">
+              <div class="update-step-number">${i + 1}</div>
+            </div>
+            <div class="update-step-body">
+              <h3 class="update-step-title">
+                ${this.t(step.title)}
                 ${step.firstTimeOnly ? `
                   <span class="badge-first-time">
-                    <i data-feather="info"></i>
-                    ${t({ fr: 'Première fois uniquement', en: 'First time only' })}
-                  </span>
-                ` : ''}
-              </div>
+                    ${this.t({ fr: 'Première fois', en: 'First time only' })}
+                  </span>` : ''}
+              </h3>
+              <p class="update-step-description">${this.t(step.description)}</p>
+              ${tasks    ? `<div class="step-tasks">${tasks}</div>` : ''}
+              ${step.screenshot ? `
+                <div class="step-screenshot mt-4">
+                  <img src="../../${step.screenshot}" alt="${this.t(step.title)}">
+                </div>` : ''}
+              ${warnings ? `<div class="step-warnings mt-4"><ul>${warnings}</ul></div>` : ''}
+              ${checklist ? `
+                <div class="step-checklist mt-4">
+                  <h4>${this.t({ fr: 'Checklist', en: 'Checklist' })}</h4>
+                  <ul class="checklist">${checklist}</ul>
+                </div>` : ''}
             </div>
+          </div>`;
+      }).join('');
 
-            <p class="step-description">${t(step.description)}</p>
+      const freqLabel = d.frequency ? this.t(d.frequency) : '';
+      const durLabel  = d.estimatedDuration ? this.t(d.estimatedDuration) : '';
+      const subtitle  = [
+        `${d.steps.length} ${this.t({ fr: 'étapes', en: 'steps' })}`,
+        freqLabel, durLabel
+      ].filter(Boolean).join(' · ');
 
-            <!-- Tasks -->
-            ${tasksList ? `
-              <div class="step-tasks">${tasksList}</div>
-            ` : ''}
+      return this.buildSection(
+        'update', 'refresh-cw',
+        { fr: 'Mise à jour', en: 'Update Process' },
+        subtitle,
+        `<div class="update-steps-list">${steps}</div>`
+      );
+    },
 
-            <!-- Screenshot -->
-            ${step.screenshot ? `
-              <div class="step-screenshot">
-                <img src="../../${step.screenshot}" alt="${t(step.title)}">
-              </div>
-            ` : ''}
+    // ─── TOC ─────────────────────────────────────────────────
+    renderToc() {
+      document.getElementById('tocTitle').textContent =
+        this.t({ fr: 'Dans cette page', en: 'On this page' });
 
-            <!-- Warnings -->
-            ${warningsList ? `
-              <div class="step-warnings">
-                <ul>${warningsList}</ul>
-              </div>
-            ` : ''}
+      const sections = [
+        {
+          id: 'overview',
+          label: { fr: 'Vue d\'ensemble', en: 'Overview' },
+          subs: []
+        },
+        {
+          id: 'visuals',
+          label: { fr: 'Visuels', en: 'Visuals' },
+          subs: (this.modelData.visuals?.visuals || []).map(v => ({
+            id: `visual-${v.id}`, label: this.t(v.name)
+          }))
+        },
+        {
+          id: 'kpis',
+          label: { fr: 'KPI Dictionary', en: 'KPI Dictionary' },
+          subs: []
+        },
+        {
+          id: 'datamodel',
+          label: { fr: 'Modèle de données', en: 'Data Model' },
+          subs: this.buildDataModelTocSubs()
+        },
+        {
+          id: 'update',
+          label: { fr: 'Mise à jour', en: 'Update Process' },
+          subs: (this.modelData.update?.steps || []).map((s, i) => ({
+            id: `update-step-${i + 1}`,
+            label: `${i + 1}. ${this.t(s.title)}`
+          }))
+        }
+      ].filter(s => document.getElementById(`sec-${s.id}`));
 
-            <!-- Checklist -->
-            ${checklistItems ? `
-              <div class="step-checklist">
-                <h4>${t({ fr: 'Checklist', en: 'Checklist' })}</h4>
-                <ul class="checklist">${checklistItems}</ul>
-              </div>
-            ` : ''}
-          </div>
-        `;
-      },
+      document.getElementById('tocNav').innerHTML = sections.map(s => `
+        <div class="toc-group" data-section="${s.id}">
+          <a class="toc-item toc-section"
+             data-target="sec-${s.id}" href="#sec-${s.id}">
+            ${this.t(s.label)}
+          </a>
+          ${s.subs.length ? `
+            <div class="toc-subs" data-section="${s.id}">
+              ${s.subs.map(sub => `
+                <a class="toc-item toc-sub"
+                   data-target="${sub.id}"
+                   href="#${sub.id}"
+                   title="${sub.label}">
+                  ${sub.label}
+                </a>`).join('')}
+            </div>` : ''}
+        </div>`).join('');
 
-      setupStepperNav(totalSteps) {
-        const navItems = document.querySelectorAll('.stepper-nav-item');
-        const stepContents = document.querySelectorAll('.step-content');
+      // TOC click → expand section if collapsed + smooth scroll
+      document.getElementById('tocNav').querySelectorAll('[data-target]').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const target = document.getElementById(link.dataset.target);
+          if (!target) return;
+          // Auto-expand parent section
+          const parentSection = target.closest('.doc-section');
+          if (parentSection?.classList.contains('collapsed')) {
+            parentSection.classList.remove('collapsed');
+            const sectionId = parentSection.id.replace('sec-', '');
+            const tocSubs = document.querySelector(`.toc-subs[data-section="${sectionId}"]`);
+            if (tocSubs) tocSubs.style.display = '';
+            feather.replace();
+          }
+          // Smooth scroll with offset
+          const offset = 60 + 48 + 20; // header + breadcrumb + gap
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        });
+      });
+    },
 
-        const goToStep = (stepIndex) => {
-          navItems.forEach((nav, i) => {
-            nav.classList.remove('active', 'completed');
-            if (i < stepIndex) nav.classList.add('completed');
-            else if (i === stepIndex) nav.classList.add('active');
-          });
+    buildDataModelTocSubs() {
+      const subs    = [];
+      const dm      = this.modelData.dataModel;
+      const ov      = this.modelData.overview;
+      if (ov?.sources?.length)        subs.push({ id: 'dm-sources',     label: this.t({ fr: 'Sources',           en: 'Sources'         }) });
+      if (dm?.schema?.image)          subs.push({ id: 'dm-schema',      label: this.t({ fr: 'Schéma',            en: 'Schema'          }) });
+      if (dm?.tables?.fact?.length)   subs.push({ id: 'dm-fact-tables', label: this.t({ fr: 'Tables (faits)',    en: 'Fact tables'     }) });
+      if (dm?.tables?.dimension?.length) subs.push({ id: 'dm-dim-tables', label: this.t({ fr: 'Tables (dim.)',  en: 'Dim. tables'     }) });
+      if (dm?.relationships?.length)  subs.push({ id: 'dm-relations',   label: this.t({ fr: 'Relations',        en: 'Relationships'   }) });
+      return subs;
+    },
 
-          stepContents.forEach(content => {
-            const idx = parseInt(content.dataset.step);
-            content.classList.toggle('d-none', idx !== stepIndex);
-            content.classList.toggle('active', idx === stepIndex);
-          });
-
+    // ─── ACCORDIONS ───────────────────────────────────────────
+    setupAccordions() {
+      document.querySelectorAll('.doc-section-header:not(.no-toggle)').forEach(header => {
+        header.addEventListener('click', () => {
+          const section   = header.closest('.doc-section');
+          const sectionId = header.dataset.section;
+          section.classList.toggle('collapsed');
+          // Sync TOC sub-items visibility
+          const tocSubs = document.querySelector(`.toc-subs[data-section="${sectionId}"]`);
+          if (tocSubs) tocSubs.style.display = section.classList.contains('collapsed') ? 'none' : '';
           feather.replace();
-        };
-
-        navItems.forEach((item, index) => {
-          item.addEventListener('click', () => goToStep(index));
         });
-      },
+      });
+      // Initial TOC sub-item visibility (collapsed sections → hidden subs)
+      document.querySelectorAll('.toc-subs').forEach(el => {
+        const sec = document.getElementById(`sec-${el.dataset.section}`);
+        if (sec?.classList.contains('collapsed')) el.style.display = 'none';
+      });
+    },
 
-      // ==========================================
-      // EVENT LISTENERS
-      // ==========================================
-      setupEventListeners() {
-        // Formula modal - view buttons
-        document.addEventListener('click', (e) => {
-          const btn = e.target.closest('.view-formula-btn');
-          if (btn) {
-            this.showFormulaModal(btn.dataset.kpiId);
-          }
+    // ─── SCROLL SPY ───────────────────────────────────────────
+    setupScrollSpy() {
+      const allTocItems = () => document.querySelectorAll('.toc-item');
+      const activate = id => {
+        allTocItems().forEach(item => {
+          item.classList.toggle('active', item.dataset.target === id);
         });
+      };
 
-        // Formula modal - close
-        document.getElementById('formulaModalClose').addEventListener('click', () => {
-          this.hideFormulaModal();
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) activate(entry.target.id);
         });
+      }, { rootMargin: `-${60 + 48}px 0px -60% 0px`, threshold: 0 });
 
-        document.getElementById('formulaModalOverlay').addEventListener('click', (e) => {
-          if (e.target === e.currentTarget) {
-            this.hideFormulaModal();
-          }
+      // Observe section headers and sub-elements
+      ['sec-overview','sec-visuals','sec-kpis','sec-datamodel','sec-update'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+      document.querySelectorAll('.visual-article, .update-step, .dm-subsection')
+        .forEach(el => observer.observe(el));
+    },
+
+    // ─── KPI POPOVERS ─────────────────────────────────────────
+    setupKpiPopovers() {
+      const popover = document.getElementById('kpiPopover');
+
+      document.addEventListener('click', e => {
+        const chip = e.target.closest('.visual-kpi-chip');
+        const btn  = e.target.closest('.view-formula-btn');
+        if (chip || btn) {
+          e.stopPropagation();
+          this.showKpiPopover((chip || btn).dataset.kpiId, chip || btn);
+          return;
+        }
+        if (!popover.contains(e.target)) this.hideKpiPopover();
+      });
+
+      document.getElementById('kpiPopoverClose').addEventListener('click',
+        () => this.hideKpiPopover());
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') this.hideKpiPopover();
+      });
+
+      document.getElementById('kpiPopoverCopy').addEventListener('click', () => {
+        const code  = document.getElementById('kpiPopoverCode').textContent;
+        const label = document.getElementById('kpiPopoverCopyLabel');
+        navigator.clipboard.writeText(code).then(() => {
+          label.textContent = this.t({ fr: 'Copié !', en: 'Copied!' });
+          setTimeout(() => {
+            label.textContent = this.t({ fr: 'Copier', en: 'Copy' });
+          }, 2000);
+        }).catch(() => {});
+      });
+    },
+
+    showKpiPopover(kpiId, anchor) {
+      const kpi = this.kpiIndex[kpiId];
+      if (!kpi) return;
+
+      document.getElementById('kpiPopoverName').textContent = this.t(kpi.name);
+      document.getElementById('kpiPopoverDesc').textContent = this.t(kpi.description);
+      document.getElementById('kpiPopoverCopyLabel').textContent = this.t({ fr: 'Copier', en: 'Copy' });
+
+      const codeEl = document.getElementById('kpiPopoverCode');
+      codeEl.textContent = kpi.formula?.dax || this.t({ fr: 'Formule non disponible', en: 'Formula not available' });
+      if (Prism && kpi.formula?.dax) Prism.highlightElement(codeEl);
+
+      const popover = document.getElementById('kpiPopover');
+      popover.classList.add('visible');
+      feather.replace();
+
+      // Dynamic positioning
+      const rect   = anchor.getBoundingClientRect();
+      const popW   = 360;
+      const popH   = 260;
+      let left = rect.left;
+      let top  = rect.bottom + 8;
+
+      if (left + popW > window.innerWidth - 16) left = window.innerWidth - popW - 16;
+      if (left < 16) left = 16;
+      if (top + popH > window.innerHeight - 16) top = rect.top - popH - 8;
+
+      popover.style.left = `${left}px`;
+      popover.style.top  = `${top}px`;
+    },
+
+    hideKpiPopover() {
+      document.getElementById('kpiPopover').classList.remove('visible');
+    },
+
+    // ─── KPI SEARCH ───────────────────────────────────────────
+    setupKpiSearch() {
+      const input = document.getElementById('kpiSearchInput');
+      if (!input) return;
+      input.addEventListener('input', () => {
+        const term = input.value.toLowerCase();
+        let count = 0;
+        document.querySelectorAll('#kpiTableBody tr').forEach(row => {
+          const kpi = this.kpiIndex[row.dataset.kpiId];
+          if (!kpi) { row.classList.add('d-none'); return; }
+          const match =
+            this.t(kpi.name).toLowerCase().includes(term) ||
+            this.t(kpi.description).toLowerCase().includes(term) ||
+            (kpi.variableName || '').toLowerCase().includes(term);
+          row.classList.toggle('d-none', !match);
+          if (match) count++;
         });
+        document.getElementById('kpiTableWrapper')?.classList.toggle('d-none', count === 0);
+        document.getElementById('kpiEmptyState')?.classList.toggle('d-none', count > 0);
+      });
+    },
 
-        // Escape key to close modal
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            this.hideFormulaModal();
-          }
-        });
-
-        // Language change
-        window.addEventListener('languageChanged', async () => {
-          await this.loadModelData();
-          const modelsIndex = await DataLoader.getModelsIndex();
-          const modelInfo = modelsIndex.models.find(m => m.id === this.modelId);
-          this.renderSidebar(modelInfo);
-          this.renderSection();
+    // ─── DATA MODEL TABLE ACCORDIONS ─────────────────────────
+    setupDmTableAccordions() {
+      document.querySelectorAll('.dm-table-header').forEach(header => {
+        header.addEventListener('click', () => {
+          header.closest('.dm-table-item').classList.toggle('open');
           feather.replace();
         });
+      });
+    },
 
-        // Handle browser back/forward
-        window.addEventListener('popstate', () => {
-          const params = new URLSearchParams(window.location.search);
-          const newSection = params.get('section') || 'overview';
-
-          if (newSection !== this.section) {
-            this.section = newSection;
-            this.loadModelData().then(() => {
-              this.renderSection();
-              feather.replace();
-            });
-          }
+    // ─── MINI-TOC (visuals section) ───────────────────────────
+    setupMiniToc() {
+      document.querySelectorAll('.visual-mini-toc-chip[data-target]').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const target = document.getElementById(chip.dataset.target);
+          if (!target) return;
+          const offset = 60 + 48 + 20;
+          const top = target.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
         });
-      }
-    };
+      });
+    },
 
-    // Initialize when DOM is ready
-    document.addEventListener('DOMContentLoaded', () => {
-      DocumentationPage.init();
-    });
+    // ─── LANGUAGE SWITCH ─────────────────────────────────────
+    setupLanguageSwitch() {
+      window.addEventListener('languageChanged', async () => {
+        await this.loadAllData();
+        this.buildKpiIndex();
+        this.renderBreadcrumbBar();
+        this.renderAllSections();
+        this.renderToc();
+        this.setupAccordions();
+        this.setupScrollSpy();
+        this.setupKpiPopovers();
+        this.setupKpiSearch();
+        this.setupDmTableAccordions();
+        this.setupMiniToc();
+        feather.replace();
+      });
+    },
+
+    // ─── ERROR ────────────────────────────────────────────────
+    showError(type) {
+      document.getElementById('loadingState').classList.add('d-none');
+      document.getElementById('errorState').classList.remove('d-none');
+      const errors = {
+        'no-model':   { title: { fr: 'Aucun modèle spécifié', en: 'No model specified'        }, desc: { fr: 'Sélectionnez un modèle depuis l\'accueil.', en: 'Select a model from the home page.' } },
+        'not-found':  { title: { fr: 'Modèle non trouvé',     en: 'Model not found'            }, desc: { fr: 'Ce modèle n\'existe pas.',                  en: 'This model does not exist.'          } },
+        'not-active': { title: { fr: 'Documentation en cours', en: 'Documentation in progress' }, desc: { fr: 'Ce modèle n\'est pas encore documenté.',    en: 'This model is not yet documented.'   } },
+        'load-error': { title: { fr: 'Erreur de chargement',  en: 'Loading error'              }, desc: { fr: 'Impossible de charger les données.',         en: 'Unable to load data.'                } }
+      };
+      const err = errors[type] || errors['load-error'];
+      document.getElementById('errorTitle').textContent       = this.t(err.title);
+      document.getElementById('errorDescription').textContent = this.t(err.desc);
+      document.getElementById('errorBackBtn').innerHTML =
+        `<i data-feather="arrow-left"></i><span>${this.t({ fr: 'Retour à l\'accueil', en: 'Back to home' })}</span>`;
+      feather.replace();
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', () => DocPage.init());
   </script>
-
-  <style>
-    /* Additional styles for documentation page */
-    .sidebar-footer {
-      padding-top: var(--spacing-6);
-      border-top: 1px solid var(--border-color);
-    }
-
-    /* Page header accent */
-    .page-header {
-      border-left: 4px solid var(--primary-color);
-      padding-left: var(--spacing-5);
-    }
-
-    .visual-section h4 {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-    }
-
-    .visual-section h4 i {
-      width: 16px;
-      height: 16px;
-      color: var(--primary-color);
-    }
-
-    .relationships-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-3);
-    }
-
-    .visuals-list {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-8);
-    }
-
-    /* Modal show state */
-    .modal-overlay.show {
-      display: flex;
-    }
-
-    .modal.show {
-      animation: modalSlideUp var(--transition-normal) ease-out;
-    }
-  </style>
 </body>
 </html>
