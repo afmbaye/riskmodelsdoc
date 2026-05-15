@@ -4,7 +4,7 @@
       "id": "installment-tracker",
       "name": { "fr": "Installment Tracker", "en": "Installment Tracker" },
       "description": {
-        "fr": "Suivi quotidien de l'etat de reglement des echeances au niveau du groupe, par filiale, agence, region et gestionnaire de portefeuille.",
+        "fr": "Suivi quotidien de l'état de règlement des échéances au niveau du groupe, par filiale, agence, région et gestionnaire de portefeuille.",
         "en": "Daily monitoring of installment payment status at group level, by subsidiary, branch, region and portfolio manager."
       },
       "categories": ["portfolio", "par"],
@@ -16,22 +16,22 @@
       "id": "vintage-ld-wo",
       "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
       "description": {
-        "fr": "Analyse des cohortes de décaissement et de radiations",
-        "en": "Vintage analysis, late days and portfolio write-offs."
+        "fr": "Analyse des cohortes de décaissement et de radiations : suivi des late days et des write-offs par génération de prêts pour identifier les millésimes à risque.",
+        "en": "Disbursement and write-off cohort analysis: tracking of late days and write-offs by loan generation to identify at-risk vintages."
       },
       "categories": ["portfolio", "recovery", "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/43256694-6a2d-4a0b-9e2d-319a78dab864/d3de0cd00c79bd4c72c4?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "vintage-recovery",
       "name": { "fr": "Vintage Recovery", "en": "Vintage Recovery" },
       "description": {
-        "fr": "Suivi mensuel des cohortes de recouvrements et des montrés recouvrés sur chaque cohorte de radiation",
+        "fr": "Suivi mensuel des cohortes de recouvrements et des montants recouvrés sur chaque cohorte de radiation.",
         "en": "Monthly monitoring of recovery cohorts and amounts recovered on each write-off cohort."
       },
-      "categories": ["recovery",  "wof"],
+      "categories": ["recovery", "wof"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/0134f2ce-ec66-4f57-85e8-568025439b98/b9c32449a486a32202d3?experience=fabric-developer",
       "isActive": true
@@ -88,13 +88,13 @@
       "id": "collateral-loans",
       "name": { "fr": "Collateral Loans", "en": "Collateral Loans" },
       "description": {
-        "fr": "Suivi des garanties des clients.",
-        "en": "Monitoring of client collaterals."
+        "fr": "Suivi mensuel des garanties clients par filiale : nature des collatéraux, couverture du portefeuille et exposition non couverte.",
+        "en": "Monthly monitoring of client collaterals by subsidiary: collateral type, portfolio coverage and uncovered exposure."
       },
       "categories": ["portfolio"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/43851ac2-c222-424d-8f96-2a1842c6df81/bd7c3945b4b136049c12?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
     },
     {
       "id": "operational-risk-appetite",
@@ -124,13 +124,61 @@
       "id": "maturity",
       "name": { "fr": "Maturity", "en": "Maturity" },
       "description": {
-        "fr": "Suivi de la maturité des crédits actifs.",
-        "en": "Monitoring of active loan maturity."
+        "fr": "Suivi mensuel de la maturité résiduelle des crédits actifs par filiale, agence et segment : répartition des encours par tranche de durée restante et analyse des échéances à venir.",
+        "en": "Monthly monitoring of residual maturity of active loans by subsidiary, branch and segment: outstanding breakdown by remaining duration bucket and upcoming maturity analysis."
       },
       "categories": ["portfolio"],
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "https://app.powerbi.com/groups/7a57d9ff-8ae1-4797-9837-c9711274bbab/reports/5cfa86a4-0bee-4e2c-9dd3-7fd3b4ef1019/d014832c6b01a5e176c4?experience=fabric-developer",
-      "isActive": false
+      "isActive": true
+    },
+    {
+      "id": "global-risk-appetite",
+      "name": { "fr": "Global Risk Appetite", "en": "Global Risk Appetite" },
+      "description": {
+        "fr": "Tableau de bord global de l'appétit au risque groupe : suivi mensuel des indicateurs clés (KRIs) toutes catégories confondues — RH, IT, Risque de crédit, Risque opérationnel, Conformité — comparés aux seuils groupe et aux tendances historiques.",
+        "en": "Group-wide risk appetite dashboard: monthly monitoring of key risk indicators (KRIs) across all categories — HR, IT, Credit Risk, Operational Risk, Compliance — benchmarked against group thresholds and historical trends."
+      },
+      "categories": ["appetite", "risk-ope", "credit-risk"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": true
+    },
+    {
+      "id": "visits",
+      "name": { "fr": "Visits Model", "en": "Visits Model" },
+      "description": {
+        "fr": "Suivi des visites clients par agence et région : taux de visite, tendances mensuelles, et croisement avec les indicateurs de qualité du portefeuille (PAR 30+12mNWO, Audit Risk Rate) pour prioriser les agences nécessitant une attention renforcée.",
+        "en": "Client visit tracking by branch and region: visit rates, monthly trends, and cross-analysis with portfolio quality indicators (PAR 30+12mNWO, Audit Risk Rate) to prioritize branches requiring closer monitoring."
+      },
+      "categories": ["portfolio", "par", "audit"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": true
+    },
+    {
+      "id": "bic-analysis",
+      "name": { "fr": "BIC Analysis", "en": "BIC Analysis" },
+      "description": {
+        "fr": "Suivi des erreurs et corrections non mises à jour (CNMJ) remontées par le Bureau International du Crédit (BIC) : identification des anomalies par filiale, type d'erreur et ancienneté, afin d'assurer la fiabilité des données crédit transmises.",
+        "en": "Monitoring of errors and non-updated corrections (CNMJ) reported by the Bureau International du Crédit (BIC): identification of anomalies by subsidiary, error type and age, to ensure the reliability of transmitted credit data."
+      },
+      "categories": ["credit-risk", "reporting"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": true
+    },
+    {
+      "id": "sector-analysis",
+      "name": { "fr": "Sector Analysis", "en": "Sector Analysis" },
+      "description": {
+        "fr": "Analyse sectorielle du portefeuille de crédit : suivi des principaux KPIs (GLP, PAR, décaissements, radiations) par secteur d'activité et industrie, pour identifier les concentrations sectorielles et les dynamiques de risque par filière.",
+        "en": "Sector-level credit portfolio analysis: monitoring of key KPIs (GLP, PAR, disbursements, write-offs) by business sector and industry, to identify sectoral concentrations and risk dynamics by value chain."
+      },
+      "categories": ["portfolio", "par", "credit-risk"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": true
     }
   ]
 }
