@@ -4,26 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Data Flow - Risk Models Documentation</title>
-
   <link rel="icon" type="image/png" href="../Assets/Images/logos/baobab-icon.png">
   <link rel="stylesheet" href="../Assets/css/main.css">
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 
   <style>
-    /* ── Data Flow — Two-panel layout ────────────────────── */
+    /* ═══ Data Flow layout ══════════════════════════════════ */
     .df-layout {
-      display: flex;
+      display: grid;
+      grid-template-columns: 260px 1fr;
       gap: var(--spacing-6);
-      align-items: flex-start;
+      align-items: start;
       padding: var(--spacing-6) 0;
     }
 
-    /* ── Source panel (left) ─────────────────────────────── */
-    .df-source-panel {
-      width: 280px;
-      flex-shrink: 0;
+    /* ── Model panel (left) ─────────────────────────────── */
+    .df-model-panel {
       position: sticky;
-      top: calc(var(--header-height, 64px) + var(--spacing-6));
+      top: calc(var(--header-height, 64px) + var(--spacing-4));
       max-height: calc(100vh - var(--header-height, 64px) - 80px);
       display: flex;
       flex-direction: column;
@@ -33,23 +31,149 @@
       overflow: hidden;
     }
 
-    .df-source-panel-header {
-      padding: var(--spacing-4);
+    .df-model-panel-header {
+      padding: var(--spacing-3) var(--spacing-4);
       border-bottom: 1px solid var(--border-color);
       flex-shrink: 0;
     }
 
-    .df-source-panel-title {
-      font-size: var(--font-size-sm);
+    .df-model-panel-title {
+      font-size: 11px;
       font-weight: var(--font-weight-semibold);
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin: 0 0 var(--spacing-3);
+      letter-spacing: 0.06em;
+      margin: 0 0 var(--spacing-2);
+    }
+
+    .df-cat-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .df-cat-chip {
+      font-size: 10px;
+      padding: 2px 8px;
+      border: 1px solid var(--border-color);
+      border-radius: 999px;
+      background: var(--bg-white);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+    }
+
+    .df-cat-chip:hover  { border-color: var(--primary-color); color: var(--primary-color); }
+    .df-cat-chip.active { background: var(--primary-color); border-color: var(--primary-color); color: white; }
+
+    .df-model-panel-body {
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Model list rows */
+    .df-model-all-row,
+    .df-model-row {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      padding: var(--spacing-2) var(--spacing-4);
+      cursor: pointer;
+      transition: background var(--transition-fast);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .df-model-all-row:hover,
+    .df-model-row:hover   { background: var(--bg-gray-50); }
+
+    .df-model-all-row.active,
+    .df-model-row.active  { background: var(--primary-light); }
+
+    .df-model-row-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+
+    .df-model-row-icon svg, .df-model-row-icon i { width: 12px; height: 12px; }
+
+    .df-model-row.active .df-model-row-icon { background: var(--primary-color); color: white; }
+    .df-model-all-row.active .df-model-row-icon { background: var(--primary-color); color: white; }
+
+    .df-model-row-text { flex: 1; min-width: 0; }
+
+    .df-model-row-name {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.3;
+    }
+
+    .df-model-row.active .df-model-row-name,
+    .df-model-all-row.active .df-model-row-name { color: var(--primary-color); font-weight: var(--font-weight-semibold); }
+
+    .df-model-row-cats { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 2px; }
+
+    .df-model-row-cat {
+      font-size: 9px;
+      padding: 0 4px;
+      border-radius: 3px;
+      background: var(--bg-gray-100);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    .df-model-src-count {
+      font-size: 10px;
+      font-weight: 600;
+      background: var(--bg-gray-100);
+      color: var(--text-muted);
+      padding: 1px 6px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+
+    .df-model-row.active .df-model-src-count,
+    .df-model-all-row.active .df-model-src-count { background: var(--primary-color); color: white; }
+
+    /* ── Source area (right) ────────────────────────────── */
+    .df-source-area { min-width: 0; }
+
+    .df-source-area-header {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      margin-bottom: var(--spacing-5);
+      flex-wrap: wrap;
+    }
+
+    .df-source-area-title {
+      font-size: var(--font-size-base);
+      font-weight: var(--font-weight-semibold);
+      color: var(--text-color);
+      flex: 1;
+    }
+
+    .df-source-area-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      margin-top: 2px;
     }
 
     .df-source-search {
-      width: 100%;
+      width: 220px;
       padding: var(--spacing-2) var(--spacing-3);
       font-size: var(--font-size-sm);
       border: 1px solid var(--border-color);
@@ -58,269 +182,173 @@
       color: var(--text-color);
       outline: none;
       transition: border-color var(--transition-fast);
-      box-sizing: border-box;
-    }
-
-    .df-source-search:focus {
-      border-color: var(--primary-color);
-      background: var(--bg-white);
-    }
-
-    .df-source-panel-body {
-      overflow-y: auto;
-      flex: 1;
-      padding: var(--spacing-2) 0;
-    }
-
-    .df-source-group { padding: 0 var(--spacing-2); margin-bottom: var(--spacing-1); }
-
-    .df-source-group-label {
-      font-size: 10px;
-      font-weight: var(--font-weight-semibold);
-      color: var(--text-light);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: var(--spacing-2) var(--spacing-2) var(--spacing-1);
-    }
-
-    .df-source-item {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing-2);
-      padding: var(--spacing-2) var(--spacing-3);
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      margin-bottom: 2px;
-    }
-
-    .df-source-item:hover { background: var(--bg-gray-50); }
-
-    .df-source-item.active { background: var(--primary-light); }
-
-    .df-source-item.highlighted { background: var(--primary-light); opacity: 1; }
-
-    .df-source-item.dimmed { opacity: 0.28; pointer-events: none; }
-
-    .df-source-item-icon {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-      margin-top: 2px;
-      color: var(--text-muted);
-    }
-
-    .df-source-item.active .df-source-item-icon,
-    .df-source-item.highlighted .df-source-item-icon { color: var(--primary-color); }
-
-    .df-source-item-text { flex: 1; min-width: 0; }
-
-    .df-source-item-name {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-medium);
-      color: var(--text-color);
-      line-height: 1.3;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .df-source-item.active .df-source-item-name,
-    .df-source-item.highlighted .df-source-item-name { color: var(--primary-color); }
-
-    .df-source-item-pattern {
-      font-size: 10px;
-      color: var(--text-light);
-      margin-top: 1px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .df-source-item-count {
-      flex-shrink: 0;
-      font-size: 10px;
-      font-weight: var(--font-weight-semibold);
-      background: var(--bg-gray-100);
-      color: var(--text-muted);
-      padding: 1px 6px;
-      border-radius: 999px;
-      margin-top: 2px;
-    }
-
-    .df-source-item.active .df-source-item-count,
-    .df-source-item.highlighted .df-source-item-count {
-      background: var(--primary-color);
-      color: white;
-    }
-
-    /* Source origin badge */
-    .df-origin-badge {
-      flex-shrink: 0;
-      font-size: 9px;
-      font-weight: 600;
-      padding: 1px 5px;
-      border-radius: 3px;
-      margin-top: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-    .df-origin-data    { background: #dbeafe; color: #1d4ed8; }
-    .df-origin-local   { background: #fef3c7; color: #92400e; }
-    .df-origin-consol  { background: #d1fae5; color: #065f46; }
-
-    /* ── Main area ───────────────────────────────────────── */
-    .df-main { flex: 1; min-width: 0; }
-
-    .df-main-toolbar {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-3);
-      margin-bottom: var(--spacing-5);
-      flex-wrap: wrap;
-    }
-
-    .df-main-toolbar-label {
-      font-size: var(--font-size-sm);
-      color: var(--text-muted);
-      font-weight: var(--font-weight-medium);
       flex-shrink: 0;
     }
 
-    .df-category-chips { display: flex; gap: var(--spacing-2); flex-wrap: wrap; flex: 1; }
+    .df-source-search:focus { border-color: var(--primary-color); background: var(--bg-white); }
 
-    .df-category-chip {
-      padding: var(--spacing-1) var(--spacing-3);
-      font-size: var(--font-size-xs);
-      font-weight: var(--font-weight-medium);
-      border: 1px solid var(--border-color);
-      border-radius: 999px;
-      background: var(--bg-white);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      white-space: nowrap;
-    }
-
-    .df-category-chip:hover { border-color: var(--primary-color); color: var(--primary-color); }
-
-    .df-category-chip.active { background: var(--primary-color); border-color: var(--primary-color); color: white; }
-
-    .df-clear-btn {
-      margin-left: auto;
-      font-size: var(--font-size-xs);
-      color: var(--text-muted);
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: var(--spacing-1) var(--spacing-2);
-      border-radius: var(--radius-sm);
-      transition: all var(--transition-fast);
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-1);
-      flex-shrink: 0;
-    }
-
-    .df-clear-btn:hover { color: var(--text-color); background: var(--bg-gray-100); }
-    .df-clear-btn svg, .df-clear-btn i { width: 12px; height: 12px; }
-
-    /* Selection info banner */
-    .df-selection-info {
-      display: none;
-      align-items: center;
-      gap: var(--spacing-2);
-      padding: var(--spacing-3) var(--spacing-4);
-      background: var(--primary-light);
-      border: 1px solid var(--primary-color);
-      border-radius: var(--radius-md);
-      margin-bottom: var(--spacing-4);
-      font-size: var(--font-size-sm);
-      color: var(--primary-color);
-    }
-
-    .df-selection-info.visible { display: flex; }
-    .df-selection-info svg, .df-selection-info i { width: 14px; height: 14px; flex-shrink: 0; }
-
-    /* ── Model grid ──────────────────────────────────────── */
-    .df-model-grid {
+    /* Source grid */
+    .df-source-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: var(--spacing-4);
     }
 
-    .df-model-card {
+    /* Source card */
+    .df-source-card {
       background: var(--bg-white);
-      border: 2px solid var(--border-color);
+      border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
       padding: var(--spacing-4);
       cursor: pointer;
       transition: all var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
     }
 
-    .df-model-card:hover { border-color: var(--primary-color); box-shadow: 0 2px 8px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .df-source-card:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transform: translateY(-1px);
+    }
 
-    .df-model-card.active { border-color: var(--primary-color); background: var(--primary-light); }
+    .df-source-card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--spacing-3);
+    }
 
-    .df-model-card.highlighted { border-color: var(--primary-color); background: var(--primary-light); }
-
-    .df-model-card.dimmed { opacity: 0.22; pointer-events: none; }
-
-    .df-model-card-icon {
-      width: 32px;
-      height: 32px;
+    .df-source-card-icon {
+      width: 36px;
+      height: 36px;
       border-radius: var(--radius-md);
-      background: var(--bg-gray-100);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: var(--spacing-3);
-      color: var(--text-muted);
+      flex-shrink: 0;
     }
 
-    .df-model-card-icon svg, .df-model-card-icon i { width: 16px; height: 16px; }
+    .df-source-card-icon svg, .df-source-card-icon i { width: 18px; height: 18px; }
 
-    .df-model-card.active .df-model-card-icon,
-    .df-model-card.highlighted .df-model-card-icon { background: var(--primary-color); color: white; }
+    /* Origin color coding */
+    .df-icon-data        { background: #dbeafe; color: #1d4ed8; }
+    .df-icon-consolidated { background: #d1fae5; color: #065f46; }
+    .df-icon-local       { background: #fef3c7; color: #92400e; }
 
-    .df-model-card-name {
+    .df-source-card-meta { flex: 1; min-width: 0; }
+
+    .df-source-card-name {
       font-size: var(--font-size-sm);
       font-weight: var(--font-weight-semibold);
       color: var(--text-color);
-      margin-bottom: var(--spacing-2);
       line-height: 1.3;
+      margin-bottom: 2px;
     }
 
-    .df-model-card.active .df-model-card-name,
-    .df-model-card.highlighted .df-model-card-name { color: var(--primary-color); }
+    .df-source-card-pattern {
+      font-size: 10px;
+      color: var(--text-light);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-    .df-model-card-sources { font-size: 11px; color: var(--text-muted); margin-bottom: var(--spacing-2); }
-
-    .df-model-card-cats { display: flex; flex-wrap: wrap; gap: 3px; }
-
-    .df-model-cat-tag {
+    .df-source-card-origin {
+      display: inline-flex;
+      align-items: center;
       font-size: 9px;
-      padding: 1px 5px;
-      border-radius: 999px;
-      background: var(--bg-gray-100);
-      color: var(--text-muted);
-      font-weight: var(--font-weight-medium);
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-top: 2px;
     }
 
+    .df-badge-data        { background: #dbeafe; color: #1d4ed8; }
+    .df-badge-consolidated { background: #d1fae5; color: #065f46; }
+    .df-badge-local       { background: #fef3c7; color: #92400e; }
+
+    .df-source-card-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .df-source-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: var(--spacing-1);
+    }
+
+    .df-source-card-granularity {
+      font-size: 10px;
+      color: var(--text-light);
+      font-style: italic;
+    }
+
+    .df-source-card-detail-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--primary-color);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 0;
+      font-weight: var(--font-weight-medium);
+      transition: opacity var(--transition-fast);
+    }
+
+    .df-source-card-detail-btn:hover { opacity: 0.75; }
+    .df-source-card-detail-btn svg, .df-source-card-detail-btn i { width: 12px; height: 12px; }
+
+    /* Empty state */
     .df-empty-state {
       grid-column: 1 / -1;
       text-align: center;
-      padding: var(--spacing-10);
+      padding: var(--spacing-12);
       color: var(--text-light);
     }
 
-    .df-empty-state i, .df-empty-state svg { width: 32px; height: 32px; margin-bottom: var(--spacing-3); opacity: 0.4; display: block; margin-inline: auto; }
+    .df-empty-state i, .df-empty-state svg { width: 32px; height: 32px; opacity: 0.35; display: block; margin: 0 auto var(--spacing-3); }
 
-    /* ── Slide panel (right sidebar) ─────────────────────── */
-    .df-panel-section-title {
+    /* ── Slide panel (right sidebar) ────────────────────── */
+    .df-panel-origin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       font-size: var(--font-size-xs);
+      font-weight: var(--font-weight-medium);
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-bottom: var(--spacing-4);
+    }
+
+    .df-panel-origin-badge.data         { background: #dbeafe; color: #1d4ed8; }
+    .df-panel-origin-badge.consolidated { background: #d1fae5; color: #065f46; }
+    .df-panel-origin-badge.local        { background: #fef3c7; color: #92400e; }
+
+    .df-panel-desc {
+      font-size: var(--font-size-sm);
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: var(--spacing-5);
+    }
+
+    .df-panel-section {
+      margin-bottom: var(--spacing-5);
+    }
+
+    .df-panel-section-title {
+      font-size: 11px;
       font-weight: var(--font-weight-semibold);
       color: var(--text-muted);
       text-transform: uppercase;
@@ -330,36 +358,38 @@
       border-bottom: 1px solid var(--border-color);
     }
 
-    .df-panel-meta {
-      display: flex;
-      flex-direction: column;
+    .df-panel-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: var(--spacing-3);
-      margin-bottom: var(--spacing-5);
     }
 
-    .df-panel-meta-row {
-      display: flex;
-      align-items: flex-start;
-      gap: var(--spacing-2);
-      font-size: var(--font-size-sm);
-    }
+    .df-panel-meta-item {}
 
     .df-panel-meta-label {
-      font-weight: var(--font-weight-medium);
-      color: var(--text-muted);
-      min-width: 90px;
-      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 2px;
     }
 
-    .df-panel-meta-value { color: var(--text-color); }
+    .df-panel-meta-value {
+      font-size: var(--font-size-sm);
+      color: var(--text-color);
+    }
 
     .df-panel-pattern {
       font-family: var(--font-mono, 'Courier New', monospace);
-      font-size: var(--font-size-xs);
+      font-size: 11px;
       background: var(--bg-gray-50);
-      padding: 2px 8px;
+      padding: var(--spacing-2) var(--spacing-3);
       border-radius: var(--radius-sm);
       color: var(--text-muted);
+      word-break: break-all;
+      display: block;
+      margin-top: var(--spacing-1);
     }
 
     .df-panel-model-chips { display: flex; flex-wrap: wrap; gap: var(--spacing-2); }
@@ -373,37 +403,18 @@
       font-weight: var(--font-weight-medium);
     }
 
-    .df-panel-desc {
-      font-size: var(--font-size-sm);
-      color: var(--text-muted);
-      line-height: 1.7;
-      margin-bottom: var(--spacing-5);
-    }
-
-    .df-panel-origin-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--spacing-1);
-      font-size: var(--font-size-xs);
-      font-weight: var(--font-weight-medium);
-      padding: 2px 8px;
-      border-radius: 999px;
-      margin-bottom: var(--spacing-3);
-    }
-
-    .df-panel-origin-badge.data  { background: #dbeafe; color: #1d4ed8; }
-    .df-panel-origin-badge.local { background: #fef3c7; color: #92400e; }
-    .df-panel-origin-badge.consolidated { background: #d1fae5; color: #065f46; }
-
-    .df-columns-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-xs); }
+    .df-columns-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 
     .df-columns-table th {
       text-align: left;
-      font-weight: var(--font-weight-semibold);
+      font-weight: 600;
       color: var(--text-muted);
       padding: var(--spacing-2) var(--spacing-3);
       background: var(--bg-gray-50);
       border-bottom: 1px solid var(--border-color);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .df-columns-table td {
@@ -415,11 +426,11 @@
 
     .df-columns-table tr:last-child td { border-bottom: none; }
 
-    .df-col-name { font-family: var(--font-mono, monospace); font-weight: var(--font-weight-medium); color: var(--primary-color); }
+    .df-col-name { font-family: var(--font-mono, monospace); font-weight: 600; color: var(--primary-color); font-size: 11px; }
 
     .df-col-type {
       font-size: 9px;
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
       background: var(--bg-gray-100);
       color: var(--text-muted);
@@ -428,22 +439,25 @@
       white-space: nowrap;
     }
 
+    .df-col-desc { color: var(--text-muted); font-size: 11px; }
+
     .df-columns-empty {
       text-align: center;
-      padding: var(--spacing-6);
+      padding: var(--spacing-5);
       color: var(--text-light);
       font-size: var(--font-size-sm);
+      background: var(--bg-gray-50);
+      border-radius: var(--radius-md);
     }
 
     /* ── Responsive ─────────────────────────────────────── */
     @media (max-width: 1024px) {
-      .df-layout { flex-direction: column; }
-      .df-source-panel { width: 100%; position: static; max-height: 300px; }
+      .df-layout { grid-template-columns: 1fr; }
+      .df-model-panel { position: static; max-height: 280px; }
+      .df-source-search { width: 100%; }
     }
 
-    @media (max-width: 640px) {
-      .df-model-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
-    }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -451,7 +465,6 @@
     <header class="header"></header>
 
     <main class="main-content">
-      <!-- Hero -->
       <section class="hero-section hero-compact hero-data-flow">
         <div class="hero-content">
           <h1 class="hero-title" id="pageTitle">Data Flow</h1>
@@ -459,43 +472,36 @@
         </div>
       </section>
 
-      <!-- Content -->
       <section class="content-section">
         <div id="dfLoading" style="text-align:center;padding:var(--spacing-10);color:var(--text-muted);">
-          <i data-feather="loader" style="width:24px;height:24px;margin-bottom:var(--spacing-3);display:block;margin-inline:auto;animation:spin 1s linear infinite;"></i>
-          <span id="dfLoadingLabel">Chargement…</span>
+          <i data-feather="loader" style="width:24px;height:24px;display:block;margin:0 auto var(--spacing-3);animation:spin 1s linear infinite;"></i>
+          <span>Chargement…</span>
         </div>
 
         <div id="dfApp" style="display:none;">
           <div class="df-layout">
 
-            <!-- LEFT: Source panel -->
-            <div class="df-source-panel">
-              <div class="df-source-panel-header">
-                <p class="df-source-panel-title" id="panelTitle">Sources</p>
-                <input type="search" class="df-source-search" id="dfSearch" placeholder="Rechercher…">
+            <!-- LEFT: Model panel -->
+            <div class="df-model-panel">
+              <div class="df-model-panel-header">
+                <p class="df-model-panel-title" id="modelPanelTitle">Modèles</p>
+                <div class="df-cat-filter" id="dfCatFilter"></div>
               </div>
-              <div class="df-source-panel-body" id="dfSourceList"></div>
+              <div class="df-model-panel-body" id="dfModelList"></div>
             </div>
 
-            <!-- RIGHT: Main area -->
-            <div class="df-main">
-              <div class="df-main-toolbar">
-                <span class="df-main-toolbar-label" id="filterLabel">Filtrer :</span>
-                <div class="df-category-chips" id="dfCategoryChips"></div>
-                <button class="df-clear-btn" id="dfClearBtn" style="display:none;">
-                  <i data-feather="x"></i>
-                  <span id="clearLabel">Réinitialiser</span>
-                </button>
+            <!-- RIGHT: Sources area -->
+            <div class="df-source-area">
+              <div class="df-source-area-header">
+                <div>
+                  <div class="df-source-area-title" id="srcAreaTitle">Sources de données</div>
+                  <div class="df-source-area-subtitle" id="srcAreaSubtitle"></div>
+                </div>
+                <input type="search" class="df-source-search" id="dfSrcSearch" placeholder="Rechercher une source…">
               </div>
-
-              <div class="df-selection-info" id="dfSelectionInfo" role="status">
-                <i data-feather="info"></i>
-                <span id="dfSelectionText"></span>
-              </div>
-
-              <div class="df-model-grid" id="dfModelGrid"></div>
+              <div class="df-source-grid" id="dfSourceGrid"></div>
             </div>
+
           </div>
         </div>
       </section>
@@ -514,10 +520,6 @@
     <div class="slide-panel-body" id="spBody"></div>
   </div>
 
-  <style>
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  </style>
-
   <script src="../Assets/js/languageManager.js"></script>
   <script src="../Assets/js/dataLoader.js"></script>
   <script src="../Assets/js/navigationManager.js"></script>
@@ -527,11 +529,11 @@
       sources: [],
       models: [],
       categories: [],
-      selectedSource: null,
-      selectedModel: null,
+      selectedModel: 'all',
       activeCategory: 'all',
       searchQuery: '',
 
+      // ── Init ──────────────────────────────────────────────
       async init() {
         try {
           const prefix = NavigationManager.getPathPrefix();
@@ -551,11 +553,11 @@
           this.setupLanguageSwitch();
 
           document.getElementById('dfLoading').style.display = 'none';
-          document.getElementById('dfApp').style.display     = 'block';
+          document.getElementById('dfApp').style.display = 'block';
           feather.replace();
         } catch (err) {
-          console.error('DataFlowPage init error:', err);
-          document.getElementById('dfLoadingLabel').textContent = 'Erreur de chargement.';
+          console.error('DataFlowPage error:', err);
+          document.getElementById('dfLoading').innerHTML = '<p style="color:var(--error-color)">Erreur de chargement.</p>';
         }
       },
 
@@ -566,309 +568,196 @@
       },
 
       renderAll() {
-        this.updateStaticLabels();
-        this.renderCategoryChips();
-        this.renderSourcePanel();
-        this.renderModelGrid();
-        this.renderClearBtn();
+        this.updateLabels();
+        this.renderCategoryFilter();
+        this.renderModelList();
+        this.renderSourceGrid();
       },
 
-      updateStaticLabels() {
+      updateLabels() {
         const t = this.t.bind(this);
         document.getElementById('pageTitle').textContent       = t({ fr: 'Data Flow', en: 'Data Flow' });
-        document.getElementById('pageDescription').textContent = t({
-          fr: 'Vue d\'ensemble du flux de données depuis les fichiers sources jusqu\'aux modèles Power BI.',
-          en: 'Overview of the data flow from source files to the Power BI models.'
-        });
-        document.getElementById('panelTitle').textContent  = t({ fr: 'Sources de données', en: 'Data Sources' });
-        document.getElementById('filterLabel').textContent = t({ fr: 'Filtrer :', en: 'Filter:' });
-        document.getElementById('clearLabel').textContent  = t({ fr: 'Réinitialiser', en: 'Reset' });
-        const s = document.getElementById('dfSearch');
+        document.getElementById('pageDescription').textContent = t({ fr: 'Vue d\'ensemble du flux de données depuis les fichiers sources jusqu\'aux modèles Power BI.', en: 'Overview of the data flow from source files to the Power BI models.' });
+        document.getElementById('modelPanelTitle').textContent = t({ fr: 'Modèles', en: 'Models' });
+        const s = document.getElementById('dfSrcSearch');
         if (s) s.placeholder = t({ fr: 'Rechercher une source…', en: 'Search a source…' });
       },
 
-      // ── Category chips ────────────────────────────────────
-      renderCategoryChips() {
+      // ── Category filter (above model list) ───────────────
+      renderCategoryFilter() {
         const t          = this.t.bind(this);
         const usedCatIds = new Set(this.models.flatMap(m => m.categories || []));
         const usedCats   = this.categories.filter(c => usedCatIds.has(c.id));
 
-        const allChip = `<button class="df-category-chip${this.activeCategory === 'all' ? ' active' : ''}" data-cat="all">${t({ fr: 'Tous', en: 'All' })}</button>`;
-        const chips   = usedCats.map(c =>
-          `<button class="df-category-chip${this.activeCategory === c.id ? ' active' : ''}" data-cat="${c.id}">${t(c.label)}</button>`
+        const allBtn = `<button class="df-cat-chip${this.activeCategory === 'all' ? ' active' : ''}" data-cat="all">${t({ fr: 'Tous', en: 'All' })}</button>`;
+        const chips  = usedCats.map(c =>
+          `<button class="df-cat-chip${this.activeCategory === c.id ? ' active' : ''}" data-cat="${c.id}">${t(c.label)}</button>`
         ).join('');
 
-        const container = document.getElementById('dfCategoryChips');
-        container.innerHTML = allChip + chips;
+        const container = document.getElementById('dfCatFilter');
+        container.innerHTML = allBtn + chips;
         container.addEventListener('click', e => {
-          const btn = e.target.closest('.df-category-chip');
+          const btn = e.target.closest('.df-cat-chip');
           if (!btn) return;
           this.activeCategory = btn.dataset.cat;
-          this.selectedSource = null;
-          this.selectedModel  = null;
+          this.selectedModel  = 'all';
           this.renderAll();
           feather.replace();
         });
       },
 
-      // ── Source panel ──────────────────────────────────────
-      renderSourcePanel() {
+      // ── Model list (left panel) ───────────────────────────
+      renderModelList() {
         const t = this.t.bind(this);
 
-        // Group definitions (in display order)
-        const groupDefs = [
-          { key: 'data',        label: t({ fr: 'Données (depuis la Data)', en: 'Data (from Data team)' }), originLabel: t({ fr: 'Data', en: 'Data' }) },
-          { key: 'consolidated', label: t({ fr: 'Données consolidées', en: 'Consolidated data' }), originLabel: t({ fr: 'Consolidé', en: 'Consolidated' }) },
-          { key: 'local',       label: t({ fr: 'Fichiers locaux (Power BI)', en: 'Local files (Power BI)' }), originLabel: t({ fr: 'Local', en: 'Local' }) }
-        ];
-
-        const q = this.searchQuery.toLowerCase();
-
-        // Build groups
-        const grouped = {};
-        groupDefs.forEach(g => { grouped[g.key] = []; });
-
-        this.sources.forEach(src => {
-          const name = t(src.name).toLowerCase();
-          const desc = t(src.description || {}).toLowerCase();
-          if (q && !name.includes(q) && !desc.includes(q)) return;
-          const key = src.origin || src.type || 'local';
-          if (!grouped[key]) grouped[key] = [];
-          grouped[key].push(src);
-        });
-
-        // Category-based dim logic
-        const catModelIds = this.activeCategory !== 'all'
-          ? new Set(this.models.filter(m => (m.categories || []).includes(this.activeCategory)).map(m => m.id))
-          : null;
-
-        let html = '';
-        groupDefs.forEach(gDef => {
-          const items = grouped[gDef.key] || [];
-          if (!items.length) return;
-
-          html += `<div class="df-source-group"><div class="df-source-group-label">${gDef.label}</div>`;
-
-          items.forEach(src => {
-            const isActive = this.selectedSource === src.id;
-            const selSrc   = this.selectedModel
-              ? this.sources.find(s => s.id === this.selectedSource)
-              : null;
-            const isHighlighted = !isActive && this.selectedModel
-              && src.models.includes(this.selectedModel);
-            const isCatDimmed = catModelIds
-              && !src.models.some(mid => catModelIds.has(mid));
-            const isSelDimmed = this.selectedModel
-              && !src.models.includes(this.selectedModel);
-            const isDimmed = !isActive && !isHighlighted && (isCatDimmed || isSelDimmed);
-
-            let cls = 'df-source-item';
-            if (isActive)      cls += ' active';
-            else if (isHighlighted) cls += ' highlighted';
-            else if (isDimmed) cls += ' dimmed';
-
-            const count = src.models.filter(mid => this.models.find(x => x.id === mid)).length;
-
-            html += `
-              <div class="${cls}" data-source-id="${src.id}" role="button" tabindex="0">
-                <i data-feather="${src.icon || 'file'}" class="df-source-item-icon"></i>
-                <div class="df-source-item-text">
-                  <div class="df-source-item-name">${t(src.name)}</div>
-                  <div class="df-source-item-pattern">${src.pattern || ''}</div>
-                </div>
-                <span class="df-source-item-count">${count}</span>
-              </div>`;
-          });
-
-          html += `</div>`;
-        });
-
-        if (!html) {
-          html = `<div style="padding:var(--spacing-4);text-align:center;color:var(--text-light);font-size:var(--font-size-sm);">${t({ fr: 'Aucun résultat', en: 'No results' })}</div>`;
-        }
-
-        const list = document.getElementById('dfSourceList');
-        list.innerHTML = html;
-        list.querySelectorAll('.df-source-item').forEach(el => {
-          el.addEventListener('click', () => this.clickSource(el.dataset.sourceId));
-          el.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') this.clickSource(el.dataset.sourceId);
-          });
-        });
-      },
-
-      // ── Model grid ────────────────────────────────────────
-      renderModelGrid() {
-        const t = this.t.bind(this);
-
-        let filtered = this.models;
+        let filteredModels = this.models;
         if (this.activeCategory !== 'all') {
-          filtered = filtered.filter(m => (m.categories || []).includes(this.activeCategory));
+          filteredModels = filteredModels.filter(m => (m.categories || []).includes(this.activeCategory));
         }
 
-        let html = '';
-        if (!filtered.length) {
-          html = `<div class="df-empty-state"><i data-feather="inbox"></i><p>${t({ fr: 'Aucun modèle.', en: 'No model.' })}</p></div>`;
-        } else {
-          filtered.forEach(model => {
-            const srcs = this.sources.filter(s => s.models.includes(model.id));
-            const isActive      = this.selectedModel === model.id;
-            const isHighlighted = !isActive && this.selectedSource
-              && this.sources.find(s => s.id === this.selectedSource)?.models.includes(model.id);
-            const isSelDimmed   = this.selectedModel && this.selectedModel !== model.id;
-            const isSrcDimmed   = this.selectedSource
-              && !this.sources.find(s => s.id === this.selectedSource)?.models.includes(model.id);
-            const isDimmed      = !isActive && !isHighlighted && (isSelDimmed || isSrcDimmed);
+        const totalSources  = this.sources.length;
+        const allActive     = this.selectedModel === 'all';
 
-            let cls = 'df-model-card';
-            if (isActive)           cls += ' active';
-            else if (isHighlighted) cls += ' highlighted';
-            else if (isDimmed)      cls += ' dimmed';
+        let html = `
+          <div class="df-model-all-row${allActive ? ' active' : ''}" data-model="all" role="button" tabindex="0">
+            <div class="df-model-row-icon"><i data-feather="grid"></i></div>
+            <div class="df-model-row-text">
+              <div class="df-model-row-name">${t({ fr: 'Tous les modèles', en: 'All models' })}</div>
+            </div>
+            <span class="df-model-src-count">${totalSources}</span>
+          </div>`;
 
-            const cats = (model.categories || []).slice(0, 3).map(cid => {
-              const c = this.categories.find(x => x.id === cid);
-              return `<span class="df-model-cat-tag">${c ? t(c.label) : cid}</span>`;
-            }).join('');
+        filteredModels.forEach(model => {
+          const srcCount = this.sources.filter(s => s.models.includes(model.id)).length;
+          const isActive = this.selectedModel === model.id;
+          const cats     = (model.categories || []).slice(0, 2).map(cid => {
+            const c = this.categories.find(x => x.id === cid);
+            return `<span class="df-model-row-cat">${c ? t(c.label) : cid}</span>`;
+          }).join('');
 
-            const srcCount = srcs.length;
-            const srcLabel = t({ fr: `${srcCount} source${srcCount > 1 ? 's' : ''}`, en: `${srcCount} source${srcCount > 1 ? 's' : ''}` });
+          html += `
+            <div class="df-model-row${isActive ? ' active' : ''}" data-model="${model.id}" role="button" tabindex="0">
+              <div class="df-model-row-icon"><i data-feather="bar-chart-2"></i></div>
+              <div class="df-model-row-text">
+                <div class="df-model-row-name">${t(model.name)}</div>
+                <div class="df-model-row-cats">${cats}</div>
+              </div>
+              <span class="df-model-src-count">${srcCount}</span>
+            </div>`;
+        });
 
-            html += `
-              <div class="${cls}" data-model-id="${model.id}" role="button" tabindex="0">
-                <div class="df-model-card-icon"><i data-feather="bar-chart-2"></i></div>
-                <div class="df-model-card-name">${t(model.name)}</div>
-                <div class="df-model-card-sources">${srcLabel}</div>
-                <div class="df-model-card-cats">${cats}</div>
-              </div>`;
+        const list = document.getElementById('dfModelList');
+        list.innerHTML = html;
+
+        list.querySelectorAll('[data-model]').forEach(el => {
+          el.addEventListener('click', () => {
+            this.selectedModel = el.dataset.model;
+            this.renderModelList();
+            this.renderSourceGrid();
+            feather.replace();
           });
-        }
-
-        const grid = document.getElementById('dfModelGrid');
-        grid.innerHTML = html;
-        grid.querySelectorAll('.df-model-card').forEach(el => {
-          el.addEventListener('click', () => this.clickModel(el.dataset.modelId));
           el.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') this.clickModel(el.dataset.modelId);
+            if (e.key === 'Enter' || e.key === ' ') { this.selectedModel = el.dataset.model; this.renderModelList(); this.renderSourceGrid(); feather.replace(); }
           });
         });
       },
 
-      // ── Interactions ──────────────────────────────────────
-      clickSource(id) {
-        if (this.selectedSource === id) {
-          this.selectedSource = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.hideSelectionInfo();
-          this.renderClearBtn();
-          this.closePanel();
-        } else {
-          this.selectedSource = id;
-          this.selectedModel  = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.renderSelectionInfo();
-          this.renderClearBtn();
-          this.openPanel(id);
-        }
-        feather.replace();
-      },
+      // ── Source grid (right area) ──────────────────────────
+      renderSourceGrid() {
+        const t   = this.t.bind(this);
+        const q   = this.searchQuery.toLowerCase();
 
-      clickModel(id) {
-        if (this.selectedModel === id) {
-          this.selectedModel = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.hideSelectionInfo();
-          this.renderClearBtn();
-        } else {
-          this.selectedModel  = id;
-          this.selectedSource = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.renderSelectionInfo();
-          this.renderClearBtn();
-          this.closePanel();
-        }
-        feather.replace();
-      },
+        // Filter sources
+        let sources = this.selectedModel === 'all'
+          ? this.sources
+          : this.sources.filter(s => s.models.includes(this.selectedModel));
 
-      // ── Selection banner ──────────────────────────────────
-      renderSelectionInfo() {
-        const t      = this.t.bind(this);
-        const banner = document.getElementById('dfSelectionInfo');
-        const text   = document.getElementById('dfSelectionText');
-
-        if (this.selectedSource) {
-          const src   = this.sources.find(s => s.id === this.selectedSource);
-          if (!src) return;
-          const count = src.models.filter(mid => this.models.find(m => m.id === mid)).length;
-          text.textContent = t({
-            fr: `« ${t(src.name)} » est utilisée par ${count} modèle${count > 1 ? 's' : ''}. Cliquez un modèle pour voir ses sources, ou → pour les détails de la source.`,
-            en: `"${t(src.name)}" is used by ${count} model${count > 1 ? 's' : ''}. Click a model to see its sources, or → for source details.`
-          });
-        } else if (this.selectedModel) {
-          const model = this.models.find(m => m.id === this.selectedModel);
-          if (!model) return;
-          const srcs  = this.sources.filter(s => s.models.includes(this.selectedModel));
-          text.textContent = t({
-            fr: `« ${t(model.name)} » utilise ${srcs.length} source${srcs.length > 1 ? 's' : ''}. Cliquez une source pour voir ses détails.`,
-            en: `"${t(model.name)}" uses ${srcs.length} source${srcs.length > 1 ? 's' : ''}. Click a source for its details.`
-          });
+        if (this.activeCategory !== 'all') {
+          const catModelIds = new Set(
+            this.models.filter(m => (m.categories || []).includes(this.activeCategory)).map(m => m.id)
+          );
+          sources = sources.filter(s => s.models.some(mid => catModelIds.has(mid)));
         }
 
-        banner.classList.add('visible');
-      },
+        if (q) {
+          sources = sources.filter(s =>
+            t(s.name).toLowerCase().includes(q) ||
+            (s.pattern || '').toLowerCase().includes(q) ||
+            t(s.description || {}).toLowerCase().includes(q)
+          );
+        }
 
-      hideSelectionInfo() {
-        document.getElementById('dfSelectionInfo').classList.remove('visible');
-      },
+        // Update header
+        const model = this.models.find(m => m.id === this.selectedModel);
+        if (this.selectedModel === 'all') {
+          document.getElementById('srcAreaTitle').textContent    = t({ fr: 'Sources de données', en: 'Data Sources' });
+          document.getElementById('srcAreaSubtitle').textContent = t({ fr: `${sources.length} sources au total`, en: `${sources.length} sources total` });
+        } else if (model) {
+          document.getElementById('srcAreaTitle').textContent    = t({ fr: `Sources — ${t(model.name)}`, en: `Sources — ${t(model.name)}` });
+          document.getElementById('srcAreaSubtitle').textContent = t({ fr: `${sources.length} source${sources.length > 1 ? 's' : ''} identifiée${sources.length > 1 ? 's' : ''}`, en: `${sources.length} source${sources.length > 1 ? 's' : ''} identified` });
+        }
 
-      // ── Clear button ──────────────────────────────────────
-      renderClearBtn() {
-        const btn = document.getElementById('dfClearBtn');
-        btn.style.display = (this.selectedSource || this.selectedModel) ? 'flex' : 'none';
-        btn.onclick = () => {
-          this.selectedSource = null;
-          this.selectedModel  = null;
-          this.renderAll();
-          this.hideSelectionInfo();
-          this.closePanel();
-          feather.replace();
+        const originLabels = {
+          data:         { fr: 'Data',        en: 'Data' },
+          consolidated: { fr: 'Consolidé',   en: 'Consolidated' },
+          local:        { fr: 'Local PBI',   en: 'Local PBI' }
         };
+
+        let html = '';
+        if (!sources.length) {
+          html = `<div class="df-empty-state"><i data-feather="inbox"></i><p>${t({ fr: 'Aucune source pour ce modèle.', en: 'No source for this model.' })}</p></div>`;
+        } else {
+          sources.forEach(src => {
+            const origin      = src.origin || 'local';
+            const iconClass   = `df-icon-${origin}`;
+            const badgeClass  = `df-badge-${origin}`;
+            const badgeLabel  = t(originLabels[origin] || { fr: 'Local', en: 'Local' });
+            const granularity = t(src.granularity);
+
+            html += `
+              <div class="df-source-card" data-source-id="${src.id}">
+                <div class="df-source-card-top">
+                  <div class="df-source-card-icon ${iconClass}">
+                    <i data-feather="${src.icon || 'file'}"></i>
+                  </div>
+                  <div class="df-source-card-meta">
+                    <div class="df-source-card-name">${t(src.name)}</div>
+                    <div class="df-source-card-pattern">${src.pattern || ''}</div>
+                    <span class="df-source-card-origin ${badgeClass}">${badgeLabel}</span>
+                  </div>
+                </div>
+                <div class="df-source-card-desc">${t(src.description)}</div>
+                <div class="df-source-card-footer">
+                  <span class="df-source-card-granularity">${granularity ? '⊞ ' + granularity : ''}</span>
+                  <button class="df-source-card-detail-btn" data-source-id="${src.id}" aria-label="${t({ fr: 'Voir détails', en: 'View details' })}">
+                    ${t({ fr: 'Détails', en: 'Details' })} <i data-feather="chevron-right"></i>
+                  </button>
+                </div>
+              </div>`;
+          });
+        }
+
+        const grid = document.getElementById('dfSourceGrid');
+        grid.innerHTML = html;
+
+        // Only detail button opens panel — card click does nothing else
+        grid.querySelectorAll('.df-source-card-detail-btn').forEach(btn => {
+          btn.addEventListener('click', e => {
+            e.stopPropagation();
+            this.openPanel(btn.dataset.sourceId);
+          });
+        });
       },
 
       // ── Right slide panel ─────────────────────────────────
       setupPanel() {
-        document.getElementById('spClose').addEventListener('click', () => {
-          this.closePanel();
-          this.selectedSource = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.hideSelectionInfo();
-          this.renderClearBtn();
-          feather.replace();
-        });
-        document.getElementById('panelOverlay').addEventListener('click', () => {
-          this.closePanel();
-          this.selectedSource = null;
-          this.renderSourcePanel();
-          this.renderModelGrid();
-          this.hideSelectionInfo();
-          this.renderClearBtn();
-          feather.replace();
-        });
-        document.addEventListener('keydown', e => {
-          if (e.key === 'Escape') {
-            this.closePanel();
-            this.selectedSource = null;
-            this.renderSourcePanel();
-            this.renderModelGrid();
-            this.hideSelectionInfo();
-            this.renderClearBtn();
-            feather.replace();
-          }
-        });
+        const close = () => {
+          document.getElementById('sourcePanel').classList.remove('show');
+          document.getElementById('panelOverlay').classList.remove('show');
+        };
+        document.getElementById('spClose').addEventListener('click', close);
+        document.getElementById('panelOverlay').addEventListener('click', close);
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
       },
 
       openPanel(sourceId) {
@@ -876,73 +765,72 @@
         const src = this.sources.find(s => s.id === sourceId);
         if (!src) return;
 
-        document.getElementById('spTitle').textContent = t(src.name);
-
-        // Origin label
+        const origin      = src.origin || 'local';
         const originLabels = {
           data:         { fr: 'Depuis la Data (dossier partagé)', en: 'From Data team (shared folder)' },
-          consolidated: { fr: 'Données consolidées', en: 'Consolidated data' },
-          local:        { fr: 'Fichier local (dossier Power BI)', en: 'Local file (Power BI folder)' }
+          consolidated: { fr: 'Données consolidées',              en: 'Consolidated data' },
+          local:        { fr: 'Fichier local — dossier Power BI', en: 'Local file — Power BI folder' }
         };
-        const originClass = src.origin || 'local';
-        const originText  = t(originLabels[originClass] || { fr: 'Source locale', en: 'Local source' });
 
-        // Connected models chips
         const connectedModels = this.models.filter(m => src.models.includes(m.id));
-        const modelChips = connectedModels.map(m =>
+        const modelChips      = connectedModels.map(m =>
           `<span class="df-panel-model-chip">${t(m.name)}</span>`
-        ).join('');
+        ).join('') || '—';
 
-        // Columns table
         const cols = src.columns || [];
         let colsHtml;
         if (cols.length) {
-          const rows = cols.map(c => `
-            <tr>
-              <td><span class="df-col-name">${c.name}</span></td>
-              <td><span class="df-col-type">${c.type}</span></td>
-              <td>${t(c.description)}</td>
-            </tr>`).join('');
-          colsHtml = `
-            <table class="df-columns-table">
-              <thead><tr>
-                <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
-                <th>${t({ fr: 'Type', en: 'Type' })}</th>
-                <th>${t({ fr: 'Description', en: 'Description' })}</th>
-              </tr></thead>
-              <tbody>${rows}</tbody>
-            </table>`;
+          colsHtml = `<table class="df-columns-table">
+            <thead><tr>
+              <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
+              <th>${t({ fr: 'Type', en: 'Type' })}</th>
+              <th>${t({ fr: 'Description', en: 'Description' })}</th>
+            </tr></thead>
+            <tbody>${cols.map(c => `
+              <tr>
+                <td><span class="df-col-name">${c.name}</span></td>
+                <td><span class="df-col-type">${c.type}</span></td>
+                <td class="df-col-desc">${t(c.description)}</td>
+              </tr>`).join('')}
+            </tbody>
+          </table>`;
         } else {
-          colsHtml = `<div class="df-columns-empty">
-            <i data-feather="info" style="width:16px;height:16px;display:inline-block;margin-right:4px;vertical-align:middle;"></i>
-            ${t({ fr: 'Colonnes non documentées pour cette source.', en: 'Columns not yet documented for this source.' })}
-          </div>`;
+          colsHtml = `<div class="df-columns-empty">${t({ fr: 'Colonnes non documentées pour cette source.', en: 'Columns not yet documented for this source.' })}</div>`;
         }
 
+        document.getElementById('spTitle').textContent = t(src.name);
         document.getElementById('spBody').innerHTML = `
-          <span class="df-panel-origin-badge ${originClass}">
-            ${originText}
-          </span>
+          <span class="df-panel-origin-badge ${origin}">${t(originLabels[origin])}</span>
 
           <p class="df-panel-desc">${t(src.description)}</p>
 
-          <div class="df-panel-meta">
-            <div class="df-panel-meta-row">
-              <span class="df-panel-meta-label">${t({ fr: 'Pattern', en: 'Pattern' })}</span>
-              <span class="df-panel-pattern">${src.pattern || '—'}</span>
+          <div class="df-panel-section">
+            <p class="df-panel-section-title">${t({ fr: 'Informations', en: 'Information' })}</p>
+            <div class="df-panel-meta-grid">
+              <div class="df-panel-meta-item">
+                <div class="df-panel-meta-label">${t({ fr: 'Fréquence', en: 'Frequency' })}</div>
+                <div class="df-panel-meta-value">${t(src.updateFrequency) || '—'}</div>
+              </div>
+              <div class="df-panel-meta-item">
+                <div class="df-panel-meta-label">${t({ fr: 'Granularité', en: 'Granularity' })}</div>
+                <div class="df-panel-meta-value">${t(src.granularity) || '—'}</div>
+              </div>
             </div>
-            <div class="df-panel-meta-row">
-              <span class="df-panel-meta-label">${t({ fr: 'Fréquence', en: 'Frequency' })}</span>
-              <span class="df-panel-meta-value">${t(src.updateFrequency) || '—'}</span>
-            </div>
-            <div class="df-panel-meta-row">
-              <span class="df-panel-meta-label">${t({ fr: 'Modèles', en: 'Models' })}</span>
-              <div class="df-panel-model-chips">${modelChips || '—'}</div>
+            <div style="margin-top:var(--spacing-3)">
+              <div class="df-panel-meta-label">${t({ fr: 'Pattern fichier', en: 'File pattern' })}</div>
+              <code class="df-panel-pattern">${src.pattern || '—'}</code>
             </div>
           </div>
 
-          <p class="df-panel-section-title">${t({ fr: 'Colonnes principales', en: 'Main columns' })}</p>
-          ${colsHtml}
+          <div class="df-panel-section">
+            <p class="df-panel-section-title">${t({ fr: 'Modèles utilisant cette source', en: 'Models using this source' })}</p>
+            <div class="df-panel-model-chips">${modelChips}</div>
+          </div>
+
+          <div class="df-panel-section">
+            <p class="df-panel-section-title">${t({ fr: 'Colonnes principales', en: 'Main columns' })}</p>
+            ${colsHtml}
+          </div>
         `;
 
         document.getElementById('sourcePanel').classList.add('show');
@@ -950,23 +838,18 @@
         feather.replace();
       },
 
-      closePanel() {
-        document.getElementById('sourcePanel').classList.remove('show');
-        document.getElementById('panelOverlay').classList.remove('show');
-      },
-
-      // ── Search ─────────────────────────────────────────────
+      // ── Search ────────────────────────────────────────────
       setupSearch() {
-        const input = document.getElementById('dfSearch');
+        const input = document.getElementById('dfSrcSearch');
         if (!input) return;
         input.addEventListener('input', () => {
           this.searchQuery = input.value.trim();
-          this.renderSourcePanel();
+          this.renderSourceGrid();
           feather.replace();
         });
       },
 
-      // ── Language switch ────────────────────────────────────
+      // ── Language switch ───────────────────────────────────
       setupLanguageSwitch() {
         window.addEventListener('languageChanged', () => {
           this.renderAll();
