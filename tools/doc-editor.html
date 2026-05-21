@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation Content Editor — Baobab Risk</title>
+
+  <!-- ExcelJS : génération .xlsx avec couleurs + protection de cellules -->
+  <script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+  <!-- SheetJS : lecture .xlsx (meilleure compatibilité navigateur) -->
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+  <!-- JSZip + FileSaver : téléchargement multi-fichiers -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+  <style>
+    :root {
+      --primary:       #D63384;
+      --primary-light: #FFF0F7;
+      --text:          #1A1A2E;
+      --muted:         #6B7280;
+      --border:        #E5E7EB;
+      --bg:            #F9FAFB;
+      --white:         #FFFFFF;
+      --yellow:        #FFFACD;
+      --gray-cell:     #E5E7EB;
+      --success:       #10B981;
+      --radius:        8px;
+      --shadow:        0 1px 3px rgba(0,0,0,.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .page-header {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
+    }
+    .page-header .logo { font-size: 24px; }
+    .page-header h1   { font-size: 17px; font-weight: 600; }
+    .page-header .sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+    /* ── Main ── */
+    .main { max-width: 920px; margin: 28px auto; padding: 0 16px; }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-swatch {
+      width: 16px; height: 16px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+    .sw-yellow { background: var(--yellow); }
+    .sw-gray   { background: var(--gray-cell); }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all .15s;
+    }
+    .tab-btn:hover      { color: var(--text); }
+    .tab-btn.active     { color: var(--primary); border-bottom-color: var(--primary); }
+    .tab-panel          { display: none; }
+    .tab-panel.active   { display: block; }
+
+    /* ── Card ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+    }
+    .card + .card { margin-top: 14px; }
+    .card-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ── Form ── */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      color: var(--text);
+      background: var(--white);
+      outline: none;
+      appearance: auto;
+    }
+    select:focus { border-color: var(--primary); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover:not(:disabled) { opacity: .85; }
+    .btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+    .btn-secondary { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--border); }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { opacity: .85; }
+
+    /* ── Drop zone ── */
+    .drop-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 44px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .15s;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .dz-icon { font-size: 40px; margin-bottom: 10px; }
+    .dz-text { font-size: 14px; font-weight: 500; }
+    .dz-sub  { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .dz-sub span { color: var(--primary); cursor: pointer; }
+
+    /* ── Status ── */
+    .status {
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-top: 14px;
+      display: none;
+    }
+    .status.info    { background:#EFF6FF; color:#1D4ED8; border:1px solid #BFDBFE; display:block; }
+    .status.success { background:#ECFDF5; color:#065F46; border:1px solid #A7F3D0; display:block; }
+    .status.error   { background:#FEF2F2; color:#991B1B; border:1px solid #FECACA; display:block; }
+
+    /* ── Spinner ── */
+    .spinner {
+      display: inline-block;
+      width: 13px; height: 13px;
+      border: 2px solid rgba(255,255,255,.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Diff table ── */
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .diff-table th {
+      text-align: left;
+      padding: 8px 10px;
+      background: var(--bg);
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .diff-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .diff-table tr:hover td { background: var(--bg); }
+    .field-col { font-family: monospace; font-size: 11px; color: var(--muted); }
+    .old-col   { color: var(--muted); text-decoration: line-through; }
+    .new-col   { color: #065F46; font-weight: 500; }
+    .lang-badge {
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Downloads ── */
+    .dl-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .dl-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+    .dl-hint code {
+      background: var(--bg);
+      padding: 1px 5px;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+    }
+
+    /* ── Tooltip ── */
+    .tip { font-size: 12px; color: var(--muted); margin-top: 8px; }
+  </style>
+</head>
+<body>
+
+<header class="page-header">
+  <span class="logo">📄</span>
+  <div>
+    <h1>Documentation Content Editor</h1>
+    <div class="sub">Exporter le contenu en Excel pour relecture · Importer les corrections vers JSON</div>
+  </div>
+</header>
+
+<div class="main">
+
+  <div class="legend">
+    <span class="legend-item">
+      <span class="legend-swatch sw-yellow"></span>
+      Cellules éditables (texte métier FR / EN)
+    </span>
+    <span class="legend-item">
+      <span class="legend-swatch sw-gray"></span>
+      Cellules verrouillées (IDs, formules DAX, chemins techniques)
+    </span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="export">⬇ Export — JSON → Excel</button>
+    <button class="tab-btn"        data-tab="import">⬆ Import — Excel → JSON</button>
+  </div>
+
+  <!-- ═══ EXPORT ═══ -->
+  <div class="tab-panel active" id="tab-export">
+    <div class="card">
+      <div class="card-title">📊 Générer un fichier Excel pour relecture</div>
+      <label>Modèle</label>
+      <select id="modelSelect">
+        <option value="">Chargement des modèles…</option>
+      </select>
+      <div class="tip">Seuls les modèles actifs avec au moins un fichier documenté sont disponibles.</div>
+      <br>
+      <button class="btn btn-primary" id="exportBtn" disabled>
+        <span id="exportIcon">⬇</span>
+        <span id="exportLabel">Générer le fichier Excel</span>
+      </button>
+      <div class="status" id="exportStatus"></div>
+    </div>
+  </div>
+
+  <!-- ═══ IMPORT ═══ -->
+  <div class="tab-panel" id="tab-import">
+    <div class="card">
+      <div class="card-title">📥 Importer le fichier Excel corrigé</div>
+      <div class="drop-zone" id="dropZone">
+        <div class="dz-icon">📂</div>
+        <div class="dz-text">Glisser-déposer le fichier .xlsx ici</div>
+        <div class="dz-sub">ou <span id="browseLink">cliquer pour parcourir</span></div>
+      </div>
+      <input type="file" id="fileInput" accept=".xlsx" style="display:none">
+      <div class="status" id="importStatus"></div>
+    </div>
+
+    <div id="importResults" style="display:none">
+      <div class="card">
+        <div class="card-title">🔍 Modifications détectées</div>
+        <div id="diffContainer"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">⬇ Télécharger les JSON mis à jour</div>
+        <div class="dl-grid" id="downloadButtons"></div>
+        <div class="dl-hint">
+          Placez ces fichiers dans <code>data/models/[model-id]/</code> puis faites un <code>git commit</code>.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════════
+//  DocEditor — Outil de conversion JSON ↔ Excel pour revue non-technique
+//  Données lues en live depuis GitHub Pages · Zéro install requis
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const DocEditor = {
+
+  BASE_URL: 'https://afmbaye.github.io/riskmodelsdoc',
+
+  // ── Styles ExcelJS ──────────────────────────────────────────────────────────
+  S: {
+    LOCKED:   { type:'pattern', pattern:'solid', fgColor:{ argb:'FFE5E7EB' } },
+    EDITABLE: { type:'pattern', pattern:'solid', fgColor:{ argb:'FFFFFACD' } },
+    HEADER:   { type:'pattern', pattern:'solid', fgColor:{ argb:'FF1F4E79' } },
+    HDR_FONT: { bold:true, color:{ argb:'FFFFFFFF' }, size:11 },
+    WRAP:     { wrapText:true, vertical:'top' },
+    L_PROT:   { locked:true  },
+    U_PROT:   { locked:false },
+  },
+
+  // ── Stockage temporaire pour les téléchargements ────────────────────────────
+  _files: [],
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  INIT
+  // ════════════════════════════════════════════════════════════════════════════
+
+  async init() {
+    this._setupTabs();
+    this._setupDropZone();
+    await this._loadModelList();
+    document.getElementById('exportBtn').addEventListener('click', () => this._handleExport());
+  },
+
+  _setupTabs() {
+    document.querySelectorAll('.tab-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn, .tab-panel').forEach(el => el.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+      })
+    );
+  },
+
+  _setupDropZone() {
+    const zone  = document.getElementById('dropZone');
+    const input = document.getElementById('fileInput');
+    const open  = () => input.click();
+
+    document.getElementById('browseLink').addEventListener('click', open);
+    zone.addEventListener('click', open);
+    zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', ()=> zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const f = e.dataTransfer.files[0];
+      if (f?.name.endsWith('.xlsx')) this._handleImport(f);
+      else this._status('importStatus','error','❌ Fichier invalide — merci de déposer un fichier .xlsx');
+    });
+    input.addEventListener('change', () => { if (input.files[0]) this._handleImport(input.files[0]); });
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  CHARGEMENT DONNÉES
+  // ════════════════════════════════════════════════════════════════════════════
+
+  async _loadModelList() {
+    try {
+      const { models } = await this._fetch(`${this.BASE_URL}/data/models/index.json`);
+      const sel = document.getElementById('modelSelect');
+      sel.innerHTML = '<option value="">— Sélectionner un modèle —</option>';
+      models.filter(m => m.isActive).forEach(m => {
+        const o = document.createElement('option');
+        o.value = m.id;
+        o.textContent = m.name?.fr || m.name?.en || m.id;
+        sel.appendChild(o);
+      });
+      sel.addEventListener('change', () => {
+        document.getElementById('exportBtn').disabled = !sel.value;
+      });
+    } catch {
+      document.getElementById('modelSelect').innerHTML =
+        '<option value="">Erreur de chargement — vérifiez la connexion</option>';
+    }
+  },
+
+  async _loadModelData(modelId) {
+    const base = `${this.BASE_URL}/data/models/${modelId}`;
+    const safe = url => this._fetch(url).catch(() => null);
+    const [overview, kpis, visuals, update, dataModel] = await Promise.all([
+      safe(`${base}/overview.json`),
+      safe(`${base}/kpis.json`),
+      safe(`${base}/visuals.json`),
+      safe(`${base}/update-process.json`),
+      safe(`${base}/data-model.json`),
+    ]);
+    return { overview, kpis, visuals, update, dataModel };
+  },
+
+  async _fetch(url) {
+    const r = await fetch(url);
+    if (!r.ok) throw new Error(`HTTP ${r.status}: ${url}`);
+    return r.json();
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  EXPORT — JSON → Excel
+  // ════════════════════════════════════════════════════════════════════════════
+
+  async _handleExport() {
+    const modelId = document.getElementById('modelSelect').value;
+    if (!modelId) return;
+
+    this._setExportLoading(true);
+    this._status('exportStatus', 'info', '⏳ Chargement des données…');
+
+    try {
+      const data = await this._loadModelData(modelId);
+      this._status('exportStatus', 'info', '⏳ Génération du fichier Excel…');
+
+      const wb = new ExcelJS.Workbook();
+      wb.creator  = 'Doc Content Editor';
+      wb.modified = new Date();
+
+      if (data.overview)  this._buildOverviewSheet(wb, data.overview);
+      if (data.kpis)      this._buildKpisSheet(wb, data.kpis);
+      if (data.visuals)   this._buildVisualsSheet(wb, data.visuals);
+      if (data.update)    this._buildUpdateSheet(wb, data.update);
+      if (data.dataModel) this._buildDataModelSheet(wb, data.dataModel);
+
+      if (!wb.worksheets.length) {
+        this._status('exportStatus', 'error', '❌ Aucun fichier JSON trouvé pour ce modèle.');
+        return;
+      }
+
+      const buf = await wb.xlsx.writeBuffer();
+      saveAs(
+        new Blob([buf], { type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }),
+        `${modelId}.xlsx`
+      );
+      this._status('exportStatus', 'success',
+        `✅ ${modelId}.xlsx généré (${wb.worksheets.length} feuilles)`);
+    } catch (e) {
+      console.error(e);
+      this._status('exportStatus', 'error', `❌ Erreur : ${e.message}`);
+    } finally {
+      this._setExportLoading(false);
+    }
+  },
+
+  _setExportLoading(on) {
+    document.getElementById('exportBtn').disabled = on;
+    document.getElementById('exportIcon').innerHTML = on ? '<span class="spinner"></span>' : '⬇';
+    document.getElementById('exportLabel').textContent = on
+      ? 'Génération en cours…' : 'Générer le fichier Excel';
+  },
+
+  // ── Helper: créer une sheet avec colonnes + header ──────────────────────────
+  _addSheet(wb, name, cols) {
+    const ws = wb.addWorksheet(name);
+    ws.columns = cols.map(c => ({ key: c.key, width: c.width || 20 }));
+
+    const hr = ws.getRow(1);
+    cols.forEach((c, i) => {
+      const cell = hr.getCell(i + 1);
+      cell.value      = c.header;
+      cell.fill       = this.S.HEADER;
+      cell.font       = this.S.HDR_FONT;
+      cell.alignment  = { vertical:'middle', horizontal:'center' };
+      cell.protection = this.S.L_PROT;
+    });
+    hr.height = 28;
+    ws.views  = [{ state:'frozen', ySplit:1 }];
+    return ws;
+  },
+
+  // ── Helper: styler une ligne ────────────────────────────────────────────────
+  _styleRow(ws, r, cols, height = 60) {
+    const row = ws.getRow(r);
+    row.height = height;
+    cols.forEach((c, i) => {
+      const cell = row.getCell(i + 1);
+      cell.fill       = c.locked ? this.S.LOCKED : this.S.EDITABLE;
+      cell.protection = c.locked ? this.S.L_PROT  : this.S.U_PROT;
+      cell.alignment  = this.S.WRAP;
+      cell.font       = { size: 11 };
+    });
+  },
+
+  // ── Helper: protéger la sheet ───────────────────────────────────────────────
+  _protect(ws) {
+    ws.protect('', {
+      selectLockedCells:   true,
+      selectUnlockedCells: true,
+      formatCells:    false,
+      formatColumns:  false,
+      formatRows:     false,
+      insertRows:     false,
+      deleteRows:     false,
+    });
+  },
+
+  // ─ Overview sheet ───────────────────────────────────────────────────────────
+  _buildOverviewSheet(wb, d) {
+    const cols = [
+      { key:'row_type', header:'Type 🔒',        width:10, locked:true  },
+      { key:'key_id',   header:'Clé / ID 🔒',    width:22, locked:true  },
+      { key:'tech_ref', header:'Référence 🔒',   width:35, locked:true  },
+      { key:'fr',       header:'Français ✏️',     width:62, locked:false },
+      { key:'en',       header:'English ✏️',      width:62, locked:false },
+      { key:'xfr',      header:'Extra (FR) ✏️',  width:62, locked:false },
+      { key:'xen',      header:'Extra (EN) ✏️',  width:62, locked:false },
+    ];
+    const ws = this._addSheet(wb, 'Overview', cols);
+    let r = 2;
+
+    const wr = (type, key, ref, fr, en, xfr, xen, h = 70) => {
+      const row = ws.getRow(r);
+      [type, key || '', ref || '', fr || '', en || '', xfr || '', xen || '']
+        .forEach((v, i) => row.getCell(i + 1).value = v);
+      this._styleRow(ws, r, cols, h);
+      r++;
+    };
+
+    // Description + use case (une seule ligne)
+    wr('DESC', 'description', '',
+      d.description?.fr, d.description?.en,
+      d.useCase?.fr, d.useCase?.en, 100);
+
+    // Stats
+    (d.stats || []).forEach(s =>
+      wr('STAT', s.icon, String(s.value ?? ''), s.label?.fr, s.label?.en, '', '', 45));
+
+    // Tabs
+    (d.tabs || []).forEach(t =>
+      wr('TAB', t.id, t.screenshot || '',
+        t.name?.fr, t.name?.en,
+        t.description?.fr, t.description?.en, 90));
+
+    // Sources
+    (d.sources || []).forEach(s =>
+      wr('SOURCE', s.id, `${s.name} [${s.type || ''}]`,
+        s.description?.fr, s.description?.en, '', '', 70));
+
+    this._protect(ws);
+  },
+
+  // ─ KPIs sheet ───────────────────────────────────────────────────────────────
+  _buildKpisSheet(wb, d) {
+    const cols = [
+      { key:'id',       header:'ID 🔒',                          width:32, locked:true  },
+      { key:'varName',  header:'Variable Power BI 🔒',           width:30, locked:true  },
+      { key:'unit',     header:'Unité 🔒',                       width:10, locked:true  },
+      { key:'dax',      header:'Formule DAX 🔒',                 width:55, locked:true  },
+      { key:'name_fr',  header:'Nom (FR) ✏️',                    width:35, locked:false },
+      { key:'name_en',  header:'Nom (EN) ✏️',                    width:35, locked:false },
+      { key:'desc_fr',  header:'Description (FR) ✏️',            width:55, locked:false },
+      { key:'desc_en',  header:'Description (EN) ✏️',            width:55, locked:false },
+      { key:'expl_fr',  header:'Explication formule (FR) ✏️',    width:55, locked:false },
+      { key:'expl_en',  header:'Explication formule (EN) ✏️',    width:55, locked:false },
+    ];
+    const ws = this._addSheet(wb, 'KPIs', cols);
+
+    (d.kpis || []).forEach((k, i) => {
+      const row = ws.getRow(i + 2);
+      [
+        k.id, k.variableName || '', k.unit || '', k.formula?.dax || '',
+        k.name?.fr, k.name?.en,
+        k.description?.fr, k.description?.en,
+        k.formula?.explanation?.fr, k.formula?.explanation?.en,
+      ].forEach((v, ci) => row.getCell(ci + 1).value = v || '');
+      this._styleRow(ws, i + 2, cols, 90);
+    });
+
+    this._protect(ws);
+  },
+
+  // ─ Visuals sheet ────────────────────────────────────────────────────────────
+  _buildVisualsSheet(wb, d) {
+    const cols = [
+      { key:'row_type',  header:'Type 🔒',               width:8,  locked:true  },
+      { key:'visual_id', header:'Visual ID 🔒',           width:25, locked:true  },
+      { key:'filter_nm', header:'Filtre 🔒',              width:22, locked:true  },
+      { key:'scr',       header:'Screenshot 🔒',          width:40, locked:true  },
+      { key:'name_fr',   header:'Nom (FR) ✏️',            width:32, locked:false },
+      { key:'name_en',   header:'Nom (EN) ✏️',            width:32, locked:false },
+      { key:'desc_fr',   header:'Description (FR) ✏️',    width:55, locked:false },
+      { key:'desc_en',   header:'Description (EN) ✏️',    width:55, locked:false },
+      { key:'htr_fr',    header:'Comment lire (FR) ✏️',   width:70, locked:false },
+      { key:'htr_en',    header:'Comment lire (EN) ✏️',   width:70, locked:false },
+    ];
+    const ws = this._addSheet(wb, 'Visuals', cols);
+    let r = 2;
+
+    const wr = (vals, h = 80) => {
+      const row = ws.getRow(r);
+      vals.forEach((v, i) => row.getCell(i + 1).value = v ?? '');
+      this._styleRow(ws, r, cols, h);
+      r++;
+    };
+
+    (d.visuals || []).forEach(v => {
+      wr(['VISUAL', v.id, '', v.screenshot || '',
+          v.name?.fr, v.name?.en,
+          v.description?.fr, v.description?.en,
+          v.howToRead?.fr, v.howToRead?.en], 130);
+
+      (v.filters || []).forEach(f => {
+        const name = typeof f === 'string' ? f : f.name;
+        const desc = typeof f === 'string' ? {} : (f.description || {});
+        wr(['FILTER', v.id, name, '', '', '', desc.fr, desc.en, '', ''], 50);
+      });
+    });
+
+    this._protect(ws);
+  },
+
+  // ─ Update-Process sheet ─────────────────────────────────────────────────────
+  _buildUpdateSheet(wb, d) {
+    const cols = [
+      { key:'row_type',  header:'Type 🔒',                 width:8,  locked:true  },
+      { key:'step_id',   header:'Étape 🔒',                 width:7,  locked:true  },
+      { key:'title_fr',  header:'Titre (FR) ✏️',            width:40, locked:false },
+      { key:'title_en',  header:'Titre (EN) ✏️',            width:40, locked:false },
+      { key:'desc_fr',   header:'Description (FR) ✏️',      width:60, locked:false },
+      { key:'desc_en',   header:'Description (EN) ✏️',      width:60, locked:false },
+      { key:'item_fr',   header:'Checklist (FR) ✏️',        width:55, locked:false },
+      { key:'item_en',   header:'Checklist (EN) ✏️',        width:55, locked:false },
+    ];
+    const ws = this._addSheet(wb, 'Update-Process', cols);
+    let r = 2;
+
+    // META row (fréquence + durée)
+    const mr = ws.getRow(r);
+    ['META', '', d.frequency?.fr || '', d.frequency?.en || '',
+     d.estimatedDuration?.fr || '', d.estimatedDuration?.en || '', '', '']
+      .forEach((v, i) => mr.getCell(i + 1).value = v);
+    this._styleRow(ws, r, cols, 40);
+    r++;
+
+    (d.steps || []).forEach((step, si) => {
+      // STEP row
+      const sr = ws.getRow(r);
+      ['STEP', si + 1,
+       step.title?.fr, step.title?.en,
+       step.description?.fr, step.description?.en, '', '']
+        .forEach((v, i) => sr.getCell(i + 1).value = v ?? '');
+      this._styleRow(ws, r, cols, 90);
+      r++;
+
+      // CHECKLIST sub-rows
+      (step.checklist || []).forEach(item => {
+        const fr = typeof item === 'string' ? item : item.fr;
+        const en = typeof item === 'string' ? item : item.en;
+        const cr = ws.getRow(r);
+        ['CHECK', si + 1, '', '', '', '', fr || '', en || '']
+          .forEach((v, i) => cr.getCell(i + 1).value = v);
+        this._styleRow(ws, r, cols, 42);
+        r++;
+      });
+    });
+
+    this._protect(ws);
+  },
+
+  // ─ Data-Model sheet ─────────────────────────────────────────────────────────
+  _buildDataModelSheet(wb, d) {
+    const cols = [
+      { key:'row_type',  header:'Type 🔒',                   width:12, locked:true  },
+      { key:'tbl_name',  header:'Table 🔒',                  width:25, locked:true  },
+      { key:'col_from',  header:'Colonne / From 🔒',         width:25, locked:true  },
+      { key:'type_card', header:'Type / Cardinalité 🔒',     width:14, locked:true  },
+      { key:'desc_fr',   header:'Description (FR) ✏️',       width:55, locked:false },
+      { key:'desc_en',   header:'Description (EN) ✏️',       width:55, locked:false },
+    ];
+    const ws = this._addSheet(wb, 'Data-Model', cols);
+    let r = 2;
+
+    const wr = (vals, h = 55) => {
+      const row = ws.getRow(r);
+      vals.forEach((v, i) => row.getCell(i + 1).value = v ?? '');
+      this._styleRow(ws, r, cols, h);
+      r++;
+    };
+
+    const writeTbl = (tbl, type) => {
+      wr([`TABLE-${type}`, tbl.name, '', '', tbl.description?.fr, tbl.description?.en], 60);
+      (tbl.columns || []).forEach(col =>
+        wr(['COLUMN', tbl.name, col.name, col.type || '',
+            col.description?.fr, col.description?.en], 44));
+    };
+
+    (d.tables?.fact      || []).forEach(t => writeTbl(t, 'FACT'));
+    (d.tables?.dimension || []).forEach(t => writeTbl(t, 'DIM'));
+
+    (d.relationships || []).forEach(rel =>
+      wr(['REL',
+          `${rel.from?.table}.${rel.from?.column}`,
+          `${rel.to?.table}.${rel.to?.column}`,
+          rel.cardinality || '',
+          rel.description?.fr, rel.description?.en], 48));
+
+    this._protect(ws);
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  IMPORT — Excel → JSON
+  // ════════════════════════════════════════════════════════════════════════════
+
+  async _handleImport(file) {
+    document.getElementById('importResults').style.display = 'none';
+    this._status('importStatus', 'info', `⏳ Lecture de ${file.name}…`);
+
+    try {
+      const modelId  = file.name.replace(/\.xlsx$/i, '');
+      const original = await this._loadModelData(modelId);
+
+      // Lire avec SheetJS (meilleure compatibilité navigateur pour la lecture)
+      const wb = XLSX.read(await file.arrayBuffer(), { type:'array' });
+
+      const updated = {
+        overview:  this._mergeOverview(wb,  original.overview),
+        kpis:      this._mergeKpis(wb,      original.kpis),
+        visuals:   this._mergeVisuals(wb,   original.visuals),
+        update:    this._mergeUpdate(wb,    original.update),
+        dataModel: this._mergeDataModel(wb, original.dataModel),
+      };
+
+      const changes = this._computeChanges(original, updated);
+      this._renderDiff(changes);
+      this._renderDownloads(modelId, updated, original);
+
+      document.getElementById('importResults').style.display = 'block';
+      this._status('importStatus', 'success',
+        `✅ ${file.name} importé — ${changes.length} modification(s) détectée(s)`);
+    } catch (e) {
+      console.error(e);
+      this._status('importStatus', 'error', `❌ Erreur : ${e.message}`);
+    }
+  },
+
+  // ── Helpers lecture SheetJS ─────────────────────────────────────────────────
+  _sheetRows(wb, name) {
+    const ws = wb.Sheets[name];
+    if (!ws) return null;
+    return XLSX.utils.sheet_to_json(ws, { header:1, defval:'' });
+  },
+
+  // Strips emoji markers (🔒 ✏️) and everything after from header names
+  _headers(rows) {
+    const h = {};
+    (rows[0] || []).forEach((raw, i) => {
+      if (!raw) return;
+      const clean = String(raw).split(/\s*[\u{1F512}\u{270F}\u{FE0F}]/u)[0].trim();
+      if (clean) h[clean] = i;
+    });
+    return h;
+  },
+
+  _cell(rows, r, h, key) {
+    const idx = h[key];
+    return idx !== undefined ? String(rows[r][idx] ?? '').trim() : '';
+  },
+
+  // ─ Merge Overview ───────────────────────────────────────────────────────────
+  _mergeOverview(wb, original) {
+    if (!original) return null;
+    const rows = this._sheetRows(wb, 'Overview');
+    if (!rows) return original;
+    const h = this._headers(rows);
+    const m = JSON.parse(JSON.stringify(original));
+
+    rows.slice(1).forEach((row, ri) => {
+      const type = String(row[h['Type']] ?? '').trim();
+      const key  = String(row[h['Clé / ID']] ?? '').trim();
+      const fr   = String(row[h['Français']] ?? '').trim();
+      const en   = String(row[h['English']]  ?? '').trim();
+      const xfr  = String(row[h['Extra (FR)']] ?? '').trim();
+      const xen  = String(row[h['Extra (EN)']] ?? '').trim();
+
+      if (type === 'DESC') {
+        if (fr) m.description = { ...m.description, fr };
+        if (en) m.description = { ...m.description, en };
+        if (xfr && m.useCase) m.useCase = { ...m.useCase, fr: xfr };
+        if (xen && m.useCase) m.useCase = { ...m.useCase, en: xen };
+
+      } else if (type === 'STAT') {
+        const s = (m.stats || []).find(s => s.icon === key);
+        if (s) {
+          if (fr) s.label = { ...s.label, fr };
+          if (en) s.label = { ...s.label, en };
+        }
+
+      } else if (type === 'TAB') {
+        const t = (m.tabs || []).find(t => t.id === key);
+        if (t) {
+          if (fr)  t.name = { ...t.name, fr };
+          if (en)  t.name = { ...t.name, en };
+          if (xfr) t.description = { ...t.description, fr: xfr };
+          if (xen) t.description = { ...t.description, en: xen };
+        }
+
+      } else if (type === 'SOURCE') {
+        const s = (m.sources || []).find(s => s.id === key);
+        if (s) {
+          if (fr) s.description = { ...s.description, fr };
+          if (en) s.description = { ...s.description, en };
+        }
+      }
+    });
+    return m;
+  },
+
+  // ─ Merge KPIs ───────────────────────────────────────────────────────────────
+  _mergeKpis(wb, original) {
+    if (!original) return null;
+    const rows = this._sheetRows(wb, 'KPIs');
+    if (!rows) return original;
+    const h = this._headers(rows);
+    const m = JSON.parse(JSON.stringify(original));
+
+    const byId = {};
+    rows.slice(1).forEach(row => {
+      const id = String(row[h['ID']] ?? '').trim();
+      if (!id) return;
+      byId[id] = {
+        name_fr: String(row[h['Nom (FR)']]                ?? '').trim(),
+        name_en: String(row[h['Nom (EN)']]                ?? '').trim(),
+        desc_fr: String(row[h['Description (FR)']]        ?? '').trim(),
+        desc_en: String(row[h['Description (EN)']]        ?? '').trim(),
+        expl_fr: String(row[h['Explication formule (FR)']] ?? '').trim(),
+        expl_en: String(row[h['Explication formule (EN)']] ?? '').trim(),
+      };
+    });
+
+    (m.kpis || []).forEach(k => {
+      const ex = byId[k.id];
+      if (!ex) return;
+      if (ex.name_fr) k.name = { ...k.name, fr: ex.name_fr };
+      if (ex.name_en) k.name = { ...k.name, en: ex.name_en };
+      if (ex.desc_fr) k.description = { ...k.description, fr: ex.desc_fr };
+      if (ex.desc_en) k.description = { ...k.description, en: ex.desc_en };
+      if (k.formula) {
+        if (ex.expl_fr) k.formula.explanation = { ...k.formula.explanation, fr: ex.expl_fr };
+        if (ex.expl_en) k.formula.explanation = { ...k.formula.explanation, en: ex.expl_en };
+      }
+    });
+    return m;
+  },
+
+  // ─ Merge Visuals ────────────────────────────────────────────────────────────
+  _mergeVisuals(wb, original) {
+    if (!original) return null;
+    const rows = this._sheetRows(wb, 'Visuals');
+    if (!rows) return original;
+    const h = this._headers(rows);
+    const m = JSON.parse(JSON.stringify(original));
+
+    const exMap = {};
+    rows.slice(1).forEach(row => {
+      const type = String(row[h['Type']]      ?? '').trim();
+      const vid  = String(row[h['Visual ID']] ?? '').trim();
+      if (!vid) return;
+
+      if (type === 'VISUAL') {
+        exMap[vid] = {
+          name_fr: String(row[h['Nom (FR)']]            ?? '').trim(),
+          name_en: String(row[h['Nom (EN)']]            ?? '').trim(),
+          desc_fr: String(row[h['Description (FR)']]    ?? '').trim(),
+          desc_en: String(row[h['Description (EN)']]    ?? '').trim(),
+          htr_fr:  String(row[h['Comment lire (FR)']]   ?? '').trim(),
+          htr_en:  String(row[h['Comment lire (EN)']]   ?? '').trim(),
+          filters: [],
+        };
+      } else if (type === 'FILTER' && exMap[vid]) {
+        exMap[vid].filters.push({
+          name:    String(row[h['Filtre']]            ?? '').trim(),
+          desc_fr: String(row[h['Description (FR)']] ?? '').trim(),
+          desc_en: String(row[h['Description (EN)']] ?? '').trim(),
+        });
+      }
+    });
+
+    (m.visuals || []).forEach(v => {
+      const ex = exMap[v.id];
+      if (!ex) return;
+      if (ex.name_fr) v.name        = { ...v.name,        fr: ex.name_fr };
+      if (ex.name_en) v.name        = { ...v.name,        en: ex.name_en };
+      if (ex.desc_fr) v.description = { ...v.description, fr: ex.desc_fr };
+      if (ex.desc_en) v.description = { ...v.description, en: ex.desc_en };
+      if (ex.htr_fr)  v.howToRead   = { ...v.howToRead,   fr: ex.htr_fr  };
+      if (ex.htr_en)  v.howToRead   = { ...v.howToRead,   en: ex.htr_en  };
+
+      if (ex.filters.length && v.filters) {
+        const fm = {};
+        ex.filters.forEach(f => { fm[f.name] = f; });
+        v.filters = v.filters.map(f => {
+          const name = typeof f === 'string' ? f : f.name;
+          const exF  = fm[name];
+          if (!exF) return f;
+          const base = typeof f === 'string' ? { name: f } : { ...f };
+          if (exF.desc_fr) base.description = { ...(base.description || {}), fr: exF.desc_fr };
+          if (exF.desc_en) base.description = { ...(base.description || {}), en: exF.desc_en };
+          return base;
+        });
+      }
+    });
+    return m;
+  },
+
+  // ─ Merge Update-Process ─────────────────────────────────────────────────────
+  _mergeUpdate(wb, original) {
+    if (!original) return null;
+    const rows = this._sheetRows(wb, 'Update-Process');
+    if (!rows) return original;
+    const h = this._headers(rows);
+    const m = JSON.parse(JSON.stringify(original));
+
+    const stepsMap = {};
+    rows.slice(1).forEach(row => {
+      const type   = String(row[h['Type']]  ?? '').trim();
+      const stepId = parseInt(row[h['Étape']], 10);
+
+      if (type === 'META') {
+        const fr = String(row[h['Titre (FR)']]       ?? '').trim();
+        const en = String(row[h['Titre (EN)']]       ?? '').trim();
+        const dfr= String(row[h['Description (FR)']] ?? '').trim();
+        const den= String(row[h['Description (EN)']] ?? '').trim();
+        if (fr)  m.frequency         = { ...m.frequency, fr };
+        if (en)  m.frequency         = { ...m.frequency, en };
+        if (dfr) m.estimatedDuration = { ...m.estimatedDuration, fr: dfr };
+        if (den) m.estimatedDuration = { ...m.estimatedDuration, en: den };
+
+      } else if (type === 'STEP' && stepId) {
+        stepsMap[stepId] = {
+          title_fr: String(row[h['Titre (FR)']]       ?? '').trim(),
+          title_en: String(row[h['Titre (EN)']]       ?? '').trim(),
+          desc_fr:  String(row[h['Description (FR)']] ?? '').trim(),
+          desc_en:  String(row[h['Description (EN)']] ?? '').trim(),
+          checklist: [],
+        };
+      } else if (type === 'CHECK' && stepsMap[stepId]) {
+        stepsMap[stepId].checklist.push({
+          fr: String(row[h['Checklist (FR)']] ?? '').trim(),
+          en: String(row[h['Checklist (EN)']] ?? '').trim(),
+        });
+      }
+    });
+
+    (m.steps || []).forEach((step, i) => {
+      const ex = stepsMap[i + 1];
+      if (!ex) return;
+      if (ex.title_fr) step.title       = { ...step.title,       fr: ex.title_fr };
+      if (ex.title_en) step.title       = { ...step.title,       en: ex.title_en };
+      if (ex.desc_fr)  step.description = { ...step.description, fr: ex.desc_fr  };
+      if (ex.desc_en)  step.description = { ...step.description, en: ex.desc_en  };
+
+      if (ex.checklist.length && step.checklist) {
+        step.checklist = step.checklist.map((item, ci) => {
+          const exItem = ex.checklist[ci];
+          if (!exItem) return item;
+          const base = typeof item === 'string' ? { fr: item, en: item } : { ...item };
+          if (exItem.fr) base.fr = exItem.fr;
+          if (exItem.en) base.en = exItem.en;
+          return base;
+        });
+      }
+    });
+    return m;
+  },
+
+  // ─ Merge Data-Model ─────────────────────────────────────────────────────────
+  _mergeDataModel(wb, original) {
+    if (!original) return null;
+    const rows = this._sheetRows(wb, 'Data-Model');
+    if (!rows) return original;
+    const h = this._headers(rows);
+    const m = JSON.parse(JSON.stringify(original));
+
+    const tblMap  = {};
+    const relMap  = {};
+
+    rows.slice(1).forEach(row => {
+      const type    = String(row[h['Type']]               ?? '').trim();
+      const tblName = String(row[h['Table']]              ?? '').trim();
+      const colFrom = String(row[h['Colonne / From']]     ?? '').trim();
+      const fr      = String(row[h['Description (FR)']]   ?? '').trim();
+      const en      = String(row[h['Description (EN)']]   ?? '').trim();
+
+      if (type.startsWith('TABLE')) {
+        tblMap[tblName] = { fr, en, cols: {} };
+      } else if (type === 'COLUMN' && tblMap[tblName]) {
+        tblMap[tblName].cols[colFrom] = { fr, en };
+      } else if (type === 'REL') {
+        // tblName = "from.col" , colFrom = "to.col"
+        relMap[tblName] = { fr, en };
+      }
+    });
+
+    const mergeTbls = tbls => {
+      (tbls || []).forEach(t => {
+        const ex = tblMap[t.name];
+        if (!ex) return;
+        if (ex.fr) t.description = { ...t.description, fr: ex.fr };
+        if (ex.en) t.description = { ...t.description, en: ex.en };
+        (t.columns || []).forEach(col => {
+          const ec = ex.cols[col.name];
+          if (!ec) return;
+          if (ec.fr) col.description = { ...col.description, fr: ec.fr };
+          if (ec.en) col.description = { ...col.description, en: ec.en };
+        });
+      });
+    };
+
+    mergeTbls(m.tables?.fact);
+    mergeTbls(m.tables?.dimension);
+
+    (m.relationships || []).forEach(rel => {
+      const key = `${rel.from?.table}.${rel.from?.column}`;
+      const ex  = relMap[key];
+      if (!ex) return;
+      if (ex.fr) rel.description = { ...rel.description, fr: ex.fr };
+      if (ex.en) rel.description = { ...rel.description, en: ex.en };
+    });
+
+    return m;
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  DIFF
+  // ════════════════════════════════════════════════════════════════════════════
+
+  _computeChanges(original, updated) {
+    const changes = [];
+
+    const cmp = (orig, upd, path) => {
+      if (!orig || !upd || typeof orig !== 'object') return;
+      if (orig.fr !== undefined) { // bilingual field
+        if ((orig.fr || '') !== (upd.fr || ''))
+          changes.push({ path, lang:'FR', old: orig.fr, new: upd.fr });
+        if ((orig.en || '') !== (upd.en || ''))
+          changes.push({ path, lang:'EN', old: orig.en, new: upd.en });
+      }
+    };
+
+    const cmpArr = (oArr, uArr, key, fields, base) => {
+      if (!oArr || !uArr) return;
+      oArr.forEach((oi, i) => {
+        const k  = key(oi, i);
+        const ui = uArr.find((u, j) => key(u, j) === k) || uArr[i];
+        if (!ui) return;
+        fields.forEach(f => cmp(oi[f], ui[f], `${base}[${k}].${f}`));
+      });
+    };
+
+    if (original.overview && updated.overview) {
+      cmp(original.overview.description, updated.overview.description, 'overview.description');
+      cmp(original.overview.useCase,     updated.overview.useCase,     'overview.useCase');
+    }
+    if (original.kpis && updated.kpis) {
+      cmpArr(original.kpis.kpis, updated.kpis.kpis,
+        (k, i) => k.id, ['name','description'], 'kpis');
+      (original.kpis.kpis || []).forEach((ok, i) => {
+        const uk = (updated.kpis.kpis || [])[i];
+        if (ok.formula?.explanation && uk?.formula?.explanation)
+          cmp(ok.formula.explanation, uk.formula.explanation, `kpis[${ok.id}].formula.explanation`);
+      });
+    }
+    if (original.visuals && updated.visuals) {
+      cmpArr(original.visuals.visuals, updated.visuals.visuals,
+        v => v.id, ['name','description','howToRead'], 'visuals');
+    }
+    if (original.update && updated.update) {
+      cmpArr(original.update.steps, updated.update.steps,
+        (s, i) => i + 1, ['title','description'], 'update.steps');
+    }
+    return changes;
+  },
+
+  _renderDiff(changes) {
+    const el = document.getElementById('diffContainer');
+    if (!changes.length) {
+      el.innerHTML = '<p style="color:var(--muted);font-size:13px;">Aucune modification détectée.</p>';
+      return;
+    }
+    el.innerHTML = `
+      <table class="diff-table">
+        <thead><tr>
+          <th>Champ</th><th>Lang</th><th>Avant</th><th>Après</th>
+        </tr></thead>
+        <tbody>
+          ${changes.slice(0, 60).map(c => `
+            <tr>
+              <td class="field-col">${c.path}</td>
+              <td><span class="lang-badge">${c.lang}</span></td>
+              <td class="old-col">${this._trunc(c.old, 110)}</td>
+              <td class="new-col">${this._trunc(c.new, 110)}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      ${changes.length > 60
+        ? `<p style="font-size:12px;color:var(--muted);margin-top:8px;">… et ${changes.length - 60} autres modifications</p>`
+        : ''}`;
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
+  //  TÉLÉCHARGEMENTS
+  // ════════════════════════════════════════════════════════════════════════════
+
+  _renderDownloads(modelId, updated, original) {
+    const container = document.getElementById('downloadButtons');
+    container.innerHTML = '';
+
+    this._files = [
+      { name:'overview.json',      data: updated.overview,  orig: original.overview  },
+      { name:'kpis.json',          data: updated.kpis,      orig: original.kpis      },
+      { name:'visuals.json',       data: updated.visuals,   orig: original.visuals   },
+      { name:'update-process.json',data: updated.update,    orig: original.update    },
+      { name:'data-model.json',    data: updated.dataModel, orig: original.dataModel },
+    ].filter(f => f.data && f.orig);
+
+    this._files.forEach((f, idx) => {
+      const btn = document.createElement('button');
+      btn.className = 'btn btn-secondary';
+      btn.textContent = `⬇ ${f.name}`;
+      btn.onclick = () => this._downloadJson(f.name, f.data);
+      container.appendChild(btn);
+    });
+
+    if (this._files.length > 1) {
+      const zip = document.createElement('button');
+      zip.className = 'btn btn-success';
+      zip.textContent = '📦 Tout en .zip';
+      zip.onclick = () => this._downloadZip(modelId);
+      container.appendChild(zip);
+    }
+  },
+
+  _downloadJson(name, data) {
+    if (!data) return;
+    saveAs(
+      new Blob([JSON.stringify(data, null, 2)], { type:'application/json' }),
+      name
+    );
+  },
+
+  async _downloadZip(modelId) {
+    const zip = new JSZip();
+    this._files.forEach(f => {
+      if (f.data) zip.file(f.name, JSON.stringify(f.data, null, 2));
+    });
+    saveAs(await zip.generateAsync({ type:'blob' }), `${modelId}-updated.zip`);
+  },
+
+  // ── Utilitaires ─────────────────────────────────────────────────────────────
+  _status(id, type, msg) {
+    const el = document.getElementById(id);
+    el.className = `status ${type}`;
+    el.textContent = msg;
+  },
+
+  _trunc(s, max) {
+    if (!s) return '—';
+    return s.length > max ? s.slice(0, max) + '…' : s;
+  },
+};
+
+document.addEventListener('DOMContentLoaded', () => DocEditor.init());
+</script>
+</body>
+</html>
