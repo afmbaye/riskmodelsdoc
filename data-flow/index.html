@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flux de données - Documentation Power BI</title>
+  <title>Data Flow - Risk Models Documentation</title>
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="../Assets/Images/logos/baobab-icon.png">
@@ -15,7 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
 </head>
 <body>
-  <div class="layout-wrapper no-sidebar">
+  <div class="layout-wrapper no-sidebar" id="layoutWrapper" style="min-height:0;grid-template-rows:auto;">
     <!-- Header -->
     <header class="header">
       <!-- Rendered by NavigationManager -->
@@ -23,539 +23,445 @@
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Hero Section -->
+
+      <!-- Hero -->
       <section class="hero-section hero-compact hero-data-flow">
         <div class="hero-content">
-          <h1 class="hero-title" id="pageTitle">Flux de données</h1>
+          <h1 class="hero-title" id="pageTitle">Data Flow</h1>
           <p class="hero-description" id="pageDescription">
-            Visualisez le flux de données depuis les sources jusqu'aux modèles Power BI.
+            Vue d'ensemble du flux de données depuis les fichiers sources jusqu'aux modèles Power BI.
           </p>
         </div>
       </section>
 
-      <!-- [WIP] Sections masquées temporairement -->
-      <div style="display:none">
-
-      <!-- Filter by Model -->
+      <!-- Content -->
       <section class="content-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i data-feather="filter"></i>
-            <span id="filterTitle">Filtrer par modèle</span>
-          </h2>
+        <div id="dfLoading" style="text-align:center;padding:var(--spacing-10);color:var(--text-muted);">
+          <i data-feather="loader" style="width:24px;height:24px;margin-bottom:var(--spacing-3);display:block;margin-inline:auto;"></i>
+          <span id="dfLoadingLabel">Chargement…</span>
         </div>
 
-        <div class="filter-group" id="modelFilters">
-          <button class="filter-chip active" data-model="all" id="filterAll">Tous les modèles</button>
-          <!-- Model chips rendered dynamically -->
+        <div id="dfApp" style="display:none;">
+
+          <!-- Two-panel layout -->
+          <div class="df-layout">
+
+            <!-- LEFT: Source panel -->
+            <div class="df-source-panel">
+              <div class="df-source-panel-header">
+                <p class="df-source-panel-title" id="panelTitle">Sources de données</p>
+                <input
+                  type="search"
+                  class="df-source-search"
+                  id="dfSearch"
+                  placeholder="Rechercher une source…"
+                  aria-label="Rechercher une source"
+                >
+              </div>
+              <div class="df-source-panel-body" id="dfSourceList">
+                <!-- Rendered by JS -->
+              </div>
+            </div>
+
+            <!-- RIGHT: Model grid -->
+            <div class="df-main">
+
+              <!-- Category filter chips -->
+              <div class="df-main-toolbar">
+                <span class="df-main-toolbar-label" id="filterLabel">Filtrer :</span>
+                <div class="df-category-chips" id="dfCategoryChips">
+                  <!-- Rendered by JS -->
+                </div>
+                <button class="df-clear-btn" id="dfClearBtn" style="display:none;" aria-label="Réinitialiser la sélection">
+                  <i data-feather="x"></i>
+                  <span id="clearLabel">Réinitialiser</span>
+                </button>
+              </div>
+
+              <!-- Selection info banner -->
+              <div class="df-selection-info" id="dfSelectionInfo" role="status">
+                <i data-feather="info"></i>
+                <span id="dfSelectionText"></span>
+              </div>
+
+              <!-- Model grid -->
+              <div class="df-model-grid" id="dfModelGrid">
+                <!-- Rendered by JS -->
+              </div>
+
+              <!-- Source detail (shown on source click) -->
+              <div class="df-source-detail" id="dfSourceDetail">
+                <div class="df-source-detail-header">
+                  <div class="df-source-detail-icon" id="dfDetailIcon">
+                    <i data-feather="file-text"></i>
+                  </div>
+                  <div class="df-source-detail-meta">
+                    <h3 id="dfDetailName"></h3>
+                    <span class="df-source-detail-pattern" id="dfDetailPattern"></span>
+                  </div>
+                </div>
+                <p class="df-source-detail-desc" id="dfDetailDesc"></p>
+              </div>
+
+            </div>
+          </div>
+
         </div>
       </section>
-
-      <!-- Data Flow Diagram -->
-      <section class="content-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i data-feather="git-merge"></i>
-            <span id="flowTitle">Schéma du flux</span>
-          </h2>
-        </div>
-
-        <div class="data-flow-container" id="dataFlowDiagram">
-          <!-- Data flow rendered dynamically -->
-        </div>
-      </section>
-
-      <!-- Data Sources -->
-      <section class="content-section">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i data-feather="database"></i>
-            <span id="sourcesTitle">Sources de données</span>
-          </h2>
-        </div>
-
-        <div class="content-grid" id="sourcesGrid">
-          <!-- Sources rendered dynamically -->
-        </div>
-      </section>
-
-      <!-- Data Dictionary Panel -->
-      <div class="slide-panel-overlay" id="panelOverlay"></div>
-      <div class="slide-panel" id="dictionaryPanel">
-        <div class="slide-panel-header">
-          <h3 class="slide-panel-title" id="panelTitle">Dictionnaire de données</h3>
-          <button class="slide-panel-close" id="panelClose">
-            <i data-feather="x"></i>
-          </button>
-        </div>
-        <div class="slide-panel-body" id="panelBody">
-          <!-- Dictionary content rendered dynamically -->
-        </div>
-      </div>
-      </div><!-- end [WIP] mask -->
-
     </main>
   </div>
 
   <!-- Scripts -->
   <script src="../Assets/js/languageManager.js"></script>
   <script src="../Assets/js/dataLoader.js"></script>
-  <script src="../Assets/js/templateRenderer.js"></script>
   <script src="../Assets/js/navigationManager.js"></script>
 
   <script>
-    /**
-     * Data Flow Page Controller
-     */
+    /* ──────────────────────────────────────────────────────
+       Data Flow Page Controller
+    ────────────────────────────────────────────────────── */
     const DataFlowPage = {
-      dataFlow: null,
+      sources: [],
       models: [],
-      currentModel: 'all',
+      categories: [],
+      selectedSource: null,
+      selectedModel: null,
+      activeCategory: 'all',
+      searchQuery: '',
 
+      // ── Bootstrap ──────────────────────────────────────
       async init() {
         try {
-          // Load data
-          const [dataFlowData, modelsData] = await Promise.all([
-            DataLoader.getDataFlow(),
-            DataLoader.getModelsIndex()
+          const prefix = NavigationManager.getPathPrefix();
+          const [dfData, modelsData, catsData] = await Promise.all([
+            fetch(`${prefix}data/data-flow.json`).then(r => r.json()),
+            fetch(`${prefix}data/models/index.json`).then(r => r.json()),
+            fetch(`${prefix}data/categories.json`).then(r => r.json())
           ]);
 
-          this.dataFlow = dataFlowData;
-          this.models = modelsData.models.filter(m => m.isActive);
+          this.sources    = dfData.sources || [];
+          this.models     = (modelsData.models || []).filter(m => m.isActive);
+          this.categories = catsData.categories || [];
 
-          // Render UI
-          this.updateLabels();
-          this.renderModelFilters();
-          this.renderDataFlow();
-          this.renderSources();
-          this.setupEventListeners();
+          this.renderAll();
+          this.setupSearch();
+          this.setupLanguageSwitch();
 
-          // Initialize icons
+          document.getElementById('dfLoading').style.display = 'none';
+          document.getElementById('dfApp').style.display     = 'block';
           feather.replace();
-
-        } catch (error) {
-          console.error('Data Flow page initialization error:', error);
+        } catch (err) {
+          console.error('DataFlowPage init error:', err);
+          document.getElementById('dfLoadingLabel').textContent = 'Erreur de chargement.';
         }
       },
 
-      updateLabels() {
-        const t = LanguageManager.t.bind(LanguageManager);
+      // ── Translate helper ───────────────────────────────
+      t(obj) {
+        const lang = (document.documentElement.lang || 'fr');
+        if (!obj) return '';
+        return obj[lang] || obj.fr || obj.en || '';
+      },
 
-        document.getElementById('pageTitle').textContent = t({
-          fr: 'Flux de données',
-          en: 'Data Flow'
-        });
+      // ── Render all ────────────────────────────────────
+      renderAll() {
+        this.updateStaticLabels();
+        this.renderCategoryChips();
+        this.renderSourcePanel();
+        this.renderModelGrid();
+        this.renderClearBtn();
+      },
+
+      // ── Static labels (bilingual) ──────────────────────
+      updateStaticLabels() {
+        const t = this.t.bind(this);
+        document.getElementById('pageTitle').textContent       = t({ fr: 'Data Flow', en: 'Data Flow' });
         document.getElementById('pageDescription').textContent = t({
-          fr: 'Visualisez le flux de données depuis les sources jusqu\'aux modèles Power BI.',
-          en: 'Visualize the data flow from sources to Power BI models.'
+          fr: 'Vue d\'ensemble du flux de données depuis les fichiers sources jusqu\'aux modèles Power BI.',
+          en: 'Overview of the data flow from source files to the Power BI models.'
         });
-        document.getElementById('filterTitle').textContent = t({
-          fr: 'Filtrer par modèle',
-          en: 'Filter by model'
-        });
-        document.getElementById('flowTitle').textContent = t({
-          fr: 'Schéma du flux',
-          en: 'Flow diagram'
-        });
-        document.getElementById('sourcesTitle').textContent = t({
-          fr: 'Sources de données',
-          en: 'Data sources'
-        });
-        document.getElementById('panelTitle').textContent = t({
-          fr: 'Dictionnaire de données',
-          en: 'Data dictionary'
-        });
+        document.getElementById('panelTitle').textContent  = t({ fr: 'Sources de données', en: 'Data Sources' });
+        document.getElementById('filterLabel').textContent = t({ fr: 'Filtrer :', en: 'Filter:' });
+        document.getElementById('clearLabel').textContent  = t({ fr: 'Réinitialiser', en: 'Reset' });
+        const searchEl = document.getElementById('dfSearch');
+        if (searchEl) searchEl.placeholder = t({ fr: 'Rechercher une source…', en: 'Search a source…' });
       },
 
-      renderModelFilters() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const container = document.getElementById('modelFilters');
+      // ── Category chips ────────────────────────────────
+      renderCategoryChips() {
+        const t   = this.t.bind(this);
+        const usedCatIds = new Set(this.models.flatMap(m => m.categories || []));
+        const usedCats   = this.categories.filter(c => usedCatIds.has(c.id));
 
-        const modelChips = this.models.map(model => `
-          <button class="filter-chip" data-model="${model.id}">
-            ${t(model.name)}
-          </button>
-        `).join('');
+        const allChip = `<button class="df-category-chip${this.activeCategory === 'all' ? ' active' : ''}" data-cat="all">${t({ fr: 'Tous', en: 'All' })}</button>`;
+        const chips   = usedCats.map(c =>
+          `<button class="df-category-chip${this.activeCategory === c.id ? ' active' : ''}" data-cat="${c.id}">${t(c.label)}</button>`
+        ).join('');
 
-        container.innerHTML = `
-          <button class="filter-chip active" data-model="all">
-            ${t({ fr: 'Tous les modèles', en: 'All models' })}
-          </button>
-          ${modelChips}
-        `;
-      },
-
-      renderDataFlow() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const container = document.getElementById('dataFlowDiagram');
-
-        // Filter sources by selected model
-        let sources = this.dataFlow.sources;
-        if (this.currentModel !== 'all') {
-          sources = sources.filter(s =>
-            s.usedByModels && s.usedByModels.includes(this.currentModel)
-          );
-        }
-
-        // Create flow visualization
-        const flowHtml = `
-          <div class="flow-diagram">
-            <!-- Sources Column -->
-            <div class="flow-column flow-sources">
-              <h4 class="flow-column-title">
-                <i data-feather="hard-drive"></i>
-                ${t({ fr: 'Sources', en: 'Sources' })}
-              </h4>
-              <div class="flow-items">
-                ${sources.map(source => `
-                  <div class="flow-item source-item" data-source="${source.id}">
-                    <i data-feather="${this.getSourceIcon(source.type)}"></i>
-                    <span>${t(source.name)}</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flow-arrow">
-              <i data-feather="arrow-right"></i>
-              <span class="flow-arrow-label">${t({ fr: 'ETL', en: 'ETL' })}</span>
-            </div>
-
-            <!-- Lakehouse Column -->
-            <div class="flow-column flow-lakehouse">
-              <h4 class="flow-column-title">
-                <i data-feather="layers"></i>
-                ${t({ fr: 'Lakehouse', en: 'Lakehouse' })}
-              </h4>
-              <div class="flow-items">
-                <div class="flow-item lakehouse-item">
-                  <i data-feather="database"></i>
-                  <span>Microsoft Fabric</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Arrow -->
-            <div class="flow-arrow">
-              <i data-feather="arrow-right"></i>
-              <span class="flow-arrow-label">${t({ fr: 'Modélisation', en: 'Modeling' })}</span>
-            </div>
-
-            <!-- Models Column -->
-            <div class="flow-column flow-models">
-              <h4 class="flow-column-title">
-                <i data-feather="bar-chart-2"></i>
-                ${t({ fr: 'Modèles', en: 'Models' })}
-              </h4>
-              <div class="flow-items">
-                ${this.getFilteredModels().map(model => `
-                  <div class="flow-item model-item" data-model="${model.id}">
-                    <i data-feather="activity"></i>
-                    <span>${t(model.name)}</span>
-                  </div>
-                `).join('')}
-              </div>
-            </div>
-          </div>
-        `;
-
-        container.innerHTML = flowHtml;
-      },
-
-      getFilteredModels() {
-        if (this.currentModel === 'all') {
-          return this.models;
-        }
-        return this.models.filter(m => m.id === this.currentModel);
-      },
-
-      getSourceIcon(type) {
-        const icons = {
-          'database': 'database',
-          'file': 'file-text',
-          'api': 'cloud',
-          'sharepoint': 'folder',
-          'excel': 'file-text'
-        };
-        return icons[type] || 'file';
-      },
-
-      renderSources() {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const container = document.getElementById('sourcesGrid');
-
-        // Filter sources by selected model
-        let sources = this.dataFlow.sources;
-        if (this.currentModel !== 'all') {
-          sources = sources.filter(s =>
-            s.usedByModels && s.usedByModels.includes(this.currentModel)
-          );
-        }
-
-        container.innerHTML = sources.map(source => `
-          <div class="source-card" data-source="${source.id}">
-            <div class="source-icon">
-              <i data-feather="${this.getSourceIcon(source.type)}"></i>
-            </div>
-            <div class="source-content">
-              <h4 class="source-name">${t(source.name)}</h4>
-              <span class="source-type">${source.type.toUpperCase()}</span>
-              <p class="source-description">${t(source.description)}</p>
-              <button class="btn btn-sm btn-outline view-dictionary-btn" data-source="${source.id}">
-                <i data-feather="book-open"></i>
-                ${t({ fr: 'Voir dictionnaire', en: 'View dictionary' })}
-              </button>
-            </div>
-          </div>
-        `).join('');
-
-        feather.replace();
-      },
-
-      showDictionary(sourceId) {
-        const t = LanguageManager.t.bind(LanguageManager);
-        const source = this.dataFlow.sources.find(s => s.id === sourceId);
-        if (!source) return;
-
-        const panel = document.getElementById('dictionaryPanel');
-        const overlay = document.getElementById('panelOverlay');
-        const body = document.getElementById('panelBody');
-        const title = document.getElementById('panelTitle');
-
-        title.textContent = t(source.name) + ' - ' + t({
-          fr: 'Dictionnaire',
-          en: 'Dictionary'
-        });
-
-        // Get columns from data dictionary
-        const columns = this.dataFlow.dataDictionary?.[sourceId] || [];
-
-        if (columns.length === 0) {
-          body.innerHTML = `
-            <div class="empty-state">
-              <i data-feather="info" class="empty-state-icon"></i>
-              <h3 class="empty-state-title">${t({
-                fr: 'Aucune donnée disponible',
-                en: 'No data available'
-              })}</h3>
-              <p class="empty-state-description">${t({
-                fr: 'Le dictionnaire de données n\'est pas encore documenté pour cette source.',
-                en: 'The data dictionary is not yet documented for this source.'
-              })}</p>
-            </div>
-          `;
-        } else {
-          body.innerHTML = `
-            <table class="dictionary-table data-table">
-              <thead>
-                <tr>
-                  <th>${t({ fr: 'Colonne', en: 'Column' })}</th>
-                  <th>${t({ fr: 'Type', en: 'Type' })}</th>
-                  <th>${t({ fr: 'Description', en: 'Description' })}</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${columns.map(col => `
-                  <tr>
-                    <td><span class="column-name">${col.name}</span></td>
-                    <td><span class="column-type">${col.type}</span></td>
-                    <td>${t(col.description)}</td>
-                  </tr>
-                `).join('')}
-              </tbody>
-            </table>
-          `;
-        }
-
-        // Show panel
-        panel.classList.add('show');
-        overlay.classList.add('show');
-        feather.replace();
-      },
-
-      hideDictionary() {
-        const panel = document.getElementById('dictionaryPanel');
-        const overlay = document.getElementById('panelOverlay');
-
-        panel.classList.remove('show');
-        overlay.classList.remove('show');
-      },
-
-      setupEventListeners() {
-        // Model filters
-        document.getElementById('modelFilters').addEventListener('click', (e) => {
-          const chip = e.target.closest('.filter-chip');
-          if (!chip) return;
-
-          // Update active state
-          document.querySelectorAll('#modelFilters .filter-chip').forEach(c =>
-            c.classList.remove('active')
-          );
-          chip.classList.add('active');
-
-          // Filter
-          this.currentModel = chip.dataset.model;
-          this.renderDataFlow();
-          this.renderSources();
+        const container = document.getElementById('dfCategoryChips');
+        container.innerHTML = allChip + chips;
+        container.addEventListener('click', e => {
+          const btn = e.target.closest('.df-category-chip');
+          if (!btn) return;
+          this.activeCategory  = btn.dataset.cat;
+          this.selectedSource  = null;
+          this.selectedModel   = null;
+          this.renderAll();
           feather.replace();
         });
+      },
 
-        // View dictionary buttons
-        document.getElementById('sourcesGrid').addEventListener('click', (e) => {
-          const btn = e.target.closest('.view-dictionary-btn');
-          if (!btn) return;
+      // ── Source panel ──────────────────────────────────
+      renderSourcePanel() {
+        const t = this.t.bind(this);
 
-          this.showDictionary(btn.dataset.source);
+        // Group sources by type
+        const groups = {
+          csv:     { label: t({ fr: 'Fichiers CSV', en: 'CSV Files' }), items: [] },
+          mapping: { label: t({ fr: 'Fichiers de mapping', en: 'Mapping Files' }), items: [] },
+          xlsx:    { label: t({ fr: 'Fichiers Excel', en: 'Excel Files' }), items: [] },
+          folder:  { label: t({ fr: 'Dossiers / Rapports', en: 'Folders / Reports' }), items: [] }
+        };
+
+        const q = this.searchQuery.toLowerCase();
+
+        this.sources.forEach(src => {
+          const name = t(src.name).toLowerCase();
+          const desc = t(src.description || {}).toLowerCase();
+          if (q && !name.includes(q) && !desc.includes(q)) return;
+          const group = groups[src.type] || groups.xlsx;
+          group.items.push(src);
         });
 
-        // Close panel
-        document.getElementById('panelClose').addEventListener('click', () => {
-          this.hideDictionary();
+        let html = '';
+        Object.entries(groups).forEach(([type, g]) => {
+          if (!g.items.length) return;
+          html += `<div class="df-source-group">`;
+          html += `<div class="df-source-group-label">${g.label}</div>`;
+          g.items.forEach(src => {
+            const isActive      = this.selectedSource === src.id;
+            const isHighlighted = !isActive && this.selectedModel && src.models.includes(this.selectedModel);
+            const isDimmed      = (this.selectedModel && !src.models.includes(this.selectedModel)) ||
+                                  (this.activeCategory !== 'all' && !src.models.some(mid => {
+                                    const m = this.models.find(x => x.id === mid);
+                                    return m && (m.categories || []).includes(this.activeCategory);
+                                  }));
+
+            let cls = 'df-source-item';
+            if (isActive)      cls += ' active';
+            else if (isHighlighted) cls += ' highlighted';
+            else if (isDimmed) cls += ' dimmed';
+
+            const connectedCount = src.models.filter(mid => this.models.find(x => x.id === mid)).length;
+
+            html += `
+              <div class="${cls}" data-source-id="${src.id}" role="button" tabindex="0"
+                   aria-pressed="${isActive}">
+                <i data-feather="${src.icon || 'file'}" class="df-source-item-icon df-type-${type}"></i>
+                <div class="df-source-item-text">
+                  <div class="df-source-item-name">${t(src.name)}</div>
+                  <div class="df-source-item-pattern">${src.pattern || ''}</div>
+                </div>
+                <span class="df-source-item-count">${connectedCount}</span>
+              </div>`;
+          });
+          html += `</div>`;
         });
 
-        document.getElementById('panelOverlay').addEventListener('click', () => {
-          this.hideDictionary();
-        });
+        if (!html) {
+          html = `<div style="padding:var(--spacing-4);text-align:center;color:var(--text-light);font-size:var(--font-size-sm);">${t({ fr: 'Aucun résultat', en: 'No results' })}</div>`;
+        }
 
-        // Escape key to close panel
-        document.addEventListener('keydown', (e) => {
-          if (e.key === 'Escape') {
-            this.hideDictionary();
-          }
-        });
+        const list = document.getElementById('dfSourceList');
+        list.innerHTML = html;
 
-        // Language change
+        list.querySelectorAll('.df-source-item').forEach(el => {
+          el.addEventListener('click', () => this.selectSource(el.dataset.sourceId));
+          el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') this.selectSource(el.dataset.sourceId); });
+        });
+      },
+
+      // ── Model grid ────────────────────────────────────
+      renderModelGrid() {
+        const t = this.t.bind(this);
+
+        // Filter models by category
+        let filtered = this.models;
+        if (this.activeCategory !== 'all') {
+          filtered = filtered.filter(m => (m.categories || []).includes(this.activeCategory));
+        }
+
+        let html = '';
+        if (!filtered.length) {
+          html = `<div class="df-empty-state"><i data-feather="inbox"></i><p>${t({ fr: 'Aucun modèle dans cette catégorie.', en: 'No model in this category.' })}</p></div>`;
+        } else {
+          filtered.forEach(model => {
+            const srcForModel   = this.sources.filter(s => s.models.includes(model.id));
+            const isActive      = this.selectedModel === model.id;
+            const isHighlighted = !isActive && this.selectedSource && this.sources.find(s => s.id === this.selectedSource)?.models.includes(model.id);
+            const isDimmed      = (this.selectedSource && !this.sources.find(s => s.id === this.selectedSource)?.models.includes(model.id)) ||
+                                  (this.selectedModel && this.selectedModel !== model.id);
+
+            let cls = 'df-model-card';
+            if (isActive)           cls += ' active';
+            else if (isHighlighted) cls += ' highlighted';
+            else if (isDimmed)      cls += ' dimmed';
+
+            const cats = (model.categories || []).slice(0, 3).map(cid => {
+              const c = this.categories.find(x => x.id === cid);
+              return `<span class="df-model-cat-tag">${c ? t(c.label) : cid}</span>`;
+            }).join('');
+
+            const srcLabel = t({ fr: `${srcForModel.length} source${srcForModel.length > 1 ? 's' : ''}`, en: `${srcForModel.length} source${srcForModel.length > 1 ? 's' : ''}` });
+
+            html += `
+              <div class="${cls}" data-model-id="${model.id}" role="button" tabindex="0"
+                   aria-pressed="${isActive}">
+                <div class="df-model-card-icon">
+                  <i data-feather="bar-chart-2"></i>
+                </div>
+                <div class="df-model-card-name">${t(model.name)}</div>
+                <div class="df-model-card-sources">${srcLabel}</div>
+                <div class="df-model-card-cats">${cats}</div>
+              </div>`;
+          });
+        }
+
+        const grid = document.getElementById('dfModelGrid');
+        grid.innerHTML = html;
+
+        grid.querySelectorAll('.df-model-card').forEach(el => {
+          el.addEventListener('click', () => this.selectModel(el.dataset.modelId));
+          el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') this.selectModel(el.dataset.modelId); });
+        });
+      },
+
+      // ── Selection logic ───────────────────────────────
+      selectSource(id) {
+        if (this.selectedSource === id) {
+          this.clearSelection();
+          return;
+        }
+        this.selectedSource = id;
+        this.selectedModel  = null;
+        this.renderSourcePanel();
+        this.renderModelGrid();
+        this.renderSelectionInfo();
+        this.renderSourceDetail(id);
+        this.renderClearBtn();
+        feather.replace();
+      },
+
+      selectModel(id) {
+        if (this.selectedModel === id) {
+          this.clearSelection();
+          return;
+        }
+        this.selectedModel  = id;
+        this.selectedSource = null;
+        this.renderSourcePanel();
+        this.renderModelGrid();
+        this.renderSelectionInfo();
+        this.hideSourceDetail();
+        this.renderClearBtn();
+        feather.replace();
+      },
+
+      clearSelection() {
+        this.selectedSource = null;
+        this.selectedModel  = null;
+        this.renderSourcePanel();
+        this.renderModelGrid();
+        this.hideSelectionInfo();
+        this.hideSourceDetail();
+        this.renderClearBtn();
+        feather.replace();
+      },
+
+      // ── Selection banner ──────────────────────────────
+      renderSelectionInfo() {
+        const t = this.t.bind(this);
+        const banner = document.getElementById('dfSelectionInfo');
+        const text   = document.getElementById('dfSelectionText');
+
+        if (this.selectedSource) {
+          const src = this.sources.find(s => s.id === this.selectedSource);
+          if (!src) return;
+          const count = src.models.filter(mid => this.models.find(m => m.id === mid)).length;
+          text.textContent = t({
+            fr: `Source « ${t(src.name)} » → utilisée par ${count} modèle${count > 1 ? 's' : ''}. Cliquez un modèle pour voir ses sources.`,
+            en: `Source "${t(src.name)}" → used by ${count} model${count > 1 ? 's' : ''}. Click a model to see its sources.`
+          });
+        } else if (this.selectedModel) {
+          const model = this.models.find(m => m.id === this.selectedModel);
+          if (!model) return;
+          const srcs = this.sources.filter(s => s.models.includes(this.selectedModel));
+          text.textContent = t({
+            fr: `Modèle « ${t(model.name)} » → ${srcs.length} source${srcs.length > 1 ? 's' : ''} identifiée${srcs.length > 1 ? 's' : ''}. Cliquez une source pour plus de détails.`,
+            en: `Model "${t(model.name)}" → ${srcs.length} identified source${srcs.length > 1 ? 's' : ''}. Click a source for more details.`
+          });
+        }
+
+        banner.classList.add('visible');
+      },
+
+      hideSelectionInfo() {
+        document.getElementById('dfSelectionInfo').classList.remove('visible');
+      },
+
+      // ── Source detail panel ───────────────────────────
+      renderSourceDetail(sourceId) {
+        const t   = this.t.bind(this);
+        const src = this.sources.find(s => s.id === sourceId);
+        if (!src) return;
+
+        document.getElementById('dfDetailName').textContent    = t(src.name);
+        document.getElementById('dfDetailPattern').textContent = src.pattern || '';
+        document.getElementById('dfDetailDesc').textContent    = t(src.description);
+
+        const iconEl = document.getElementById('dfDetailIcon');
+        iconEl.innerHTML = `<i data-feather="${src.icon || 'file'}"></i>`;
+
+        document.getElementById('dfSourceDetail').classList.add('visible');
+        feather.replace();
+      },
+
+      hideSourceDetail() {
+        document.getElementById('dfSourceDetail').classList.remove('visible');
+      },
+
+      // ── Clear button visibility ───────────────────────
+      renderClearBtn() {
+        const t   = this.t.bind(this);
+        const btn = document.getElementById('dfClearBtn');
+        const hasSelection = this.selectedSource || this.selectedModel;
+        btn.style.display = hasSelection ? 'flex' : 'none';
+        btn.onclick = () => this.clearSelection();
+      },
+
+      // ── Search ───────────────────────────────────────
+      setupSearch() {
+        const input = document.getElementById('dfSearch');
+        if (!input) return;
+        input.addEventListener('input', () => {
+          this.searchQuery = input.value.trim();
+          this.renderSourcePanel();
+          feather.replace();
+        });
+      },
+
+      // ── Language switch ───────────────────────────────
+      setupLanguageSwitch() {
         window.addEventListener('languageChanged', () => {
-          this.updateLabels();
-          this.renderModelFilters();
-          this.renderDataFlow();
-          this.renderSources();
+          this.renderAll();
           feather.replace();
         });
       }
     };
 
-    // Initialize when DOM is ready
     document.addEventListener('DOMContentLoaded', () => {
       DataFlowPage.init();
     });
   </script>
-
-  <style>
-    /* Data Flow Diagram Styles */
-    .flow-diagram {
-      display: flex;
-      align-items: stretch;
-      justify-content: space-between;
-      gap: var(--spacing-4);
-      padding: var(--spacing-6);
-      background: var(--bg-gray-50);
-      border-radius: var(--radius-lg);
-      overflow-x: auto;
-    }
-
-    .flow-column {
-      flex: 1;
-      min-width: 180px;
-      background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: var(--spacing-4);
-      border: 1px solid var(--border-color);
-    }
-
-    .flow-column-title {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-semibold);
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: var(--spacing-4);
-      padding-bottom: var(--spacing-3);
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .flow-column-title i {
-      width: 16px;
-      height: 16px;
-    }
-
-    .flow-items {
-      display: flex;
-      flex-direction: column;
-      gap: var(--spacing-2);
-    }
-
-    .flow-item {
-      display: flex;
-      align-items: center;
-      gap: var(--spacing-2);
-      padding: var(--spacing-3);
-      background: var(--bg-gray-50);
-      border-radius: var(--radius-md);
-      font-size: var(--font-size-sm);
-      color: var(--text-color);
-      transition: all var(--transition-fast);
-      cursor: pointer;
-    }
-
-    .flow-item:hover {
-      background: var(--primary-light);
-      color: var(--primary-color);
-    }
-
-    .flow-item i {
-      width: 16px;
-      height: 16px;
-      color: var(--text-muted);
-    }
-
-    .flow-item:hover i {
-      color: var(--primary-color);
-    }
-
-    .flow-arrow {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: var(--spacing-4);
-      color: var(--text-light);
-    }
-
-    .flow-arrow i {
-      width: 24px;
-      height: 24px;
-    }
-
-    .flow-arrow-label {
-      font-size: var(--font-size-xs);
-      color: var(--text-muted);
-      margin-top: var(--spacing-1);
-    }
-
-    .flow-sources { border-left: 3px solid var(--info-color); }
-    .flow-lakehouse { border-left: 3px solid var(--warning-color); }
-    .flow-models { border-left: 3px solid var(--success-color); }
-
-    /* Source card button */
-    .source-card .btn {
-      margin-top: var(--spacing-3);
-    }
-
-    @media (max-width: 768px) {
-      .flow-diagram {
-        flex-direction: column;
-      }
-
-      .flow-arrow {
-        transform: rotate(90deg);
-        padding: var(--spacing-2);
-      }
-    }
-  </style>
 </body>
 </html>
