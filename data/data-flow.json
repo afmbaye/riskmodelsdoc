@@ -5,148 +5,258 @@
   },
   "sources": [
     {
-      "id": "csv-portfolio",
-      "name": { "fr": "CSVs Portfolio filiales", "en": "Subsidiary portfolio CSVs" },
-      "type": "csv",
+      "id": "suivi-echeances",
+      "name": { "fr": "Suivi des Échéances", "en": "Installment Tracker" },
+      "type": "data",
       "icon": "file-text",
-      "pattern": "*.csv — 1 fichier par filiale (×7)",
+      "origin": "data",
+      "pattern": "[Risk] Suivi des échéances - [Pays].csv — ×7 filiales",
+      "updateFrequency": { "fr": "Quotidienne", "en": "Daily" },
       "description": {
-        "fr": "Fichiers CSV exportés périodiquement par chaque filiale depuis le core banking : suivi des échéances (Loan Bucket), radiations (WoF), décaissements (Vintage) et données de visite.",
-        "en": "CSV files periodically exported by each subsidiary from core banking: installment tracking (Loan Bucket), write-offs (WoF), disbursements (Vintage) and visit data."
+        "fr": "Fichiers CSV produits quotidiennement par chaque filiale : état de règlement des échéances contrat par contrat (montant dû, montant payé, retard en jours, solde GLP).",
+        "en": "CSV files produced daily by each subsidiary: installment payment status contract by contract (amount due, amount paid, days overdue, GLP balance)."
       },
-      "models": ["installment-tracker", "vintage-ld-wo", "vintage-recovery", "sector-analysis", "visits", "collateral-loans", "top-20", "maturity"]
+      "models": ["installment-tracker"],
+      "columns": [
+        { "name": "ContractID", "type": "String", "description": { "fr": "Identifiant unique du contrat de prêt", "en": "Unique loan contract identifier" } },
+        { "name": "CustomerID", "type": "String", "description": { "fr": "Identifiant unique du client", "en": "Unique customer identifier" } },
+        { "name": "DueDate", "type": "Date", "description": { "fr": "Date d'échéance du remboursement", "en": "Repayment due date" } },
+        { "name": "ExpectedAmount", "type": "Decimal", "description": { "fr": "Montant attendu pour cette échéance", "en": "Expected amount for this installment" } },
+        { "name": "PaidAmount", "type": "Decimal", "description": { "fr": "Montant effectivement payé", "en": "Amount actually paid" } },
+        { "name": "DaysLate", "type": "Integer", "description": { "fr": "Nombre de jours de retard", "en": "Number of days overdue" } },
+        { "name": "GLP", "type": "Decimal", "description": { "fr": "Encours brut restant sur le contrat", "en": "Gross loan portfolio balance on the contract" } },
+        { "name": "BranchCode", "type": "String", "description": { "fr": "Code de l'agence", "en": "Branch code" } },
+        { "name": "DAOCode", "type": "String", "description": { "fr": "Code du gestionnaire de portefeuille", "en": "Portfolio manager code" } },
+        { "name": "Segment", "type": "String", "description": { "fr": "Segment client (Nano, SE, ME, SME)", "en": "Customer segment (Nano, SE, ME, SME)" } }
+      ]
     },
     {
-      "id": "xlsx-mapping-new-segment",
-      "name": { "fr": "Mapping New Segment", "en": "Mapping New Segment" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping New segment.xlsx",
-      "description": {
-        "fr": "Fichier de référence partagé entre la majorité des modèles. Définit la correspondance entre les anciens codes segment et la nouvelle nomenclature (Nano, SE, ME, SME).",
-        "en": "Shared reference file used by most models. Defines the mapping between old segment codes and the new nomenclature (Nano, SE, ME, SME)."
-      },
-      "models": ["installment-tracker", "vintage-ld-wo", "top-20", "atypical", "transition-smoothing", "sector-analysis"]
-    },
-    {
-      "id": "xlsx-mapping-vintage",
-      "name": { "fr": "Mapping Vintage", "en": "Mapping Vintage" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping_Vintage.xlsx, mapping_region.xlsx, Mapping_comite_technique.xlsx",
-      "description": {
-        "fr": "Fichiers de correspondance spécifiques aux modèles Vintage : régions, comités techniques et paramètres de cohortes.",
-        "en": "Mapping files specific to Vintage models: regions, technical committees and cohort parameters."
-      },
-      "models": ["vintage-ld-wo", "top-20"]
-    },
-    {
-      "id": "xlsx-mapping-transition",
-      "name": { "fr": "Mapping Transition Matrix", "en": "Mapping Transition Matrix" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping_transition_matrix.xlsx",
-      "description": {
-        "fr": "Table de correspondance définissant les états PAR et les seuils de transition utilisés dans la matrice de transition du portefeuille.",
-        "en": "Reference table defining PAR states and transition thresholds used in the portfolio transition matrix."
-      },
-      "models": ["transition-smoothing"]
-    },
-    {
-      "id": "xlsx-mapping-llp",
-      "name": { "fr": "Mapping LLP", "en": "Mapping LLP" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping LLP.xlsx",
-      "description": {
-        "fr": "Correspondances spécifiques aux provisions IFRS : taux de provisionnement par stade ECL, filiale et type de produit.",
-        "en": "IFRS provisioning-specific mappings: provisioning rates by ECL stage, subsidiary and product type."
-      },
-      "models": ["llp"]
-    },
-    {
-      "id": "xlsx-mapping-collateral",
-      "name": { "fr": "Mapping Collateral", "en": "Mapping Collateral" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping_Collateral.xlsx",
-      "description": {
-        "fr": "Table de référence des types de garanties : nature des collatéraux, pondérations et règles de couverture.",
-        "en": "Collateral type reference table: collateral nature, weightings and coverage rules."
-      },
-      "models": ["collateral-loans"]
-    },
-    {
-      "id": "xlsx-mapping-appetite",
-      "name": { "fr": "Mapping Appetite", "en": "Mapping Appetite" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping Appetite.xlsx",
-      "description": {
-        "fr": "Fichier de référence partagé entre les modèles d'appétit au risque : définition des KRIs, seuils d'alerte et limites groupe.",
-        "en": "Shared reference file for risk appetite models: KRI definitions, alert thresholds and group limits."
-      },
-      "models": ["credit-risk-appetite", "operational-risk-appetite", "global-risk-appetite"]
-    },
-    {
-      "id": "xlsx-mapping-bic",
-      "name": { "fr": "Mapping BIC", "en": "Mapping BIC" },
-      "type": "mapping",
-      "icon": "git-merge",
-      "pattern": "Mapping BIC.xlsx",
-      "description": {
-        "fr": "Table de correspondance des codes erreurs BIC, types d'anomalies et règles de classification des corrections non mises à jour (CNMJ).",
-        "en": "BIC error code mapping table, anomaly types and classification rules for non-updated corrections (CNMJ)."
-      },
-      "models": ["bic-analysis"]
-    },
-    {
-      "id": "xlsx-consolidated",
-      "name": { "fr": "Fichiers Consolidés Atypical", "en": "Atypical Consolidated Files" },
-      "type": "xlsx",
+      "id": "bucket-loan",
+      "name": { "fr": "Loan Bucket", "en": "Loan Bucket" },
+      "type": "data",
       "icon": "layers",
+      "origin": "data",
+      "pattern": "Loan_Bucket_[Date].csv — ×7 filiales",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Extraction mensuelle du portefeuille de prêts actifs par filiale : encours, PAR, décaissements, maturité résiduelle et données démographiques emprunteurs.",
+        "en": "Monthly extraction of the active loan portfolio by subsidiary: outstanding, PAR, disbursements, residual maturity and borrower demographic data."
+      },
+      "models": ["visits", "sector-analysis", "maturity", "top-20", "collateral-loans"],
+      "columns": [
+        { "name": "ContractID", "type": "String", "description": { "fr": "Identifiant unique du contrat", "en": "Unique contract identifier" } },
+        { "name": "DisbursementDate", "type": "Date", "description": { "fr": "Date de décaissement", "en": "Disbursement date" } },
+        { "name": "DisbursementAmount", "type": "Decimal", "description": { "fr": "Montant décaissé", "en": "Disbursed amount" } },
+        { "name": "OutstandingAmount", "type": "Decimal", "description": { "fr": "Encours brut restant", "en": "Gross outstanding balance" } },
+        { "name": "PAR30", "type": "Decimal", "description": { "fr": "Encours en retard > 30 jours", "en": "Outstanding overdue > 30 days" } },
+        { "name": "RemainingTerm", "type": "Integer", "description": { "fr": "Durée résiduelle en mois", "en": "Remaining term in months" } },
+        { "name": "Sector", "type": "String", "description": { "fr": "Secteur d'activité de l'emprunteur", "en": "Borrower business sector" } },
+        { "name": "BranchCode", "type": "String", "description": { "fr": "Code agence", "en": "Branch code" } },
+        { "name": "Segment", "type": "String", "description": { "fr": "Segment client", "en": "Customer segment" } }
+      ]
+    },
+    {
+      "id": "vintage-ld",
+      "name": { "fr": "Vintage LD (décaissements)", "en": "Vintage LD (disbursements)" },
+      "type": "data",
+      "icon": "trending-up",
+      "origin": "data",
+      "pattern": "VintageLD_[Pays]_[Date].csv — ×7 filiales",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Fichiers CSV par filiale contenant l'historique des décaissements par cohorte mensuelle : montants décaissés, late days cumulés et retards pour chaque génération de prêts.",
+        "en": "CSV files by subsidiary containing disbursement history by monthly cohort: disbursed amounts, cumulative late days and overdue amounts for each loan vintage."
+      },
+      "models": ["vintage-ld-wo"],
+      "columns": [
+        { "name": "CohortDate", "type": "Date", "description": { "fr": "Mois de décaissement de la cohorte", "en": "Cohort disbursement month" } },
+        { "name": "DisbursementAmount", "type": "Decimal", "description": { "fr": "Montant total décaissé sur la cohorte", "en": "Total disbursed amount for the cohort" } },
+        { "name": "LateDays", "type": "Integer", "description": { "fr": "Nombre de jours de retard cumulés", "en": "Cumulative late days" } },
+        { "name": "WriteOffAmount", "type": "Decimal", "description": { "fr": "Montant radié sur la cohorte", "en": "Written-off amount for the cohort" } },
+        { "name": "Subsidiary", "type": "String", "description": { "fr": "Code filiale (MCBF, MCCI, MCDC...)", "en": "Subsidiary code (MCBF, MCCI, MCDC...)" } }
+      ]
+    },
+    {
+      "id": "cross-functional",
+      "name": { "fr": "Cross Functional Reportings", "en": "Cross Functional Reportings" },
+      "type": "data",
+      "icon": "database",
+      "origin": "data",
+      "pattern": "Historical KPI, Wof Recoveries, Productivity OPS, Risk Budget, …",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Dossier d'extractions partagé par la Data avec plusieurs fonctions (Finance, Operations, Risk). Contient les KPIs historiques par filiale, les radiations et recouvrements (WoF Recoveries), la productivité OPS et les données budgétaires risque.",
+        "en": "Extraction folder shared by the Data team with multiple functions (Finance, Operations, Risk). Contains historical KPIs by subsidiary, write-offs and recoveries (WoF Recoveries), OPS productivity and risk budget data."
+      },
+      "models": ["sector-analysis", "vintage-recovery", "visits", "llp", "top-20", "collateral-loans"],
+      "columns": [
+        { "name": "Subsidiary", "type": "String", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+        { "name": "ReportingDate", "type": "Date", "description": { "fr": "Date de référence du rapport", "en": "Report reference date" } },
+        { "name": "GLP", "type": "Decimal", "description": { "fr": "Encours brut (Gross Loan Portfolio)", "en": "Gross Loan Portfolio outstanding" } },
+        { "name": "WriteOffAmount", "type": "Decimal", "description": { "fr": "Montant des radiations sur la période", "en": "Write-off amount for the period" } },
+        { "name": "RecoveryAmount", "type": "Decimal", "description": { "fr": "Montant recouvré sur les radiés", "en": "Amount recovered on written-off loans" } },
+        { "name": "DisbursementAmount", "type": "Decimal", "description": { "fr": "Montant décaissé sur la période", "en": "Disbursed amount for the period" } }
+      ]
+    },
+    {
+      "id": "consolide",
+      "name": { "fr": "Fichiers Consolidés Atypical & Renewal", "en": "Atypical & Renewal Consolidated Files" },
+      "type": "consolidated",
+      "icon": "archive",
+      "origin": "data",
       "pattern": "Consolide_[Date1]_[Date2].xlsx (mensuel)",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "description": {
-        "fr": "Fichiers Excel consolidés produits mensuellement, agrégant les données de prêts atypiques et renouvellements de toutes les filiales sur la période.",
-        "en": "Monthly consolidated Excel files aggregating atypical loans and renewal data from all subsidiaries for the period."
+        "fr": "Fichiers Excel consolidés produits mensuellement, agrégeant les données de prêts atypiques et renouvellements de toutes les filiales sur la période. Source centrale pour le suivi des crédits restructurés.",
+        "en": "Monthly consolidated Excel files aggregating atypical loans and renewal data from all subsidiaries for the period. Central source for restructured loan monitoring."
       },
-      "models": ["atypical", "top-20", "transition-smoothing", "llp", "collateral-loans"]
+      "models": ["atypical", "top-20", "transition-smoothing", "llp", "collateral-loans"],
+      "columns": []
     },
     {
-      "id": "xlsx-risk-bb",
-      "name": { "fr": "Fichiers RISK BB (filiales)", "en": "RISK BB files (subsidiaries)" },
-      "type": "xlsx",
+      "id": "renewal-loans",
+      "name": { "fr": "Renewal Loans", "en": "Renewal Loans" },
+      "type": "consolidated",
+      "icon": "refresh-cw",
+      "origin": "data",
+      "pattern": "Consolide_Atypica_Loansl&RenewalLoans_[Date].xlsx",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Données de renouvellement de prêts par filiale : contrats renouvelés, montants, segments et historique de remboursement avant renouvellement.",
+        "en": "Loan renewal data by subsidiary: renewed contracts, amounts, segments and repayment history prior to renewal."
+      },
+      "models": ["atypical"],
+      "columns": []
+    },
+    {
+      "id": "collateral-src",
+      "name": { "fr": "Collateral Loans (données)", "en": "Collateral Loans (data)" },
+      "type": "data",
       "icon": "shield",
-      "pattern": "RISK BB_[Filiale].xlsx — ×7 filiales",
+      "origin": "data",
+      "pattern": "Collateral_[Pays]_[Date].csv — ×7 filiales",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "description": {
-        "fr": "Fichiers Excel de reporting risque produits par chaque filiale : indicateurs KRI, ratios budget et données de concentration du portefeuille.",
-        "en": "Risk reporting Excel files produced by each subsidiary: KRI indicators, budget ratios and portfolio concentration data."
+        "fr": "Fichiers CSV par filiale listant les garanties associées aux contrats de prêt actifs : nature du collatéral, valeur estimée et couverture par rapport à l'encours.",
+        "en": "CSV files by subsidiary listing collaterals associated with active loan contracts: collateral type, estimated value and coverage relative to outstanding balance."
       },
-      "models": ["credit-risk-appetite", "global-risk-appetite"]
+      "models": ["collateral-loans"],
+      "columns": [
+        { "name": "ContractID", "type": "String", "description": { "fr": "Identifiant du contrat", "en": "Contract identifier" } },
+        { "name": "CollateralType", "type": "String", "description": { "fr": "Nature du collatéral (matériel, immobilier, caution...)", "en": "Collateral type (equipment, real estate, guarantee...)" } },
+        { "name": "CollateralValue", "type": "Decimal", "description": { "fr": "Valeur estimée du collatéral", "en": "Estimated collateral value" } },
+        { "name": "OutstandingAmount", "type": "Decimal", "description": { "fr": "Encours brut du contrat", "en": "Contract gross outstanding" } }
+      ]
     },
     {
-      "id": "xlsx-specific",
-      "name": { "fr": "Fichiers XLSX dédiés par modèle", "en": "Model-specific XLSX files" },
-      "type": "xlsx",
-      "icon": "file",
-      "pattern": "Data_LLP.xlsx, Data appetite OPE.xlsx, VintageRecovery.xlsx, LOS DISB.xlsx, DATA COMPLETED EOM.xlsx, etc.",
+      "id": "visites-src",
+      "name": { "fr": "Données Visites", "en": "Visit Data" },
+      "type": "data",
+      "icon": "map-pin",
+      "origin": "data",
+      "pattern": "Visites_[Mois][Année].xlsx — formulaires + extractions",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "description": {
-        "fr": "Fichiers Excel produits spécifiquement pour chaque modèle : données LLP, indicateurs de risque opérationnel, montants recouvrés, pertes sur décaissements, données de maturité résiduelle, formulaires de visite.",
-        "en": "Excel files produced specifically for each model: LLP data, operational risk indicators, recovered amounts, disbursement losses, residual maturity data, visit forms."
+        "fr": "Formulaires de visites clients collectés par les agents terrain, complétés par les extractions Loan Bucket et WoF pour croiser le taux de visite avec la qualité du portefeuille.",
+        "en": "Client visit forms collected by field agents, supplemented by Loan Bucket and WoF extractions to cross-reference visit rates with portfolio quality."
       },
-      "models": ["llp", "operational-risk-appetite", "maturity", "visits", "installment-tracker", "vintage-ld-wo", "top-20", "collateral-loans", "vintage-recovery"]
+      "models": ["visits"],
+      "columns": [
+        { "name": "AgencyCode", "type": "String", "description": { "fr": "Code agence visitée", "en": "Visited branch code" } },
+        { "name": "VisitDate", "type": "Date", "description": { "fr": "Date de la visite", "en": "Visit date" } },
+        { "name": "ContractsVisited", "type": "Integer", "description": { "fr": "Nombre de contrats visités", "en": "Number of contracts visited" } },
+        { "name": "ContractsOverdue", "type": "Integer", "description": { "fr": "Nombre de contrats en retard dans le portefeuille visité", "en": "Number of overdue contracts in the visited portfolio" } }
+      ]
+    },
+    {
+      "id": "atypical-src",
+      "name": { "fr": "Atypical Loans (données)", "en": "Atypical Loans (data)" },
+      "type": "data",
+      "icon": "alert-circle",
+      "origin": "data",
+      "pattern": "Atypical_Loans_V2_[Date].xlsx",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Données mensuelles sur les crédits classés comme atypiques par catégorie (restructurés, sans paiement depuis le décaissement, délais de grâce...) pour toutes les filiales.",
+        "en": "Monthly data on loans classified as atypical by category (restructured, no payment since disbursement, grace periods...) for all subsidiaries."
+      },
+      "models": ["atypical", "top-20"],
+      "columns": []
+    },
+    {
+      "id": "risk-bb",
+      "name": { "fr": "RISK BB — Rapports filiales", "en": "RISK BB — Subsidiary reports" },
+      "type": "local",
+      "icon": "bar-chart-2",
+      "origin": "local",
+      "pattern": "RISK BB_[Filiale].xlsx — ×7 filiales",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Fichiers Excel de reporting risque produits par chaque filiale : indicateurs KRI, ratios budget et données de concentration du portefeuille GLP, alimentant les modèles d'appétit au risque.",
+        "en": "Risk reporting Excel files produced by each subsidiary: KRI indicators, budget ratios and GLP portfolio concentration data, feeding the risk appetite models."
+      },
+      "models": ["credit-risk-appetite", "global-risk-appetite"],
+      "columns": []
+    },
+    {
+      "id": "data-llp",
+      "name": { "fr": "Data LLP & Coverage Ratio", "en": "Data LLP & Coverage Ratio" },
+      "type": "local",
+      "icon": "percent",
+      "origin": "local",
+      "pattern": "Data_LLP.xlsx, 2026_Coverage_ratio.xlsx",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Fichiers Excel de suivi des provisions IFRS : encours par stade ECL, taux de provisionnement, cost of risk et ratios de couverture PAR 30/90 par filiale.",
+        "en": "IFRS provisioning monitoring Excel files: outstanding by ECL stage, provisioning rates, cost of risk and PAR 30/90 coverage ratios by subsidiary."
+      },
+      "models": ["llp"],
+      "columns": []
+    },
+    {
+      "id": "data-appetite-ope",
+      "name": { "fr": "Data Appetite Opérationnel", "en": "Operational Appetite Data" },
+      "type": "local",
+      "icon": "activity",
+      "origin": "local",
+      "pattern": "Data appetite OPE.xlsx",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "description": {
+        "fr": "Fichier Excel centralisant les indicateurs de risque opérationnel (KRIs) remontés par chaque filiale : incidents, pertes opérationnelles, conformité et taux d'erreur.",
+        "en": "Excel file centralizing operational risk indicators (KRIs) reported by each subsidiary: incidents, operational losses, compliance and error rates."
+      },
+      "models": ["operational-risk-appetite", "global-risk-appetite"],
+      "columns": []
+    },
+    {
+      "id": "mapping-files",
+      "name": { "fr": "Fichiers de mapping (référentiels)", "en": "Mapping / reference files" },
+      "type": "local",
+      "icon": "git-merge",
+      "origin": "local",
+      "pattern": "Mapping New segment.xlsx, Mapping Appetite.xlsx, Mapping BIC.xlsx, Mapping LLP.xlsx, …",
+      "updateFrequency": { "fr": "Ponctuelle (mise à jour manuelle)", "en": "Ad-hoc (manual update)" },
+      "description": {
+        "fr": "Fichiers Excel de référence maintenus manuellement dans les dossiers Power BI : correspondances de segments, seuils d'appétit au risque, codes agences/régions, paramètres de transition et règles de classification BIC.",
+        "en": "Reference Excel files manually maintained in the Power BI folders: segment mappings, risk appetite thresholds, branch/region codes, transition parameters and BIC classification rules."
+      },
+      "models": ["installment-tracker", "vintage-ld-wo", "top-20", "atypical", "transition-smoothing", "sector-analysis", "credit-risk-appetite", "operational-risk-appetite", "global-risk-appetite", "llp", "collateral-loans", "bic-analysis"],
+      "columns": []
     },
     {
       "id": "bic-cnmj",
       "name": { "fr": "Rapports BIC (CNMJ + Errors)", "en": "BIC Reports (CNMJ + Errors)" },
-      "type": "folder",
+      "type": "local",
       "icon": "folder",
+      "origin": "local",
       "pattern": "4 dossiers pays (BF, CI, ML, SN) × ~44 fichiers XLSX chacun",
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "description": {
-        "fr": "Rapports d'erreurs et corrections non mises à jour (CNMJ) remontés par le Bureau International du Crédit, organisés par pays. Chaque dossier contient les fichiers CNMJ et Error sur l'historique.",
-        "en": "Error reports and non-updated corrections (CNMJ) from the Bureau International du Crédit, organized by country. Each folder contains CNMJ and Error files over the history."
+        "fr": "Rapports d'erreurs et corrections non mises à jour (CNMJ) transmis par le Bureau International du Crédit (BIC), organisés par pays. Chaque dossier contient l'historique des fichiers CNMJ et Error sur plusieurs années.",
+        "en": "Error reports and non-updated corrections (CNMJ) transmitted by the Bureau International du Crédit (BIC), organized by country. Each folder contains the historical CNMJ and Error files over several years."
       },
-      "models": ["bic-analysis"]
+      "models": ["bic-analysis"],
+      "columns": []
     }
   ]
 }
