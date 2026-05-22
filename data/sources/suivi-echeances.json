@@ -4,5 +4,342 @@
     "fr": "Extraction quotidienne automatisée du suivi de règlement des échéances pour chaque filiale. Contient l'état de chaque échéance (réglée, en retard, impayée) au niveau contrat.",
     "en": "Daily automated extraction of installment payment status for each subsidiary. Contains the status of each installment (paid, overdue, unpaid) at contract level."
   },
-  "columns": []
+  "columns": [
+    {
+      "name": "datedata_end_of_month",
+      "type": "date",
+      "description": {
+        "fr": "Date de fin du mois",
+        "en": "End of month date"
+      }
+    },
+    {
+      "name": "AccountContractNo",
+      "type": "string",
+      "description": {
+        "fr": "Numéro de contrat du prêt",
+        "en": "Loan contract number"
+      }
+    },
+    {
+      "name": "Category",
+      "type": "string",
+      "description": {
+        "fr": "Identifiant de la catégorie du prêt",
+        "en": "Loan category identifier"
+      }
+    },
+    {
+      "name": "CategoryDesc",
+      "type": "string",
+      "description": {
+        "fr": "Intitulé de la catégorie du prêt",
+        "en": "Loan category label"
+      }
+    },
+    {
+      "name": "ClientName",
+      "type": "string",
+      "description": {
+        "fr": "Nom du client",
+        "en": "Client last name"
+      }
+    },
+    {
+      "name": "ClientFirstName",
+      "type": "string",
+      "description": {
+        "fr": "Prénom du client",
+        "en": "Client first name"
+      }
+    },
+    {
+      "name": "RepayAcct",
+      "type": "string",
+      "description": {
+        "fr": "Numéro du compte de remboursement",
+        "en": "Repayment account number"
+      }
+    },
+    {
+      "name": "LoanCycle",
+      "type": "integer",
+      "description": {
+        "fr": "Rang du prêt (ex : 3 s'il s'agit du 3e prêt du client)",
+        "en": "Loan cycle rank (e.g. 3 if it is the client's 3rd loan)"
+      }
+    },
+    {
+      "name": "InterestRate",
+      "type": "decimal",
+      "description": {
+        "fr": "Taux d'intérêt du prêt",
+        "en": "Loan interest rate"
+      }
+    },
+    {
+      "name": "ClientNo",
+      "type": "string",
+      "description": {
+        "fr": "Identifiant client",
+        "en": "Client identifier"
+      }
+    },
+    {
+      "name": "ClientAge",
+      "type": "integer",
+      "description": {
+        "fr": "Âge du client",
+        "en": "Client age"
+      }
+    },
+    {
+      "name": "ClientSector",
+      "type": "string",
+      "description": {
+        "fr": "Identifiant du secteur d'activité du client",
+        "en": "Client business sector identifier"
+      }
+    },
+    {
+      "name": "SectorDesc",
+      "type": "string",
+      "description": {
+        "fr": "Secteur d'activité du client",
+        "en": "Client business sector label"
+      }
+    },
+    {
+      "name": "Branch",
+      "type": "string",
+      "description": {
+        "fr": "Identifiant de l'agence de rattachement",
+        "en": "Assigned branch identifier"
+      }
+    },
+    {
+      "name": "Dao",
+      "type": "string",
+      "description": {
+        "fr": "Identifiant unique du Gestionnaire de Portefeuille (GP)",
+        "en": "Unique identifier of the Portfolio Manager"
+      }
+    },
+    {
+      "name": "DaoName",
+      "type": "string",
+      "description": {
+        "fr": "Nom du Gestionnaire de Portefeuille",
+        "en": "Portfolio Manager name"
+      }
+    },
+    {
+      "name": "ClientGender",
+      "type": "string",
+      "description": {
+        "fr": "Genre du client (Male, Female, Other)",
+        "en": "Client gender (Male, Female, Other)"
+      }
+    },
+    {
+      "name": "TerminatedEarly",
+      "type": "string",
+      "description": {
+        "fr": "Prêt clôturé avant la date de maturité ? (Y, N)",
+        "en": "Loan closed before maturity date? (Y, N)"
+      }
+    },
+    {
+      "name": "TerminationDate",
+      "type": "date",
+      "description": {
+        "fr": "Date réelle de clôture du prêt",
+        "en": "Actual loan closure date"
+      }
+    },
+    {
+      "name": "DisbursementDate",
+      "type": "date",
+      "description": {
+        "fr": "Date de décaissement",
+        "en": "Disbursement date"
+      }
+    },
+    {
+      "name": "MaturityDate",
+      "type": "date",
+      "description": {
+        "fr": "Date de maturité du prêt (échéance finale)",
+        "en": "Loan maturity date (final installment)"
+      }
+    },
+    {
+      "name": "LoanDuration",
+      "type": "integer",
+      "description": {
+        "fr": "Durée du prêt en mois : TerminationDate − DisbursementDate",
+        "en": "Loan duration in months: TerminationDate − DisbursementDate"
+      }
+    },
+    {
+      "name": "DisbursementAmount",
+      "type": "decimal",
+      "description": {
+        "fr": "Montant décaissé",
+        "en": "Disbursed amount"
+      }
+    },
+    {
+      "name": "DisbursementCommission",
+      "type": "decimal",
+      "description": {
+        "fr": "Commission sur le décaissement",
+        "en": "Disbursement commission"
+      }
+    },
+    {
+      "name": "PrincipalOutstanding",
+      "type": "decimal",
+      "description": {
+        "fr": "Encours sain",
+        "en": "Performing outstanding principal"
+      }
+    },
+    {
+      "name": "TotalCurNoOfDaysOverdue",
+      "type": "integer",
+      "description": {
+        "fr": "Nombre total de jours de retard actuel",
+        "en": "Current total number of days overdue"
+      }
+    },
+    {
+      "name": "MaxOverdueDays",
+      "type": "integer",
+      "description": {
+        "fr": "Nombre maximum de jours de retard atteints par le client sur l'ensemble de ses prêts",
+        "en": "Maximum number of overdue days ever reached by the client across all their loans"
+      }
+    },
+    {
+      "name": "TotalOverdueDays",
+      "type": "integer",
+      "description": {
+        "fr": "Cumul des jours de retard sur l'ensemble des prêts du client",
+        "en": "Cumulative overdue days across all client loans"
+      }
+    },
+    {
+      "name": "TotalPrincipalDueAmt",
+      "type": "decimal",
+      "description": {
+        "fr": "Encours dû",
+        "en": "Total principal amount due"
+      }
+    },
+    {
+      "name": "LoanStatus",
+      "type": "string",
+      "description": {
+        "fr": "Statut du prêt (LIQ si liquidé, CUR si encore en cours)",
+        "en": "Loan status (LIQ if liquidated, CUR if still active)"
+      }
+    },
+    {
+      "name": "NextScheduleDate",
+      "type": "date",
+      "description": {
+        "fr": "Date de la prochaine échéance",
+        "en": "Next scheduled installment date"
+      }
+    },
+    {
+      "name": "TotalScheduledAmount",
+      "type": "decimal",
+      "description": {
+        "fr": "Montant total de la prochaine échéance",
+        "en": "Total amount of the next scheduled installment"
+      }
+    },
+    {
+      "name": "FirstScheduleDate",
+      "type": "date",
+      "description": {
+        "fr": "Date de la première échéance",
+        "en": "First installment date"
+      }
+    },
+    {
+      "name": "LoanCreditRisk",
+      "type": "string",
+      "description": {
+        "fr": "Avis du risque sur le prêt (Negative, Positive, Not Concerned, …)",
+        "en": "Risk assessment of the loan (Negative, Positive, Not Concerned, …)"
+      }
+    },
+    {
+      "name": "Company",
+      "type": "string",
+      "description": {
+        "fr": "Filiale qui gère le prêt",
+        "en": "Subsidiary managing the loan"
+      }
+    },
+    {
+      "name": "InsuranceFee",
+      "type": "decimal",
+      "description": {
+        "fr": "Frais d'assurance",
+        "en": "Insurance fee"
+      }
+    },
+    {
+      "name": "Currency",
+      "type": "string",
+      "description": {
+        "fr": "Devise",
+        "en": "Currency"
+      }
+    },
+    {
+      "name": "date_corrigee",
+      "type": "date",
+      "description": {
+        "fr": "Date du jour",
+        "en": "Current date"
+      }
+    },
+    {
+      "name": "date_mcr",
+      "type": "date",
+      "description": {
+        "fr": "Date à laquelle la donnée est disponible dans le MCR",
+        "en": "Date at which the data becomes available in the MCR"
+      }
+    },
+    {
+      "name": "PAR_0",
+      "type": "string",
+      "description": {
+        "fr": "Portefeuille à risque PAR 0 : prêt en retard d'au moins 1 jour (O, N)",
+        "en": "Portfolio at Risk PAR 0: loan overdue by at least 1 day (Y, N)"
+      }
+    },
+    {
+      "name": "outstandingprincipal_RepayAcct",
+      "type": "decimal",
+      "description": {
+        "fr": "Solde du compte de remboursement",
+        "en": "Repayment account balance"
+      }
+    },
+    {
+      "name": "outstandingprincipal_customer",
+      "type": "decimal",
+      "description": {
+        "fr": "Solde de l'ensemble des comptes du client",
+        "en": "Total balance across all client accounts"
+      }
+    }
+  ]
 }
