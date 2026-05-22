@@ -1,0 +1,8 @@
+{
+  "id": "map-appetite",
+  "description": {
+    "fr": "Référentiel des KRIs et seuils d'appétit au risque partagé entre Credit Risk Appetite et Operational Risk Appetite. Mis à jour annuellement lors de la révision de l'appétit au risque groupe.",
+    "en": "KRI indicators and risk appetite thresholds reference shared between Credit Risk Appetite and Operational Risk Appetite. Updated annually during group risk appetite review."
+  },
+  "columns": []
+}

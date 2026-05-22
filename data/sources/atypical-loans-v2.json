@@ -1,0 +1,8 @@
+{
+  "id": "atypical-loans-v2",
+  "description": {
+    "fr": "Extraction mensuelle des crédits classifiés comme atypiques selon les critères groupe. Version V2 intégrant la nouvelle segmentation. Utilisée dans TOP 20 pour identifier les grandes expositions atypiques.",
+    "en": "Monthly extraction of loans classified as atypical according to group criteria. V2 version integrating the new segmentation. Used in TOP 20 to identify large atypical exposures."
+  },
+  "columns": []
+}

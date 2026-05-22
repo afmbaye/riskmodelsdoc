@@ -1,0 +1,8 @@
+{
+  "id": "map-top20",
+  "description": {
+    "fr": "Référentiel des règles de sélection et de classification des 20 plus grandes expositions du portefeuille.",
+    "en": "Reference table for selection and classification rules of the 20 largest portfolio exposures."
+  },
+  "columns": []
+}

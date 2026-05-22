@@ -1,0 +1,8 @@
+{
+  "id": "vintage-recovery-xlsx",
+  "description": {
+    "fr": "Fichier XLSX mensuel des récupérations sur créances radiées, organisé par cohorte de radiation. Distinct du CSV Wof Recoveries NS — contient des dimensions supplémentaires utilisées dans l'analyse vintage et les modèles de concentration.",
+    "en": "Monthly XLSX file of recoveries on written-off receivables, organized by write-off cohort. Distinct from the Wof Recoveries NS CSV — contains additional dimensions used in vintage analysis and concentration models."
+  },
+  "columns": []
+}

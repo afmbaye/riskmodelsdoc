@@ -1,0 +1,8 @@
+{
+  "id": "bic-cnmj",
+  "description": {
+    "fr": "Rapports mensuels CNMJ (Corrections Non Mises à Jour) transmis par le BIC pour les 4 filiales UEMOA (SN, CI, ML, BF). Contient les corrections de données crédit en attente de mise à jour dans les systèmes.",
+    "en": "Monthly CNMJ (Non-Updated Corrections) reports transmitted by the BIC for the 4 UEMOA subsidiaries (SN, CI, ML, BF). Contains credit data corrections pending system update."
+  },
+  "columns": []
+}

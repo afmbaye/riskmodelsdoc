@@ -1,0 +1,8 @@
+{
+  "id": "scoring-credit",
+  "description": {
+    "fr": "Fichier de scoring crédit des clients avec la probabilité de défaut associée. Utilisé dans TOP 20 pour enrichir l'analyse des plus grandes expositions avec un indicateur de qualité individuelle.",
+    "en": "Client credit scoring file with associated default probability. Used in TOP 20 to enrich the analysis of the largest exposures with an individual quality indicator."
+  },
+  "columns": []
+}

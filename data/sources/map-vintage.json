@@ -1,0 +1,8 @@
+{
+  "id": "map-vintage",
+  "description": {
+    "fr": "Référentiel des paramètres de cohortes utilisés pour la construction des courbes de vintage (classification des générations de prêts, horizons temporels).",
+    "en": "Reference table for cohort parameters used to build vintage curves (loan generation classification, time horizons)."
+  },
+  "columns": []
+}

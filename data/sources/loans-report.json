@@ -1,0 +1,8 @@
+{
+  "id": "loans-report",
+  "description": {
+    "fr": "Rapport mensuel complet des prêts actifs incluant les dimensions sectorielles et industrielles. Source principale pour l'analyse sectorielle du portefeuille.",
+    "en": "Comprehensive monthly report of active loans including sector and industry dimensions. Main source for portfolio sector analysis."
+  },
+  "columns": []
+}

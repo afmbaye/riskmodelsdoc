@@ -1,0 +1,8 @@
+{
+  "id": "map-maturity",
+  "description": {
+    "fr": "Référentiel des règles de classification par tranche de durée résiduelle dans le modèle Maturity. Définit les buckets temporels (0-6 mois, 6-12 mois, etc.).",
+    "en": "Reference table for classification rules by residual duration bucket in the Maturity model. Defines the time buckets (0-6 months, 6-12 months, etc.)."
+  },
+  "columns": []
+}

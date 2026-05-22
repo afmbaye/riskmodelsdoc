@@ -1,0 +1,8 @@
+{
+  "id": "map-llp",
+  "description": {
+    "fr": "Référentiel des paramètres de provisionnement IFRS : taux par bucket PAR et catégorie de crédit. Définit les règles de calcul des provisions dans le modèle LLP.",
+    "en": "IFRS provisioning parameters reference: rates by PAR bucket and loan category. Defines the provision calculation rules in the LLP model."
+  },
+  "columns": []
+}

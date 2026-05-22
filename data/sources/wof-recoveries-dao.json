@@ -1,0 +1,8 @@
+{
+  "id": "wof-recoveries-dao",
+  "description": {
+    "fr": "Extraction mensuelle des récupérations sur crédits radiés avec la dimension DAO (Direction des Affaires Opérationnelles) et agence. Complément de la vue New Segment pour une analyse géographique.",
+    "en": "Monthly extraction of recoveries on written-off loans with DAO and branch dimension. Complements the New Segment view for geographic analysis."
+  },
+  "columns": []
+}

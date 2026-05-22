@@ -1,0 +1,8 @@
+{
+  "id": "map-installment-tracker",
+  "description": {
+    "fr": "Référentiel spécifique au modèle Installment Tracker. Contient les règles de classification et les libellés utilisés dans ce modèle.",
+    "en": "Reference table specific to the Installment Tracker model. Contains classification rules and labels used in this model."
+  },
+  "columns": []
+}

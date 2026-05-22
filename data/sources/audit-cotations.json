@@ -1,0 +1,8 @@
+{
+  "id": "audit-cotations",
+  "description": {
+    "fr": "Fichier des cotations de risque issues des dernières missions d'audit agence, fourni par l'équipe Audit. Intégré dans le modèle Visits pour croiser les taux de visite avec la notation de risque opérationnel des agences.",
+    "en": "Risk rating file from the latest branch audit missions, provided by the Audit team. Integrated in the Visits model to cross-reference visit rates with branch operational risk ratings."
+  },
+  "columns": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "bic-errors",
+  "description": {
+    "fr": "Rapports mensuels d'erreurs transmis par le BIC pour les 4 filiales UEMOA. Contient les anomalies détectées dans les données crédit transmises (erreurs de saisie, incohérences, données manquantes).",
+    "en": "Monthly error reports transmitted by the BIC for the 4 UEMOA subsidiaries. Contains anomalies detected in transmitted credit data (input errors, inconsistencies, missing data)."
+  },
+  "columns": []
+}

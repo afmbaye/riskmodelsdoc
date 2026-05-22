@@ -1,0 +1,8 @@
+{
+  "id": "kpi-finance",
+  "description": {
+    "fr": "Fichier mensuel de KPIs financiers fourni par l'équipe Finance. Contient les indicateurs de performance financière intégrés dans le tableau de bord Global Risk Appetite.",
+    "en": "Monthly financial KPIs file provided by the Finance team. Contains financial performance indicators integrated in the Global Risk Appetite dashboard."
+  },
+  "columns": []
+}

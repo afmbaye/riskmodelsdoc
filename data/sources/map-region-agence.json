@@ -1,0 +1,8 @@
+{
+  "id": "map-region-agence",
+  "description": {
+    "fr": "Référentiel géographique complet des agences utilisé dans TOP 20 : associe chaque agence à sa région et zone géographique pour la segmentation des grandes expositions.",
+    "en": "Complete geographic reference of branches used in TOP 20: maps each branch to its region and geographic zone for large exposure segmentation."
+  },
+  "columns": []
+}

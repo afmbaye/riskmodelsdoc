@@ -1,0 +1,8 @@
+{
+  "id": "kpi-formation",
+  "description": {
+    "fr": "Fichier mensuel des indicateurs de formation fourni par l'équipe RH/Formation. Contient les KRIs liés à la formation du personnel intégrés dans le Global Risk Appetite.",
+    "en": "Monthly training indicators file provided by the HR/Training team. Contains personnel training KRIs integrated in Global Risk Appetite."
+  },
+  "columns": []
+}

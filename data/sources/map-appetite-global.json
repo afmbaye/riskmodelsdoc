@@ -1,0 +1,8 @@
+{
+  "id": "map-appetite-global",
+  "description": {
+    "fr": "Référentiel des KRIs et seuils pour le tableau de bord Global Risk Appetite. Fichier distinct du Mapping Appetite Credit/OPE — couvre toutes les dimensions au niveau groupe consolidé.",
+    "en": "KRIs and thresholds reference for the Global Risk Appetite dashboard. Distinct file from the Credit/OPE Appetite Mapping — covers all dimensions at consolidated group level."
+  },
+  "columns": []
+}

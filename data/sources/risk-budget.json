@@ -1,0 +1,8 @@
+{
+  "id": "risk-budget",
+  "description": {
+    "fr": "Fichier annuel des objectifs et seuils budgétaires risque par filiale. Utilisé comme référence de comparaison pour les indicateurs réalisés dans Portfolio Risk Metrics et Visits.",
+    "en": "Annual file of risk budget targets and thresholds by subsidiary. Used as a benchmark reference for actual indicators in Portfolio Risk Metrics and Visits."
+  },
+  "columns": []
+}

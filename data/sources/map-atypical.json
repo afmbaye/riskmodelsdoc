@@ -1,0 +1,8 @@
+{
+  "id": "map-atypical",
+  "description": {
+    "fr": "Référentiel des critères de classification des crédits atypiques. Définit les règles de catégorisation utilisées dans le modèle Atypical Loans.",
+    "en": "Reference table for atypical loan classification criteria. Defines the categorization rules used in the Atypical Loans model."
+  },
+  "columns": []
+}
