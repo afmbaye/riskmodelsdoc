@@ -1,0 +1,8 @@
+{
+  "id": "savings-subsidiaries",
+  "description": {
+    "fr": "Extraction mensuelle depuis Yarcon (portail S3) de la liste de tous les comptes d'épargne actifs par filiale. Contrairement au Reporting Savings Monthly (agrégé par produit), ce fichier est à la granularité du compte individuel.",
+    "en": "Monthly extraction from Yarcon (S3 portal) of all active savings accounts by subsidiary. Unlike the Reporting Savings Monthly (aggregated by product), this file is at individual account granularity."
+  },
+  "columns": []
+}

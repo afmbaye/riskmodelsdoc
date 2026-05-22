@@ -1,0 +1,8 @@
+{
+  "id": "data-appetite-ope",
+  "description": {
+    "fr": "Fichier de consolidation mensuelle des indicateurs de risque opérationnel (KRIs) agrégé manuellement par l'équipe Risk à partir de données provenant de plusieurs fonctions (IT, Finance, RH, filiales). Référence pour le modèle Operational Risk Appetite.",
+    "en": "Monthly manual consolidation file of operational risk indicators (KRIs) aggregated by the Risk team from multiple functions (IT, Finance, HR, subsidiaries). Reference for the Operational Risk Appetite model."
+  },
+  "columns": []
+}

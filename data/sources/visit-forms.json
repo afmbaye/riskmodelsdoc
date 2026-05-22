@@ -1,0 +1,8 @@
+{
+  "id": "visit-forms",
+  "description": {
+    "fr": "Formulaires de visite clients enregistrés dans Highbond (SI dédié aux visites terrain). Un fichier par pays — contient le détail de chaque visite effectuée : date, agent, client, résultat. Source principale des taux de visite dans le modèle Visits.",
+    "en": "Client visit forms recorded in Highbond (field visit SI). One file per country — contains the detail of each visit: date, agent, client, outcome. Main source of visit rates in the Visits model."
+  },
+  "columns": []
+}

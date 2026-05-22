@@ -1,0 +1,8 @@
+{
+  "id": "map-customers",
+  "description": {
+    "fr": "Référentiel clients utilisé dans le modèle Visits pour relier les formulaires de visite aux données du portefeuille (contrats, agences, gestionnaires).",
+    "en": "Customer reference table used in the Visits model to link visit forms to portfolio data (contracts, branches, managers)."
+  },
+  "columns": []
+}

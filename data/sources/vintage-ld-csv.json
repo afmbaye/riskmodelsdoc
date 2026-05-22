@@ -1,0 +1,8 @@
+{
+  "id": "vintage-ld-csv",
+  "description": {
+    "fr": "Extraction mensuelle des contrats dont l'identifiant commence par LD, utilisée pour l'analyse des cohortes de décaissement et de radiation par vintage.",
+    "en": "Monthly extraction of contracts with LD-prefixed identifiers, used for vintage cohort analysis of disbursements and write-offs."
+  },
+  "columns": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "map-transition-matrix",
+  "description": {
+    "fr": "Référentiel de la matrice de transition entre buckets PAR. Définit les règles de migration d'un bucket à l'autre pour le modèle Transition & Smoothing.",
+    "en": "Reference table for the transition matrix between PAR buckets. Defines the migration rules from one bucket to another for the Transition & Smoothing model."
+  },
+  "columns": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "data-llp",
+  "description": {
+    "fr": "Fichier fourni par la Finance contenant les données de provisions comptabilisées (LLP — Loan Loss Provisions) par filiale. Utilisé dans le modèle LLP pour comparer les provisions IFRS calculées aux provisions comptables effectives.",
+    "en": "File provided by Finance containing booked provision data (LLP — Loan Loss Provisions) by subsidiary. Used in the LLP model to compare calculated IFRS provisions to actual booked provisions."
+  },
+  "columns": []
+}

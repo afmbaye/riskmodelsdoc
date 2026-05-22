@@ -1,0 +1,8 @@
+{
+  "id": "loan-bucket",
+  "description": {
+    "fr": "Extraction mensuelle de l'ensemble des contrats actifs avec leur classification PAR (PAR0, PAR30, PAR90…). Source principale pour le suivi du portefeuille et des indicateurs de qualité.",
+    "en": "Monthly extraction of all active contracts with their PAR classification (PAR0, PAR30, PAR90…). Main source for portfolio monitoring and quality indicators."
+  },
+  "columns": []
+}

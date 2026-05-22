@@ -1,0 +1,8 @@
+{
+  "id": "kpi-assets",
+  "description": {
+    "fr": "Fichier mensuel des indicateurs de gestion des actifs fourni par le CDG (Contrôle de Gestion). Intégré dans Global Risk Appetite pour le suivi des KRIs liés aux actifs du groupe.",
+    "en": "Monthly asset management indicators file provided by the CDG (Management Control). Integrated in Global Risk Appetite for monitoring group asset-related KRIs."
+  },
+  "columns": []
+}

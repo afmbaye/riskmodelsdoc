@@ -1,0 +1,8 @@
+{
+  "id": "map-sector-analysis",
+  "description": {
+    "fr": "Référentiel sectoriel propre au modèle Sector Analysis. Fichier distinct du Mapping Installment Tracker malgré le même nom. Contient la hiérarchie secteur/industrie.",
+    "en": "Sector reference table specific to the Sector Analysis model. Distinct file from the Installment Tracker Mapping despite the same name. Contains the sector/industry hierarchy."
+  },
+  "columns": []
+}

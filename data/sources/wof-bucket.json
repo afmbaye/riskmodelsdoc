@@ -1,0 +1,8 @@
+{
+  "id": "wof-bucket",
+  "description": {
+    "fr": "Extraction mensuelle des crédits radiés classifiés par bucket. Utilisée en complément du Loan Bucket pour distinguer les encours actifs des radiations.",
+    "en": "Monthly extraction of written-off loans classified by bucket. Used alongside Loan Bucket to distinguish active outstanding from write-offs."
+  },
+  "columns": []
+}

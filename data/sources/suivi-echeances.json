@@ -1,0 +1,8 @@
+{
+  "id": "suivi-echeances",
+  "description": {
+    "fr": "Extraction quotidienne automatisée du suivi de règlement des échéances pour chaque filiale. Contient l'état de chaque échéance (réglée, en retard, impayée) au niveau contrat.",
+    "en": "Daily automated extraction of installment payment status for each subsidiary. Contains the status of each installment (paid, overdue, unpaid) at contract level."
+  },
+  "columns": []
+}

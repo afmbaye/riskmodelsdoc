@@ -1,0 +1,8 @@
+{
+  "id": "map-bic",
+  "description": {
+    "fr": "Référentiel des codes d'erreur et de correction BIC avec leur catégorisation. Permet de classifier et regrouper les anomalies remontées par le Bureau International du Crédit.",
+    "en": "BIC error and correction codes reference with their categorization. Enables classification and grouping of anomalies reported by the Bureau International du Crédit."
+  },
+  "columns": []
+}

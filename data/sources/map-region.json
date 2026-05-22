@@ -1,0 +1,8 @@
+{
+  "id": "map-region",
+  "description": {
+    "fr": "Référentiel géographique associant chaque agence à sa région et filiale. Utilisé dans Vintage Migration pour la segmentation régionale des cohortes.",
+    "en": "Geographic reference table mapping each branch to its region and subsidiary. Used in Vintage Migration for regional cohort segmentation."
+  },
+  "columns": []
+}

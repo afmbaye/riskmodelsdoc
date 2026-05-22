@@ -1,0 +1,8 @@
+{
+  "id": "map-collateral",
+  "description": {
+    "fr": "Référentiel des types de garanties et leur classification en catégories de collatéral. Utilisé dans Collateral Loans pour normaliser les libellés de garanties entre filiales.",
+    "en": "Guarantee type reference table and their classification into collateral categories. Used in Collateral Loans to normalize guarantee labels across subsidiaries."
+  },
+  "columns": []
+}

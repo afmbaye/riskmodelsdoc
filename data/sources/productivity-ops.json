@@ -1,0 +1,8 @@
+{
+  "id": "productivity-ops",
+  "description": {
+    "fr": "Rapport mensuel de productivité des opérations terrain par agent et agence. Intégré dans Portfolio Risk Metrics pour croiser les indicateurs de qualité portefeuille avec la performance opérationnelle.",
+    "en": "Monthly field operations productivity report by agent and branch. Integrated in Portfolio Risk Metrics to cross-reference portfolio quality indicators with operational performance."
+  },
+  "columns": []
+}

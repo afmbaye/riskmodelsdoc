@@ -1,0 +1,8 @@
+{
+  "id": "los-disb",
+  "description": {
+    "fr": "Extraction depuis Looker (LOS — Loan Origination System) des données de décaissements. Contient les informations de mise en place des crédits utilisées dans l'analyse vintage pour reconstruire les cohortes de décaissement.",
+    "en": "Extraction from Looker (LOS — Loan Origination System) of disbursement data. Contains loan origination information used in vintage analysis to reconstruct disbursement cohorts."
+  },
+  "columns": []
+}

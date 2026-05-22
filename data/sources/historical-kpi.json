@@ -1,0 +1,8 @@
+{
+  "id": "historical-kpi",
+  "description": {
+    "fr": "Séries historiques des KPIs portefeuille (PAR, GLP, décaissements, radiations…) segmentées par new segment. Permet le suivi des tendances et la construction des courbes d'évolution dans Portfolio Risk Metrics.",
+    "en": "Historical series of portfolio KPIs (PAR, GLP, disbursements, write-offs…) segmented by new segment. Enables trend monitoring and evolution curve building in Portfolio Risk Metrics."
+  },
+  "columns": []
+}

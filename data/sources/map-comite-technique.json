@@ -1,0 +1,8 @@
+{
+  "id": "map-comite-technique",
+  "description": {
+    "fr": "Référentiel des classifications issues du comité technique. Permet de mapper les catégories de crédits selon la nomenclature interne du comité.",
+    "en": "Reference table for classifications from the technical committee. Maps loan categories according to internal committee nomenclature."
+  },
+  "columns": []
+}

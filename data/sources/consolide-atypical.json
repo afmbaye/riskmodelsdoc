@@ -1,0 +1,8 @@
+{
+  "id": "consolide-atypical",
+  "description": {
+    "fr": "Fichier consolidé mensuel des crédits atypiques et renouvellements produit par l'équipe analytics. Couvre l'ensemble du groupe depuis 2022. Sert également de base pour la construction du Mapping New Segment (historique des contrats actifs depuis 2023).",
+    "en": "Monthly consolidated file of atypical loans and renewals produced by the analytics team. Covers the entire group since 2022. Also serves as the basis for building the Mapping New Segment (active contracts history since 2023)."
+  },
+  "columns": []
+}

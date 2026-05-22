@@ -1,0 +1,8 @@
+{
+  "id": "consolide-mensuel",
+  "description": {
+    "fr": "Fichier mensuel consolidé du portefeuille couvrant deux dates de clôture successives. Contient l'état complet des crédits actifs avec leurs caractéristiques et leur évolution mensuelle. Source partagée entre plusieurs modèles.",
+    "en": "Monthly consolidated portfolio file covering two successive closing dates. Contains the complete state of active loans with their characteristics and monthly evolution. Shared source across multiple models."
+  },
+  "columns": []
+}

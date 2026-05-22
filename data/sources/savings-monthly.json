@@ -1,0 +1,8 @@
+{
+  "id": "savings-monthly",
+  "description": {
+    "fr": "Rapport mensuel de l'encours d'épargne par type de produit et filiale. Permet le suivi de la maturité et des tendances de l'épargne au niveau groupe.",
+    "en": "Monthly report of savings outstanding by product type and subsidiary. Enables maturity monitoring and savings trend analysis at group level."
+  },
+  "columns": []
+}

@@ -1,0 +1,8 @@
+{
+  "id": "map-new-segment",
+  "description": {
+    "fr": "Extraction interne produite par l'équipe Risk donnant la liste complète des contrats actifs avec leur appartenance au new segment (Nano, VSE, SE, SME/SME+). Construit en consolidant l'historique Consolide_Atypica depuis 2023. Référentiel clé utilisé sur la majorité des modèles pour ajouter la dimension new_segment aux données brutes.",
+    "en": "Internal extraction produced by the Risk team giving the complete list of active contracts with their new segment classification (Nano, VSE, SE, SME/SME+). Built by consolidating the Consolide_Atypica history since 2023. Key reference used across most models to add the new_segment dimension to raw data."
+  },
+  "columns": []
+}

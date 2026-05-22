@@ -1,0 +1,8 @@
+{
+  "id": "coverage-ratio",
+  "description": {
+    "fr": "Fichier annuel fourni par Finance/CDG définissant les ratios de couverture (Coverage Ratio) cibles par filiale. Sert de référence de comparaison dans le modèle LLP pour évaluer l'adéquation des provisions constituées.",
+    "en": "Annual file provided by Finance/CDG defining target coverage ratios by subsidiary. Serves as a benchmark in the LLP model to assess the adequacy of provisions."
+  },
+  "columns": []
+}

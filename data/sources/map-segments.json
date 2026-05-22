@@ -1,0 +1,8 @@
+{
+  "id": "map-segments",
+  "description": {
+    "fr": "Référentiel de l'ancienne segmentation par montant de crédit en 5 buckets. Utilisé dans Portfolio Risk Metrics pour la comparabilité historique avant le passage à la new segmentation.",
+    "en": "Reference table for the legacy loan amount segmentation in 5 buckets. Used in Portfolio Risk Metrics for historical comparability before the switch to new segmentation."
+  },
+  "columns": []
+}

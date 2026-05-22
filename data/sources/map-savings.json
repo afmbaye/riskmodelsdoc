@@ -1,0 +1,8 @@
+{
+  "id": "map-savings",
+  "description": {
+    "fr": "Référentiel des produits d'épargne par filiale. Permet de normaliser et catégoriser les différents types de savings dans le modèle Maturity.",
+    "en": "Savings product reference table by subsidiary. Enables normalization and categorization of different savings types in the Maturity model."
+  },
+  "columns": []
+}

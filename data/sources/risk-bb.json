@@ -1,0 +1,8 @@
+{
+  "id": "risk-bb",
+  "description": {
+    "fr": "Fichiers de suivi mensuel des indicateurs de risque de crédit par filiale, maintenus localement dans le dossier Power BI. Alimentent les modèles d'appétit au risque crédit et global.",
+    "en": "Monthly credit risk indicator tracking files by subsidiary, locally maintained in the Power BI folder. Feed the credit risk and global risk appetite models."
+  },
+  "columns": []
+}
