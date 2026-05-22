@@ -179,6 +179,18 @@
       "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
       "fabricLink": "",
       "isActive": true
+    },
+    {
+      "id": "portfolio-risk-metrics",
+      "name": { "fr": "Portfolio Risk Metrics", "en": "Portfolio Risk Metrics" },
+      "description": {
+        "fr": "Suivi du portefeuille via les KPIs principaux : Entry rate, PAR0, PAR30, PAR30+12mNWO, Write-offs et Récupérations. Le PAR30+12mNWO suit les crédits radiés 12 mois post-radiation pour éviter de biaiser le PAR30 lors des sorties de portefeuille.",
+        "en": "Portfolio monitoring through key metrics: Entry rate, PAR0, PAR30, PAR30+12mNWO, Write-offs and Recoveries. The PAR30+12mNWO tracks written-off loans for 12 months post write-off to avoid distorting the PAR30 when these exit the active portfolio."
+      },
+      "categories": ["portfolio", "par", "wof"],
+      "updateFrequency": { "fr": "Mensuelle", "en": "Monthly" },
+      "fabricLink": "",
+      "isActive": true
     }
   ]
 }
