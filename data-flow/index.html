@@ -43,29 +43,8 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      margin: 0 0 var(--spacing-2);
+      margin: 0;
     }
-
-    .df-cat-filter {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-    }
-
-    .df-cat-chip {
-      font-size: 10px;
-      padding: 2px 8px;
-      border: 1px solid var(--border-color);
-      border-radius: 999px;
-      background: var(--bg-white);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      white-space: nowrap;
-    }
-
-    .df-cat-chip:hover  { border-color: var(--primary-color); color: var(--primary-color); }
-    .df-cat-chip.active { background: var(--primary-color); border-color: var(--primary-color); color: white; }
 
     .df-model-panel-body {
       overflow-y: auto;
@@ -527,7 +506,6 @@
             <div class="df-model-panel">
               <div class="df-model-panel-header">
                 <p class="df-model-panel-title" id="modelPanelTitle">Modèles</p>
-                <div class="df-cat-filter" id="dfCatFilter"></div>
               </div>
               <div class="df-model-panel-body" id="dfModelList"></div>
             </div>
@@ -613,7 +591,6 @@
 
       renderAll() {
         this.updateLabels();
-        this.renderCategoryFilter();
         this.renderModelList();
         this.renderSourceCategoryFilter();
         this.renderSourceGrid();
