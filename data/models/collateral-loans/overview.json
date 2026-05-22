@@ -1,0 +1,12 @@
+{
+  "modelId": "collateral-loans",
+  "name": { "fr": "Collateral Loans", "en": "Collateral Loans" },
+  "description": {
+    "fr": "Suivi mensuel des garanties clients par filiale : nature des collatéraux, couverture du portefeuille et exposition non couverte.",
+    "en": "Monthly monitoring of client collaterals by subsidiary: collateral type, portfolio coverage and uncovered exposure."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}

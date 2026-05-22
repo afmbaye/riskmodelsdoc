@@ -1,0 +1,12 @@
+{
+  "modelId": "bic-analysis",
+  "name": { "fr": "BIC Analysis", "en": "BIC Analysis" },
+  "description": {
+    "fr": "Suivi des erreurs et corrections non mises à jour (CNMJ) remontées par le Bureau International du Crédit (BIC) : identification des anomalies par filiale, type d'erreur et ancienneté, afin d'assurer la fiabilité des données crédit transmises.",
+    "en": "Monitoring of errors and non-updated corrections (CNMJ) reported by the Bureau International du Crédit (BIC): identification of anomalies by subsidiary, error type and age, to ensure the reliability of transmitted credit data."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}

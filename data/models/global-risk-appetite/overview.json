@@ -1,0 +1,12 @@
+{
+  "modelId": "global-risk-appetite",
+  "name": { "fr": "Global Risk Appetite", "en": "Global Risk Appetite" },
+  "description": {
+    "fr": "Tableau de bord global de l'appétit au risque groupe : suivi mensuel des indicateurs clés (KRIs) toutes catégories confondues — RH, IT, Risque de crédit, Risque opérationnel, Conformité — comparés aux seuils groupe et aux tendances historiques.",
+    "en": "Group-wide risk appetite dashboard: monthly monitoring of key risk indicators (KRIs) across all categories — HR, IT, Credit Risk, Operational Risk, Compliance — benchmarked against group thresholds and historical trends."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}
