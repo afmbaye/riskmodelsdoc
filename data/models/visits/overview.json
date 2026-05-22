@@ -1,0 +1,12 @@
+{
+  "modelId": "visits",
+  "name": { "fr": "Visits Model", "en": "Visits Model" },
+  "description": {
+    "fr": "Suivi des visites clients par agence et région : taux de visite, tendances mensuelles, et croisement avec les indicateurs de qualité du portefeuille (PAR 30+12mNWO, Audit Risk Rate) pour prioriser les agences nécessitant une attention renforcée.",
+    "en": "Client visit tracking by branch and region: visit rates, monthly trends, and cross-analysis with portfolio quality indicators (PAR 30+12mNWO, Audit Risk Rate) to prioritize branches requiring closer monitoring."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}

@@ -1,0 +1,12 @@
+{
+  "modelId": "sector-analysis",
+  "name": { "fr": "Sector Analysis", "en": "Sector Analysis" },
+  "description": {
+    "fr": "Analyse sectorielle du portefeuille de crédit : suivi des principaux KPIs (GLP, PAR, décaissements, radiations) par secteur d'activité et industrie, pour identifier les concentrations sectorielles et les dynamiques de risque par filière.",
+    "en": "Sector-level credit portfolio analysis: monitoring of key KPIs (GLP, PAR, disbursements, write-offs) by business sector and industry, to identify sectoral concentrations and risk dynamics by value chain."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}

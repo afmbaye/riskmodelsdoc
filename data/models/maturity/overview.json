@@ -1,0 +1,12 @@
+{
+  "modelId": "maturity",
+  "name": { "fr": "Maturity", "en": "Maturity" },
+  "description": {
+    "fr": "Suivi mensuel de la maturité résiduelle des crédits actifs par filiale, agence et segment : répartition des encours par tranche de durée restante et analyse des échéances à venir.",
+    "en": "Monthly monitoring of residual maturity of active loans by subsidiary, branch and segment: outstanding breakdown by remaining duration bucket and upcoming maturity analysis."
+  },
+  "lastUpdate": "",
+  "stats": [],
+  "useCase": { "fr": "", "en": "" },
+  "tabs": []
+}
