@@ -1,110 +1,64 @@
 """
-Upload all JSON files from data/ into the Gemini Semantic Retrieval corpus.
+Index all JSON files from data/ into a local in-memory index (list of chunks).
+The index is rebuilt at startup — no external store needed.
 
-Each JSON file becomes one Document; its text content is ingested as Chunks
-(one chunk per file for simplicity — Gemini splits automatically if too long).
-
-Usage:
+Can also be run standalone to verify which files are found:
     python -m app.ingest
 """
 import json
 import pathlib
-import sys
 
-from google.genai import types
-
-from app.gemini_client import client, get_or_create_store
-from app.config import FILE_SEARCH_STORE_NAME
-
-# data/ sits two levels above this file  (pbi-doc-rag/app/ingest.py → data/)
 DATA_DIR = pathlib.Path(__file__).resolve().parents[2] / "data"
-CHUNK_MAX_CHARS = 9_000  # Gemini chunk size limit is ~10 000 bytes
 
 
-def _extract_model_name(data: dict, fallback: str) -> str:
-    for key in ("modelId", "id", "name"):
+def _extract_id(data: dict, fallback: str) -> str:
+    for key in ("modelId", "id"):
         val = data.get(key)
         if isinstance(val, str) and val:
             return val
-        if isinstance(val, dict):
-            return val.get("fr") or val.get("en") or ""
     return fallback
 
 
-def _already_exists(corpus_name: str, display_name: str) -> bool:
-    try:
-        for doc in client.corpora.documents.list(parent=corpus_name):
-            if doc.display_name == display_name:
-                return True
-    except Exception:
-        pass
-    return False
-
-
-def _upload_file(corpus_name: str, display_name: str, raw: str, model_name: str) -> None:
-    """Create a Document in the corpus and add the file content as chunks."""
-    doc = client.corpora.documents.create(
-        parent=corpus_name,
-        document=types.Document(
-            display_name=display_name,
-            custom_metadata=[
-                types.CustomMetadata(key="source_file", string_value=display_name),
-                types.CustomMetadata(key="model_name", string_value=model_name),
-            ],
-        ),
-    )
-
-    # Split content into chunks if needed
-    parts = [raw[i : i + CHUNK_MAX_CHARS] for i in range(0, len(raw), CHUNK_MAX_CHARS)]
-    for part in parts:
-        client.corpora.documents.chunks.create(
-            parent=doc.name,
-            chunk=types.Chunk(
-                data=types.ChunkData(string_value=part),
-            ),
-        )
-
-
-def ingest() -> None:
+def build_index() -> list[dict]:
+    """
+    Walk data/**/*.json and return a flat list of chunk dicts:
+      {"source": relative path, "model_id": str, "text": raw JSON string}
+    """
     if not DATA_DIR.exists():
-        print(f"[ingest] ERROR — data dir not found: {DATA_DIR}", file=sys.stderr)
-        sys.exit(1)
+        raise FileNotFoundError(f"data/ directory not found at {DATA_DIR}")
 
-    corpus_name = get_or_create_store(FILE_SEARCH_STORE_NAME)
-    json_files = sorted(DATA_DIR.rglob("*.json"))
-    print(f"[ingest] {len(json_files)} JSON file(s) found in {DATA_DIR}\n")
-
-    ok = skipped = failed = 0
-
-    for path in json_files:
-        rel = path.relative_to(DATA_DIR)
-        display_name = str(rel).replace("\\", "/")
-
-        if _already_exists(corpus_name, display_name):
-            print(f"  [skip]  {display_name}")
-            skipped += 1
-            continue
-
+    index = []
+    for path in sorted(DATA_DIR.rglob("*.json")):
+        rel = str(path.relative_to(DATA_DIR)).replace("\\", "/")
         try:
             raw = path.read_text(encoding="utf-8")
             data = json.loads(raw)
+            model_id = _extract_id(data, rel)
+            index.append({"source": rel, "model_id": model_id, "text": raw})
         except Exception as exc:
-            print(f"  [error] {display_name} — read/parse failed: {exc}")
-            failed += 1
-            continue
+            print(f"  [warn] {rel} — skipped: {exc}")
 
-        model_name = _extract_model_name(data, display_name)
+    return index
 
-        try:
-            _upload_file(corpus_name, display_name, raw, model_name)
-            print(f"  [ok]    {display_name}  (model: {model_name})")
-            ok += 1
-        except Exception as exc:
-            print(f"  [error] {display_name} — upload failed: {exc}")
-            failed += 1
 
-    print(f"\n[ingest] Done — {ok} uploaded, {skipped} skipped, {failed} failed.")
+def search(index: list[dict], query: str, top_k: int = 5) -> list[dict]:
+    """
+    Simple keyword search: score each chunk by how many query words it contains.
+    Returns top_k chunks sorted by score descending.
+    """
+    words = query.lower().split()
+    scored = []
+    for chunk in index:
+        text_lower = chunk["text"].lower()
+        score = sum(text_lower.count(w) for w in words)
+        if score > 0:
+            scored.append((score, chunk))
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [c for _, c in scored[:top_k]]
 
 
 if __name__ == "__main__":
-    ingest()
+    idx = build_index()
+    print(f"[ingest] {len(idx)} files indexed from {DATA_DIR}")
+    for entry in idx:
+        print(f"  {entry['source']}  (model_id: {entry['model_id']})")

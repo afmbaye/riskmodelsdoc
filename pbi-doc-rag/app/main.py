@@ -4,8 +4,8 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from app.gemini_client import client, get_or_create_store, get_store_info, query_store
-from app.config import FILE_SEARCH_STORE_NAME
+from app.gemini_client import client, MODEL_ID
+from app.ingest import build_index, search
 
 SYSTEM_PROMPT = (
     "Tu es un assistant qui répond aux questions sur la documentation technique de rapports "
@@ -16,14 +16,16 @@ SYSTEM_PROMPT = (
     "quand c'est pertinent."
 )
 
-MODEL_ID = "gemini-2.0-flash"
+CHUNK_PREVIEW = 300  # chars shown in citations
 
-store_state: dict = {}
+app_state: dict = {}
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    store_state["name"] = get_or_create_store(FILE_SEARCH_STORE_NAME)
+    print("[startup] Building index from data/...")
+    app_state["index"] = build_index()
+    print(f"[startup] {len(app_state['index'])} files indexed.")
     yield
 
 
@@ -43,7 +45,7 @@ class QueryRequest(BaseModel):
 
 class Citation(BaseModel):
     source_file: str
-    chunk: str
+    excerpt: str
 
 
 class QueryResponse(BaseModel):
@@ -58,29 +60,32 @@ def health():
 
 @app.get("/store/status")
 def store_status():
-    if not store_state.get("name"):
-        raise HTTPException(status_code=503, detail="Store not initialised")
-    return get_store_info(store_state["name"])
+    idx = app_state.get("index", [])
+    return {"type": "local-index", "document_count": len(idx)}
 
 
 @app.post("/query", response_model=QueryResponse)
 def query(req: QueryRequest):
-    if not store_state.get("name"):
-        raise HTTPException(status_code=503, detail="Store not initialised")
     if not req.question.strip():
         raise HTTPException(status_code=400, detail="question must not be empty")
 
-    # 1 — Retrieve relevant chunks from the corpus
-    try:
-        chunks = query_store(store_state["name"], req.question, top_k=5)
-    except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"Retrieval error: {exc}")
+    index = app_state.get("index")
+    if not index:
+        raise HTTPException(status_code=503, detail="Index not ready")
 
-    # 2 — Build prompt with retrieved context injected
+    # 1 — Retrieve relevant chunks
+    chunks = search(index, req.question, top_k=5)
+
+    if not chunks:
+        return QueryResponse(
+            answer="Aucun document pertinent trouvé pour cette question.",
+            citations=[],
+        )
+
+    # 2 — Build prompt with context
     context_block = "\n\n---\n\n".join(
-        f"[Source: {c['source']}]\n{c['text']}" for c in chunks
-    ) or "Aucun document trouvé."
-
+        f"[Source: {c['source']}]\n{c['text'][:3000]}" for c in chunks
+    )
     full_prompt = (
         f"Contexte documentaire :\n\n{context_block}\n\n"
         f"Question : {req.question}"
@@ -94,9 +99,11 @@ def query(req: QueryRequest):
             config={"system_instruction": SYSTEM_PROMPT},
         )
     except Exception as exc:
-        raise HTTPException(status_code=502, detail=f"Gemini generation error: {exc}")
+        raise HTTPException(status_code=502, detail=f"Gemini error: {exc}")
 
-    answer = response.text or ""
-    citations = [Citation(source_file=c["source"], chunk=c["text"][:300]) for c in chunks]
+    citations = [
+        Citation(source_file=c["source"], excerpt=c["text"][:CHUNK_PREVIEW])
+        for c in chunks
+    ]
 
-    return QueryResponse(answer=answer, citations=citations)
+    return QueryResponse(answer=response.text or "", citations=citations)
