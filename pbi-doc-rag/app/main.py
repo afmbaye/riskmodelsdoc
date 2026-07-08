@@ -24,6 +24,7 @@ SYSTEM_PROMPT = (
 CHUNK_PREVIEW = 300  # chars shown in citations
 
 app_state: dict = {}
+_cache: dict[str, QueryResponse] = {}   # simple question → response cache
 
 
 @asynccontextmanager
@@ -77,15 +78,20 @@ def store_status():
 
 @app.post("/query", response_model=QueryResponse)
 def query(req: QueryRequest):
-    if not req.question.strip():
+    q = req.question.strip()
+    if not q:
         raise HTTPException(status_code=400, detail="question must not be empty")
+
+    if q in _cache:
+        print(f"[cache] hit for: {q[:60]}")
+        return _cache[q]
 
     index = app_state.get("index")
     if not index:
         raise HTTPException(status_code=503, detail="Index not ready")
 
     # 1 — Retrieve relevant chunks
-    chunks = search(index, req.question, top_k=5)
+    chunks = search(index, q, top_k=3)
 
     if not chunks:
         return QueryResponse(
@@ -99,7 +105,7 @@ def query(req: QueryRequest):
     )
     full_prompt = (
         f"Contexte documentaire :\n\n{context_block}\n\n"
-        f"Question : {req.question}"
+        f"Question : {q}"
     )
 
     # 3 — Generate answer (with retry on 429)
@@ -112,5 +118,5 @@ def query(req: QueryRequest):
         Citation(source_file=c["source"], excerpt=c["text"][:CHUNK_PREVIEW])
         for c in chunks
     ]
-
-    return QueryResponse(answer=answer, citations=citations)
+    _cache[q] = QueryResponse(answer=answer, citations=citations)
+    return _cache[q]
