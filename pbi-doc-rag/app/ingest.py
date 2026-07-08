@@ -7,8 +7,15 @@ Can also be run standalone to verify which files are found:
 """
 import json
 import pathlib
+import unicodedata
 
 DATA_DIR = pathlib.Path(__file__).resolve().parents[2] / "data"
+
+
+def _normalize(text: str) -> str:
+    """Lowercase + strip accents + collapse punctuation for fuzzy keyword match."""
+    nfkd = unicodedata.normalize("NFKD", text.lower())
+    return "".join(c for c in nfkd if not unicodedata.combining(c))
 
 
 def _extract_id(data: dict, fallback: str) -> str:
@@ -34,7 +41,7 @@ def build_index() -> list[dict]:
             raw = path.read_text(encoding="utf-8")
             data = json.loads(raw)
             model_id = _extract_id(data, rel)
-            index.append({"source": rel, "model_id": model_id, "text": raw})
+            index.append({"source": rel, "model_id": model_id, "text": raw, "text_norm": _normalize(raw)})
         except Exception as exc:
             print(f"  [warn] {rel} — skipped: {exc}")
 
@@ -46,11 +53,16 @@ def search(index: list[dict], query: str, top_k: int = 5) -> list[dict]:
     Simple keyword search: score each chunk by how many query words it contains.
     Returns top_k chunks sorted by score descending.
     """
-    words = query.lower().split()
+    # Normalize query: strip accents, lowercase, ignore short stop words
+    stop = {"le", "la", "les", "de", "du", "des", "un", "une", "est", "et",
+            "en", "ce", "que", "qui", "qu", "je", "il", "a", "au", "d"}
+    words = [w for w in _normalize(query).split() if w not in stop and len(w) > 1]
+    if not words:
+        return []
     scored = []
     for chunk in index:
-        text_lower = chunk["text"].lower()
-        score = sum(text_lower.count(w) for w in words)
+        text_norm = chunk.get("text_norm") or _normalize(chunk["text"])
+        score = sum(text_norm.count(w) for w in words)
         if score > 0:
             scored.append((score, chunk))
     scored.sort(key=lambda x: x[0], reverse=True)

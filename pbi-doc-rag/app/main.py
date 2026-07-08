@@ -9,7 +9,7 @@ from pydantic import BaseModel
 
 STATIC_DIR = Path(__file__).parent / "static"
 
-from app.gemini_client import client, MODEL_ID
+from app.gemini_client import generate_with_retry
 from app.ingest import build_index, search
 
 SYSTEM_PROMPT = (
@@ -93,22 +93,18 @@ def query(req: QueryRequest):
             citations=[],
         )
 
-    # 2 — Build prompt with context
+    # 2 — Build prompt with context (1500 chars/chunk to stay within free-tier token limits)
     context_block = "\n\n---\n\n".join(
-        f"[Source: {c['source']}]\n{c['text'][:3000]}" for c in chunks
+        f"[Source: {c['source']}]\n{c['text'][:1500]}" for c in chunks
     )
     full_prompt = (
         f"Contexte documentaire :\n\n{context_block}\n\n"
         f"Question : {req.question}"
     )
 
-    # 3 — Generate answer
+    # 3 — Generate answer (with retry on 429)
     try:
-        response = client.models.generate_content(
-            model=MODEL_ID,
-            contents=full_prompt,
-            config={"system_instruction": SYSTEM_PROMPT},
-        )
+        answer = generate_with_retry(full_prompt, SYSTEM_PROMPT)
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Gemini error: {exc}")
 
@@ -117,4 +113,4 @@ def query(req: QueryRequest):
         for c in chunks
     ]
 
-    return QueryResponse(answer=response.text or "", citations=citations)
+    return QueryResponse(answer=answer, citations=citations)
