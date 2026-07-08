@@ -1,8 +1,13 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+
+STATIC_DIR = Path(__file__).parent / "static"
 
 from app.gemini_client import client, MODEL_ID
 from app.ingest import build_index, search
@@ -30,6 +35,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="PBI Doc RAG", version="0.1.0", lifespan=lifespan)
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -51,6 +57,11 @@ class Citation(BaseModel):
 class QueryResponse(BaseModel):
     answer: str
     citations: list[Citation]
+
+
+@app.get("/", include_in_schema=False)
+def root():
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/health")

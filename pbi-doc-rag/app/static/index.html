@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PBI Doc — Assistant RAG</title>
+<style>
+/* ── Tokens ── */
+:root {
+  --bg:        #F1F5F9;
+  --surface:   #FFFFFF;
+  --border:    #E2E8F0;
+  --text:      #0F172A;
+  --text-2:    #475569;
+  --text-3:    #94A3B8;
+  --accent:    #F59E0B;
+  --accent-hi: #FDE68A;
+  --good:      #10B981;
+  --bad:       #EF4444;
+  --mono-bg:   #F8FAFC;
+  --shadow:    0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --radius:    10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg:        #0F172A;
+    --surface:   #1E293B;
+    --border:    #334155;
+    --text:      #F1F5F9;
+    --text-2:    #94A3B8;
+    --text-3:    #64748B;
+    --accent:    #F59E0B;
+    --accent-hi: #78350F;
+    --good:      #34D399;
+    --bad:       #F87171;
+    --mono-bg:   #0F172A;
+    --shadow:    0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+  }
+}
+:root[data-theme="light"] {
+  --bg: #F1F5F9; --surface: #FFFFFF; --border: #E2E8F0;
+  --text: #0F172A; --text-2: #475569; --text-3: #94A3B8;
+  --accent: #F59E0B; --accent-hi: #FDE68A; --good: #10B981; --bad: #EF4444;
+  --mono-bg: #F8FAFC; --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+}
+:root[data-theme="dark"] {
+  --bg: #0F172A; --surface: #1E293B; --border: #334155;
+  --text: #F1F5F9; --text-2: #94A3B8; --text-3: #64748B;
+  --accent: #F59E0B; --accent-hi: #78350F; --good: #34D399; --bad: #F87171;
+  --mono-bg: #0F172A; --shadow: 0 1px 3px rgba(0,0,0,.3), 0 1px 2px rgba(0,0,0,.2);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+}
+button { cursor: pointer; font: inherit; }
+textarea { font: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ── Layout ── */
+.shell {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 16px 80px;
+}
+
+/* ── Header ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+  margin-bottom: 28px;
+}
+.header-inner {
+  max-width: 740px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.wordmark-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.wordmark-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.status-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-2);
+}
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--text-3);
+  transition: background .3s;
+  flex-shrink: 0;
+}
+.status-dot.ok   { background: var(--good); }
+.status-dot.err  { background: var(--bad); }
+
+/* theme toggle */
+.theme-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  color: var(--text-2);
+  font-size: 13px;
+  transition: border-color .2s, color .2s;
+}
+.theme-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Ask form ── */
+.ask-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 28px;
+}
+.ask-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  margin-bottom: 10px;
+}
+.ask-textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
+  padding: 12px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  transition: border-color .2s;
+}
+.ask-textarea:focus { border-color: var(--accent); outline: none; }
+.ask-textarea::placeholder { color: var(--text-3); }
+.ask-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  gap: 12px;
+}
+.ask-hint {
+  font-size: 12px;
+  color: var(--text-3);
+}
+.ask-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 20px;
+  background: var(--accent);
+  color: #0F172A;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  border-radius: 7px;
+  transition: opacity .2s, transform .1s;
+  white-space: nowrap;
+}
+.ask-btn:hover:not(:disabled) { opacity: .88; }
+.ask-btn:active:not(:disabled) { transform: scale(.98); }
+.ask-btn:disabled { opacity: .45; cursor: not-allowed; }
+.ask-btn svg { flex-shrink: 0; }
+
+/* ── Spinner ── */
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(0,0,0,.15);
+  border-top-color: #0F172A;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
+
+/* ── Result ── */
+.result {
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+  animation: fadein .25s ease;
+}
+.result.visible { display: flex; }
+@keyframes fadein { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.result-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-3);
+}
+.result-header::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.answer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 22px 24px;
+}
+.answer-card.error { border-color: var(--bad); }
+.answer-text {
+  color: var(--text);
+  line-height: 1.75;
+  white-space: pre-wrap;
+}
+.answer-text.error-text { color: var(--bad); }
+
+/* ── Citations ── */
+.citations-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.citations-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: none;
+  border: none;
+  color: var(--text-2);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  transition: background .15s;
+}
+.citations-toggle:hover { background: var(--bg); }
+.citations-toggle .caret {
+  transition: transform .2s;
+  color: var(--text-3);
+}
+.citations-toggle[aria-expanded="true"] .caret { transform: rotate(180deg); }
+.citations-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--accent-hi);
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 10px;
+  margin-left: 6px;
+}
+.citations-body {
+  display: none;
+  border-top: 1px solid var(--border);
+}
+.citations-body.open { display: block; }
+.citation-item {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.citation-item:last-child { border-bottom: none; }
+.citation-source {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--accent);
+  font-family: ui-monospace, monospace;
+  margin-bottom: 6px;
+  word-break: break-all;
+}
+.citation-excerpt {
+  font-size: 12px;
+  color: var(--text-2);
+  font-family: ui-monospace, monospace;
+  background: var(--mono-bg);
+  border-radius: 6px;
+  padding: 10px 12px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  line-height: 1.5;
+}
+
+/* ── Examples ── */
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.examples-label {
+  width: 100%;
+  font-size: 12px;
+  color: var(--text-3);
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+.example-chip {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 13px;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: border-color .2s, color .2s;
+  text-align: left;
+}
+.example-chip:hover { border-color: var(--accent); color: var(--text); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="wordmark">
+      <span class="wordmark-label">Baobab Risk</span>
+      <span class="wordmark-title">Documentation Assistant</span>
+    </div>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Connexion…</span>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-label="Basculer le thème">☀︎</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <!-- Examples -->
+  <div class="examples" id="examples">
+    <span class="examples-label">Exemples</span>
+    <button class="example-chip">Quelles sources alimentent Portfolio Risk Metrics ?</button>
+    <button class="example-chip">Quels modèles utilisent suivi-echeances ?</button>
+    <button class="example-chip">Quelle est la granularité du modèle Vintage LD & WO ?</button>
+    <button class="example-chip">Quelles colonnes contient le fichier suivi-echeances ?</button>
+    <button class="example-chip">Quels KPIs sont disponibles dans le modèle LLP ?</button>
+  </div>
+
+  <!-- Ask -->
+  <div class="ask-card">
+    <label class="ask-label" for="question">Votre question</label>
+    <textarea
+      id="question"
+      class="ask-textarea"
+      placeholder="Ex : Quelles sources de données alimentent le modèle Portfolio Risk Metrics ?"
+      rows="3"
+    ></textarea>
+    <div class="ask-footer">
+      <span class="ask-hint">Posez une question sur les modèles ou sources de données Power BI</span>
+      <button class="ask-btn" id="submitBtn" onclick="submitQuery()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        Interroger
+      </button>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="result" id="result">
+    <div class="result-header">Réponse</div>
+
+    <div class="answer-card" id="answerCard">
+      <p class="answer-text" id="answerText"></p>
+    </div>
+
+    <div class="citations-wrap" id="citationsWrap" style="display:none">
+      <button
+        class="citations-toggle"
+        id="citationsToggle"
+        aria-expanded="false"
+        onclick="toggleCitations()"
+      >
+        <span>
+          Sources consultées
+          <span class="citations-count" id="citationsCount">0</span>
+        </span>
+        <svg class="caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="citations-body" id="citationsBody"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const API = '';  // same origin
+
+// ── Theme ──────────────────────────────────────────────────────────────
+const themeBtn = document.getElementById('themeBtn');
+let currentTheme = localStorage.getItem('theme') ||
+  (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '☀︎' : '☾';
+  currentTheme = t;
+  localStorage.setItem('theme', t);
+}
+themeBtn.addEventListener('click', () => applyTheme(currentTheme === 'dark' ? 'light' : 'dark'));
+applyTheme(currentTheme);
+
+// ── Status ─────────────────────────────────────────────────────────────
+async function checkStatus() {
+  const dot  = document.getElementById('statusDot');
+  const text = document.getElementById('statusText');
+  try {
+    const r = await fetch(`${API}/store/status`);
+    if (!r.ok) throw new Error();
+    const d = await r.json();
+    dot.className  = 'status-dot ok';
+    text.textContent = `${d.document_count} fichiers indexés`;
+  } catch {
+    dot.className  = 'status-dot err';
+    text.textContent = 'API non disponible';
+  }
+}
+checkStatus();
+
+// ── Examples ───────────────────────────────────────────────────────────
+document.querySelectorAll('.example-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.getElementById('question').value = chip.textContent;
+    document.getElementById('question').focus();
+  });
+});
+
+// ── Query ──────────────────────────────────────────────────────────────
+const submitBtn = document.getElementById('submitBtn');
+
+async function submitQuery() {
+  const question = document.getElementById('question').value.trim();
+  if (!question) return;
+
+  // Loading state
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<div class="spinner"></div> Analyse…';
+
+  const result      = document.getElementById('result');
+  const answerCard  = document.getElementById('answerCard');
+  const answerText  = document.getElementById('answerText');
+  const citWrap     = document.getElementById('citationsWrap');
+
+  result.classList.remove('visible');
+  answerCard.classList.remove('error');
+  answerText.classList.remove('error-text');
+
+  try {
+    const res = await fetch(`${API}/query`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: res.statusText }));
+      throw new Error(err.detail || 'Erreur serveur');
+    }
+
+    const data = await res.json();
+
+    answerText.textContent = data.answer;
+    renderCitations(data.citations || []);
+
+  } catch (err) {
+    answerCard.classList.add('error');
+    answerText.classList.add('error-text');
+    answerText.textContent = `Erreur : ${err.message}`;
+    citWrap.style.display = 'none';
+  }
+
+  result.classList.add('visible');
+  result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Reset button
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+    Interroger`;
+}
+
+function renderCitations(citations) {
+  const wrap  = document.getElementById('citationsWrap');
+  const body  = document.getElementById('citationsBody');
+  const count = document.getElementById('citationsCount');
+  const toggle = document.getElementById('citationsToggle');
+
+  if (!citations.length) { wrap.style.display = 'none'; return; }
+
+  wrap.style.display = 'block';
+  count.textContent  = citations.length;
+  toggle.setAttribute('aria-expanded', 'false');
+  body.classList.remove('open');
+
+  body.innerHTML = citations.map(c => `
+    <div class="citation-item">
+      <div class="citation-source">${escHtml(c.source_file)}</div>
+      <pre class="citation-excerpt">${escHtml(c.excerpt)}</pre>
+    </div>
+  `).join('');
+}
+
+function toggleCitations() {
+  const body   = document.getElementById('citationsBody');
+  const toggle = document.getElementById('citationsToggle');
+  const open   = body.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', String(open));
+}
+
+// Ctrl/Cmd+Enter to submit
+document.getElementById('question').addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') submitQuery();
+});
+
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+
+</body>
+</html>
