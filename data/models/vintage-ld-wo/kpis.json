@@ -1,0 +1,38 @@
+{
+  "modelId": "vintage-ld-wo",
+  "kpis": [
+    {
+      "id": "late-days-cumul-pct",
+      "name": { "fr": "Late Days Cumulés (%)", "en": "Cumulative Late Days (%)" },
+      "description": {
+        "fr": "Nombre cumulé de jours de retard rapporté au nombre théorique de jours d'une cohorte depuis son décaissement, exprimé en pourcentage.",
+        "en": "Cumulative count of late days relative to the theoretical number of days for a cohort since disbursement, expressed as a percentage."
+      },
+      "formula": "SUM(Late Days) / SUM(Theoretical Days) * 100",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "write-off-cumul-pct",
+      "name": { "fr": "Write-Off Cumulé (%)", "en": "Cumulative Write-Off (%)" },
+      "description": {
+        "fr": "Montant cumulé des radiations d'une cohorte rapporté au montant total décaissé lors du lancement de cette cohorte, exprimé en pourcentage.",
+        "en": "Cumulative write-off amount for a cohort relative to the total amount disbursed at cohort launch, expressed as a percentage."
+      },
+      "formula": "SUM(Write-Off Amount Cohort) / SUM(Disbursed Amount Cohort) * 100",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "disbursed-amount-cohort",
+      "name": { "fr": "Montant Décaissé Cohorte", "en": "Cohort Disbursed Amount" },
+      "description": {
+        "fr": "Montant total décaissé lors du mois de naissance de la cohorte. Sert de base de normalisation pour les indicateurs exprimés en %.",
+        "en": "Total amount disbursed during the cohort's birth month. Used as normalisation base for % indicators."
+      },
+      "formula": "SUM(DisbursementAmount) WHERE DisbursementMonth = CohortMonth",
+      "unit": "€ (M)",
+      "frequency": "cohort"
+    }
+  ]
+}

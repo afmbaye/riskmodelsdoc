@@ -1,0 +1,46 @@
+{
+  "modelId": "vintage-ld-wo",
+  "frequency": "monthly",
+  "schedule": {
+    "fr": "Mise à jour mensuelle, généralement dans la première semaine du mois suivant la clôture.",
+    "en": "Monthly update, typically in the first week of the month following close."
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Extraction LMS", "en": "LMS extraction" },
+      "description": {
+        "fr": "Extraction des données de prêts depuis le système de gestion des prêts (LMS) pour chaque filiale.",
+        "en": "Loan data extraction from the Loan Management System (LMS) for each subsidiary."
+      }
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Consolidation DWH", "en": "DWH consolidation" },
+      "description": {
+        "fr": "Intégration et consolidation des extractions par filiale dans le Data Warehouse groupe.",
+        "en": "Integration and consolidation of per-subsidiary extracts into the group Data Warehouse."
+      }
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Calcul des métriques vintage", "en": "Vintage metric calculation" },
+      "description": {
+        "fr": "Calcul des cumuls de late days et write-offs par cohorte de décaissement et par mois d'observation.",
+        "en": "Calculation of cumulative late days and write-offs per disbursement cohort and observation month."
+      }
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Actualisation Power BI", "en": "Power BI refresh" },
+      "description": {
+        "fr": "Rafraîchissement du dataset Power BI via Power BI Service (actualisation planifiée ou manuelle).",
+        "en": "Power BI dataset refresh via Power BI Service (scheduled or manual refresh)."
+      }
+    }
+  ],
+  "contacts": {
+    "fr": "Pour toute anomalie ou question sur les données, contacter l'équipe Data/Risque.",
+    "en": "For any data anomaly or question, contact the Data/Risk team."
+  }
+}

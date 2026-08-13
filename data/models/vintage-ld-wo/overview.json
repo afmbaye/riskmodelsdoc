@@ -1,0 +1,38 @@
+{
+  "modelId": "vintage-ld-wo",
+  "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
+  "description": {
+    "fr": "Analyse des cohortes de décaissement et de radiations : suivi par génération de prêts (millésime) des late days cumulés et des write-offs, pour identifier les cohortes à risque et mesurer la qualité de l'origination dans le temps.",
+    "en": "Disbursement and write-off cohort analysis: tracking of cumulative late days and write-offs by loan generation (vintage) to identify at-risk cohorts and measure origination quality over time."
+  },
+  "lastUpdate": "",
+  "stats": [
+    { "label": { "fr": "Cohortes suivies", "en": "Tracked cohorts" }, "value": "" },
+    { "label": { "fr": "Pays couverts", "en": "Countries covered" }, "value": "7" },
+    { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
+  ],
+  "useCase": {
+    "fr": "Évaluer la qualité des décaissements passés et détecter les millésimes dont le comportement de remboursement se dégrade plus vite que les cohortes précédentes.",
+    "en": "Assess the quality of past disbursements and detect vintages whose repayment behaviour deteriorates faster than prior cohorts."
+  },
+  "tabs": [
+    {
+      "id": "late-days",
+      "name": { "fr": "Late Days", "en": "Late Days" },
+      "description": {
+        "fr": "Courbes de late days cumulés par cohorte de décaissement, permettant de comparer le comportement en retard mois après mois pour chaque millésime.",
+        "en": "Cumulative late days curves by disbursement cohort, enabling comparison of delinquency behaviour month by month for each vintage."
+      },
+      "screenshot": "Assets/Images/vintage-ld-wo/late-days.png"
+    },
+    {
+      "id": "write-off",
+      "name": { "fr": "Write-Off", "en": "Write-Off" },
+      "description": {
+        "fr": "Courbes de write-offs cumulés par cohorte de décaissement, exprimés en % du GLP initial décaissé pour normaliser entre millésimes de tailles différentes.",
+        "en": "Cumulative write-off curves by disbursement cohort, expressed as % of initial disbursed GLP to normalise across vintages of different sizes."
+      },
+      "screenshot": "Assets/Images/vintage-ld-wo/write-off.png"
+    }
+  ]
+}

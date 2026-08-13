@@ -1,0 +1,46 @@
+{
+  "modelId": "vintage-ld-wo",
+  "tables": [
+    {
+      "name": "fact_vintage",
+      "description": {
+        "fr": "Table de faits principale contenant les métriques cumulées par cohorte de décaissement et par mois d'observation.",
+        "en": "Main fact table containing cumulative metrics by disbursement cohort and observation month."
+      },
+      "columns": [
+        { "name": "cohort_month", "type": "date", "description": { "fr": "Mois de décaissement de la cohorte (YYYY-MM)", "en": "Cohort disbursement month (YYYY-MM)" } },
+        { "name": "obs_month", "type": "date", "description": { "fr": "Mois d'observation (YYYY-MM)", "en": "Observation month (YYYY-MM)" } },
+        { "name": "months_since_disb", "type": "integer", "description": { "fr": "Nombre de mois écoulés depuis le décaissement", "en": "Number of months since disbursement" } },
+        { "name": "late_days_cumul", "type": "decimal", "description": { "fr": "Nombre cumulé de jours de retard", "en": "Cumulative number of late days" } },
+        { "name": "theoretical_days_cumul", "type": "decimal", "description": { "fr": "Nombre théorique de jours cumulés", "en": "Theoretical cumulative number of days" } },
+        { "name": "write_off_amount_cumul", "type": "decimal", "description": { "fr": "Montant cumulé des radiations (€)", "en": "Cumulative write-off amount (€)" } },
+        { "name": "disbursed_amount_cohort", "type": "decimal", "description": { "fr": "Montant total décaissé lors du lancement de la cohorte (€)", "en": "Total amount disbursed at cohort launch (€)" } },
+        { "name": "country_code", "type": "string", "description": { "fr": "Code filiale/pays", "en": "Subsidiary/country code" } },
+        { "name": "segment", "type": "string", "description": { "fr": "Segment client (Nano, VSE, SE, SME)", "en": "Customer segment (Nano, VSE, SE, SME)" } }
+      ]
+    },
+    {
+      "name": "dim_country",
+      "description": {
+        "fr": "Dimension pays/filiales du groupe.",
+        "en": "Country/subsidiary dimension for the group."
+      },
+      "columns": [
+        { "name": "country_code", "type": "string", "description": { "fr": "Code pays", "en": "Country code" } },
+        { "name": "country_name", "type": "string", "description": { "fr": "Nom du pays", "en": "Country name" } },
+        { "name": "region", "type": "string", "description": { "fr": "Région géographique", "en": "Geographic region" } }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "from": "fact_vintage.country_code",
+      "to": "dim_country.country_code",
+      "cardinality": "N:1"
+    }
+  ],
+  "dataSource": {
+    "fr": "Extractions mensuelles du système de gestion des prêts (LMS) consolidées par le Data Warehouse groupe.",
+    "en": "Monthly extracts from the Loan Management System (LMS) consolidated by the group Data Warehouse."
+  }
+}

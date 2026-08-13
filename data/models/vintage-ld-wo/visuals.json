@@ -1,0 +1,48 @@
+{
+  "modelId": "vintage-ld-wo",
+  "tabs": [
+    {
+      "id": "late-days",
+      "name": { "fr": "Late Days", "en": "Late Days" },
+      "screenshot": "Assets/Images/vintage-ld-wo/late-days.png",
+      "description": {
+        "fr": "Analyse des late days cumulés par cohorte mensuelle de décaissement (LD contracts). Chaque courbe représente un millésime ; l'axe X est le nombre de mois depuis le décaissement, l'axe Y le cumul des late days en % du nombre de jours théoriques.",
+        "en": "Cumulative late days analysis by monthly disbursement cohort (LD contracts). Each curve represents a vintage; X-axis is months since disbursement, Y-axis is cumulative late days as % of theoretical days."
+      },
+      "kpisUsed": ["Late Days Cumulés %", "Mois depuis décaissement", "Montant décaissé cohorte"],
+      "filters": [
+        { "name": "Pays", "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" } },
+        { "name": "Cohorte", "description": { "fr": "Sélectionner les millésimes à afficher", "en": "Select vintages to display" } },
+        { "name": "Segment", "description": { "fr": "Filtrer par segment (Nano, VSE, SE, SME)", "en": "Filter by segment (Nano, VSE, SE, SME)" } }
+      ],
+      "howToRead": {
+        "fr": "Chaque courbe représente une cohorte de décaissement mensuelle. Plus la courbe monte rapidement, plus le millésime accumule de late days tôt dans sa vie. Comparer les courbes récentes aux courbes historiques permet de détecter une dégradation de la qualité d'origination. Une courbe qui dépasse nettement les cohortes précédentes au même âge signale un millésime à risque.",
+        "en": "Each curve represents a monthly disbursement cohort. The faster a curve rises, the earlier the vintage accumulates late days. Comparing recent curves to historical ones detects origination quality deterioration. A curve that clearly exceeds prior cohorts at the same age flags an at-risk vintage."
+      },
+      "colorCoding": {
+        "fr": "Chaque cohorte a une couleur distincte ; les millésimes récents sont généralement représentés par des teintes plus vives. Un code couleur chaud (orange/rouge) peut signaler les cohortes au-dessus d'un seuil d'alerte.",
+        "en": "Each cohort has a distinct colour; recent vintages are typically represented by brighter hues. A warm colour code (orange/red) may flag cohorts above an alert threshold."
+      }
+    },
+    {
+      "id": "write-off",
+      "name": { "fr": "Write-Off", "en": "Write-Off" },
+      "screenshot": "Assets/Images/vintage-ld-wo/write-off.png",
+      "description": {
+        "fr": "Courbes de write-offs cumulés par cohorte de décaissement, exprimés en % du montant initial décaissé de la cohorte. Permet de comparer le taux de perte finale entre millésimes à maturité équivalente.",
+        "en": "Cumulative write-off curves by disbursement cohort, expressed as % of the cohort's initial disbursed amount. Enables comparison of final loss rate across vintages at equivalent maturity."
+      },
+      "kpisUsed": ["Write-Off Cumulé %", "Mois depuis décaissement", "Montant décaissé cohorte"],
+      "filters": [
+        { "name": "Pays", "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" } },
+        { "name": "Cohorte", "description": { "fr": "Sélectionner les millésimes à afficher", "en": "Select vintages to display" } },
+        { "name": "Segment", "description": { "fr": "Filtrer par segment (Nano, VSE, SE, SME)", "en": "Filter by segment (Nano, VSE, SE, SME)" } }
+      ],
+      "howToRead": {
+        "fr": "L'axe X représente le nombre de mois depuis le décaissement de la cohorte, l'axe Y le write-off cumulé en % du capital initial. Une cohorte dont la courbe monte fortement après 6-12 mois signale un problème d'origination ou de ciblage clientèle. La comparaison avec les millésimes antérieurs au même âge est le principal indicateur de dégradation.",
+        "en": "X-axis is months since cohort disbursement, Y-axis is cumulative write-off as % of initial principal. A cohort whose curve rises sharply after 6-12 months signals an origination or customer targeting issue. Comparison with prior vintages at the same age is the primary deterioration indicator."
+      },
+      "colorCoding": null
+    }
+  ]
+}
