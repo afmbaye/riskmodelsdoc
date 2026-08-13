@@ -2,8 +2,8 @@
   "modelId": "vintage-ld-wo",
   "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
   "description": {
-    "fr": "Analyse de la qualité des cohortes de décaissement et de radiation : suivi des ratios PAR 0/30/90 par génération de prêts (Vintage Disbursement) et des taux de recouvrement post-radiation par cohorte de radiation (Vintage Write Off). Permet d'identifier les millésimes à risque et d'évaluer la qualité de l'origination dans le temps.",
-    "en": "Disbursement and write-off cohort quality analysis: tracking of PAR 0/30/90 ratios by loan generation (Vintage Disbursement) and post-write-off recovery rates by write-off cohort (Vintage Write Off). Identifies at-risk vintages and assesses origination quality over time."
+    "fr": "Analyse de la qualité des cohortes de décaissement et de radiation. \"LD\" désigne les contrats de décaissement (préfixe des identifiants de contrat), par abus de langage appelés \"contrats LD\". Le Vintage LD suit les ratios PAR 0/30/90 par génération de décaissement, tandis que le Vintage WO mesure les taux de recouvrement post-radiation par cohorte de radiation.",
+    "en": "Quality analysis of disbursement and write-off cohorts. \"LD\" refers to disbursement contracts (prefix of contract IDs), colloquially called \"LD contracts\". The Vintage LD tracks PAR 0/30/90 ratios by disbursement generation, while the Vintage WO measures post-write-off recovery rates by write-off cohort."
   },
   "lastUpdate": "",
   "stats": [
@@ -12,8 +12,8 @@
     { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
   ],
   "useCase": {
-    "fr": "Évaluer la qualité des décaissements passés, détecter les millésimes dont le comportement en retard se dégrade plus vite que les cohortes précédentes, et mesurer l'efficacité du recouvrement post-radiation par génération de radiation.",
-    "en": "Assess the quality of past disbursements, detect vintages whose delinquency behaviour deteriorates faster than prior cohorts, and measure post-write-off recovery effectiveness by write-off generation."
+    "fr": "Évaluer la qualité des décaissements passés (contrats LD), détecter les millésimes dont le comportement en retard se dégrade plus vite que les cohortes précédentes, et mesurer l'efficacité du recouvrement post-radiation par génération de radiation.",
+    "en": "Assess the quality of past disbursements (LD contracts), detect vintages whose delinquency behaviour deteriorates faster than prior cohorts, and measure post-write-off recovery effectiveness by write-off generation."
   },
   "tabs": [
     {
