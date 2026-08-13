@@ -9,19 +9,28 @@
       "id": "glp",
       "name": { "fr": "GLP", "en": "GLP" },
       "screenshot": "Assets/Images/installment-tracker/viz-GLP.png",
-      "description": {
-        "fr": "Suivi jour par jour de l'évolution des remboursements sur l'encours brut (GLP), permettant de détecter les écarts par rapport aux prévisions et de mesurer le poids des paiements anticipés.",
-        "en": "Day-by-day tracking of repayment evolution on the gross loan portfolio (GLP), enabling detection of gaps versus expectations and measurement of early payment volume."
+      "objective": {
+        "fr": "Fournir une vue d'ensemble du Gross Loan Portfolio et comparer les paiements attendus aux paiements réalisés.",
+        "en": "Provide an overview of Gross Loan Portfolio and compare expected vs actual payments."
       },
-      "kpisUsed": ["GLP Attendu (€)", "Paiement réel GLP (€)", "GLP Anticipé (€)", "% Anticipation", "Taux de paiement réel (%)"],
+      "kpisUsed": ["GLP Attendu", "Paiement Effectif GLP", "Paiement Réel %", "GLP Anticipation"],
       "filters": [
-        { "name": "Pays", "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" } },
-        { "name": "Période", "description": { "fr": "Sélectionner le mois ou la plage de dates", "en": "Select month or date range" } },
-        { "name": "Segment", "description": { "fr": "Filtrer par segment client (Nano, SE, etc.)", "en": "Filter by customer segment (Nano, SE, etc.)" } }
+        {
+          "name": "Pays",
+          "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" }
+        },
+        {
+          "name": "Période",
+          "description": { "fr": "Sélectionner le mois ou la plage de dates", "en": "Select month or date range" }
+        },
+        {
+          "name": "Segment",
+          "description": { "fr": "Filtrer par segment client (Nano, SE, etc.)", "en": "Filter by customer segment (Nano, SE, etc.)" }
+        }
       ],
       "howToRead": {
-        "fr": "Le graphique présente pour chaque jour du mois : les barres roses foncées (GLP attendu €) face aux barres plus claires (paiement réel GLP €). La courbe jaune représente le GLP anticipé (€) et le % d'anticipation — les remboursements réglés avant leur échéance. La courbe violette affiche le taux de paiement réel (%), soit la proportion effectivement remboursée par rapport à l'attendu. Un écart important entre les barres ou un taux réel bas signale un problème de recouvrement.",
-        "en": "The chart shows for each day of the month: dark pink bars (expected GLP €) versus lighter bars (actual GLP repayment €). The yellow curve represents anticipated GLP (€) and % anticipation — repayments settled before their due date. The purple curve shows the real payment ratio (%), i.e. the proportion actually repaid versus expected. A significant gap between bars or a low actual rate signals a collection issue."
+        "fr": "Les cartes en haut montrent les totaux actuels. Le graphique à barres compare visuellement les paiements attendus (barres bleues) aux paiements réalisés (barres vertes). Un écart important indique un problème de recouvrement.",
+        "en": "Cards at top show current totals. Bar chart visually compares expected payments (blue bars) to actual payments (green bars). A significant gap indicates a collection issue."
       },
       "colorCoding": null
     },
@@ -29,18 +38,24 @@
       "id": "installments",
       "name": { "fr": "Installments", "en": "Installments" },
       "screenshot": "Assets/Images/installment-tracker/viz-inst.png",
-      "description": {
-        "fr": "Détail jour par jour des échéances attendues et de leur état de règlement, avec suivi des impayés et de la liquidité disponible chez les clients.",
-        "en": "Day-by-day breakdown of expected installments and their settlement status, with tracking of overdue amounts and available customer liquidity."
+      "objective": {
+        "fr": "Analyser le détail des échéances par statut: remboursées, attendues et en retard.",
+        "en": "Analyze installment details by status: paid, expected and overdue."
       },
-      "kpisUsed": ["Expected installments (€)", "Installment repayment (€)", "Unpaid installments – available (€)", "Available cash (€)", "Real payment ratio (%)", "% Available cash on unpaid"],
+      "kpisUsed": ["Échéance Remboursée", "Échéance Attendue", "Taux de Règlement", "Cash Disponible"],
       "filters": [
-        { "name": "Pays", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
-        { "name": "Statut", "description": { "fr": "Filtrer par statut d'échéance", "en": "Filter by installment status" } }
+        {
+          "name": "Pays",
+          "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" }
+        },
+        {
+          "name": "Statut",
+          "description": { "fr": "Filtrer par statut d'échéance", "en": "Filter by installment status" }
+        }
       ],
       "howToRead": {
-        "fr": "Pour chaque jour du mois, les barres roses représentent les Expected installments (€) — les échéances prévues — et les barres violettes claires l'Installment repayment (€) — les montants effectivement réglés. Des barres supplémentaires montrent les Unpaid installments – available (€) et l'Available cash (€), indiquant les impayés et la liquidité disponible chez les clients. La courbe violette affiche le Real payment ratio (%), et la courbe jaune le % Available cash on unpaid — la part de cash disponible couvrant les échéances en retard. Un taux élevé de cash sur impayés signale des clients avec liquidité mais non-paiement.",
-        "en": "For each day of the month, pink bars represent Expected installments (€) — scheduled installments — and light purple bars show Installment repayment (€) — amounts actually settled. Additional bars show Unpaid installments – available (€) and Available cash (€), indicating overdue amounts and available customer liquidity. The purple curve shows the Real payment ratio (%), and the yellow curve shows % Available cash on unpaid — the share of available cash covering overdue installments. A high cash-on-unpaid rate signals customers with liquidity but non-payment."
+        "fr": "Les cartes montrent la synthèse des échéances. Le graphique empilé montre la répartition entre échéances payées et impayées. Vérifiez le % cash sur impayés pour identifier les clients avec liquidité mais non-paiement.",
+        "en": "Cards show installment summary. Stacked chart shows distribution between paid and unpaid installments. Check % cash on unpaid to identify customers with liquidity but non-payment."
       },
       "colorCoding": null
     },
@@ -48,129 +63,153 @@
       "id": "benchmark",
       "name": { "fr": "Benchmark", "en": "Benchmark" },
       "screenshot": "Assets/Images/installment-tracker/vizz-benchmark.png",
-      "description": {
-        "fr": "Comparaison des performances de recouvrement entre filiales sur trois indicateurs clés, avec une ligne de référence matérialisant la cible groupe à 98% de Payment to date.",
-        "en": "Comparison of collection performance across subsidiaries on three key indicators, with a reference line marking the group target of 98% Payment to date."
+      "objective": {
+        "fr": "Comparer les performances de recouvrement entre filiales et identifier les meilleures/pires performances.",
+        "en": "Compare collection performance across subsidiaries and identify best/worst performers."
       },
-      "kpisUsed": ["Payment to date (%)", "Entry rate (%)", "Entry rate after recovery (%)"],
+      "kpisUsed": ["Entry Rate", "Entry Rate Recovery", "Payment to Date"],
       "filters": [
-        { "name": "Période", "description": { "fr": "Sélectionner le mois de comparaison", "en": "Select comparison month" } }
+        {
+          "name": "Période",
+          "description": { "fr": "Sélectionner le mois de comparaison", "en": "Select comparison month" }
+        }
       ],
       "howToRead": {
-        "fr": "Le graphique en barres compare les filiales sur trois indicateurs : les barres roses montrent le Payment to date (%) — la part des échéances déjà remboursées dans le mois ; les barres jaunes l'Entry rate (%) — le taux d'entrée en impayés parmi les clients qui étaient sains le mois précédent ; les barres rouges l'Entry rate after recovery (%) — le taux d'impayés restant après prise en compte des recouvrements. La ligne pointillée matérialise la cible groupe de 98% de Payment to date en fin de mois.",
-        "en": "The bar chart compares subsidiaries on three indicators: pink bars show Payment to date (%) — the share of installments already repaid in the month; yellow bars show Entry rate (%) — the rate of new defaults among customers who were current the previous month; red bars show Entry rate after recovery (%) — the overdue rate remaining after accounting for recoveries. The dashed line marks the group target of 98% Payment to date at month end."
+        "fr": "Chaque ligne représente une filiale. Comparez l'Entry Rate (nouveaux impayés à J0) et le Payment to Date (recouvrement cumulé). Un Entry Rate bas et Payment to Date élevé indiquent une bonne performance.",
+        "en": "Each row represents a subsidiary. Compare Entry Rate (new defaults at D0) and Payment to Date (cumulative collection). Low Entry Rate and high Payment to Date indicate good performance."
       },
-      "colorCoding": null
+      "colorCoding": {
+        "green": { "fr": "< 5% - Excellent", "en": "< 5% - Excellent" },
+        "yellow": { "fr": "5-10% - Attention", "en": "5-10% - Warning" },
+        "red": { "fr": "> 10% - Critique", "en": "> 10% - Critical" }
+      }
     },
     {
       "id": "subsidiaries",
       "name": { "fr": "Subsidiaries", "en": "Subsidiaries" },
       "screenshot": "Assets/Images/installment-tracker/viz-subsidiaries.png",
-      "description": {
-        "fr": "Matrice groupe présentant pour chaque filiale et chaque jour du mois les échéances attendues, les montants impayés et le taux d'impayés journalier.",
-        "en": "Group-level matrix showing for each subsidiary and each day of the month the expected installments, overdue amounts and daily overdue ratio."
+      "objective": {
+        "fr": "Analyser en détail les performances de chaque filiale avec possibilité de drill-down.",
+        "en": "Analyze each subsidiary's performance in detail with drill-down capability."
       },
-      "kpisUsed": ["Expected installments (€)", "Installments Overdue (€)", "Installments Overdue ratio (%)"],
+      "kpisUsed": ["Taux de Règlement", "Échéances en Retard"],
       "filters": [
-        { "name": "Période", "description": { "fr": "Sélectionner le mois à analyser", "en": "Select the month to analyze" } }
+        {
+          "name": "Filiale",
+          "description": { "fr": "Sélectionner une filiale spécifique", "en": "Select specific subsidiary" }
+        }
       ],
       "howToRead": {
-        "fr": "La matrice croise les filiales (Senegal, Ivory Coast, Burkina Faso, Mali, Madagascar, DR Congo, Nigeria) en lignes et les jours du mois en colonnes. Pour chaque filiale, trois lignes sont affichées : Expected installments (€), Installments Overdue (€) et Installments Overdue ratio (%). Le code couleur vert/orange/rouge s'applique sur la ligne des impayés selon le niveau du ratio. Cette vue groupe permet d'identifier d'un coup d'œil les filiales et les jours où les impayés sont les plus élevés.",
-        "en": "The matrix crosses subsidiaries (Senegal, Ivory Coast, Burkina Faso, Mali, Madagascar, DR Congo, Nigeria) in rows and days of the month in columns. For each subsidiary, three rows are displayed: Expected installments (€), Installments Overdue (€) and Installments Overdue ratio (%). The green/orange/red color coding applies to the overdue row based on the ratio level. This group view allows quick identification of which subsidiaries and days have the highest overdue."
+        "fr": "Sélectionnez une filiale pour voir ses détails. La carte montre la localisation. Les graphiques montrent l'évolution des performances dans le temps.",
+        "en": "Select a subsidiary to see details. Map shows location. Charts show performance evolution over time."
       },
-      "colorCoding": {
-        "fr": "Vert : faible taux d'impayés (situation OK). Orange : taux intermédiaire (surveillance). Rouge : forte proportion d'impayés (situation critique).",
-        "en": "Green: low overdue rate (situation OK). Orange: intermediate rate (monitoring required). Red: high overdue proportion (critical situation)."
-      }
+      "colorCoding": null
     },
     {
       "id": "region",
       "name": { "fr": "Region", "en": "Region" },
       "screenshot": "Assets/Images/installment-tracker/viz-region.png",
-      "description": {
-        "fr": "Matrice de suivi des impayés par zone régionale pour chaque jour du mois. Même logique que BranchDesc et CategoryDesc, au niveau région.",
-        "en": "Overdue tracking matrix by geographic region for each day of the month. Same logic as BranchDesc and CategoryDesc, at region level."
+      "objective": {
+        "fr": "Analyser les performances de recouvrement par région géographique au sein de chaque filiale.",
+        "en": "Analyze collection performance by geographic region within each subsidiary."
       },
-      "kpisUsed": ["Échéance attendue (LC)", "Échéance impayée (LC)", "Installment overdue ratio (%)"],
+      "kpisUsed": ["Taux de Non-Règlement", "Échéances en Retard"],
       "filters": [
-        { "name": "Pays", "description": { "fr": "Sélectionner la filiale via les drapeaux en haut de page", "en": "Select the subsidiary via the flags at the top of the page" } },
-        { "name": "Month-Year", "description": { "fr": "Sélectionner le mois à analyser", "en": "Select the month to analyze" } },
-        { "name": "Region", "description": { "fr": "Filtrer par zone régionale", "en": "Filter by geographic zone" } },
-        { "name": "Year", "description": { "fr": "Filtrer par année", "en": "Filter by year" } }
+        {
+          "name": "Pays",
+          "description": { "fr": "Sélectionner la filiale à analyser", "en": "Select subsidiary to analyze" }
+        }
       ],
       "howToRead": {
-        "fr": "Chaque ligne correspond à une zone régionale de la filiale sélectionnée. Chaque colonne correspond à un jour du mois courant. Trois valeurs sont affichées par cellule : l'Échéance attendue (LC), l'Échéance impayée (LC) et l'Installment overdue ratio (%). Le code couleur vert/orange/rouge permet d'identifier rapidement les régions qui concentrent les retards. Utilisez le sélecteur de filiale (drapeaux) pour changer de pays.",
-        "en": "Each row corresponds to a geographic region of the selected subsidiary. Each column corresponds to a day of the current month. Three values are displayed per cell: Expected installment (LC), Overdue installment (LC) and Installment overdue ratio (%). The green/orange/red color coding allows quick identification of regions concentrating overdue. Use the subsidiary flag selector to switch countries."
+        "fr": "Sélectionnez un pays pour voir ses régions. Les régions en rouge nécessitent une attention particulière. Cliquez sur une région pour voir le détail par agence.",
+        "en": "Select a country to see its regions. Regions in red need attention. Click a region to see branch-level detail."
       },
       "colorCoding": {
-        "fr": "Vert : faible taux d'impayés. Orange : taux intermédiaire. Rouge : forte proportion d'impayés (situation critique).",
-        "en": "Green: low overdue rate. Orange: intermediate rate. Red: high overdue proportion (critical situation)."
+        "green": { "fr": "< 10% - Bon", "en": "< 10% - Good" },
+        "yellow": { "fr": "10-20% - Modéré", "en": "10-20% - Moderate" },
+        "red": { "fr": "> 20% - Élevé", "en": "> 20% - High" }
       }
     },
     {
       "id": "branch-desc",
       "name": { "fr": "BranchDesc", "en": "BranchDesc" },
       "screenshot": "Assets/Images/installment-tracker/viz-branch.png",
-      "description": {
-        "fr": "Matrice de suivi des impayés par agence pour chaque jour du mois. Même logique que Region et CategoryDesc, au niveau agence.",
-        "en": "Overdue tracking matrix by branch for each day of the month. Same logic as Region and CategoryDesc, at branch level."
+      "objective": {
+        "fr": "Visualiser les performances détaillées par agence avec matrice colorée.",
+        "en": "View detailed branch performance with color-coded matrix."
       },
-      "kpisUsed": ["Échéance attendue (LC)", "Échéance impayée (LC)", "Installment overdue ratio (%)"],
+      "kpisUsed": ["Échéances en Retard", "Taux de Non-Règlement"],
       "filters": [
-        { "name": "Pays", "description": { "fr": "Sélectionner la filiale via les drapeaux en haut de page", "en": "Select the subsidiary via the flags at the top of the page" } },
-        { "name": "Month-Year", "description": { "fr": "Sélectionner le mois à analyser", "en": "Select the month to analyze" } },
-        { "name": "Region", "description": { "fr": "Filtrer par zone régionale pour restreindre la liste des agences", "en": "Filter by geographic zone to restrict the branch list" } },
-        { "name": "Year", "description": { "fr": "Filtrer par année", "en": "Filter by year" } }
+        {
+          "name": "Région",
+          "description": { "fr": "Filtrer par région", "en": "Filter by region" }
+        },
+        {
+          "name": "Pays",
+          "description": { "fr": "Filtrer par pays", "en": "Filter by country" }
+        }
       ],
       "howToRead": {
-        "fr": "Chaque ligne correspond à une agence de la filiale sélectionnée. Chaque colonne correspond à un jour du mois courant. Trois valeurs sont affichées par cellule : l'Échéance attendue (LC), l'Échéance impayée (LC) et l'Installment overdue ratio (%). Le code couleur vert/orange/rouge permet d'identifier les agences en difficulté et de cibler les actions de recouvrement au bon niveau.",
-        "en": "Each row corresponds to a branch of the selected subsidiary. Each column corresponds to a day of the current month. Three values are displayed per cell: Expected installment (LC), Overdue installment (LC) and Installment overdue ratio (%). The green/orange/red color coding identifies struggling branches and targets collection actions at the right level."
+        "fr": "Chaque cellule représente une agence. La couleur indique le niveau de performance. Rouge = attention requise, Vert = bonne performance. Cliquez pour le détail.",
+        "en": "Each cell represents a branch. Color indicates performance level. Red = attention required, Green = good performance. Click for details."
       },
       "colorCoding": {
-        "fr": "Vert : faible taux d'impayés. Orange : taux intermédiaire. Rouge : forte proportion d'impayés (situation critique).",
-        "en": "Green: low overdue rate. Orange: intermediate rate. Red: high overdue proportion (critical situation)."
+        "green": { "fr": "Performance élevée", "en": "High performance" },
+        "yellow": { "fr": "Performance moyenne", "en": "Average performance" },
+        "red": { "fr": "Performance faible", "en": "Low performance" }
       }
     },
     {
       "id": "category-desc",
       "name": { "fr": "CategoryDesc", "en": "CategoryDesc" },
       "screenshot": "Assets/Images/installment-tracker/viz-categoryDesc.png",
-      "description": {
-        "fr": "Matrice de suivi des impayés par produit de crédit pour chaque jour du mois. Même logique que Region et BranchDesc, au niveau produit.",
-        "en": "Overdue tracking matrix by credit product for each day of the month. Same logic as Region and BranchDesc, at product level."
+      "objective": {
+        "fr": "Analyser les performances par catégorie de produit et segment client.",
+        "en": "Analyze performance by product category and customer segment."
       },
-      "kpisUsed": ["Échéance attendue (LC)", "Échéance impayée (LC)", "Installment overdue ratio (%)"],
+      "kpisUsed": ["Échéances en Retard", "Taux de Non-Règlement"],
       "filters": [
-        { "name": "Pays", "description": { "fr": "Sélectionner la filiale via les drapeaux en haut de page", "en": "Select the subsidiary via the flags at the top of the page" } },
-        { "name": "Month-Year", "description": { "fr": "Sélectionner le mois à analyser", "en": "Select the month to analyze" } },
-        { "name": "Region", "description": { "fr": "Filtrer par zone régionale", "en": "Filter by geographic zone" } },
-        { "name": "Year", "description": { "fr": "Filtrer par année", "en": "Filter by year" } }
+        {
+          "name": "Segment",
+          "description": { "fr": "Filtrer par segment client", "en": "Filter by customer segment" }
+        },
+        {
+          "name": "Produit",
+          "description": { "fr": "Filtrer par type de produit", "en": "Filter by product type" }
+        }
       ],
       "howToRead": {
-        "fr": "Chaque ligne correspond à un type de produit de crédit (BIZ'NESS Loan, HABITAT, CREDIT AGRI, etc.). Chaque colonne correspond à un jour du mois courant. L'Installment overdue ratio (%) est affiché par cellule avec le code couleur vert/orange/rouge. Cette vue permet d'identifier les produits qui concentrent les impayés et d'adapter les stratégies de recouvrement par type de crédit.",
-        "en": "Each row corresponds to a credit product type (BIZ'NESS Loan, HABITAT, CREDIT AGRI, etc.). Each column corresponds to a day of the current month. The Installment overdue ratio (%) is displayed per cell with green/orange/red color coding. This view identifies which products concentrate overdue and enables adaptation of collection strategies by loan type."
+        "fr": "Analysez les performances par catégorie de produit. Identifiez les segments ou produits avec les taux d'impayés les plus élevés pour cibler les actions.",
+        "en": "Analyze performance by product category. Identify segments or products with highest default rates to target actions."
       },
       "colorCoding": {
-        "fr": "Vert : faible taux d'impayés. Orange : taux intermédiaire. Rouge : forte proportion d'impayés (situation critique).",
-        "en": "Green: low overdue rate. Orange: intermediate rate. Red: high overdue proportion (critical situation)."
+        "green": { "fr": "< 10%", "en": "< 10%" },
+        "yellow": { "fr": "10-20%", "en": "10-20%" },
+        "red": { "fr": "> 20%", "en": "> 20%" }
       }
     },
     {
       "id": "installment-overdue-ratio",
       "name": { "fr": "Installment Overdue Ratio", "en": "Installment Overdue Ratio" },
       "screenshot": "Assets/Images/installment-tracker/instoverdueRatio.png",
-      "description": {
-        "fr": "Suivi de l'évolution du taux d'impayés dans le temps, permettant de détecter des tendances de dégradation ou d'amélioration de la qualité du portefeuille.",
-        "en": "Tracking of overdue ratio evolution over time, enabling detection of portfolio quality deterioration or improvement trends."
+      "objective": {
+        "fr": "Suivre l'évolution du taux d'impayés dans le temps.",
+        "en": "Track overdue rate evolution over time."
       },
-      "kpisUsed": ["Installment overdue ratio (%)"],
+      "kpisUsed": ["Taux de Non-Règlement"],
       "filters": [
-        { "name": "Période", "description": { "fr": "Sélectionner la plage de dates à analyser", "en": "Select the date range to analyze" } },
-        { "name": "Pays", "description": { "fr": "Comparer par filiale", "en": "Compare by subsidiary" } }
+        {
+          "name": "Période",
+          "description": { "fr": "Sélectionner la plage de dates", "en": "Select date range" }
+        },
+        {
+          "name": "Pays",
+          "description": { "fr": "Comparer par pays", "en": "Compare by country" }
+        }
       ],
       "howToRead": {
-        "fr": "La courbe montre l'évolution du taux d'impayés (Installment overdue ratio %) au fil du temps. Une tendance à la hausse indique une dégradation de la qualité du portefeuille. Comparez les trajectoires entre filiales pour identifier celles qui s'écartent de la tendance groupe.",
-        "en": "The curve shows the evolution of the overdue ratio (Installment overdue ratio %) over time. An upward trend indicates portfolio quality degradation. Compare trajectories across subsidiaries to identify those deviating from the group trend."
+        "fr": "La ligne montre l'évolution du taux d'impayés. Une tendance à la hausse indique une dégradation de la qualité du portefeuille. Comparez avec les périodes précédentes.",
+        "en": "Line shows overdue rate evolution. An upward trend indicates portfolio quality degradation. Compare with previous periods."
       },
       "colorCoding": null
     },
@@ -178,19 +217,28 @@
       "id": "customer-details",
       "name": { "fr": "Customer Details", "en": "Customer Details" },
       "screenshot": "Assets/Images/installment-tracker/viz-customerDetails.png",
-      "description": {
-        "fr": "Tableau listant le détail des contrats avec des échéances en retard, pour cibler les actions de suivi par agence ou gestionnaire de portefeuille.",
-        "en": "Table listing the detail of contracts with overdue installments, to target follow-up actions by branch or portfolio manager."
+      "objective": {
+        "fr": "Accéder aux informations détaillées au niveau client pour les actions de recouvrement.",
+        "en": "Access detailed customer-level information for collection actions."
       },
-      "kpisUsed": ["Échéance attendue", "Montant impayé", "Liquidation Ratio"],
+      "kpisUsed": ["Liquidation Ratio"],
       "filters": [
-        { "name": "Statut", "description": { "fr": "Filtrer par statut de paiement", "en": "Filter by payment status" } },
-        { "name": "Agence", "description": { "fr": "Filtrer par agence", "en": "Filter by branch" } },
-        { "name": "DAO", "description": { "fr": "Filtrer par gestionnaire de portefeuille", "en": "Filter by portfolio manager" } }
+        {
+          "name": "Statut",
+          "description": { "fr": "Filtrer par statut de paiement", "en": "Filter by payment status" }
+        },
+        {
+          "name": "Agence",
+          "description": { "fr": "Filtrer par agence", "en": "Filter by branch" }
+        },
+        {
+          "name": "DAO",
+          "description": { "fr": "Filtrer par gestionnaire de portefeuille", "en": "Filter by portfolio manager" }
+        }
       ],
       "howToRead": {
-        "fr": "Chaque ligne correspond à un contrat actif avec au moins une échéance en retard. Le tableau présente les identifiants du client et du contrat, les dates clés (date d'échéance, jours de retard) et le montant en jeu. Utilisez les filtres agence ou DAO pour cibler les clients à contacter en priorité et préparer les actions de recouvrement.",
-        "en": "Each row corresponds to an active contract with at least one overdue installment. The table shows client and contract identifiers, key dates (due date, days overdue) and the amount at stake. Use the branch or DAO filters to target priority customers to contact and prepare collection actions."
+        "fr": "Ce tableau liste les clients avec leurs détails. Utilisez les filtres pour identifier les clients à contacter. Le ratio de liquidation indique l'avancement du remboursement du prêt.",
+        "en": "This table lists customers with their details. Use filters to identify customers to contact. Liquidation ratio indicates loan repayment progress."
       },
       "colorCoding": null
     }
