@@ -1,1 +1,46 @@
-{ "modelId": "collateral-loans", "steps": [], "schedule": { "fr": "", "en": "" }, "notes": { "fr": "", "en": "" } }
+{
+  "modelId": "collateral-loans",
+  "frequency": "monthly",
+  "schedule": {
+    "fr": "Mise à jour mensuelle (M+1), après réception des fichiers CSV collatéraux de chaque filiale.",
+    "en": "Monthly update (M+1), after receipt of collateral CSV files from each subsidiary."
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparation des fichiers CSV collatéraux", "en": "Collateral CSV file preparation" },
+      "description": {
+        "fr": "Récupérer les 7 fichiers CSV collatéraux (MCBF, MCCI, MCDC, MCMG, MCML, MCNG, MCSN) correspondant au mois de reporting. S'assurer que tous les fichiers ont la même date de reporting.",
+        "en": "Retrieve the 7 collateral CSV files (MCBF, MCCI, MCDC, MCMG, MCML, MCNG, MCSN) for the reporting month. Ensure all files have the same reporting date."
+      }
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configuration des sources (1ère utilisation)", "en": "Source configuration (first use)" },
+      "description": {
+        "fr": "Mettre à jour les chemins de sources dans Power Query pour les 7 fichiers CSV.",
+        "en": "Update source paths in Power Query for the 7 CSV files."
+      }
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualisation du modèle", "en": "Model refresh" },
+      "description": {
+        "fr": "Home → Refresh. Vérifier l'absence d'erreurs sur chaque table.",
+        "en": "Home → Refresh. Check for absence of errors on each table."
+      }
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Validation et publication", "en": "Validation and publication" },
+      "description": {
+        "fr": "Vérifier : totaux GLP secured/unsecured cohérents avec le rapport mensuel portefeuille ; présence des 7 filiales. Publier vers Microsoft Fabric.",
+        "en": "Verify: secured/unsecured GLP totals consistent with the monthly portfolio report; all 7 subsidiaries present. Publish to Microsoft Fabric."
+      }
+    }
+  ],
+  "contacts": {
+    "fr": "Pour toute anomalie sur les données, contacter l'équipe Risk Analytics.",
+    "en": "For any data anomaly, contact the Risk Analytics team."
+  }
+}

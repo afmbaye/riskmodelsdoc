@@ -89,10 +89,10 @@
       "name": { "fr": "Subsidiaries", "en": "Subsidiaries" },
       "screenshot": "Assets/Images/installment-tracker/viz-subsidiaries.png",
       "objective": {
-        "fr": "Analyser en détail les performances de chaque filiale avec possibilité de drill-down.",
-        "en": "Analyze each subsidiary's performance in detail with drill-down capability."
+        "fr": "Vue matricielle des échéances par filiale et par date d'échéance : montants attendus, impayés et ratio d'impayés. Inclut une vue temporelle comparant le mois courant au mois précédent.",
+        "en": "Matrix view of installments by subsidiary and due date: expected amounts, overdue and overdue ratio. Includes a timeline view comparing current month to prior month."
       },
-      "kpisUsed": ["Taux de Règlement", "Échéances en Retard"],
+      "kpisUsed": ["Échéance Attendue", "Échéance en Retard", "Taux de Non-Règlement", "Taux de Règlement"],
       "filters": [
         {
           "name": "Filiale",
@@ -100,10 +100,13 @@
         }
       ],
       "howToRead": {
-        "fr": "Sélectionnez une filiale pour voir ses détails. La carte montre la localisation. Les graphiques montrent l'évolution des performances dans le temps.",
-        "en": "Select a subsidiary to see details. Map shows location. Charts show performance evolution over time."
+        "fr": "Les colonnes représentent les dates d'échéance et les lignes les pays/filiales. Les cellules affichent le montant attendu, les impayés et le ratio d'impayé. Les boîtes rouges signalent les week-ends — des paiements y arrivent quand même, ce qui est normal. La vue temporelle passe en rouge lorsque le mois courant se dégrade par rapport au mois précédent.",
+        "en": "Columns represent due dates and rows represent countries/subsidiaries. Cells show expected amount, overdue installments and overdue ratio. Red boxes highlight weekends — payments still arrive then, which is normal. The timeline view turns red when the current month deteriorates compared to the prior month."
       },
-      "colorCoding": null
+      "colorCoding": {
+        "fr": "Rouge : dégradation vs mois précédent ou date de week-end. Les week-ends sont normalement marqués en rouge mais des paiements y sont tout de même attendus.",
+        "en": "Red: deterioration vs prior month or weekend date. Weekends are normally marked red but payments are still expected on those dates."
+      }
     },
     {
       "id": "region",

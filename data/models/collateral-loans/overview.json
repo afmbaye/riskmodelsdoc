@@ -2,11 +2,87 @@
   "modelId": "collateral-loans",
   "name": { "fr": "Collateral Loans", "en": "Collateral Loans" },
   "description": {
-    "fr": "Suivi mensuel des garanties clients par filiale : nature des collatéraux, couverture du portefeuille et exposition non couverte.",
-    "en": "Monthly monitoring of client collaterals by subsidiary: collateral type, portfolio coverage and uncovered exposure."
+    "fr": "Suivi mensuel des garanties clients par filiale : nature des collatéraux, couverture du portefeuille par valeur d'exécution, et exposition non garantie. Permet d'évaluer la protection réelle du portefeuille en cas de défaut.",
+    "en": "Monthly monitoring of client collaterals by subsidiary: collateral type, portfolio coverage by execution value, and uncovered exposure. Enables assessment of real portfolio protection in case of default."
   },
   "lastUpdate": "",
-  "stats": [],
-  "useCase": { "fr": "", "en": "" },
-  "tabs": []
+  "stats": [
+    { "label": { "fr": "Onglets", "en": "Tabs" }, "value": "5" },
+    { "label": { "fr": "Pays couverts", "en": "Countries covered" }, "value": "7" },
+    { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
+  ],
+  "useCase": {
+    "fr": "Évaluer la couverture collatérale du portefeuille, identifier les filiales les plus exposées sans garantie et analyser les réalisations de collatéraux (ventes forcées).",
+    "en": "Assess portfolio collateral coverage, identify subsidiaries most exposed without collateral, and analyse collateral realisations (forced sales)."
+  },
+  "definitions": [
+    {
+      "term": "Execution Value",
+      "definition": {
+        "fr": "Valeur réelle estimée du collatéral (valeur d'exécution), distincte de la valeur nominale déclarée.",
+        "en": "Real assessed value of the collateral (execution value), distinct from the declared nominal value."
+      }
+    },
+    {
+      "term": "Secured collateral",
+      "definition": {
+        "fr": "Véhicules et immobilier.",
+        "en": "Vehicles and real estate."
+      }
+    },
+    {
+      "term": "Unsecured collateral",
+      "definition": {
+        "fr": "Biens mobiliers, cautions, dépôts à terme, actifs commerciaux, équipements professionnels, stocks.",
+        "en": "Movable property, guarantees, term deposits, business assets, professional equipment, stock."
+      }
+    }
+  ],
+  "tabs": [
+    {
+      "id": "collateral-glp",
+      "name": { "fr": "Collateral GLP", "en": "Collateral GLP" },
+      "description": {
+        "fr": "GLP par filiale ventilé par niveau de couverture collatérale (Execution Value / GLP). Distingue les clients avec collatéral garanti vs non garanti. Niveau groupe : ~38% garanti, ~62% non garanti ; Nigeria ~87% garanti ; Sénégal ~16% garanti.",
+        "en": "GLP by subsidiary broken down by collateral coverage level (Execution Value / GLP). Distinguishes customers with secured vs unsecured collateral. Group level: ~38% secured, ~62% unsecured; Nigeria ~87% secured; Senegal ~16% secured."
+      },
+      "screenshot": "Assets/Images/collateral-loans/collateral-glp.png"
+    },
+    {
+      "id": "collateral-disbursement",
+      "name": { "fr": "Collateral Disbursement", "en": "Collateral Disbursement" },
+      "description": {
+        "fr": "Même logique que l'onglet Collateral GLP mais focalisé sur les montants décaissés. Permet de comparer la couverture collatérale des nouvelles originations versus l'encours existant.",
+        "en": "Same logic as the Collateral GLP tab but focused on disbursement amounts. Enables comparison of collateral coverage for new originations versus existing outstanding."
+      },
+      "screenshot": "Assets/Images/collateral-loans/collateral-disbursement.png"
+    },
+    {
+      "id": "secured-status",
+      "name": { "fr": "Secured Status GLP & Disbursement", "en": "Secured Status GLP & Disbursement" },
+      "description": {
+        "fr": "GLP et décaissements par type de statut garanti (secured vs unsecured), ventilés par filiale. Vue comparative permettant d'identifier les filiales les plus et les moins couvertes.",
+        "en": "GLP and disbursements by secured status type (secured vs unsecured), broken down by subsidiary. Comparative view to identify the most and least covered subsidiaries."
+      },
+      "screenshot": "Assets/Images/collateral-loans/secured-status.png"
+    },
+    {
+      "id": "collateral-description",
+      "name": { "fr": "Collateral Description GLP & Disbursement", "en": "Collateral Description GLP & Disbursement" },
+      "description": {
+        "fr": "GLP et décaissements par type de collatéral (immobilier, véhicules, biens mobiliers, cautions, dépôts à terme, actifs commerciaux, équipements professionnels, stocks), ventilés par filiale.",
+        "en": "GLP and disbursements by collateral type (real estate, vehicles, movable property, guarantees, term deposits, business assets, professional equipment, stock), broken down by subsidiary."
+      },
+      "screenshot": "Assets/Images/collateral-loans/collateral-description.png"
+    },
+    {
+      "id": "settled-collateral",
+      "name": { "fr": "Settled Collateral", "en": "Settled Collateral" },
+      "description": {
+        "fr": "Liste des collatéraux réalisés (vendus ou saisis) par filiale. Colonnes : numéro client, nom client, code pays, description collatéral, montant décaissé, GLP, valeur d'exécution, volume vendu, vendu/exécution, vendu/GLP. Actuellement très peu de collatéraux réalisés au niveau groupe.",
+        "en": "List of collaterals sold or realised by subsidiary. Columns: client number, client name, country code, collateral description, disbursement amount, GLP, execution value, sold volume, sold vs execution, sold vs GLP. Currently very few collaterals realised at group level."
+      },
+      "screenshot": "Assets/Images/collateral-loans/settled-collateral.png"
+    }
+  ]
 }

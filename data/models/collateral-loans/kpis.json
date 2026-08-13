@@ -1,1 +1,49 @@
-{ "modelId": "collateral-loans", "kpis": [] }
+{
+  "modelId": "collateral-loans",
+  "kpis": [
+    {
+      "id": "glp-by-collateral-coverage",
+      "name": { "fr": "GLP par couverture collatérale", "en": "GLP by Collateral Coverage" },
+      "description": {
+        "fr": "GLP ventilé selon le ratio Execution Value / GLP, indiquant le niveau de couverture réelle par les garanties.",
+        "en": "GLP broken down by the Execution Value / GLP ratio, indicating the real coverage level by collateral."
+      },
+      "formula": "GLP grouped by (Execution Value / GLP) coverage bucket",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "secured-glp-pct",
+      "name": { "fr": "GLP Garanti (%)", "en": "Secured GLP (%)" },
+      "description": {
+        "fr": "Part du GLP couverte par un collatéral garanti (véhicules ou immobilier) sur le GLP total. Groupe : ~38%, Nigeria : ~87%, Sénégal : ~16%.",
+        "en": "Share of GLP covered by secured collateral (vehicles or real estate) over total GLP. Group: ~38%, Nigeria: ~87%, Senegal: ~16%."
+      },
+      "formula": "Secured GLP / Total GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "sold-vs-execution",
+      "name": { "fr": "Vendu / Valeur d'exécution", "en": "Sold vs Execution Value" },
+      "description": {
+        "fr": "Rapport entre le montant effectivement récupéré lors de la réalisation d'un collatéral et sa valeur d'exécution estimée.",
+        "en": "Ratio between the amount actually recovered during collateral realisation and its estimated execution value."
+      },
+      "formula": "Sold Volume / Execution Value",
+      "unit": "%",
+      "frequency": "event-based"
+    },
+    {
+      "id": "sold-vs-glp",
+      "name": { "fr": "Vendu / GLP", "en": "Sold vs GLP" },
+      "description": {
+        "fr": "Rapport entre le montant effectivement récupéré lors de la réalisation d'un collatéral et le GLP du contrat concerné.",
+        "en": "Ratio between the amount actually recovered during collateral realisation and the GLP of the related contract."
+      },
+      "formula": "Sold Volume / Contract GLP",
+      "unit": "%",
+      "frequency": "event-based"
+    }
+  ]
+}

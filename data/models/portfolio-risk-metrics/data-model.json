@@ -1,1 +1,39 @@
-{ "modelId": "portfolio-risk-metrics", "tables": [] }
+{
+  "modelId": "portfolio-risk-metrics",
+  "tables": [
+    {
+      "name": "Consolide",
+      "description": {
+        "fr": "Table de faits principale : encours par contrat, statut PAR, décaissements, radiations, recouvrements. Export mensuel consolidé de toutes les filiales.",
+        "en": "Main fact table: outstanding by contract, PAR status, disbursements, write-offs, recoveries. Monthly consolidated export from all subsidiaries."
+      },
+      "columns": [
+        { "name": "ContractNumber", "type": "string", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+        { "name": "Company", "type": "string", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+        { "name": "GLP_Current_Month_Euro", "type": "decimal", "description": { "fr": "Encours brut mois courant (€)", "en": "Gross loan portfolio current month (€)" } },
+        { "name": "ParType_Current_Month", "type": "string", "description": { "fr": "Catégorie PAR mois courant", "en": "PAR category current month" } },
+        { "name": "DisbursementAmountEuro", "type": "decimal", "description": { "fr": "Montant décaissé (€)", "en": "Disbursement amount (€)" } },
+        { "name": "New_Segment", "type": "string", "description": { "fr": "Segment client (Nano, VSE, SE, SME/SME+)", "en": "Client segment (Nano, VSE, SE, SME/SME+)" } },
+        { "name": "ProductDescription", "type": "string", "description": { "fr": "Description produit (ALIP, TAKA, AGRI, InFine)", "en": "Product description (ALIP, TAKA, AGRI, InFine)" } },
+        { "name": "BranchDescription", "type": "string", "description": { "fr": "Description agence", "en": "Branch description" } },
+        { "name": "Current_Date", "type": "date", "description": { "fr": "Date de reporting", "en": "Reporting date" } }
+      ]
+    },
+    {
+      "name": "MCR-WOF",
+      "description": {
+        "fr": "Table des radiations : montants radiés par contrat, avec dates et montants principal.",
+        "en": "Write-off table: written-off amounts by contract, with dates and principal amounts."
+      },
+      "columns": [
+        { "name": "ContractNumber", "type": "string", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+        { "name": "Total_Amount_WOEuro", "type": "decimal", "description": { "fr": "Montant total radié (€)", "en": "Total write-off amount (€)" } },
+        { "name": "DateWOF", "type": "date", "description": { "fr": "Date de radiation", "en": "Write-off date" } }
+      ]
+    }
+  ],
+  "dataSource": {
+    "fr": "Export mensuel consolidé du système de gestion des prêts (LMS/T24), fourni par chaque filiale et consolidé par l'équipe Risk Analytics.",
+    "en": "Monthly consolidated export from the Loan Management System (LMS/T24), provided by each subsidiary and consolidated by the Risk Analytics team."
+  }
+}

@@ -1,1 +1,71 @@
-{ "modelId": "sector-analysis", "kpis": [] }
+{
+  "modelId": "sector-analysis",
+  "kpis": [
+    {
+      "id": "glp-eur",
+      "name": { "fr": "GLP EUR", "en": "GLP EUR" },
+      "description": {
+        "fr": "Encours brut de crédit par secteur, exprimé en euros.",
+        "en": "Gross loan portfolio by sector, expressed in euros."
+      },
+      "formula": "SUM(GLP_EUR) by sector",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "glp-pct",
+      "name": { "fr": "GLP (%)", "en": "GLP (%)" },
+      "description": {
+        "fr": "Part du GLP sectoriel dans le GLP total du portefeuille.",
+        "en": "Sectoral GLP share in total portfolio GLP."
+      },
+      "formula": "Sector GLP / Total GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par0-volume",
+      "name": { "fr": "PAR 0 Volume", "en": "PAR 0 Volume" },
+      "description": {
+        "fr": "GLP des contrats en retard d'au moins 1 jour, par secteur.",
+        "en": "GLP of contracts at least 1 day overdue, by sector."
+      },
+      "formula": "SUM(GLP) WHERE overdue_days >= 1 AND sector = X",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "write-off-volume",
+      "name": { "fr": "Volume de radiations", "en": "Write-Off Volume" },
+      "description": {
+        "fr": "Montant des créances radiées par secteur sur la période.",
+        "en": "Amount of receivables written off by sector during the period."
+      },
+      "formula": "SUM(WriteOffAmount) by sector",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "healthy-pct",
+      "name": { "fr": "Healthy (%)", "en": "Healthy (%)" },
+      "description": {
+        "fr": "Part du GLP sectoriel sans aucun jour de retard.",
+        "en": "Share of sectoral GLP with no overdue days."
+      },
+      "formula": "GLP healthy / Sector GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par-bucket-breakdown",
+      "name": { "fr": "Répartition par bucket de délinquance", "en": "Delinquency Bucket Breakdown" },
+      "description": {
+        "fr": "Répartition du GLP sectoriel par tranche de retard : Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180.",
+        "en": "Sectoral GLP breakdown by overdue bucket: Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180."
+      },
+      "formula": "GLP by (overdue_days bucket) / Sector GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    }
+  ]
+}

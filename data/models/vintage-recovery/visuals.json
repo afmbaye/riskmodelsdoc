@@ -65,8 +65,8 @@
         }
       ],
       "howToRead": {
-        "fr": "Cette vue est le pendant en pourcentage de la matrice précédente : les montants absolus sont remplacés par la part de chaque cohorte dans le total récupéré du mois. Pour un mois de recouvrement donné, chaque cellule indique ainsi quelle proportion du Recovered (€) provient de chaque vintage de radiation.",
-        "en": "This view is the percentage counterpart of the previous matrix: absolute amounts are replaced by each cohort's share of the month's total recovered. For a given recovery month, each cell thus indicates what proportion of the Recovered (€) comes from each write-off vintage."
+        "fr": "Cette vue est le pendant en pourcentage de la matrice précédente : les montants absolus sont remplacés par la part de chaque cohorte dans le total récupéré du mois. Pour un mois de recouvrement donné, chaque cellule indique ainsi quelle proportion du Recovered (€) provient de chaque vintage de radiation. Les taux de recouvrement sont généralement plus réactifs sur les radiations récentes (taux élevés) que sur les anciennes radiations (taux faibles, reflétant la difficulté de recouvrer longtemps après la radiation). Les radiations plus anciennes affichent des taux cumulés plus élevés mais une réactivité mensuelle moindre.",
+        "en": "This view is the percentage counterpart of the previous matrix: absolute amounts are replaced by each cohort's share of the month's total recovered. For a given recovery month, each cell thus indicates what proportion of the Recovered (€) comes from each write-off vintage. Recovery rates are generally more reactive for recent write-offs (higher rates) than for older ones (lower rates, reflecting the difficulty of recovering long after write-off). Older write-offs show higher cumulative rates but lower monthly reactivity."
       },
       "colorCoding": {
         "fr": "Plus la cellule tire vers le orange, plus le taux récupéré est important sur ce mois de radiation; plus elle tire vers le vert, plus le taux est faible. ",

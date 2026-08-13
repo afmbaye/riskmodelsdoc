@@ -1,1 +1,115 @@
-{ "modelId": "portfolio-risk-metrics", "kpis": [] }
+{
+  "modelId": "portfolio-risk-metrics",
+  "kpis": [
+    {
+      "id": "entry-rate",
+      "name": { "fr": "Entry Rate", "en": "Entry Rate" },
+      "description": {
+        "fr": "Taux d'entrée en retard : proportion de clients sains au mois précédent qui enregistrent un premier jour de retard au mois courant.",
+        "en": "Delinquency entry rate: proportion of healthy customers in the prior month recording a first day of overdue in the current month."
+      },
+      "formula": "New PAR 0 / GLP Healthy Previous Month",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par0",
+      "name": { "fr": "PAR0", "en": "PAR0" },
+      "description": {
+        "fr": "Encours brut à risque (GLP) de tous les contrats présentant au moins 1 jour de retard, rapporté au GLP total.",
+        "en": "Gross loan portfolio (GLP) of all contracts with at least 1 day overdue, relative to total GLP."
+      },
+      "formula": "GLP overdue ≥ 1 day / Total GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par30",
+      "name": { "fr": "PAR30", "en": "PAR30" },
+      "description": {
+        "fr": "GLP de tous les contrats présentant plus de 30 jours de retard, rapporté au GLP total.",
+        "en": "GLP of all contracts with more than 30 days overdue, relative to total GLP."
+      },
+      "formula": "GLP overdue > 30 days / Total GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par30-12mnwo",
+      "name": { "fr": "PAR30+12mNWO", "en": "PAR30+12mNWO" },
+      "description": {
+        "fr": "PAR30 augmenté des crédits radiés au cours des 12 derniers mois (12 months Net Write-Off). Évite que les radiations récentes ne fassent artificiellement baisser le PAR30.",
+        "en": "PAR30 including loans written off in the last 12 months (12 months Net Write-Off). Prevents recent write-offs from artificially reducing the PAR30."
+      },
+      "formula": "(GLP overdue > 30 days + WO last 12m) / (Total GLP + WO last 12m)",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par90",
+      "name": { "fr": "PAR90", "en": "PAR90" },
+      "description": {
+        "fr": "GLP de tous les contrats présentant plus de 90 jours de retard, rapporté au GLP total. Indicateur avancé de risque de radiation.",
+        "en": "GLP of all contracts with more than 90 days overdue, relative to total GLP. Advanced indicator of write-off risk."
+      },
+      "formula": "GLP overdue > 90 days / Total GLP",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par90-12mnwo",
+      "name": { "fr": "PAR90+12mNWO", "en": "PAR90+12mNWO" },
+      "description": {
+        "fr": "PAR90 augmenté des crédits radiés au cours des 12 derniers mois.",
+        "en": "PAR90 including loans written off in the last 12 months."
+      },
+      "formula": "(GLP overdue > 90 days + WO last 12m) / (Total GLP + WO last 12m)",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "write-offs",
+      "name": { "fr": "Radiations", "en": "Write-offs" },
+      "description": {
+        "fr": "Montant des créances passées en perte sur la période (radiation du bilan).",
+        "en": "Amount of receivables written off during the period (removed from the balance sheet)."
+      },
+      "formula": "SUM(Write-off Amount)",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "recoveries",
+      "name": { "fr": "Recouvrements", "en": "Recoveries" },
+      "description": {
+        "fr": "Montants récupérés sur des créances précédemment radiées.",
+        "en": "Amounts recovered on previously written-off receivables."
+      },
+      "formula": "SUM(Recovery Amount)",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "net-write-offs",
+      "name": { "fr": "Radiations nettes", "en": "Net write-offs" },
+      "description": {
+        "fr": "Radiations moins recouvrements. Représente la perte nette effective sur la période.",
+        "en": "Write-offs minus recoveries. Represents the effective net loss for the period."
+      },
+      "formula": "Write-offs - Recoveries",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "recovery-rate",
+      "name": { "fr": "Recovery Rate", "en": "Recovery Rate" },
+      "description": {
+        "fr": "Taux de recouvrement sur les créances radiées.",
+        "en": "Recovery rate on written-off receivables."
+      },
+      "formula": "Recoveries / Write-offs",
+      "unit": "%",
+      "frequency": "monthly"
+    }
+  ]
+}

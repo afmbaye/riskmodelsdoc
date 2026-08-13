@@ -2,24 +2,35 @@
   "modelId": "vintage-ld-wo",
   "kpis": [
     {
-      "id": "late-days-cumul-pct",
-      "name": { "fr": "Late Days Cumulés (%)", "en": "Cumulative Late Days (%)" },
+      "id": "par0-cohort",
+      "name": { "fr": "PAR 0 Cohorte (%)", "en": "Cohort PAR 0 (%)" },
       "description": {
-        "fr": "Nombre cumulé de jours de retard rapporté au nombre théorique de jours d'une cohorte depuis son décaissement, exprimé en pourcentage.",
-        "en": "Cumulative count of late days relative to the theoretical number of days for a cohort since disbursement, expressed as a percentage."
+        "fr": "GLP en retard d'au moins 1 jour de la cohorte, rapporté au montant total décaissé lors du lancement de cette cohorte.",
+        "en": "GLP overdue by at least 1 day for the cohort, relative to the total disbursed amount at cohort launch."
       },
-      "formula": "SUM(Late Days) / SUM(Theoretical Days) * 100",
+      "formula": "GLP overdue ≥ 1 day (cohort) / Disbursement Amount (cohort)",
       "unit": "%",
       "frequency": "monthly"
     },
     {
-      "id": "write-off-cumul-pct",
-      "name": { "fr": "Write-Off Cumulé (%)", "en": "Cumulative Write-Off (%)" },
+      "id": "par30-cohort",
+      "name": { "fr": "PAR 30 Cohorte (%)", "en": "Cohort PAR 30 (%)" },
       "description": {
-        "fr": "Montant cumulé des radiations d'une cohorte rapporté au montant total décaissé lors du lancement de cette cohorte, exprimé en pourcentage.",
-        "en": "Cumulative write-off amount for a cohort relative to the total amount disbursed at cohort launch, expressed as a percentage."
+        "fr": "GLP en retard de plus de 30 jours de la cohorte, rapporté au montant total décaissé de cette cohorte.",
+        "en": "GLP overdue more than 30 days for the cohort, relative to the total disbursed amount of this cohort."
       },
-      "formula": "SUM(Write-Off Amount Cohort) / SUM(Disbursed Amount Cohort) * 100",
+      "formula": "GLP overdue > 30 days (cohort) / Disbursement Amount (cohort)",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "par90-cohort",
+      "name": { "fr": "PAR 90 Cohorte (%)", "en": "Cohort PAR 90 (%)" },
+      "description": {
+        "fr": "GLP en retard de plus de 90 jours de la cohorte, rapporté au montant total décaissé de cette cohorte.",
+        "en": "GLP overdue more than 90 days for the cohort, relative to the total disbursed amount of this cohort."
+      },
+      "formula": "GLP overdue > 90 days (cohort) / Disbursement Amount (cohort)",
       "unit": "%",
       "frequency": "monthly"
     },
@@ -27,12 +38,78 @@
       "id": "disbursed-amount-cohort",
       "name": { "fr": "Montant Décaissé Cohorte", "en": "Cohort Disbursed Amount" },
       "description": {
-        "fr": "Montant total décaissé lors du mois de naissance de la cohorte. Sert de base de normalisation pour les indicateurs exprimés en %.",
-        "en": "Total amount disbursed during the cohort's birth month. Used as normalisation base for % indicators."
+        "fr": "Montant total décaissé lors du mois de naissance de la cohorte. Sert de base de normalisation pour tous les indicateurs PAR exprimés en %.",
+        "en": "Total amount disbursed during the cohort's birth month. Used as normalisation base for all PAR indicators expressed as %."
       },
       "formula": "SUM(DisbursementAmount) WHERE DisbursementMonth = CohortMonth",
-      "unit": "€ (M)",
+      "unit": "EUR",
       "frequency": "cohort"
+    },
+    {
+      "id": "principal-lost",
+      "name": { "fr": "Principal Lost", "en": "Principal Lost" },
+      "description": {
+        "fr": "Montant du principal radié, hors pénalités et intérêts. Représente la perte brute avant recouvrement.",
+        "en": "Written-off principal amount, excluding penalties and interest. Represents the gross loss before recovery."
+      },
+      "formula": "SUM(WriteOffPrincipal) excluding penalties and interest",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "principal-recovery",
+      "name": { "fr": "Principal Recovery", "en": "Principal Recovery" },
+      "description": {
+        "fr": "Montant cumulé du principal récupéré depuis la date de radiation de la cohorte.",
+        "en": "Cumulative principal amount recovered since the cohort's write-off date."
+      },
+      "formula": "SUM(RecoveryAmount cumulative since WO date)",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "loss-on-wo",
+      "name": { "fr": "Loss on WO", "en": "Loss on WO" },
+      "description": {
+        "fr": "Perte nette après recouvrement : Principal Lost moins Principal Recovery.",
+        "en": "Net loss after recovery: Principal Lost minus Principal Recovery."
+      },
+      "formula": "Principal Lost - Principal Recovery",
+      "unit": "EUR",
+      "frequency": "monthly"
+    },
+    {
+      "id": "wo-on-disbursement",
+      "name": { "fr": "WO on Disbursement (%)", "en": "WO on Disbursement (%)" },
+      "description": {
+        "fr": "Part du principal perdu (hors recouvrement) rapportée au montant décaissé de la cohorte.",
+        "en": "Share of principal lost (before recovery) relative to the cohort's disbursed amount."
+      },
+      "formula": "Principal Lost / Disbursement Amount (cohort)",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "recovery-rate-on-wo",
+      "name": { "fr": "Recovery Rate on WO (%)", "en": "Recovery Rate on WO (%)" },
+      "description": {
+        "fr": "Taux de recouvrement cumulé sur les montants radiés : Recovered / Principal Lost. Reste généralement très faible, souvent inférieur à 50%.",
+        "en": "Cumulative recovery rate on written-off amounts: Recovered / Principal Lost. Generally remains very low, often below 50%."
+      },
+      "formula": "Principal Recovery / Principal Lost",
+      "unit": "%",
+      "frequency": "monthly"
+    },
+    {
+      "id": "loss-on-disbursement",
+      "name": { "fr": "Loss on Disbursement (%)", "en": "Loss on Disbursement (%)" },
+      "description": {
+        "fr": "Perte nette finale (après recouvrement) rapportée au montant décaissé initial de la cohorte. Indicateur de perte nette définitive.",
+        "en": "Final net loss (after recovery) relative to the cohort's initial disbursed amount. Indicator of definitive net loss."
+      },
+      "formula": "Loss on WO / Disbursement Amount (cohort)",
+      "unit": "%",
+      "frequency": "monthly"
     }
   ]
 }

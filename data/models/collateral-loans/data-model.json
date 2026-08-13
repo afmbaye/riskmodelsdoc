@@ -1,1 +1,25 @@
-{ "modelId": "collateral-loans", "tables": [] }
+{
+  "modelId": "collateral-loans",
+  "tables": [
+    {
+      "name": "Collateral",
+      "description": {
+        "fr": "Table de faits des collatéraux : un enregistrement par collatéral associé à un contrat de prêt actif ou radié.",
+        "en": "Collateral fact table: one record per collateral associated with an active or written-off loan contract."
+      },
+      "columns": [
+        { "name": "ContractNumber", "type": "string", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+        { "name": "ClientNumber", "type": "string", "description": { "fr": "Numéro client", "en": "Client number" } },
+        { "name": "Company", "type": "string", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+        { "name": "CollateralDescription", "type": "string", "description": { "fr": "Description du collatéral (type)", "en": "Collateral description (type)" } },
+        { "name": "ExecutionValueEUR", "type": "decimal", "description": { "fr": "Valeur d'exécution estimée (€)", "en": "Estimated execution value (€)" } },
+        { "name": "SecuredStatus", "type": "string", "description": { "fr": "Statut : Secured (véhicules/immobilier) ou Unsecured", "en": "Status: Secured (vehicles/real estate) or Unsecured" } },
+        { "name": "SoldVolume", "type": "decimal", "description": { "fr": "Montant réalisé lors de la vente (collatéraux settled uniquement)", "en": "Amount realised on sale (settled collaterals only)" } }
+      ]
+    }
+  ],
+  "dataSource": {
+    "fr": "Fichiers CSV mensuels par filiale (une par pays : MCBF, MCCI, MCDC, MCMG, MCML, MCNG, MCSN). Consolidés par l'équipe Risk Analytics.",
+    "en": "Monthly CSV files by subsidiary (one per country: MCBF, MCCI, MCDC, MCMG, MCML, MCNG, MCSN). Consolidated by the Risk Analytics team."
+  }
+}

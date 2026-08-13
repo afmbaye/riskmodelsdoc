@@ -1,1 +1,25 @@
-{ "modelId": "sector-analysis", "tables": [] }
+{
+  "modelId": "sector-analysis",
+  "tables": [
+    {
+      "name": "Consolide",
+      "description": {
+        "fr": "Table de faits principale : encours par contrat avec secteur d'activité, statut PAR et montant radié. Export mensuel consolidé de toutes les filiales.",
+        "en": "Main fact table: outstanding by contract with business sector, PAR status and write-off amount. Monthly consolidated export from all subsidiaries."
+      },
+      "columns": [
+        { "name": "ContractNumber", "type": "string", "description": { "fr": "Numéro de contrat", "en": "Contract number" } },
+        { "name": "Company", "type": "string", "description": { "fr": "Code filiale", "en": "Subsidiary code" } },
+        { "name": "GLP_Current_Month_Euro", "type": "decimal", "description": { "fr": "Encours brut mois courant (€)", "en": "Gross loan portfolio current month (€)" } },
+        { "name": "ParType_Current_Month", "type": "string", "description": { "fr": "Catégorie PAR mois courant (Healthy, PAR 1-30, ...)", "en": "PAR category current month (Healthy, PAR 1-30, ...)" } },
+        { "name": "SectorLevel1", "type": "string", "description": { "fr": "Secteur niveau 1 (Primaire, Secondaire, Tertiaire, Staff, Sans activité)", "en": "Sector level 1 (Primary, Secondary, Tertiary, Staff, No Activities)" } },
+        { "name": "SectorLevel2", "type": "string", "description": { "fr": "Sous-secteur (Commerce, Transport, Agriculture, etc.)", "en": "Sub-sector (Trade, Transport, Agriculture, etc.)" } },
+        { "name": "Current_Date", "type": "date", "description": { "fr": "Date de reporting", "en": "Reporting date" } }
+      ]
+    }
+  ],
+  "dataSource": {
+    "fr": "Export mensuel consolidé du système de gestion des prêts (LMS/T24) avec secteurs d'activité enrichis depuis le fichier de mapping client.",
+    "en": "Monthly consolidated export from the Loan Management System (LMS/T24) with business sectors enriched from the client mapping file."
+  }
+}

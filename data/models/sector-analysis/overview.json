@@ -2,11 +2,46 @@
   "modelId": "sector-analysis",
   "name": { "fr": "Sector Analysis", "en": "Sector Analysis" },
   "description": {
-    "fr": "Analyse sectorielle du portefeuille de crédit : suivi des principaux KPIs (GLP, PAR, décaissements, radiations) par secteur d'activité et industrie, pour identifier les concentrations sectorielles et les dynamiques de risque par filière.",
-    "en": "Sector-level credit portfolio analysis: monitoring of key KPIs (GLP, PAR, disbursements, write-offs) by business sector and industry, to identify sectoral concentrations and risk dynamics by value chain."
+    "fr": "Radar sectoriel du portefeuille de crédit Baobab Group : suivi des principaux KPIs (GLP, PAR, décaissements, radiations) par secteur d'activité et industrie, pour identifier les concentrations sectorielles, les dynamiques de risque par filière et les comparaisons géographiques.",
+    "en": "Baobab Group credit portfolio sector radar: monitoring of key KPIs (GLP, PAR, disbursements, write-offs) by business sector and industry, to identify sectoral concentrations, risk dynamics by value chain and geographic comparisons."
   },
   "lastUpdate": "",
-  "stats": [],
-  "useCase": { "fr": "", "en": "" },
-  "tabs": []
+  "stats": [
+    { "label": { "fr": "Onglets", "en": "Tabs" }, "value": "3" },
+    { "label": { "fr": "Pays couverts", "en": "Countries covered" }, "value": "7" },
+    { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
+  ],
+  "useCase": {
+    "fr": "Identifier les concentrations de risque dans des secteurs spécifiques, surveiller la qualité du portefeuille via les indicateurs de délinquance, comparer les expositions sectorielles entre pays, anticiper les vulnérabilités et aligner les stratégies de provisionnement.",
+    "en": "Identify risk concentrations in specific industries, monitor portfolio quality through delinquency indicators, compare sector exposures across countries, anticipate vulnerabilities and align provisioning strategies."
+  },
+  "tabs": [
+    {
+      "id": "sector-level-1",
+      "name": { "fr": "Sector Level 1", "en": "Sector Level 1" },
+      "description": {
+        "fr": "Vue macro du portefeuille par grandes catégories sectorielles : Primaire, Secondaire, Tertiaire, Staff, Sans activité. Indicateurs : GLP, volumes PAR 0, volumes radiations. Répartition par bucket de délinquance : Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180. Permet d'identifier rapidement quels secteurs concentrent le risque.",
+        "en": "Macro view of the portfolio by major sector categories: Primary, Secondary, Tertiary, Staff, No Activities. Indicators: GLP, PAR 0 volumes, write-off volumes. Breakdown by delinquency bucket: Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180. Quickly identifies which broad sectors concentrate risk."
+      },
+      "screenshot": "Assets/Images/sector-analysis/sector-level-1.png"
+    },
+    {
+      "id": "sector-level-2",
+      "name": { "fr": "Sector Level 2", "en": "Sector Level 2" },
+      "description": {
+        "fr": "Vue détaillée par sous-secteur (ex. Commerce, Fabrication agro-alimentaire, Transport, Agriculture, Hébergement, Construction, Éducation, Activités financières, etc.). Chaque secteur exprimé en GLP EUR et % du portefeuille total. Détecte les industries vulnérables et la distribution du risque au niveau granulaire.",
+        "en": "Detailed view by sub-sector (e.g. Trade, Agro-food manufacturing, Transport, Agriculture, Accommodation, Construction, Education, Financial activities, etc.). Each sector expressed in GLP EUR and % of total portfolio. Detects vulnerable industries and risk distribution at granular level."
+      },
+      "screenshot": "Assets/Images/sector-analysis/sector-level-2.png"
+    },
+    {
+      "id": "sector-by-country",
+      "name": { "fr": "Sector by Country", "en": "Sector by Country" },
+      "description": {
+        "fr": "Vue géographique : performance sectorielle par filiale (Burkina Faso, RD Congo, Côte d'Ivoire, Madagascar, Mali, Nigeria, Sénégal). Exposition et délinquance par pays pour chaque secteur. Permet d'identifier si les risques sont concentrés dans des géographies spécifiques ou diffus.",
+        "en": "Geographic view: sector performance across subsidiaries (Burkina Faso, DR Congo, Ivory Coast, Madagascar, Mali, Nigeria, Senegal). Exposure and delinquency by country for each sector. Identifies whether risks are concentrated in specific geographies or spread."
+      },
+      "screenshot": "Assets/Images/sector-analysis/sector-by-country.png"
+    }
+  ]
 }

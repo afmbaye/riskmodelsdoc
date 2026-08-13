@@ -1,1 +1,163 @@
-{ "modelId": "portfolio-risk-metrics", "tabs": [] }
+{
+  "modelId": "portfolio-risk-metrics",
+  "tabs": [
+    {
+      "id": "recap",
+      "name": { "fr": "Recap", "en": "Recap" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/recap.png",
+      "description": {
+        "fr": "Vue synthétique du GLP par filiale avec poids dans le total groupe. Tableau des KPIs clés (entry rate, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO) avec colonnes mois précédent / mois courant / budget.",
+        "en": "Synthetic view of GLP by subsidiary with weight in group total. Key KPI table (entry rate, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO) with prior month / current month / budget columns."
+      },
+      "kpisUsed": ["Entry Rate", "PAR30", "PAR30+12mNWO", "PAR90", "PAR90+12mNWO", "GLP"],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Sélection du mois de reporting", "en": "Reporting month selection" } }
+      ],
+      "howToRead": {
+        "fr": "Police rouge = réalisé supérieur au budget/seuil. Flag rouge = mois courant supérieur au mois précédent. Vert = GLP réalisé au-dessus du budget ; vert = radiations/pertes nettes inférieures au mois précédent.",
+        "en": "Red font = actual exceeds budget/threshold. Red flag = current month above prior month. Green = realised GLP above budget; green = write-offs/net losses below prior month."
+      },
+      "colorCoding": {
+        "fr": "Rouge : réalisé > budget ou mois courant > mois précédent. Vert : décaissements/GLP/recouvrements > budget ; radiations/pertes nettes < mois précédent.",
+        "en": "Red: actual > budget or current month > prior month. Green: disbursements/GLP/recoveries > budget; write-offs/net losses < prior month."
+      }
+    },
+    {
+      "id": "monthly-metrics-par30",
+      "name": { "fr": "Monthly Metrics PAR30", "en": "Monthly Metrics PAR30" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-metrics-par30.png",
+      "description": {
+        "fr": "Graphiques en courbes de l'entry rate, du PAR30 et du PAR30+12mNWO sur les 12 derniers mois, par filiale.",
+        "en": "Line charts of entry rate, PAR30 and PAR30+12mNWO over the last 12 months, by subsidiary."
+      },
+      "kpisUsed": ["Entry Rate", "PAR30", "PAR30+12mNWO"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } }
+      ],
+      "howToRead": {
+        "fr": "Chaque courbe représente une filiale. Comparer la tendance récente aux mois précédents pour détecter une dégradation. Nigeria nécessite une surveillance renforcée.",
+        "en": "Each curve represents a subsidiary. Compare the recent trend to prior months to detect deterioration. Nigeria requires closer monitoring."
+      },
+      "colorCoding": {
+        "fr": "Burkina (jaune), Côte d'Ivoire (vert clair), Congo (rose clair), Madagascar (bleu foncé), Mali (orange), Nigeria (saumon), Sénégal (vert), Baobab Group (rose foncé pointillé).",
+        "en": "Burkina (yellow), Ivory Coast (light green), Congo (light pink), Madagascar (dark blue), Mali (orange), Nigeria (salmon), Senegal (green), Baobab Group (dark pink dotted)."
+      }
+    },
+    {
+      "id": "monthly-metrics-par90",
+      "name": { "fr": "Monthly Metrics PAR90", "en": "Monthly Metrics PAR90" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-metrics-par90.png",
+      "description": {
+        "fr": "Graphiques en courbes du PAR90 et du PAR90+12mNWO sur les 12 derniers mois, par filiale. Indicateur avancé de risque de radiation.",
+        "en": "Line charts of PAR90 and PAR90+12mNWO over the last 12 months, by subsidiary. Advanced indicator of write-off risk."
+      },
+      "kpisUsed": ["PAR90", "PAR90+12mNWO"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } }
+      ],
+      "howToRead": {
+        "fr": "Un PAR90 en hausse est un signal précoce de radiations futures. Le PAR90+12mNWO permet de ne pas perdre de vue les crédits récemment radiés.",
+        "en": "A rising PAR90 is an early signal of future write-offs. PAR90+12mNWO ensures recently written-off loans remain visible."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "monthly-stat-gl-par30",
+      "name": { "fr": "Monthly Stat GL PAR30", "en": "Monthly Stat GL PAR30" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-stat-gl-par30.png",
+      "description": {
+        "fr": "Tableau mensuel complet : colonnes = KPIs (entry rate, PAR30, PAR30+12mNWO, radiations, recouvrements, radiations nettes, décaissements YTD, GLP, YTD cumulés), lignes = filiales. Mise en forme conditionnelle complète.",
+        "en": "Complete monthly table: columns = KPIs (entry rate, PAR30, PAR30+12mNWO, write-offs, recoveries, net write-offs, disbursements YTD, GLP, YTD cumulative), rows = subsidiaries. Full conditional formatting."
+      },
+      "kpisUsed": ["Entry Rate", "PAR30", "PAR30+12mNWO", "Write-offs", "Recoveries", "Net Write-offs", "GLP", "Disbursements YTD"],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Mois de reporting", "en": "Reporting month" } }
+      ],
+      "howToRead": {
+        "fr": "Police rouge = réalisé > budget. Flag rouge = mois courant > mois précédent. Vert pour décaissements/GLP/recouvrements dépassant le budget. Vert pour radiations/pertes nettes en dessous du mois précédent.",
+        "en": "Red font = actual > budget. Red flag = current month > prior month. Green for disbursements/GLP/recoveries exceeding budget. Green for write-offs/net losses below prior month."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "disbursement-glp",
+      "name": { "fr": "Disbursement & GLP", "en": "Disbursement & GLP" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/disbursement-glp.png",
+      "description": {
+        "fr": "Graphiques de GLP et de décaissements par filiale et région (UEMOA vs Reste Afrique), avec comparaison multi-années et budget.",
+        "en": "GLP and disbursement charts by subsidiary and region (WAEMU vs Remaining Africa), with multi-year and budget comparison."
+      },
+      "kpisUsed": ["GLP", "Disbursements"],
+      "filters": [
+        { "name": "Region", "description": { "fr": "UEMOA vs Reste Afrique", "en": "WAEMU vs Remaining Africa" } }
+      ],
+      "howToRead": null,
+      "colorCoding": {
+        "fr": "2023 (rose clair), 2024 (jaune), 2025 (orange), 2026 (rose foncé), budget (gris).",
+        "en": "2023 (light pink), 2024 (yellow), 2025 (orange), 2026 (dark pink), budget (grey)."
+      }
+    },
+    {
+      "id": "bucket-analysis-charts",
+      "name": { "fr": "Bucket Analysis (Charts)", "en": "Bucket Analysis (Charts)" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/bucket-analysis-charts.png",
+      "description": {
+        "fr": "Analyse graphique des KPIs par tranche de montant de prêt. Permet d'identifier quelles tranches concentrent le plus de risque.",
+        "en": "Graphical KPI analysis by loan size bucket. Identifies which buckets concentrate the most risk."
+      },
+      "kpisUsed": ["GLP", "PAR0", "PAR30", "PAR30+12mNWO", "PAR90+12mNWO", "Entry Rate", "Recovery Rate"],
+      "filters": [
+        { "name": "Loan Size Bucket", "description": { "fr": "<1k, 1k–20k, 20k–100k, 100k–200k, >200k EUR", "en": "<1k, 1k–20k, 20k–100k, 100k–200k, >200k EUR" } }
+      ],
+      "howToRead": {
+        "fr": "Le portefeuille est concentré dans les tranches 1 000–20 000 EUR et 20 000–100 000 EUR. Les tranches supérieures (>100k) présentent généralement un risque de concentration plus élevé.",
+        "en": "The portfolio is concentrated in the EUR 1,000–20,000 and EUR 20,000–100,000 buckets. Higher buckets (>100k) typically present greater concentration risk."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "bucket-analysis-matrix",
+      "name": { "fr": "Bucket Analysis (Matrix)", "en": "Bucket Analysis (Matrix)" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/bucket-analysis-matrix.png",
+      "description": {
+        "fr": "Matrice des KPIs par filiale et tranche de montant pour un mois sélectionné.",
+        "en": "KPI matrix by subsidiary and loan size bucket for a selected month."
+      },
+      "kpisUsed": ["GLP", "PAR0", "PAR30", "PAR90", "Write-offs", "Recoveries", "Entry Rate"],
+      "filters": [
+        { "name": "Reporting Date", "description": { "fr": "Sélection du mois", "en": "Month selection" } }
+      ],
+      "howToRead": null,
+      "colorCoding": null
+    },
+    {
+      "id": "concentration-product-segment",
+      "name": { "fr": "Concentration (Product Segment)", "en": "Concentration (Product Segment)" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/concentration-product.png",
+      "description": {
+        "fr": "Concentration du portefeuille par produit : ALIP, TAKA, AGRI, InFine. Les produits AGRI et InFine (prêts ballon) sont les plus dégradateurs du portefeuille.",
+        "en": "Portfolio concentration by product: ALIP, TAKA, AGRI, InFine. AGRI and InFine (balloon loans) products degrade the portfolio the most."
+      },
+      "kpisUsed": ["% GLP", "% Disbursements", "% PAR0", "% PAR30+12mNWO"],
+      "filters": [],
+      "howToRead": {
+        "fr": "Un produit avec un %PAR0 élevé pour un %GLP faible signale un risque de crédit concentré. AGRI et InFine nécessitent une attention particulière.",
+        "en": "A product with high %PAR0 for low %GLP signals concentrated credit risk. AGRI and InFine require particular attention."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "concentration-client-segment",
+      "name": { "fr": "Concentration (Client Segment)", "en": "Concentration (Client Segment)" },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/concentration-client.png",
+      "description": {
+        "fr": "Concentration du portefeuille par segment client : Nano, VSE, SE, SME & SME+. Le segment SME & SME+ présente un risque croissant.",
+        "en": "Portfolio concentration by client segment: Nano, VSE, SE, SME & SME+. The SME & SME+ segment shows increasing risk."
+      },
+      "kpisUsed": ["% GLP", "% Disbursements", "% PAR0", "% PAR30+12mNWO"],
+      "filters": [],
+      "howToRead": null,
+      "colorCoding": null
+    }
+  ]
+}

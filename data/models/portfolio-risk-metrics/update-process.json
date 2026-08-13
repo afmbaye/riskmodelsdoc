@@ -1,1 +1,46 @@
-{ "modelId": "portfolio-risk-metrics", "steps": [], "schedule": { "fr": "", "en": "" }, "notes": { "fr": "", "en": "" } }
+{
+  "modelId": "portfolio-risk-metrics",
+  "frequency": "monthly",
+  "schedule": {
+    "fr": "Mise à jour mensuelle après réception du fichier consolidé (M+1).",
+    "en": "Monthly update after receipt of the consolidated file (M+1)."
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparation des sources", "en": "Source preparation" },
+      "description": {
+        "fr": "Réceptionner et renommer le fichier Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx et les 7 fichiers CSV collatéraux selon la convention de nommage.",
+        "en": "Receive and rename the Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx file and the 7 collateral CSVs according to the naming convention."
+      }
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configuration des sources (1ère utilisation)", "en": "Source configuration (first use)" },
+      "description": {
+        "fr": "Mettre à jour les chemins de sources dans Power Query si les fichiers ont été déplacés.",
+        "en": "Update source paths in Power Query if files have been moved."
+      }
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualisation du modèle", "en": "Model refresh" },
+      "description": {
+        "fr": "Home → Refresh. Vérifier l'absence d'erreurs. Contrôler que les tables Consolide et MCR-WOF contiennent bien les données du mois de reporting.",
+        "en": "Home → Refresh. Check for absence of errors. Verify that Consolide and MCR-WOF tables contain data for the reporting month."
+      }
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Validation et publication", "en": "Validation and publication" },
+      "description": {
+        "fr": "Vérifier : totaux GLP et décaissements cohérents, PAR0 ≥ PAR30 ≥ PAR90, date de reporting = M-1 dans les onglets. Publier vers Microsoft Fabric.",
+        "en": "Verify: GLP and disbursement totals consistent, PAR0 ≥ PAR30 ≥ PAR90, reporting date = M-1 in tabs. Publish to Microsoft Fabric."
+      }
+    }
+  ],
+  "contacts": {
+    "fr": "Pour toute anomalie sur les données, contacter l'équipe Risk Analytics.",
+    "en": "For any data anomaly, contact the Risk Analytics team."
+  }
+}

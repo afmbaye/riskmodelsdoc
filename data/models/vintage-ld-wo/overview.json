@@ -2,37 +2,64 @@
   "modelId": "vintage-ld-wo",
   "name": { "fr": "Vintage LD & WO", "en": "Vintage LD & WO" },
   "description": {
-    "fr": "Analyse des cohortes de décaissement et de radiations : suivi par génération de prêts (millésime) des late days cumulés et des write-offs, pour identifier les cohortes à risque et mesurer la qualité de l'origination dans le temps.",
-    "en": "Disbursement and write-off cohort analysis: tracking of cumulative late days and write-offs by loan generation (vintage) to identify at-risk cohorts and measure origination quality over time."
+    "fr": "Analyse de la qualité des cohortes de décaissement et de radiation : suivi des ratios PAR 0/30/90 par génération de prêts (Vintage Disbursement) et des taux de recouvrement post-radiation par cohorte de radiation (Vintage Write Off). Permet d'identifier les millésimes à risque et d'évaluer la qualité de l'origination dans le temps.",
+    "en": "Disbursement and write-off cohort quality analysis: tracking of PAR 0/30/90 ratios by loan generation (Vintage Disbursement) and post-write-off recovery rates by write-off cohort (Vintage Write Off). Identifies at-risk vintages and assesses origination quality over time."
   },
   "lastUpdate": "",
   "stats": [
-    { "label": { "fr": "Cohortes suivies", "en": "Tracked cohorts" }, "value": "" },
+    { "label": { "fr": "Onglets", "en": "Tabs" }, "value": "5" },
     { "label": { "fr": "Pays couverts", "en": "Countries covered" }, "value": "7" },
     { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
   ],
   "useCase": {
-    "fr": "Évaluer la qualité des décaissements passés et détecter les millésimes dont le comportement de remboursement se dégrade plus vite que les cohortes précédentes.",
-    "en": "Assess the quality of past disbursements and detect vintages whose repayment behaviour deteriorates faster than prior cohorts."
+    "fr": "Évaluer la qualité des décaissements passés, détecter les millésimes dont le comportement en retard se dégrade plus vite que les cohortes précédentes, et mesurer l'efficacité du recouvrement post-radiation par génération de radiation.",
+    "en": "Assess the quality of past disbursements, detect vintages whose delinquency behaviour deteriorates faster than prior cohorts, and measure post-write-off recovery effectiveness by write-off generation."
   },
   "tabs": [
     {
-      "id": "late-days",
-      "name": { "fr": "Late Days", "en": "Late Days" },
+      "id": "vintage-disbursement",
+      "name": { "fr": "Vintage Disbursement", "en": "Vintage Disbursement" },
       "description": {
-        "fr": "Courbes de late days cumulés par cohorte de décaissement, permettant de comparer le comportement en retard mois après mois pour chaque millésime.",
-        "en": "Cumulative late days curves by disbursement cohort, enabling comparison of delinquency behaviour month by month for each vintage."
+        "fr": "Matrice des cohortes de décaissement : lignes = mois de décaissement (cohorte = tous les crédits d'un même mois calendaire), colonnes = mois depuis le décaissement. Valeurs = PAR 0, PAR 30 ou PAR 90 relatifs au montant décaissé de la cohorte. Filtres : Disbursement Date, Country, PAR level (PAR 0/30/90), Branch/Agency, Product Category, Segment (NANO, VSE, SE, SME & SME+), LOS Approved. Mesures : EUR / devise locale / nombre de prêts.",
+        "en": "Disbursement cohort matrix: rows = disbursement month (cohort = all loans in the same calendar month), columns = months since disbursement. Values = PAR 0, PAR 30 or PAR 90 relative to the cohort's disbursed amount. Filters: Disbursement Date, Country, PAR level (PAR 0/30/90), Branch/Agency, Product Category, Segment (NANO, VSE, SE, SME & SME+), LOS Approved. Measures: EUR / local currency / number of loans."
       },
-      "screenshot": "Assets/Images/vintage-ld-wo/late-days.png"
+      "screenshot": "Assets/Images/vintage-ld-wo/vintage-disbursement.png"
     },
     {
-      "id": "write-off",
-      "name": { "fr": "Write-Off", "en": "Write-Off" },
+      "id": "loss-to-disbursement",
+      "name": { "fr": "Loss to Disbursement", "en": "Loss to Disbursement" },
       "description": {
-        "fr": "Courbes de write-offs cumulés par cohorte de décaissement, exprimés en % du GLP initial décaissé pour normaliser entre millésimes de tailles différentes.",
-        "en": "Cumulative write-off curves by disbursement cohort, expressed as % of initial disbursed GLP to normalise across vintages of different sizes."
+        "fr": "Vue synthétique des pertes par cohorte de décaissement. Colonnes : Disbursement Date, Disbursement Amount, Principal Lost (montant radié hors pénalités et intérêts), Principal Recovery (recouvrement cumulé), Loss on WO (Principal Lost après recouvrement), WO on Disbursement (Principal Lost / Disbursement Amount), Recovery Rate on WO (Recovered / Principal Lost), Loss on Disbursement (Principal Lost after Recovery / Disbursement Amount). Filtres : Country et autres dimensions.",
+        "en": "Synthetic loss view by disbursement cohort. Columns: Disbursement Date, Disbursement Amount, Principal Lost (written-off amount excluding penalties and interest), Principal Recovery (cumulative recovery), Loss on WO (Principal Lost after recovery), WO on Disbursement (Principal Lost / Disbursement Amount), Recovery Rate on WO (Recovered / Principal Lost), Loss on Disbursement (Principal Lost after Recovery / Disbursement Amount). Filters: Country and other dimensions."
       },
-      "screenshot": "Assets/Images/vintage-ld-wo/write-off.png"
+      "screenshot": "Assets/Images/vintage-ld-wo/loss-to-disbursement.png"
+    },
+    {
+      "id": "vintage-par-charts",
+      "name": { "fr": "Vintage PAR Charts", "en": "Vintage PAR Charts" },
+      "description": {
+        "fr": "Graphiques de courbes des ratios PAR par cohorte de décaissement, en double vue : volume en euros (gauche) et nombre de prêts (droite). Légende = date de décaissement, axe X = mois depuis le décaissement, axe Y = PAR 0/30/90. Filtre : country. Génère des courbes vintage par filiale.",
+        "en": "PAR ratio curve charts by disbursement cohort, in dual view: volume in euros (left) and number of loans (right). Legend = disbursement date, X-axis = months since disbursement, Y-axis = PAR 0/30/90. Filter: country. Generates vintage curves by subsidiary."
+      },
+      "screenshot": "Assets/Images/vintage-ld-wo/vintage-par-charts.png"
+    },
+    {
+      "id": "vintage-write-off",
+      "name": { "fr": "Vintage Write Off", "en": "Vintage Write Off" },
+      "description": {
+        "fr": "Matrice des cohortes de radiation : lignes = mois de radiation (cohorte = toutes les radiations d'un même mois), colonnes = mois depuis la radiation. Valeurs = Recovery Rate = recouvrement cumulé depuis la date de radiation / montant total radié. Filtres : Country, Branch/Agency, Segment (NANO, VSE, SE, SME & SME+), Recovery Agent (DaoName), Product Description. Mesures : EUR ou devise locale.",
+        "en": "Write-off cohort matrix: rows = write-off month (cohort = all write-offs in the same month), columns = months since write-off. Values = Recovery Rate = cumulative recovery since write-off date / total write-off amount. Filters: Country, Branch/Agency, Segment (NANO, VSE, SE, SME & SME+), Recovery Agent (DaoName), Product Description. Measures: EUR or local currency."
+      },
+      "screenshot": "Assets/Images/vintage-ld-wo/vintage-write-off.png"
+    },
+    {
+      "id": "vintage-write-off-charts",
+      "name": { "fr": "Vintage Write Off PAR Charts", "en": "Vintage Write Off PAR Charts" },
+      "description": {
+        "fr": "Graphiques de courbes du Recovery Rate par cohorte de radiation. Légende = date de radiation, axe X = mois depuis la radiation, axe Y = Recovery Rate (recouvrement cumulé / montant total radié). Filtre : country.",
+        "en": "Recovery Rate curve charts by write-off cohort. Legend = write-off date, X-axis = months since write-off, Y-axis = Recovery Rate (cumulative recovery / total write-off amount). Filter: country."
+      },
+      "screenshot": "Assets/Images/vintage-ld-wo/vintage-write-off-charts.png"
     }
   ]
 }

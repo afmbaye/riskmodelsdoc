@@ -1,1 +1,62 @@
-{ "modelId": "sector-analysis", "tabs": [] }
+{
+  "modelId": "sector-analysis",
+  "tabs": [
+    {
+      "id": "sector-level-1",
+      "name": { "fr": "Sector Level 1", "en": "Sector Level 1" },
+      "screenshot": "Assets/Images/sector-analysis/sector-level-1.png",
+      "description": {
+        "fr": "Vue macro du portefeuille par grandes catégories sectorielles : Primaire, Secondaire, Tertiaire, Staff, Sans activité. Indicateurs par bucket de délinquance : Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180.",
+        "en": "Macro view of the portfolio by major sector categories: Primary, Secondary, Tertiary, Staff, No Activities. Indicators by delinquency bucket: Healthy, PAR 1–30, PAR 31–60, PAR 61–90, PAR 91–120, PAR 121–150, PAR 151–180, PAR >180."
+      },
+      "kpisUsed": ["GLP EUR", "GLP %", "PAR 0 Volume", "Write-Off Volume", "Delinquency Bucket Breakdown"],
+      "filters": [
+        { "name": "Sector Level 1", "description": { "fr": "Primaire / Secondaire / Tertiaire / Staff / Sans activité", "en": "Primary / Secondary / Tertiary / Staff / No Activities" } },
+        { "name": "Reporting Date", "description": { "fr": "Mois de reporting", "en": "Reporting month" } }
+      ],
+      "howToRead": {
+        "fr": "Un secteur avec une proportion élevée de PAR 31+ dans son GLP signale une concentration de risque sectoriel. Comparer le poids de chaque secteur (%GLP) à son niveau de délinquance pour évaluer le risque ajusté à la taille.",
+        "en": "A sector with a high proportion of PAR 31+ in its GLP signals sectoral risk concentration. Compare each sector's weight (%GLP) to its delinquency level to assess size-adjusted risk."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "sector-level-2",
+      "name": { "fr": "Sector Level 2", "en": "Sector Level 2" },
+      "screenshot": "Assets/Images/sector-analysis/sector-level-2.png",
+      "description": {
+        "fr": "Vue granulaire par sous-secteur : Commerce, Fabrication agro-alimentaire, Transport, Agriculture, Hébergement, Construction, Éducation, Activités financières, etc. Chaque sous-secteur exprimé en GLP EUR et % portefeuille total. Distribution du risque par bucket de délinquance.",
+        "en": "Granular view by sub-sector: Trade, Agro-food manufacturing, Transport, Agriculture, Accommodation, Construction, Education, Financial activities, etc. Each sub-sector expressed in GLP EUR and % of total portfolio. Risk distribution by delinquency bucket."
+      },
+      "kpisUsed": ["GLP EUR", "GLP %", "PAR 0 Volume", "Write-Off Volume"],
+      "filters": [
+        { "name": "Sector Level 1", "description": { "fr": "Filtrer par secteur macro", "en": "Filter by macro sector" } },
+        { "name": "Sector Level 2", "description": { "fr": "Filtrer par sous-secteur", "en": "Filter by sub-sector" } }
+      ],
+      "howToRead": {
+        "fr": "Identifier les sous-secteurs avec un fort %GLP et un PAR élevé : ils représentent des risques de concentration critique. Les sous-secteurs à fort dynamisme mais faible PAR indiquent des opportunités de croissance saines.",
+        "en": "Identify sub-sectors with high %GLP and elevated PAR: they represent critical concentration risks. Sub-sectors with strong growth but low PAR indicate healthy growth opportunities."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "sector-by-country",
+      "name": { "fr": "Sector by Country", "en": "Sector by Country" },
+      "screenshot": "Assets/Images/sector-analysis/sector-by-country.png",
+      "description": {
+        "fr": "Performance sectorielle par pays : Burkina Faso, RD Congo, Côte d'Ivoire, Madagascar, Mali, Nigeria, Sénégal. Exposition et délinquance par secteur et pays. Permet les comparaisons inter-pays pour chaque secteur.",
+        "en": "Sector performance by country: Burkina Faso, DR Congo, Ivory Coast, Madagascar, Mali, Nigeria, Senegal. Exposure and delinquency by sector and country. Enables cross-country comparisons for each sector."
+      },
+      "kpisUsed": ["GLP EUR", "GLP %", "PAR 0 Volume", "Write-Off Volume"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale/pays", "en": "Filter by subsidiary/country" } },
+        { "name": "Sector Level 1", "description": { "fr": "Filtrer par secteur", "en": "Filter by sector" } }
+      ],
+      "howToRead": {
+        "fr": "Un secteur dégradé dans plusieurs pays simultanément peut signaler un choc macro-économique (prix des matières premières, sécheresse, etc.). Un secteur dégradé dans un seul pays signale plutôt un problème local d'origination ou de ciblage.",
+        "en": "A deteriorated sector across multiple countries simultaneously may signal a macro-economic shock (commodity prices, drought, etc.). A sector deteriorated in a single country signals a local origination or targeting problem."
+      },
+      "colorCoding": null
+    }
+  ]
+}

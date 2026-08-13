@@ -2,11 +2,100 @@
   "modelId": "portfolio-risk-metrics",
   "name": { "fr": "Portfolio Risk Metrics", "en": "Portfolio Risk Metrics" },
   "description": {
-    "fr": "Suivi du portefeuille via les KPIs principaux : Entry rate, PAR0, PAR30, PAR30+12mNWO, Write-offs et Récupérations. Le PAR30+12mNWO suit les crédits radiés 12 mois post-radiation pour éviter de biaiser le PAR30 lors des sorties de portefeuille.",
-    "en": "Portfolio monitoring through key metrics: Entry rate, PAR0, PAR30, PAR30+12mNWO, Write-offs and Recoveries. The PAR30+12mNWO tracks written-off loans for 12 months post write-off to avoid distorting the PAR30 when these exit the active portfolio."
+    "fr": "Outil de suivi des principaux indicateurs de risque crédit du portefeuille (KRIs) : Entry rate, PAR0, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO, Write-offs et Récupérations. Le PAR30+12mNWO et PAR90+12mNWO suivent les crédits radiés pendant 12 mois post-radiation pour éviter de biaiser le PAR lors des sorties de portefeuille.",
+    "en": "Portfolio key credit risk indicator (KRI) monitoring tool: Entry rate, PAR0, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO, Write-offs and Recoveries. PAR30+12mNWO and PAR90+12mNWO track written-off loans for 12 months post write-off to avoid distorting PAR ratios when these exit the active portfolio."
   },
   "lastUpdate": "",
-  "stats": [],
-  "useCase": { "fr": "", "en": "" },
-  "tabs": []
+  "stats": [
+    { "label": { "fr": "Onglets", "en": "Tabs" }, "value": "9" },
+    { "label": { "fr": "Pays couverts", "en": "Countries covered" }, "value": "7" },
+    { "label": { "fr": "Fréquence", "en": "Frequency" }, "value": "Mensuelle / Monthly" }
+  ],
+  "useCase": {
+    "fr": "Consolider les principaux KPIs de risque crédit par filiale, comparer les réalisations aux budgets, détecter les segments et filiales en dégradation, et appuyer les décisions du comité de crédit.",
+    "en": "Consolidate key credit risk KPIs by subsidiary, compare actuals to budget, detect deteriorating segments and subsidiaries, and support credit committee decisions."
+  },
+  "tabs": [
+    {
+      "id": "recap",
+      "name": { "fr": "Recap", "en": "Recap" },
+      "description": {
+        "fr": "Vue synthétique du GLP par filiale et Baobab Group (cumulé), poids de chaque filiale dans le GLP total. Suivi des KPIs clés — entry rate, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO — avec colonnes mois précédent / mois courant / budget. Code couleur : rouge = réalisé > budget/seuil, vert = en dessous.",
+        "en": "Synthetic view of GLP by subsidiary and Baobab Group (cumulative), each subsidiary's weight in total GLP. Tracking of key KPIs — entry rate, PAR30, PAR30+12mNWO, PAR90, PAR90+12mNWO — with prior month / current month / budget columns. Color coding: red = actual exceeds budget/threshold, green = below."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/recap.png"
+    },
+    {
+      "id": "monthly-metrics-par30",
+      "name": { "fr": "Monthly Metrics PAR30", "en": "Monthly Metrics PAR30" },
+      "description": {
+        "fr": "Évolution mensuelle de l'entry rate, du PAR30 et du PAR30+12mNWO sur les 12 derniers mois. Chaque filiale est représentée par une couleur distincte : Burkina (jaune), Côte d'Ivoire (vert clair), Congo (rose clair), Madagascar (bleu foncé), Mali (orange), Nigeria (saumon), Sénégal (vert), Baobab Group (rose foncé pointillé).",
+        "en": "Monthly evolution of entry rate, PAR30 and PAR30+12mNWO over the last 12 months. Each subsidiary has a distinct colour: Burkina (yellow), Ivory Coast (light green), Congo (light pink), Madagascar (dark blue), Mali (orange), Nigeria (salmon), Senegal (green), Baobab Group (dark pink dotted)."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-metrics-par30.png"
+    },
+    {
+      "id": "monthly-metrics-par90",
+      "name": { "fr": "Monthly Metrics PAR90", "en": "Monthly Metrics PAR90" },
+      "description": {
+        "fr": "Même logique que Monthly Metrics PAR30 mais axé sur le PAR90 et le PAR90+12mNWO. Indicateur avancé de défaut grave, suivi sur les 12 derniers mois par filiale.",
+        "en": "Same logic as Monthly Metrics PAR30 but focused on PAR90 and PAR90+12mNWO. Advanced indicator of serious default, tracked over the last 12 months by subsidiary."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-metrics-par90.png"
+    },
+    {
+      "id": "monthly-stat-gl-par30",
+      "name": { "fr": "Monthly Stat GL PAR30", "en": "Monthly Stat GL PAR30" },
+      "description": {
+        "fr": "Tableau mensuel complet par filiale : entry rate, PAR30, PAR30+12mNWO, radiations, recouvrements, radiations nettes, décaissements YTD, GLP, radiations YTD, recouvrements YTD, radiations nettes YTD. Mise en forme conditionnelle : rouge si réalisé > budget, flag rouge si mois courant > mois précédent.",
+        "en": "Complete monthly table by subsidiary: entry rate, PAR30, PAR30+12mNWO, write-offs, recoveries, net write-offs, disbursements YTD, GLP, write-offs YTD, recoveries YTD, net write-offs YTD. Conditional formatting: red font when actual > budget; red flag when current month > prior month."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/monthly-stat-gl-par30.png"
+    },
+    {
+      "id": "disbursement-glp",
+      "name": { "fr": "Disbursement & GLP", "en": "Disbursement & GLP" },
+      "description": {
+        "fr": "GLP et décaissements par filiale et région (UEMOA vs Reste Afrique). Code couleur par année : 2023 (rose clair), 2024 (jaune), 2025 (orange), 2026 (rose foncé), budget (gris).",
+        "en": "GLP and disbursements by subsidiary and region (WAEMU vs Remaining Africa). Colour coding by year: 2023 (light pink), 2024 (yellow), 2025 (orange), 2026 (dark pink), budget (grey)."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/disbursement-glp.png"
+    },
+    {
+      "id": "bucket-analysis-charts",
+      "name": { "fr": "Bucket Analysis (Charts)", "en": "Bucket Analysis (Charts)" },
+      "description": {
+        "fr": "Analyse graphique des KPIs par tranche de montant de prêt : <1 000 EUR, 1 000–20 000 EUR, 20 000–100 000 EUR, 100 000–200 000 EUR, >200 000 EUR. KPIs : GLP, PAR0, PAR30, PAR30+12mNWO, PAR90+12mNWO, entry rate, recovery rate.",
+        "en": "Graphical analysis of KPIs by loan size bucket: <EUR 1,000, EUR 1,000–20,000, EUR 20,000–100,000, EUR 100,000–200,000, >EUR 200,000. KPIs: GLP, PAR0, PAR30, PAR30+12mNWO, PAR90+12mNWO, entry rate, recovery rate."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/bucket-analysis-charts.png"
+    },
+    {
+      "id": "bucket-analysis-matrix",
+      "name": { "fr": "Bucket Analysis (Matrix)", "en": "Bucket Analysis (Matrix)" },
+      "description": {
+        "fr": "Matrice colonnes = filiales, lignes = tranches de montant. Valeurs = GLP, PAR0, PAR30, PAR90, radiations, recouvrements, entry rate. Filtre de sélection du mois de reporting.",
+        "en": "Matrix with columns = subsidiaries, rows = loan size buckets. Values = GLP, PAR0, PAR30, PAR90, write-offs, recoveries, entry rate. Month selection slicer."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/bucket-analysis-matrix.png"
+    },
+    {
+      "id": "concentration-product-segment",
+      "name": { "fr": "Concentration (Product Segment)", "en": "Concentration (Product Segment)" },
+      "description": {
+        "fr": "Concentration du portefeuille par segment produit : ALIP, TAKA, AGRI, InFine. KPIs : %GLP, %Décaissements, %PAR0, %PAR30+12mNWO. Permet d'identifier quels produits concentrent le risque.",
+        "en": "Portfolio concentration by product segment: ALIP, TAKA, AGRI, InFine. KPIs: %GLP, %Disbursements, %PAR0, %PAR30+12mNWO. Identifies which products concentrate risk."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/concentration-product.png"
+    },
+    {
+      "id": "concentration-client-segment",
+      "name": { "fr": "Concentration (Client Segment)", "en": "Concentration (Client Segment)" },
+      "description": {
+        "fr": "Concentration du portefeuille par segment client : Nano, VSE, SE, SME & SME+. KPIs : %GLP, %Décaissements, %PAR0, %PAR30+12mNWO. Le segment SME & SME+ présente un risque croissant nécessitant une surveillance renforcée.",
+        "en": "Portfolio concentration by client segment: Nano, VSE, SE, SME & SME+. KPIs: %GLP, %Disbursements, %PAR0, %PAR30+12mNWO. The SME & SME+ segment shows increasing risk requiring closer monitoring."
+      },
+      "screenshot": "Assets/Images/portfolio-risk-metrics/concentration-client.png"
+    }
+  ]
 }

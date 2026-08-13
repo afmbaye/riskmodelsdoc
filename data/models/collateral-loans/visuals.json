@@ -1,1 +1,89 @@
-{ "modelId": "collateral-loans", "tabs": [] }
+{
+  "modelId": "collateral-loans",
+  "tabs": [
+    {
+      "id": "collateral-glp",
+      "name": { "fr": "Collateral GLP", "en": "Collateral GLP" },
+      "screenshot": "Assets/Images/collateral-loans/collateral-glp.png",
+      "description": {
+        "fr": "GLP par filiale ventilé par niveau de couverture collatérale (Execution Value / GLP). Distingue secured vs unsecured.",
+        "en": "GLP by subsidiary broken down by collateral coverage level (Execution Value / GLP). Distinguishes secured vs unsecured."
+      },
+      "kpisUsed": ["GLP by Collateral Coverage", "Secured GLP %", "Unsecured GLP %"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Reporting Date", "description": { "fr": "Mois de reporting", "en": "Reporting month" } }
+      ],
+      "howToRead": {
+        "fr": "Plus la proportion secured est élevée, mieux le portefeuille est protégé en cas de défaut. Nigeria est la filiale la mieux couverte (~87%), Sénégal la moins couverte (~16%). Au niveau groupe : ~38% secured.",
+        "en": "The higher the secured proportion, the better the portfolio is protected in case of default. Nigeria is the most covered subsidiary (~87%), Senegal the least (~16%). Group level: ~38% secured."
+      },
+      "colorCoding": null
+    },
+    {
+      "id": "collateral-disbursement",
+      "name": { "fr": "Collateral Disbursement", "en": "Collateral Disbursement" },
+      "screenshot": "Assets/Images/collateral-loans/collateral-disbursement.png",
+      "description": {
+        "fr": "Décaissements par filiale ventilés par niveau de couverture collatérale. Permet de comparer la qualité de couverture des nouvelles originations vs l'encours.",
+        "en": "Disbursements by subsidiary broken down by collateral coverage level. Compares collateral quality of new originations vs outstanding."
+      },
+      "kpisUsed": ["Disbursements by Collateral Coverage", "Secured Disbursements %", "Unsecured Disbursements %"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Reporting Date", "description": { "fr": "Mois de reporting", "en": "Reporting month" } }
+      ],
+      "howToRead": null,
+      "colorCoding": null
+    },
+    {
+      "id": "secured-status",
+      "name": { "fr": "Secured Status GLP & Disbursement", "en": "Secured Status GLP & Disbursement" },
+      "screenshot": "Assets/Images/collateral-loans/secured-status.png",
+      "description": {
+        "fr": "GLP et décaissements par statut de garantie (secured vs unsecured), ventilés par filiale. Vue comparative des filiales.",
+        "en": "GLP and disbursements by guarantee status (secured vs unsecured), broken down by subsidiary. Comparative subsidiary view."
+      },
+      "kpisUsed": ["Secured GLP", "Unsecured GLP", "Secured Disbursements", "Unsecured Disbursements"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } }
+      ],
+      "howToRead": null,
+      "colorCoding": null
+    },
+    {
+      "id": "collateral-description",
+      "name": { "fr": "Collateral Description GLP & Disbursement", "en": "Collateral Description GLP & Disbursement" },
+      "screenshot": "Assets/Images/collateral-loans/collateral-description.png",
+      "description": {
+        "fr": "GLP et décaissements par type de collatéral (immobilier, véhicules, biens mobiliers, cautions, dépôts à terme, actifs commerciaux, équipements professionnels, stocks), ventilés par filiale.",
+        "en": "GLP and disbursements by collateral type (real estate, vehicles, movable property, guarantees, term deposits, business assets, professional equipment, stock), broken down by subsidiary."
+      },
+      "kpisUsed": ["GLP by Collateral Type", "Disbursements by Collateral Type"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } },
+        { "name": "Collateral Type", "description": { "fr": "Type de collatéral", "en": "Collateral type" } }
+      ],
+      "howToRead": null,
+      "colorCoding": null
+    },
+    {
+      "id": "settled-collateral",
+      "name": { "fr": "Settled Collateral", "en": "Settled Collateral" },
+      "screenshot": "Assets/Images/collateral-loans/settled-collateral.png",
+      "description": {
+        "fr": "Liste détaillée des collatéraux réalisés (vendus/saisis) par filiale. Colonnes : numéro client, nom, pays, description collatéral, montant décaissé, GLP, valeur d'exécution, volume vendu, sold/execution, sold/GLP.",
+        "en": "Detailed list of collaterals sold or realised by subsidiary. Columns: client number, name, country, collateral description, disbursement amount, GLP, execution value, sold volume, sold/execution, sold/GLP."
+      },
+      "kpisUsed": ["Execution Value", "Sold Volume", "Sold vs Execution", "Sold vs GLP"],
+      "filters": [
+        { "name": "Country", "description": { "fr": "Filtrer par filiale", "en": "Filter by subsidiary" } }
+      ],
+      "howToRead": {
+        "fr": "Actuellement très peu de collatéraux réalisés au niveau groupe. Un ratio sold/execution faible indique que la valeur récupérée est inférieure à la valeur estimée du collatéral.",
+        "en": "Currently very few collaterals realised at group level. A low sold/execution ratio indicates the recovered value is below the estimated collateral value."
+      },
+      "colorCoding": null
+    }
+  ]
+}

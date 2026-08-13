@@ -1,1 +1,46 @@
-{ "modelId": "sector-analysis", "steps": [], "schedule": { "fr": "", "en": "" }, "notes": { "fr": "", "en": "" } }
+{
+  "modelId": "sector-analysis",
+  "frequency": "monthly",
+  "schedule": {
+    "fr": "Mise à jour mensuelle (M+1), après réception du fichier consolidé avec les secteurs d'activité.",
+    "en": "Monthly update (M+1), after receipt of the consolidated file with business sectors."
+  },
+  "steps": [
+    {
+      "order": 1,
+      "title": { "fr": "Préparation du fichier consolidé", "en": "Consolidated file preparation" },
+      "description": {
+        "fr": "Récupérer le fichier Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx incluant les colonnes de secteur d'activité (SectorLevel1, SectorLevel2).",
+        "en": "Retrieve the Consolide_YYYY-MM-DD_YYYY-MM-DD.xlsx file including business sector columns (SectorLevel1, SectorLevel2)."
+      }
+    },
+    {
+      "order": 2,
+      "title": { "fr": "Configuration des sources (1ère utilisation)", "en": "Source configuration (first use)" },
+      "description": {
+        "fr": "Mettre à jour les chemins de sources dans Power Query.",
+        "en": "Update source paths in Power Query."
+      }
+    },
+    {
+      "order": 3,
+      "title": { "fr": "Actualisation du modèle", "en": "Model refresh" },
+      "description": {
+        "fr": "Home → Refresh. Vérifier l'absence d'erreurs. Contrôler que les 7 filiales et le mois de reporting sont présents.",
+        "en": "Home → Refresh. Check for absence of errors. Verify that all 7 subsidiaries and the reporting month are present."
+      }
+    },
+    {
+      "order": 4,
+      "title": { "fr": "Validation et publication", "en": "Validation and publication" },
+      "description": {
+        "fr": "Vérifier : totaux GLP par secteur cohérents avec le portfolio risk metrics ; couverture sectorielle complète (pas de secteur manquant). Publier vers Microsoft Fabric.",
+        "en": "Verify: GLP totals by sector consistent with portfolio risk metrics; full sector coverage (no missing sector). Publish to Microsoft Fabric."
+      }
+    }
+  ],
+  "contacts": {
+    "fr": "Pour toute anomalie sur les données, contacter l'équipe Risk Analytics.",
+    "en": "For any data anomaly, contact the Risk Analytics team."
+  }
+}
